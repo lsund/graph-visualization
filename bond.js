@@ -2,15 +2,17 @@
 
 * Author : Ludvig Sundström
 
-* File Name : edge.js
+* File Name : bond.js
 
-* Purpose : 
+* Purpose : Describes a bond 
 
 * Creation Date : 17-06-2015
 
 * Last Modified : 
 
 *****************************************************************************/
+
+window.APP = window.APP || {};
 
 APP.bond = function (options) {
 
@@ -21,6 +23,8 @@ APP.bond = function (options) {
   that.first.attachBond(that); 
   that.second.attachBond(that); 
 
+  APP.bonds.push(that); 
   return that;
 
 }
+

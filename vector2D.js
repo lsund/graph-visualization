@@ -14,10 +14,13 @@
 
 window.APP = window.APP || {};
 
-APP.point = function (x, y) {
+APP.vector2D = function (x, y) {
+
   var that = {};
   that.x = x;
   that.y = y;
+
   return that;
+
 }
 

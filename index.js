@@ -4,53 +4,13 @@
 
 * File Name : index.js
 
-* Purpose : 
+* Purpose : Main   
 
 * Creation Date : 17-06-2015
 
 * Last Modified : 
 
 *****************************************************************************/
-
-// options: 
-// ID
-// center 
-// shape 
-// dimensions
-
-window.APP = window.APP || {};
-
-var c = document.getElementById('canvas');
-var ctx = c.getContext('2d');
-
-var id = 0;
-
-var vcoptions1 = {
-  center: APP.point(100, 50), 
-  shape: 'circle', 
-  dimensions: 20
-};
-var vcoptions2 = {
-  center: APP.point(200, 50), 
-  shape: 'circle', 
-  dimensions: 20 
-};
-var vroptions1 = {
-  center: APP.point(300, 50),
-  shape: 'rectangle',
-  dimensions: { w: 40, h: 40 }  
-};
-
-var v1 = APP.vertex(vcoptions1);
-var v2 = APP.vertex(vcoptions2);
-var v3 = APP.vertex(vroptions1); 
-
-var boptions1 = {
-  first: v1, 
-  second: v2
-}
-
-var b1 = APP.bond(boptions1);
 
 var body = function (options) {
 
@@ -63,8 +23,9 @@ var body = function (options) {
 
 var drawVertex = function (v) {
   ctx.fillStyle = v.color;
-  var centerx = v.center.x;
-  var centery = v.center.y;
+  var center = v.getCenter();
+  var centerx = center.x;
+  var centery = center.y;
   if (v.shape === 'circle') {
     ctx.strokeStyle = v.color;
     ctx.beginPath();
@@ -77,23 +38,69 @@ var drawVertex = function (v) {
 };
 
 var drawBond = function (b) {
-  ctx.moveTo(b.first.center.x, b.first.center.y);
-  ctx.lineTo(b.second.center.x, b.second.center.y);
+  var fstCenter = b.first.getCenter();
+  var sndCenter = b.second.getCenter();
+  ctx.moveTo(fstCenter.x, fstCenter.y);
+  ctx.lineTo(sndCenter.x, sndCenter.y);
   ctx.stroke();
 }
 
-drawVertex(v1);
-drawVertex(v2);
-drawVertex(v3);
-drawBond(b1);
+var zeroAllForces = function () {
+  for (var i = 0; i < APP.vertices.length; i++) {
+    APP.vertices[i].zeroForce(); 
+  }
+};
 
+// Function is O(V^2)
+var solveRepulsion = function (options) {
 
-var objective = function (map) {
-  return -99; 
+  var cv1, cv2, nodeDistance;
+
+  nodeDistance = options.nodeDistance;
+  zeroAllForces(); 
+
+  for (var i = 0; i < APP.vertices.length - 1; i++) {
+    cv1 = APP.vertices[i]; 
+    for (var j = i + 1; j < APP.vertices.length; j++) {
+      cv2 = APP.vertices[j]; 
+      var a = (-2 / 3) / nodeDistance;
+      var b = 4 / 3;
+      var p1 = cv1.getCenter();
+      var p2 = cv2.getCenter();
+      var dx = p2.x - p1.x;
+      var dy = p2.y - p1.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist > nodeDistance * (4/3)) {
+        repulsingForce = 0;
+      } else {
+        var repulsingForce = a * dist + b; 
+      }
+
+      repulsingForce /= dist;
+      var fx = dx * repulsingForce; 
+      var fy = dy * repulsingForce;
+      cv1.addForce(APP.vector2D(-fx, -fy));
+      cv2.addForce(APP.vector2D(fx, fy));
+    }
+  }
 }
 
-try {
-} catch(e) {
-  console.log('Error: ' + e);
-}
+// Animation ------------------------------------------------------------------
+
+setInterval(function () {
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawVertex(v1);
+  drawVertex(v2);
+  drawVertex(v3);
+  drawBond(b1);
+  drawBond(b2);
+  drawBond(b3);
+  solveRepulsion({ nodeDistance : 200 });
+  v1.move();
+  v2.move();
+  v3.move();
+
+}, 50);
 
