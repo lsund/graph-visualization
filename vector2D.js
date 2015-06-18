@@ -20,7 +20,19 @@ APP.vector2D = function (x, y) {
   that.x = x;
   that.y = y;
 
+  that.negate = function () {
+    that.x = -that.x;  
+    that.y = -that.y;  
+  }
+
+  that.scalar = function (c) {
+    that.x = that.x * c;
+    that.y = that.y * c;
+  }
+
   return that;
 
 }
+
+
 

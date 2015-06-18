@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     var that = {};
     that.vertices = options.vertices || [];
     that.bonds = options.bonds || [];
+    that.dimension = APP.vector2D(600, 600);
 
     return that;
   }

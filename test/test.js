@@ -35,12 +35,12 @@ document.addEventListener('DOMContentLoaded', function (e) {
   var vcoptions2 = {
     center: APP.vector2D(300, 300), 
     shape: 'circle', 
-    dimensions: 20 
+    dimensions: 10 
   };
   var vcoptions3 = {
     center: APP.vector2D(330, 400),
     shape: 'circle',
-    dimensions: 20  
+    dimensions: 30  
   };
   var vcoptions4 = {
     center: APP.vector2D(600, 300),
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
   var vcoptions5 = {
     center: APP.vector2D(400, 600),
     shape: 'circle',
-    dimensions: 20  
+    dimensions: 10  
   };
   v1 = APP.vertex(vcoptions1);
   v2 = APP.vertex(vcoptions2);

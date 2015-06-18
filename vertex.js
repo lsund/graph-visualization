@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
     var that = {};
     that.shape      = options.shape || 'circle';
-    that.dimensions = options.dimensions || 1;
+    that.dimensions = options.dimensions || 20;
     that.color      = options.color || 'grey';
     that.bonds      = options.bonds || [];
 
