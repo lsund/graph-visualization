@@ -23,7 +23,7 @@ APP.bond = function (options) {
   that.first.attachBond(that); 
   that.second.attachBond(that); 
 
-  APP.bonds.push(that); 
+  APP.theObject.bonds.push(that); 
   return that;
 
 }

@@ -12,46 +12,56 @@
 
 *****************************************************************************/
 
-window.APP = window.APP || {};
+document.addEventListener('DOMContentLoaded', function (e) {
 
-APP.vertex = function (options) {
-  
-  var center      = options.center || APP.vector2D(0, 0);
-  var force       = options.force || APP.vector2D(0, 0); 
+  window.APP = window.APP || {};
 
-  var that = {};
-  that.shape      = options.shape || 'circle';
-  that.dimensions = options.dimensions || 1;
-  that.color      = options.color || 'grey';
-  that.bonds      = options.bonds || [];
+  APP.vertex = function (options) {
+    
+    var center      = options.center || APP.vector2D(0, 0);
+    var force       = options.force || APP.vector2D(0, 0); 
 
-  that.attachBond = function (bond) {
-    that.bonds.push(bond);  
+    var that = {};
+    that.shape      = options.shape || 'circle';
+    that.dimensions = options.dimensions || 1;
+    that.color      = options.color || 'grey';
+    that.bonds      = options.bonds || [];
+
+    that.attachBond = function (bond) {
+      that.bonds.push(bond);  
+    }
+
+    that.setForce = function (vec) {
+      force = vec;
+    }
+    
+    that.addForce = function (vec) {
+      force = APP.vector2D(force.x + vec.x, force.y + vec.y);
+    }
+
+    that.move = function () {
+      var xprime = center.x + force.x;
+      var yprime = center.y + force.y; 
+      center = APP.vector2D(xprime, yprime);
+    }
+
+    that.moveTo = function (vec) { 
+      center = vec;
+    }
+    
+    that.zeroForce = function() {
+      force.x = 0;
+      force.y = 0;
+    };
+
+    that.contains = function (vec) {
+      return util.distance(vec, center).abs < that.dimensions;
+    }
+
+    that.getCenter = function () { return center };
+    APP.theObject.vertices.push(that); 
+    return that;
+
   }
 
-  that.setForce = function (vec) {
-    force = vec;
-  }
-  
-  that.addForce = function (vec) {
-    force = APP.vector2D(force.x + vec.x, force.y + vec.y);
-  }
-
-  that.move = function() {
-    var xprime = center.x + force.x;
-    var yprime = center.y + force.y; 
-    center = APP.vector2D(xprime, yprime);
-  }
-  
-  that.zeroForce = function() {
-    force.x = 0;
-    force.y = 0;
-  }
-
-  that.getCenter = function () { return center };
-
-  APP.vertices.push(that); 
-  return that;
-
-}
-
+});
