@@ -14,28 +14,33 @@
 
 document.addEventListener('DOMContentLoaded', function (e) {
 
+  window.TEST = window.TEST || {};
   window.APP = window.APP || {};
+  window.PHYSICS = window.PHYSICS || {};
   
+  // Stiffness constant
+  PHYSICS.STIFFNESS = 5;
   // Optimal bond length
-  var SPRING_LENGTH = 100;
-  // Optimal length between vertexes
-  var VERTEX_DISTANCE = 200;
-  
+  PHYSICS.SPRING_LENGTH = 100;
   // Gravity constant
-  var GRAVITY = 3; 
+  PHYSICS.GRAVITY = 10; 
   //  repulsion constant  
-  var REPULSION = 2;
-  // Threshold distance for repulsion
-  var THETA = VERTEX_DISTANCE * (4 / 3);
+  PHYSICS.REPULSION = 10;
   
-  GRAVITY *= 0.001;
+  PHYSICS.GRAVITY *= 0.001;
+  PHYSICS.STIFFNESS *= 0.1; 
 
   /** 
    * The force exerted by a spring between two objects.
    * The result is normalized in respect to the distance between the objects.
+   * @param dist the distance between the vertices connected by the bond 
+   * @param stiffness the spring stiffness constant
    */
   var springForce = function (dist, stiffness) {
-    var elongation = SPRING_LENGTH - dist;
+    if (dist === 0) {
+      dist = 0.01;
+    }
+    var elongation = PHYSICS.SPRING_LENGTH - dist;
     return (stiffness * elongation) / dist; 
   };
   
@@ -44,9 +49,12 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * Inspired by Columbs law
    */
   var repulsionForce = function (dist, m1, m2) {
-    return (REPULSION * m1 * m2) / (dist * dist);
+    if (dist === 0) {
+      dist = 0.01;
+    }
+    return (PHYSICS.REPULSION * m1 * m2) / (dist * dist);
   };
-  
+   
   var zeroAllForces = function () {
     for (var i = 0; i < APP.theObject.vertices.length; i++) {
       APP.theObject.vertices[i].zeroForce(); 
@@ -61,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     dimension = APP.theObject.dimension;
     globalCenter = APP.vector2D(dimension.x / 2, dimension.y / 2);
     dist = util.distance(v.getPosition(), globalCenter);
-    f = GRAVITY * v.dimension;
+    f = PHYSICS.GRAVITY * v.dimension;
     fx = dist.x * f;
     fy = dist.y * f; 
     return APP.vector2D(fx, fy);
@@ -81,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
   /**
    * Calculates the repulsion forces over two vertices.
    */
-  var calculateRepulsionForce = function (v1, v2, VERTEX_DISTANCE) {
+  var calculateRepulsionForce = function (v1, v2) {
     var f, p1, p2, dist, fx, fy;
     p1 = v1.getPosition();
     p2 = v2.getPosition();
@@ -96,17 +104,15 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * This function applies repulsion forces to the vertices.
    * Function is O(V^2), Bottleneck
    */
-  var solveRepulsion = function (VERTEX_DISTANCE) {
+  var solveRepulsion = function () {
     var cv1, cv2;
     for (var i = 0; i < APP.theObject.vertices.length - 1; i++) {
       cv1 = APP.theObject.vertices[i]; 
       for (var j = i + 1; j < APP.theObject.vertices.length; j++) {
         cv2 = APP.theObject.vertices[j]; 
-        var repulsingForce = calculateRepulsionForce(cv1, 
-            cv2, VERTEX_DISTANCE);
-        cv2.addForce(repulsingForce);
-        repulsingForce.negate();
-        cv1.addForce(repulsingForce);
+        var repulsionForce = calculateRepulsionForce(cv1, cv2);
+        cv2.addForce(repulsionForce);
+        cv1.addForce(repulsionForce.negate());
       }
     }
   };
@@ -128,14 +134,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
   /**
    * Applies the spring forces exerted on each vertex by the bonds.
    */
-  var solveSpring = function (SPRING_LENGTH) {
+  var solveSpring = function () {
     var cb, cv1, cv2;
     for (var i = 0; i < APP.theObject.bonds.length; i++) {
       cb = APP.theObject.bonds[i]; 
       var springForce = calculateSpringForce(cb);
       cb.second.addForce(springForce);
-      springForce.negate();
-      cb.first.addForce(springForce);
+      cb.first.addForce(springForce.negate());
     }
   };
 
@@ -144,10 +149,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
     applyForces: function () {
       zeroAllForces(); 
       solveGravity();
-      solveRepulsion(VERTEX_DISTANCE);
-      solveSpring(SPRING_LENGTH);
+      solveRepulsion();
+      solveSpring();
     }
-  
+
   };
-  
+
+  TEST.springForce = springForce;  
+  TEST.repulsionForce = repulsionForce;  
+
 });

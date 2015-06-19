@@ -63,9 +63,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * 
    * @return the cross product result as a float
    */
-  function crossProduct(point1, point2) {
-    return point1.x * point2.y - point1.y * point2.x;
-  }
 
   /**
    * Subtract the second point from the first.

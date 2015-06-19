@@ -20,6 +20,7 @@
 
 document.addEventListener('DOMContentLoaded', function (e) {
 
+  window.TEST = window.TEST || {};
   window.APP = window.APP || {};
 
   var v1, v2, v3, v4, v5, v6, v7, v8;
@@ -122,17 +123,31 @@ document.addEventListener('DOMContentLoaded', function (e) {
   b5 = APP.bond(boptions5);
   b6 = APP.bond(boptions6);
   b7 = APP.bond(boptions7);
-
+  
   describe('Global', function () {
-
-    it('APP should not be empty', function(){
-      chai.assert.notEqual({}, APP);
+      it('APP should not be empty', function(){
+        chai.assert.notEqual({}, APP);
+      });
+      it('should exist eight vertices and seven bonds', function () {
+        chai.assert.equal(8, APP.theObject.vertices.length); 
+        chai.assert.equal(7, APP.theObject.bonds.length); 
+      });
+  });
+  describe('physicsEngine', function () {
+    describe('springForce()', function () {
+      it('should not fail on dist===0', function () {
+        chai.assert.equal(false, isNaN(TEST.springForce(0, 0)));
+      }); 
     });
-
-    it('should exist three vertices and three bonds', function () {
-      chai.assert.equal(5, APP.body.vertices.length); 
-      chai.assert.equal(5, APP.body.bonds.length); 
+    describe('repulsionForce()', function () {
+      it('should not fail on dist===0', function () {
+        chai.assert.equal(false, isNaN(TEST.repulsionForce(0, 0, 0)));
+      }); 
     });
   });
+
+  mocha.checkLeaks();
+  mocha.run();
+
 });
 

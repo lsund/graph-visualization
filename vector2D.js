@@ -12,6 +12,7 @@
 
 *****************************************************************************/
 
+window.TEST = window.TEST || {};
 window.APP = window.APP || {};
 
 APP.vector2D = function (x, y) {
@@ -21,23 +22,26 @@ APP.vector2D = function (x, y) {
   that.y = y;
   
   that.add = function (vec) {
-    that.x += vec.x; 
-    that.y += vec.y;
+    return APP.vector2D(that.x += vec.x, that.y += vec.y);
   }
 
   that.negate = function () {
-    that.x = -that.x;  
-    that.y = -that.y;  
+    return APP.vector2D(-that.x, -that.y);
   }
 
   that.scalar = function (c) {
-    that.x = that.x * c;
-    that.y = that.y * c;
+    return APP.vector2D(that.x * c, that.y * c);
+  }
+
+  that.abs = function () {
+    return Math.sqrt(that.x * that.x + that.y * that.y);
+  }
+
+  that.cross = function (vec) {
+    return APP.vector2D(that.x * vec.y,  -that.y * vec.x);
   }
 
   return that;
 
 }
-
-
 

@@ -12,25 +12,25 @@
 
 *****************************************************************************/
 
-window.APP = window.APP || {};
+document.addEventListener('DOMContentLoaded', function (e) {
 
-// Stiffness constant
-var STIFFNESS = 2;
-STIFFNESS *= 0.1; 
+  window.APP = window.APP || {};
+  window.PHYSICS = window.PHYSICS || {};
 
-APP.bond = function (options) {
+  APP.bond = function (options) {
 
-  var that = {};    
-  that.first = options.first; 
-  that.second = options.second;
-  that.color = 'grey' || options.color;
-  that.stiffness = STIFFNESS;
-  
-  that.first.attachBond(that); 
-  that.second.attachBond(that); 
+    var that = {};    
+    that.first = options.first; 
+    that.second = options.second;
+    that.color = 'grey' || options.color;
+    that.stiffness = PHYSICS.STIFFNESS;
+    
+    that.first.attachBond(that); 
+    that.second.attachBond(that); 
 
-  APP.theObject.bonds.push(that); 
-  return that;
+    APP.theObject.bonds.push(that); 
+    return that;
 
-}
+  }
 
+});
