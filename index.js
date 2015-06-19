@@ -14,8 +14,6 @@
 
 document.addEventListener('DOMContentLoaded', function (e) {
 
-  //var energy = 0.5 * mass * (vel * vel)
-
   window.APP = window.APP || {};
 
   var animationTick = 50;
@@ -81,36 +79,40 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   var drawVertex = function (v) {
     ctx.fillStyle = v.color;
-    var center = v.getCenter();
-    var centerx = center.x;
-    var centery = center.y;
+    var position = v.getPosition();
+    var positionx = position.x;
+    var positiony = position.y;
     if (v.shape === 'circle') {
       ctx.strokeStyle = v.color;
       ctx.beginPath();
-      ctx.arc(centerx, centery, v.dimensions, 0, 2 * Math.PI);
+      ctx.arc(positionx, positiony, v.dimension, 0, 2 * Math.PI);
       ctx.stroke();
       ctx.fill();
+      ctx.font = "bold 14px Arial";
+      ctx.fillStyle = 'black';
+      ctx.fillText(v.id, position.x - 2, position.y + 4);
     } else if (v.shape === 'rectangle') {
-      ctx.fillRect(centerx, centery, v.dimensions.w, v.dimensions.h);
+      ctx.fillRect(positionx, positiony, v.dimension.w, v.dimension.h);
     }
   };
 
   var drawBond = function (b) {
-    var fstCenter = b.first.getCenter();
-    var sndCenter = b.second.getCenter();
+    var fstCenter = b.first.getPosition();
+    var sndCenter = b.second.getPosition();
     ctx.moveTo(fstCenter.x, fstCenter.y);
     ctx.lineTo(sndCenter.x, sndCenter.y);
+    ctx.strokeStyle = b.color;
     ctx.stroke();
   };
-  
+
   var refreshIntervalID;
 
   APP.initializeDrawing = function () { 
-    APP.theObject.vertices.forEach(function (v) {
-      drawVertex(v);
-    });
     APP.theObject.bonds.forEach(function (b) {
       drawBond(b);
+    });
+    APP.theObject.vertices.forEach(function (v) {
+      drawVertex(v);
     });
   }
   
@@ -119,17 +121,35 @@ document.addEventListener('DOMContentLoaded', function (e) {
     s.innerHTML = 'running';
     refreshIntervalID = setInterval(function () {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      APP.theObject.vertices.forEach(function (v) {
-        drawVertex(v);
-      });
+      checkBonds();
       APP.theObject.bonds.forEach(function (b) {
         drawBond(b);
+      });
+      APP.theObject.vertices.forEach(function (v) {
+        drawVertex(v);
       });
       APP.physicsEngine.applyForces();
       APP.theObject.vertices.forEach(function (v) {
         v.move();
       });
     }, animationTick);
+  }
+  
+  // How to punish this? 
+  var checkBonds = function () {
+    var cb1, cb2;
+    for (var i = 0; i < APP.theObject.bonds.length - 1; i++) {
+      cb1 = APP.theObject.bonds[i]; 
+      for (var j = i + 1; j < APP.theObject.bonds.length; j++) {
+        cb2 = APP.theObject.bonds[j]; 
+        if(APP.doLineSegmentsIntersect(cb1.first.getPosition(), 
+          cb1.second.getPosition(), 
+          cb2.first.getPosition(), 
+          cb2.second.getPosition())) {
+          console.log('b1:' + cb1.first.id + ' b2: ' + cb1.second.id);
+        }
+      }
+    }
   }
 
   APP.stopAnimation = function () { 

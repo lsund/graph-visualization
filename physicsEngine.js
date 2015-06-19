@@ -22,24 +22,21 @@ document.addEventListener('DOMContentLoaded', function (e) {
   var VERTEX_DISTANCE = 200;
   
   // Gravity constant
-  var GRAVITY = 2; 
+  var GRAVITY = 3; 
   //  repulsion constant  
   var REPULSION = 2;
-  // Stiffness constant
-  var STIFFNESS = 1;
   // Threshold distance for repulsion
   var THETA = VERTEX_DISTANCE * (4 / 3);
   
   GRAVITY *= 0.001;
-  STIFFNESS *= 0.1; 
 
   /** 
    * The force exerted by a spring between two objects.
    * The result is normalized in respect to the distance between the objects.
    */
-  var springForce = function (dist) {
+  var springForce = function (dist, stiffness) {
     var elongation = SPRING_LENGTH - dist;
-    return (STIFFNESS * elongation) / dist; 
+    return (stiffness * elongation) / dist; 
   };
   
   /** 
@@ -63,8 +60,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
     var dimension, globalCenter, dist, f, fx, fy;
     dimension = APP.theObject.dimension;
     globalCenter = APP.vector2D(dimension.x / 2, dimension.y / 2);
-    dist = util.distance(v.getCenter(), globalCenter);
-    f = GRAVITY * v.dimensions;
+    dist = util.distance(v.getPosition(), globalCenter);
+    f = GRAVITY * v.dimension;
     fx = dist.x * f;
     fy = dist.y * f; 
     return APP.vector2D(fx, fy);
@@ -86,10 +83,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
    */
   var calculateRepulsionForce = function (v1, v2, VERTEX_DISTANCE) {
     var f, p1, p2, dist, fx, fy;
-    p1 = v1.getCenter();
-    p2 = v2.getCenter();
+    p1 = v1.getPosition();
+    p2 = v2.getPosition();
     dist = util.distance(p1, p2);
-    f = repulsionForce(dist.abs, v1.dimensions, v2.dimensions);
+    f = repulsionForce(dist.abs, v1.dimension, v2.dimension);
     fx = dist.x * f; 
     fy = dist.y * f;
     return APP.vector2D(fx, fy);
@@ -119,14 +116,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
    */
   var calculateSpringForce = function (b) {
     var p1, p2, dx, dy, dist, fx, fy;
-    p1 = b.first.getCenter();
-    p2 = b.second.getCenter();
+    p1 = b.first.getPosition();
+    p2 = b.second.getPosition();
     dist = util.distance(p1, p2);
-    f = springForce(dist.abs);
+    f = springForce(dist.abs, b.stiffness);
     fx = dist.x * f;
     fy = dist.y * f;
     return APP.vector2D(fx, fy);
-
   };
   
   /**

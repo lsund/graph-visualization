@@ -19,6 +19,11 @@ APP.vector2D = function (x, y) {
   var that = {};
   that.x = x;
   that.y = y;
+  
+  that.add = function (vec) {
+    that.x += vec.x; 
+    that.y += vec.y;
+  }
 
   that.negate = function () {
     that.x = -that.x;  

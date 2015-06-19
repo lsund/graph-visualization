@@ -17,15 +17,19 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.APP = window.APP || {};
 
   APP.vertex = function (options) {
-    
-    var center      = options.center || APP.vector2D(0, 0);
+        
     var force       = options.force || APP.vector2D(0, 0); 
+    var acceleration = options.acceleration || APP.vector2D(0, 0); 
+    var velocity     = options.velocity || APP.vector2D(0, 0); 
+    var position      = options.position || APP.vector2D(0, 0);
 
     var that = {};
+    that.id         = options.id || -1;
     that.shape      = options.shape || 'circle';
-    that.dimensions = options.dimensions || 20;
+    that.dimension = options.dimension || 20;
     that.color      = options.color || 'grey';
     that.bonds      = options.bonds || [];
+    that.mass       = that.dimension;
 
     that.attachBond = function (bond) {
       that.bonds.push(bond);  
@@ -40,13 +44,15 @@ document.addEventListener('DOMContentLoaded', function (e) {
     }
 
     that.move = function () {
-      var xprime = center.x + force.x;
-      var yprime = center.y + force.y; 
-      center = APP.vector2D(xprime, yprime);
+      acceleration = APP.vector2D(force.x, force.y); 
+      acceleration.scalar(1 / that.mass);
+      velocity.add(acceleration);
+      velocity.scalar(0.8);
+      position.add(velocity);
     }
 
     that.moveTo = function (vec) { 
-      center = vec;
+      position = vec;
     }
     
     that.zeroForce = function() {
@@ -55,10 +61,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
     };
 
     that.contains = function (vec) {
-      return util.distance(vec, center).abs < that.dimensions;
+      return util.distance(vec, position).abs < that.dimension;
     }
 
-    that.getCenter = function () { return center };
+    that.getPosition = function () { return position };
+
     APP.theObject.vertices.push(that); 
     return that;
 

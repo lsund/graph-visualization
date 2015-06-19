@@ -14,49 +14,77 @@
 
 // options: 
 // ID
-// center 
+// position 
 // shape 
-// dimensions
+// dimension
 
 document.addEventListener('DOMContentLoaded', function (e) {
 
   window.APP = window.APP || {};
 
-  var v1, v2, v3, v4, v5;
+  var v1, v2, v3, v4, v5, v6, v7, v8;
+  var vertexID = 1;
 
   APP.theObject = APP.body({});
 
   var vcoptions1 = {
-    center: APP.vector2D(0, 0), 
+    id: vertexID++,
+    position: APP.vector2D(100, 100), 
     shape: 'circle', 
-    dimensions: 20,
+    dimension: 20,
     force: APP.vector2D(10, 10)
   };
   var vcoptions2 = {
-    center: APP.vector2D(300, 300), 
+    id: vertexID++,
+    position: APP.vector2D(200, 200), 
     shape: 'circle', 
-    dimensions: 10 
+    dimension: 10 
   };
   var vcoptions3 = {
-    center: APP.vector2D(330, 400),
+    id: vertexID++,
+    position: APP.vector2D(200, 250),
     shape: 'circle',
-    dimensions: 30  
+    dimension: 30  
   };
   var vcoptions4 = {
-    center: APP.vector2D(600, 300),
+    id: vertexID++,
+    position: APP.vector2D(300, 300),
     shape: 'circle',
-    dimensions: 20  
+    dimension: 20  
   };
   var vcoptions5 = {
-    center: APP.vector2D(400, 600),
+    id: vertexID++,
+    position: APP.vector2D(270, 270),
     shape: 'circle',
-    dimensions: 10  
+    dimension: 10  
+  };
+  var vcoptions6 = {
+    id: vertexID++,
+    position: APP.vector2D(400, 500),
+    shape: 'circle',
+    dimension: 20  
+  };
+  var vcoptions7 = {
+    id: vertexID++,
+    position: APP.vector2D(300, 500),
+    shape: 'circle',
+    dimension: 20  
+  };
+  var vcoptions8 = {
+    id: vertexID++,
+    position: APP.vector2D(200, 500),
+    shape: 'circle',
+    dimension: 20  
   };
   v1 = APP.vertex(vcoptions1);
   v2 = APP.vertex(vcoptions2);
   v3 = APP.vertex(vcoptions3);
   v4 = APP.vertex(vcoptions4);
   v5 = APP.vertex(vcoptions5);
+
+  v6 = APP.vertex(vcoptions6);
+  v7 = APP.vertex(vcoptions7);
+  v8 = APP.vertex(vcoptions8);
 
   var boptions1 = {
     first: v1, 
@@ -78,12 +106,22 @@ document.addEventListener('DOMContentLoaded', function (e) {
     first: v3, 
     second: v5
   }
+  var boptions6 = {
+    first: v6, 
+    second: v7
+  }
+  var boptions7 = {
+    first: v7, 
+    second: v8
+  }
 
-  APP.bond(boptions1);
-  APP.bond(boptions2);
-  APP.bond(boptions3);
-  APP.bond(boptions4);
-  APP.bond(boptions5);
+  b1 = APP.bond(boptions1);
+  b2 = APP.bond(boptions2);
+  b3 = APP.bond(boptions3);
+  b4 = APP.bond(boptions4);
+  b5 = APP.bond(boptions5);
+  b6 = APP.bond(boptions6);
+  b7 = APP.bond(boptions7);
 
   describe('Global', function () {
 
