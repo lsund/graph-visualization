@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.first = options.first; 
     that.second = options.second;
     that.color = 'grey' || options.color;
-    that.stiffness = PHYSICS.STIFFNESS;
+    that.stiffness = options.stiffness || PHYSICS.STIFFNESS;
+    that.length = options.length || PHYSICS.SPRING_LENGTH;
+    that.type = options.type || 'r';
     
     that.first.attachBond(that); 
     that.second.attachBond(that); 

@@ -1,5 +1,4 @@
 /*****************************************************************************
-
 * Author : Ludvig Sundström
 
 * File Name : vertex.js
@@ -72,6 +71,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.getKineticEnergy = function () { 
       return 0.5 * that.mass * velocity.cross(velocity).abs();
     };
+    that.getPotentialEnergy = function () {
+      var dcenter = util.distance(APP.theObject.center, position);
+      return that.mass * PHYSICS.GRAVITY * dcenter.abs;
+    }
 
     APP.theObject.vertices.push(that); 
     return that;

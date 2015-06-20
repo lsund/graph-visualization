@@ -123,25 +123,40 @@ document.addEventListener('DOMContentLoaded', function (e) {
   b5 = APP.bond(boptions5);
   b6 = APP.bond(boptions6);
   b7 = APP.bond(boptions7);
+
+  var addImmaginaryBonds = function () {
+    var cv1, cv2;
+    for (var i = 0; i < APP.theObject.vertices.length - 1; i++) {
+      cv1 = APP.theObject.vertices[i]; 
+      for (var j = i + 1; j < APP.theObject.vertices.length; j++) {
+        cv2 = APP.theObject.vertices[j]; 
+        var cb = APP.bond(
+          { 
+            first: cv1, 
+            second: cv2, 
+            stiffness: PHYSICS.STIFFNESS / 4,
+            length: PHYSICS.SPRING_LENGTH * 2,
+            type: 'i'
+          }
+        );
+      }
+    }
+  };
+
+  addImmaginaryBonds();
   
   describe('Global', function () {
       it('APP should not be empty', function(){
         chai.assert.notEqual({}, APP);
       });
-      it('should exist eight vertices and seven bonds', function () {
+      it('should exist eight vertices', function () {
         chai.assert.equal(8, APP.theObject.vertices.length); 
-        chai.assert.equal(7, APP.theObject.bonds.length); 
       });
   });
   describe('physicsEngine', function () {
     describe('springForce()', function () {
       it('should not fail on dist===0', function () {
-        chai.assert.equal(false, isNaN(TEST.springForce(0, 0)));
-      }); 
-    });
-    describe('repulsionForce()', function () {
-      it('should not fail on dist===0', function () {
-        chai.assert.equal(false, isNaN(TEST.repulsionForce(0, 0, 0)));
+        chai.assert.equal(false, isNaN(TEST.springForce(0, 0, 0)));
       }); 
     });
   });

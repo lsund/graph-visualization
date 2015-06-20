@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
       var v = vs[i];  
       v.accelerate();
       e += v.getKineticEnergy();
+      e += v.getPotentialEnergy();
     }
     return e;
   };
@@ -48,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.initializeDrawing = function () { 
     APP.theObject.bonds.forEach(function (b) {
-      PENCIL.drawBond(b);
+      console.log(b.type);
+      if (b.type === 'r') PENCIL.drawBond(b);
     });
     APP.theObject.vertices.forEach(function (v) {
       PENCIL.drawVertex(v);
@@ -56,19 +58,20 @@ document.addEventListener('DOMContentLoaded', function (e) {
   }
   
   APP.startAnimation = function () {
+    APP.TOTALENERGY = 0;
     var s = document.getElementById('statusText');
     refreshIntervalID = setInterval(function () {
       PENCIL.ctx.clearRect(0, 0, canvas.width, canvas.height);
-      APP.theObject.bonds.forEach(function (b) {
-        PENCIL.drawBond(b);
-      });
-      var energy = systemEnergy(APP.theObject.vertices);
       APP.theObject.vertices.forEach(function (v) {
         var pos = v.getPosition();
         var vel = v.getVelocity();
         v.setPosition(pos.add(vel));
         PENCIL.drawVertex(v);
       });
+      APP.theObject.bonds.forEach(function (b) {
+        if (b.type === 'r') PENCIL.drawBond(b);
+      });
+      var energy = systemEnergy(APP.theObject.vertices);
       s.innerHTML = 'System energy: ' + energy;
       ticks += 1;
       if (energy < ENERGY_TRESHOLD) {

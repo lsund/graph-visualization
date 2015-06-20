@@ -41,6 +41,10 @@ APP.vector2D = function (x, y) {
     return APP.vector2D(that.x * vec.y,  -that.y * vec.x);
   }
 
+  that.isZero = function () {
+    return that.x === 0 && that.y === 0;
+  }
+
   return that;
 
 }
