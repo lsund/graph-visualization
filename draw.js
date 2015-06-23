@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     canvas.addEventListener('mousemove', function (e) {
       if (dragging && selection !== null) {
         var vec = getMouse(e);
-        selection.moveTo(vec)   
+        selection.setPosition(vec)   
       }
     });
 
@@ -77,33 +77,40 @@ document.addEventListener('DOMContentLoaded', function (e) {
   var drawVertex = function (v) {
     ctx.fillStyle = v.color;
     var position = v.getPosition();
-    var positionx = position.x;
-    var positiony = position.y;
     if (v.shape === 'circle') {
       ctx.strokeStyle = v.color;
       ctx.beginPath();
-      ctx.arc(positionx, positiony, v.dimension, 0, 2 * Math.PI);
+      ctx.arc(position.x, position.y, v.dimension, 0, 2 * Math.PI);
       ctx.stroke();
       ctx.fill();
       ctx.font = "bold 14px Arial";
       ctx.fillStyle = 'black';
+      if (v.fixed) ctx.fillStyle = 'white';
       ctx.fillText(v.id, position.x - 2, position.y + 4);
     } else if (v.shape === 'rectangle') {
-      ctx.fillRect(positionx, positiony, v.dimension.w, v.dimension.h);
+      ctx.fillRect(position.x, position.y, v.dimension.x, v.dimension.y);
     }
   };
 
   var drawBond = function (b) {
-    var fstCenter = b.first.getPosition();
-    var sndCenter = b.second.getPosition();
+    var fstCenter = b.first.getCenter();
+    var sndCenter = b.second.getCenter();
     ctx.moveTo(fstCenter.x, fstCenter.y);
     ctx.lineTo(sndCenter.x, sndCenter.y);
     ctx.strokeStyle = b.color;
     ctx.stroke();
   };
 
+  var drawRestraint = function (r) {
+    var position = r.getCenter();
+    ctx.strokeStyle = 'black';
+    ctx.rect(position.x, position.y, r.dimension.x, r.dimension.y);
+    ctx.stroke(); 
+  }
+
   PENCIL.drawVertex = drawVertex;
   PENCIL.drawBond = drawBond;
+  PENCIL.drawRestraint = drawRestraint;
   PENCIL.ctx = ctx;
 
 }); 

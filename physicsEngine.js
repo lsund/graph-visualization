@@ -6,10 +6,7 @@
 
 * Purpose : 
 
-* Creation Date : 18-06-2015
-
-* Last Modified : 
-
+* Creation Date : 18-06-2015 * Last Modified : 
 *****************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function (e) {
@@ -17,31 +14,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.TEST = window.TEST || {};
   window.APP = window.APP || {};
   window.PHYSICS = window.PHYSICS || {};
-
-  APP.TOTALENERGY = 0;
   
   // Stiffness constant
-  PHYSICS.STIFFNESS = 2;
-  // Optimal bond length
+  PHYSICS.STIFFNESS = 5;
+  // Standard bond length
   PHYSICS.SPRING_LENGTH = 100;
   // Gravity constant
-  PHYSICS.GRAVITY = 10;
-  //  repulsion constant  
-  PHYSICS.REPULSION = 1000;
-  PHYSICS.OPTIMAL_DISTANCE = 300;
+  PHYSICS.GRAVITY = 0.05;
   
-  PHYSICS.GRAVITY *= 0.001;
-  PHYSICS.STIFFNESS *= 1; 
-
-  var springEnergy = function (dist, stiffness, length) {
-    var es = 0;
-    if (dist === 0) {
-      dist = 0.01;
-    }
-    var elongation = length - dist;
-    es = 0.5 * (stiffness * (elongation * elongation)); 
-    return es;
-  }
   /** 
    * The force exerted by a spring between two objects.
    * The result is normalized in respect to the distance between the objects.
@@ -52,10 +32,14 @@ document.addEventListener('DOMContentLoaded', function (e) {
     if (dist === 0) {
       dist = 0.01;
     }
-    var elongation = length - dist;
-    return (stiffness * elongation); 
+    var elongation = dist - length;
+    return -stiffness * elongation; 
   };
   
+  var gravityForce = function (dist, m) {
+    return m * PHYSICS.GRAVITY * dist;
+  };
+
   var zeroAllForces = function () {
     for (var i = 0; i < APP.theObject.vertices.length; i++) {
       APP.theObject.vertices[i].zeroForce(); 
@@ -71,9 +55,26 @@ document.addEventListener('DOMContentLoaded', function (e) {
     p2 = b.second.getPosition();
     dist = util.distance(p1, p2);
     f = springForce(dist.abs, b.stiffness, b.length);
-    APP.TOTALENERGY += springEnergy(dist.abs, b.stiffness, b.length);
     fx = dist.ui * f;
     fy = dist.uj * f;
+    return APP.vector2D(fx, fy);
+  };
+
+  /**
+   * Calculates the force on a vertex towards the center of the global object
+   */
+  var calculateGravityForce = function (v) {
+    var globalCenter, dist, f, fx, fy;
+    dist = util.distance(v.getPosition(), APP.theObject.center);
+    if (v.shape === 'circle') {
+      f = gravityForce(dist.abs, v.dimension);
+    }
+    else {
+      var dim = v.dimension.x + v.dimension.y / 4 
+      f = gravityForce(dist.abs, dim);
+    }
+    fx = (dist.ui * f);
+    fy = (dist.uj * f); 
     return APP.vector2D(fx, fy);
   };
 
@@ -90,11 +91,23 @@ document.addEventListener('DOMContentLoaded', function (e) {
     }
   };
 
+  /** 
+   * Applies the gravity force to the vertices
+   */
+  var solveGravity = function () {
+    for (var i = 0; i < APP.theObject.vertices.length; i++) {
+      var cv = APP.theObject.vertices[i]; 
+      var gravityForce = calculateGravityForce(cv);
+      cv.addForce(gravityForce);
+    }
+  }
+
   APP.physicsEngine = {
   
     applyForces: function () {
       zeroAllForces(); 
       solveSpring();
+      solveGravity();
     }
 
   };
@@ -102,3 +115,4 @@ document.addEventListener('DOMContentLoaded', function (e) {
   TEST.springForce = springForce;  
 
 });
+

@@ -23,10 +23,16 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.first = options.first; 
     that.second = options.second;
     that.color = 'grey' || options.color;
-    that.stiffness = options.stiffness || PHYSICS.STIFFNESS;
-    that.length = options.length || PHYSICS.SPRING_LENGTH;
-    that.type = options.type || 'r';
     
+    that.dist = APP.dmat[that.first.id][that.second.id];
+
+    if (that.dist === -1) {
+      that.dist = 4;
+    }
+    var weight = 1 / (that.dist);  
+    that.stiffness = weight * PHYSICS.STIFFNESS;
+    that.length = that.dist * PHYSICS.SPRING_LENGTH;
+
     that.first.attachBond(that); 
     that.second.attachBond(that); 
 

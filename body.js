@@ -15,11 +15,15 @@
 document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.body = function (options) {
+
     var dimx = 600;
     var dimy = 600;
     var that = {};
+
     that.vertices = options.vertices || [];
     that.bonds = options.bonds || [];
+    that.restraints = options.constraints || [];
+
     that.dimension = APP.vector2D(dimx, dimy);
     that.center = APP.vector2D(dimx / 2, dimy / 2);
 

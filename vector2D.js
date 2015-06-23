@@ -22,7 +22,11 @@ APP.vector2D = function (x, y) {
   that.y = y;
   
   that.add = function (vec) {
-    return APP.vector2D(that.x += vec.x, that.y += vec.y);
+    return APP.vector2D(that.x + vec.x, that.y + vec.y);
+  }
+
+  that.sub = function (vec) {
+    return APP.vector2D(that.x - vec.x, that.y - vec.y);
   }
 
   that.negate = function () {
@@ -39,6 +43,15 @@ APP.vector2D = function (x, y) {
 
   that.cross = function (vec) {
     return APP.vector2D(that.x * vec.y,  -that.y * vec.x);
+  }
+
+  that.normalize = function () {
+    var norm = that.abs();
+    return APP.vector2D(that.x / norm, that.y / norm);
+  }
+
+  that.perpendicular = function () {
+    return APP.vector2D(that.y, -that.x);
   }
 
   that.isZero = function () {

@@ -24,7 +24,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   window.APP = window.APP || {};
 
-  APP.doLineSegmentsIntersect = function (p, p2, q, q2) {
+  APP.intersectionPoint = function (p, p2, q, q2) {
+    // t is for p
+    // u is for q
+    var result = null;
 
     var r = subtractPoints(p2, p);
     var s = subtractPoints(q2, q);
@@ -32,27 +35,18 @@ document.addEventListener('DOMContentLoaded', function (e) {
     var uNumerator = crossProduct(subtractPoints(q, p), r);
     var denominator = crossProduct(r, s);
 
-    if (uNumerator == 0 && denominator == 0) {
-      // They are colinear
-      
-      // Do they touch? (Are any of the points equal?)
-      //if (equalPoints(p, q) || equalPoints(p, q2) || equalPoints(p2, q) || equalPoints(p2, q2)) {
-        //return true
-      //}
-      // Do they overlap? (Are all the point differences in 
-      // either direction the same sign) Using != as exclusive or
-      //return ((q.x - p.x < 0) != (q.x - p2.x < 0) != (q2.x - p.x < 0) != (q2.x - p2.x < 0)) || 
-        //((q.y - p.y < 0) != (q.y - p2.y < 0) != (q2.y - p.y < 0) != (q2.y - p2.y < 0));
-    }
-
     if (denominator == 0) {
       // lines are paralell
-      return false;
+      return result;
     }
 
     var u = uNumerator / denominator;
     var t = crossProduct(subtractPoints(q, p), s) / denominator;
-    return (t > 0.1) && (t < 0.9) && (u > 0.1) && (u < 0.9);
+
+    if ((t > 0.1) && (t < 0.9) && (u > 0.1) && (u < 0.9)) {
+      result = { t: t, u: u };
+    }
+    return result;
   };
 
   /**
@@ -63,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * 
    * @return the cross product result as a float
    */
+  function crossProduct(point1, point2) {
+    return point1.x * point2.y  - point1.y * point2.x;
+  }
 
   /**
    * Subtract the second point from the first.
@@ -78,18 +75,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
     result.y = point1.y - point2.y;
 
     return result;
-  }
-
-  /**
-   * See if the points are equal.
-   *
-   * @param {Object} point1 point object with x and y coordinates
-   * @param {Object} point2 point object with x and y coordinates
-   *
-   * @return if the points are equal
-   */
-  function equalPoints(point1, point2) {
-    return (point1.x == point2.x) && (point1.y == point2.y)
   }
 
 });

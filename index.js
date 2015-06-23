@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.APP = window.APP || {};
   window.PENCIL = window.PENCIL || {};
 
-  APP.ANIMATION_TICK = 100;
+  APP.ANIMATION_TICK = 50;
+  var ENERGY_TRESHOLD = 0;
 
-  var ENERGY_TRESHOLD = 20;
+  APP.theObject = APP.body({});
 
   var systemEnergy = function (vs) {
     APP.physicsEngine.applyForces();
@@ -34,7 +35,22 @@ document.addEventListener('DOMContentLoaded', function (e) {
     return e;
   };
   
-  
+  var addImmaginaryBonds = function () {
+    var cv1, cv2;
+    for (var i = 0; i < APP.theObject.vertices.length - 1; i++) {
+      cv1 = APP.theObject.vertices[i]; 
+      for (var j = i + 1; j < APP.theObject.vertices.length; j++) {
+        cv2 = APP.theObject.vertices[j]; 
+        var cb = APP.bond(
+          { 
+            first: cv1, 
+            second: cv2, 
+          }
+        );
+      }
+    }
+  };
+
   // Animation ----------------------------------------------------------------
   
   var ticks = 0;
@@ -49,8 +65,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.initializeDrawing = function () { 
     APP.theObject.bonds.forEach(function (b) {
-      console.log(b.type);
-      if (b.type === 'r') PENCIL.drawBond(b);
+      if (b.dist === 1) PENCIL.drawBond(b);
     });
     APP.theObject.vertices.forEach(function (v) {
       PENCIL.drawVertex(v);
@@ -58,18 +73,21 @@ document.addEventListener('DOMContentLoaded', function (e) {
   }
   
   APP.startAnimation = function () {
+
     APP.TOTALENERGY = 0;
+    addImmaginaryBonds();
     var s = document.getElementById('statusText');
     refreshIntervalID = setInterval(function () {
       PENCIL.ctx.clearRect(0, 0, canvas.width, canvas.height);
       APP.theObject.vertices.forEach(function (v) {
-        var pos = v.getPosition();
-        var vel = v.getVelocity();
-        v.setPosition(pos.add(vel));
+        if (!v.fixed) v.move();
         PENCIL.drawVertex(v);
       });
       APP.theObject.bonds.forEach(function (b) {
-        if (b.type === 'r') PENCIL.drawBond(b);
+        if (b.dist === 1) PENCIL.drawBond(b);
+      });
+      APP.theObject.restraints.forEach(function (r) {
+        PENCIL.drawRestraint(r);
       });
       var energy = systemEnergy(APP.theObject.vertices);
       s.innerHTML = 'System energy: ' + energy;
@@ -85,21 +103,4 @@ document.addEventListener('DOMContentLoaded', function (e) {
     clearInterval(refreshIntervalID);
   }
   
-  // How to punish this? 
-  //var checkBonds = function () {
-    //var cb1, cb2;
-    //for (var i = 0; i < APP.theObject.bonds.length - 1; i++) {
-      //cb1 = APP.theObject.bonds[i]; 
-      //for (var j = i + 1; j < APP.theObject.bonds.length; j++) {
-        //cb2 = APP.theObject.bonds[j]; 
-        //if(APP.doLineSegmentsIntersect(cb1.first.getPosition(), 
-          //cb1.second.getPosition(), 
-          //cb2.first.getPosition(), 
-          //cb2.second.getPosition())) {
-          //console.log('b1:' + cb1.first.id + ' b2: ' + cb1.second.id);
-        //}
-      //}
-    //}
-  //}
-
 });
