@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
       return 0.5 * object.mass * secret.velocity.cross(secret.velocity).abs();
     };
     object.getPotentialEnergy = function () {
-      var dist = secret.position.sub(APP.theObject.center).abs();
+      var dist = secret.position.sub(OBJECT.body.center).abs();
       return object.mass * PHYSICS.GRAVITY * dist;
     }
 

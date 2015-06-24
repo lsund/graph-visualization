@@ -15,6 +15,7 @@
 document.addEventListener('DOMContentLoaded', function (e) {
 
   window.PENCIL = window.PENCIL || {};
+  window.OBJECT = window.OBJECT || {};
 
   var c = document.getElementById('canvas');
   var ctx = c.getContext('2d');
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     canvas.addEventListener('mousedown', function (e) {
       dragging = true;
       var vec = getMouse(e);
-      APP.theObject.vertices.forEach(function (v) {
+      OBJECT.body.getVertices().forEach(function (v) {
         if (v.contains(vec)) {
           selection = v;  
           selection.color = 'black';

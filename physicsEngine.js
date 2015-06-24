@@ -12,7 +12,7 @@
 document.addEventListener('DOMContentLoaded', function (e) {
 
   window.TEST = window.TEST || {};
-  window.APP = window.APP || {};
+  window.OBJECT = window.OBJECT || {};
   window.PHYSICS = window.PHYSICS || {};
   
   // Stiffness constant
@@ -41,8 +41,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
   };
 
   var zeroAllForces = function () {
-    for (var i = 0; i < APP.theObject.vertices.length; i++) {
-      APP.theObject.vertices[i].zeroForce(); 
+    var vs = OBJECT.body.getVertices();
+    for (var i = 0; i < vs.length; i++) {
+      vs[i].zeroForce(); 
     }
   };
   
@@ -63,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
    */
   var calculateGravityForce = function (v) {
     var r, f, fx, fy;
-    r = APP.theObject.center.sub(v.getPosition());
+    r = OBJECT.body.center.sub(v.getPosition());
     if (v.shape === 'circle') {
       f = gravityForce(r.abs(), v.dimension);
     }
@@ -80,10 +81,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * Applies the spring forces exerted on each vertex by the bonds.
    */
   var solveSpring = function () {
-    var cb, cv1, cv2;
-    for (var i = 0; i < APP.theObject.bonds.length; i++) {
-      cb = APP.theObject.bonds[i]; 
-      var springForce = calculateSpringForce(cb);
+    var i, bs, cb, cv1, cv2, springForce;
+    bs = OBJECT.body.getBonds();
+    for (i = 0; i < bs.length; i++) {
+      cb = bs[i]; 
+      springForce = calculateSpringForce(cb);
       cb.second.addForce(springForce);
       cb.first.addForce(springForce.negate());
     }
@@ -93,9 +95,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * Applies the gravity force to the vertices
    */
   var solveGravity = function () {
-    for (var i = 0; i < APP.theObject.vertices.length; i++) {
-      var cv = APP.theObject.vertices[i]; 
-      var gravityForce = calculateGravityForce(cv);
+    var i, vs, cv, gravityForce;
+    vs = OBJECT.body.getVertices();
+    for (i = 0; i < vs.length; i++) {
+      cv = vs[i]; 
+      gravityForce = calculateGravityForce(cv);
       cv.addForce(gravityForce);
     }
   }
@@ -109,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     }
 
   };
-
+  
   TEST.springForce = springForce;  
 
 });

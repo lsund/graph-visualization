@@ -13,7 +13,7 @@
 
 document.addEventListener('DOMContentLoaded', function (e) {
 
-  window.APP = window.APP || {};
+  window.OBJECT = window.OBJECT || {};
 
   APP.vertex = function (options) {
 
@@ -31,8 +31,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.getPosition = function () { return secret.position };
 
     that = APP.forceDirected(that, secret);
-
-    APP.theObject.vertices.push(that); 
 
     return that;
 

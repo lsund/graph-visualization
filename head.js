@@ -2,32 +2,23 @@
 
 * Author : Ludvig Sundström
 
-* File Name : restraint.js
+* File Name : head.js
 
 * Purpose : 
 
-* Creation Date : 22-06-2015
+* Creation Date : 24-06-2015
 
 * Last Modified : 
 
 *****************************************************************************/
 
 document.addEventListener('DOMContentLoaded', function (e) {
-  
-  window.APP = window.APP || {};
 
-  APP.restraint = function (options) {
-
+  APP.head = function (options) {
     var that = {};
-
-    that = APP.graphObject(options);
-    
-    that.shape = 'rectangle';
-    that.fixed = 'true';
-
-    OBJECT.body.restraints.push(that);
+    that.physicsEngine = APP.physicsEngine;
     return that;
+  };
 
-  }
 
 });

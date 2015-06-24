@@ -14,7 +14,7 @@
 
 document.addEventListener('DOMContentLoaded', function (e) {
 
-  window.APP = window.APP || {};
+  window.OBJECT = window.OBJECT || {};
   window.PHYSICS = window.PHYSICS || {};
 
   APP.bond = function (options) {
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.second = options.second;
     that.color = 'grey' || options.color;
     
-    that.dist = APP.dmat[that.first.id][that.second.id];
+    that.dist = OBJECT.body.dmat[that.first.id][that.second.id];
 
     if (that.dist === -1) {
       that.dist = 4;
@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.first.attachBond(that); 
     that.second.attachBond(that); 
 
-    APP.theObject.bonds.push(that); 
     return that;
 
   }
