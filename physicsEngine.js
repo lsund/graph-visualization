@@ -50,13 +50,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * Calculates the spring force between two nodes.
    */
   var calculateSpringForce = function (b) {
-    var p1, p2, dx, dy, dist, fx, fy;
-    p1 = b.first.getPosition();
-    p2 = b.second.getPosition();
-    dist = util.distance(p1, p2);
-    f = springForce(dist.abs, b.stiffness, b.length);
-    fx = dist.ui * f;
-    fy = dist.uj * f;
+    var r, f, fx, fy;
+    r = b.second.getPosition().sub(b.first.getPosition());
+    f = springForce(r.abs(), b.stiffness, b.length);
+    fx = r.normalize().x * f;
+    fy = r.normalize().y * f;
     return APP.vector2D(fx, fy);
   };
 
@@ -64,17 +62,17 @@ document.addEventListener('DOMContentLoaded', function (e) {
    * Calculates the force on a vertex towards the center of the global object
    */
   var calculateGravityForce = function (v) {
-    var globalCenter, dist, f, fx, fy;
-    dist = util.distance(v.getPosition(), APP.theObject.center);
+    var r, f, fx, fy;
+    r = APP.theObject.center.sub(v.getPosition());
     if (v.shape === 'circle') {
-      f = gravityForce(dist.abs, v.dimension);
+      f = gravityForce(r.abs(), v.dimension);
     }
     else {
       var dim = v.dimension.x + v.dimension.y / 4 
-      f = gravityForce(dist.abs, dim);
+      f = gravityForce(r.abs(), dim);
     }
-    fx = (dist.ui * f);
-    fy = (dist.uj * f); 
+    fx = (r.normalize().x * f);
+    fy = (r.normalize().y * f); 
     return APP.vector2D(fx, fy);
   };
 

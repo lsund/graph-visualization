@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     
     that.contains = function (vec) {
       if (that.shape === 'circle') {
-        return util.distance(vec, secret.position).abs < that.dimension;
+        return secret.position.sub(vec).abs() < that.dimension;
       }
       else {
         var dx = secret.position.x + that.dimension.x - vec.x;

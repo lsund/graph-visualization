@@ -58,6 +58,10 @@ APP.vector2D = function (x, y) {
     return that.x === 0 && that.y === 0;
   }
 
+  that.equal = function (vec) {
+    return that.x === vec.x && that.y === vec.y;
+  }
+
   return that;
 
 }
