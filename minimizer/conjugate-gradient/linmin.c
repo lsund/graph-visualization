@@ -1,3 +1,16 @@
+/*****************************************************************************
+
+* Author : Ludvig Sundström
+
+* File Name : linmin2.c
+
+* Purpose : 
+
+* Creation Date : 25-06-2015
+
+* Last Modified : 
+
+*****************************************************************************/
 
 #include "nrutil.h"   
 #define TOL 2.0e-4 //Tolerance passed to brent.   
@@ -5,11 +18,11 @@ int ncom; //Global variables communicate with f1dim.
 float *pcom,*xicom,(*nrfunc)(float []);   
 
 /*  Given an n-dimensional point p[1..n] and an n-dimensional direction
-xi[1..n], moves and  resets p to where the function func(p) takes on a
-minimum along the direction xi from p,  and replaces xi by the actual
-vector displacement that p was moved. Also returns as fret  the value
+xi[1..n], moves and resets p to where the function func(p) takes on a
+minimum along the direction xi from p, and replaces xi by the actual
+vector displacement that p was moved. Also returns as fret the value
 of func at the returned location p. This is actually all accomplished
-by calling the  routines mnbrak and brent.  
+by calling the routines mnbrak and brent.  
 */   
 void linmin(float p[], float xi[], int n, float *fret, float (*func)(float []))   
 {   

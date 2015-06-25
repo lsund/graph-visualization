@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.OBJECT = window.OBJECT || {};
   window.DATA = window.DATA || {};
   
-  var dmat = DATA.dmat1;
-  var vopts = DATA.vopts1;
-
+  var dmat = DATA.dmat0;
+  var vopts = DATA.vopts0;
 
   OBJECT.head = APP.head({});
   OBJECT.body = APP.body({});
@@ -79,16 +78,20 @@ document.addEventListener('DOMContentLoaded', function (e) {
     dataHeap2.set(new Uint8Array(data2.buffer));
     // Call function and get result
     minimize(dataHeap.byteOffset, dataHeap2.byteOffset, data.length);
-    //var result = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, 
-      //data.length);
-    //var result2 = new Float32Array(dataHeap2.buffer, dataHeap2.byteOffset, 
-      //data2.length);
+    var result = new Float32Array(dataHeap.buffer, dataHeap.byteOffset, 
+      data.length);
 
     // Free memory
-    Module._free(dataHeap.byteOffset);
-    
+    return result; 
     // ------------------------------------------------------------------------
   };
+  
+  APP.draw();
+  var result = APP.testMinimize();
+  OBJECT.body.setVerticePositions(result);
+  console.log(OBJECT.body.verticePositions());
+  //APP.draw();
+  //Module._free(dataHeap.byteOffset);
 
 });
 

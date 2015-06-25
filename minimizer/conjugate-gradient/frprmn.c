@@ -1,4 +1,19 @@
+/*****************************************************************************
+
+* Author : Ludvig Sundström
+
+* File Name : frprmn2.c
+
+* Purpose : 
+
+* Creation Date : 25-06-2015
+
+* Last Modified : 
+
+*****************************************************************************/
+
 #include <math.h>
+#include <stdio.h>
 
 #define ITMAX 200
 #define EPS 1.0e-10
@@ -24,9 +39,18 @@ int n, *iter;
     xi[j] = h[j] = g[j];
   }
   for (its = 1; its <= ITMAX; its++) {
+    for (j = 1; j <= n; j++) {
+      printf("%f ,", p[j]);
+    }
+    printf("\n");
+    for (j = 1; j <= n; j++) {
+      printf("%f ,", xi[j]);
+    }
+    printf("\n");
     *iter = its;
     linmin(p, xi, n, fret, func);
     if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
+      printf("%f\n", fp);
       FREEALL
       return;
     }

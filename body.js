@@ -58,13 +58,21 @@ document.addEventListener('DOMContentLoaded', function (e) {
       } 
       return rtn;
     };
+    
+    that.setVerticePositions = function (vec) {
+      var i, vec;
+      for (i = 0; i < vertices.length; i++) {
+        var cpos = APP.vector2D(vec[i * 2], vec[i * 2 + 1]);
+        vertices[i].setPosition(cpos); 
+      } 
+    };
 
     that.getVertices   = function () { return vertices; }
     that.getBonds      = function () { return bonds; }
     that.getRestraints = function () { return restraints; }
 
     return that;
-  }
+  };
 
 });
 
