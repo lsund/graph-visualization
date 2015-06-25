@@ -2,9 +2,9 @@
 
 * Author : Ludvig Sundström
 
-* File Name : index.js
+* File Name : animation.js
 
-* Purpose : Main   
+* Purpose : Animation   
 
 * Creation Date : 17-06-2015
 
@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.OBJECT = window.OBJECT || {};
   window.PENCIL = window.PENCIL || {};
 
-  APP.ANIMATION_TICK = 1000;
-  var ENERGY_TRESHOLD = 0;
+  APP.ANIMATION_TICK = 100;
 
   // Animation ----------------------------------------------------------------
   
@@ -35,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
     var vs = OBJECT.body.getVertices();
     var s = document.getElementById('statusText');
     refreshIntervalID = setInterval(function () {
-      console.log(OBJECT.body.verticePositions());
       PENCIL.ctx.clearRect(0, 0, canvas.width, canvas.height);
       OBJECT.body.getVertices().forEach(function (v) {
         if (!v.fixed) v.move();
@@ -52,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
         var v = vs[i];  
         v.accelerate();
       }
+      APP.testMinimize();
     }, APP.ANIMATION_TICK);
   }
   

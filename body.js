@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
       var i, vec, rtn = [];
       for (i = 0; i < vertices.length; i++) {
         vec = vertices[i].getPosition();
-        rtn.push({ x: vec.x, y: vec.y });
+        rtn.push(vec.x);
+        rtn.push(vec.y);
       } 
       return rtn;
     };
