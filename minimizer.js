@@ -1560,11 +1560,11 @@ var ASM_CONSTS = [];
 
 STATIC_BASE = 8;
 
-STATICTOP = STATIC_BASE + 992;
+STATICTOP = STATIC_BASE + 800;
   /* global initializers */  __ATINIT__.push();
   
 
-/* memory initializer */ allocate([78,117,109,101,114,105,99,97,108,32,82,101,99,105,112,101,115,32,114,117,110,45,116,105,109,101,32,101,114,114,111,114,46,46,46,10,0,0,0,0,37,115,10,0,0,0,0,0,46,46,46,110,111,119,32,101,120,105,116,105,110,103,32,116,111,32,115,121,115,116,101,109,46,46,46,10,0,0,0,0,97,108,108,111,99,97,116,105,111,110,32,102,97,105,108,117,114,101,32,105,110,32,118,101,99,116,111,114,40,41,0,0,84,111,111,32,109,97,110,121,32,105,116,101,114,97,116,105,111,110,115,32,105,110,32,98,114,101,110,116,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,37,102,32,44,0,0,0,0,32,102,97,98,115,40,42,102,114,101,116,32,45,102,112,41,58,32,37,102,10,0,0,0,32,102,116,111,108,32,37,102,10,0,0,0,0,0,0,0,32,50,32,42,32,102,97,98,115,40,42,102,114,101,116,32,45,102,112,41,58,32,37,102,10,0,0,0,0,0,0,0,32,102,116,111,108,32,42,40,102,97,98,115,40,42,102,114,101,116,41,43,102,97,98,115,40,102,112,41,43,69,80,83,41,32,37,102,10,0,0,0,42,102,114,101,116,58,32,37,102,10,0,0,0,0,0,0,102,112,58,32,37,102,10,0,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,95,10,0,84,111,111,32,109,97,110,121,32,105,116,101,114,97,116,105,111,110,115,32,105,110,32,70,82,80,82,77,78,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,99,112,105,58,32,37,100,44,32,99,112,106,58,32,37,100,10,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,77,105,110,58,0,0,0,0,37,102,10,0,0,0,0,0,105,116,101,114,97,116,105,111,110,115,58,32,37,100,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE);
+/* memory initializer */ allocate([78,117,109,101,114,105,99,97,108,32,82,101,99,105,112,101,115,32,114,117,110,45,116,105,109,101,32,101,114,114,111,114,46,46,46,10,0,0,0,0,37,115,10,0,0,0,0,0,46,46,46,110,111,119,32,101,120,105,116,105,110,103,32,116,111,32,115,121,115,116,101,109,46,46,46,10,0,0,0,0,97,108,108,111,99,97,116,105,111,110,32,102,97,105,108,117,114,101,32,105,110,32,118,101,99,116,111,114,40,41,0,0,84,111,111,32,109,97,110,121,32,105,116,101,114,97,116,105,111,110,115,32,105,110,32,98,114,101,110,116,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,84,111,111,32,109,97,110,121,32,105,116,101,114,97,116,105,111,110,115,32,105,110,32,70,82,80,82,77,78,0,0,0,1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,0,0,0,77,105,110,58,0,0,0,0,37,102,10,0,0,0,0,0,105,116,101,114,97,116,105,111,110,115,58,32,37,100,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE);
 
 
 
@@ -7566,32 +7566,17 @@ function _frprmn($p,$n,$0,$iter,$fret,$func,$dfunc) {
  $fret = $fret|0;
  $func = $func|0;
  $dfunc = $dfunc|0;
- var $1 = 0, $10 = 0, $100 = 0.0, $101 = 0.0, $102 = 0.0, $103 = 0.0, $104 = 0, $105 = 0.0, $106 = 0.0, $107 = 0.0, $108 = 0.0, $109 = 0.0, $11 = 0, $110 = 0.0, $111 = 0.0, $112 = 0.0, $113 = 0, $114 = 0.0, $115 = 0.0, $116 = 0.0;
- var $117 = 0.0, $118 = 0.0, $119 = 0.0, $12 = 0, $120 = 0.0, $121 = 0.0, $122 = 0.0, $123 = 0, $124 = 0.0, $125 = 0.0, $126 = 0, $127 = 0, $128 = 0, $129 = 0, $13 = 0, $130 = 0, $131 = 0, $132 = 0, $133 = 0, $134 = 0.0;
- var $135 = 0, $136 = 0, $137 = 0, $138 = 0, $139 = 0, $14 = 0, $140 = 0, $141 = 0, $142 = 0, $143 = 0, $144 = 0.0, $145 = 0, $146 = 0, $147 = 0, $148 = 0.0, $149 = 0.0, $15 = 0, $150 = 0.0, $151 = 0.0, $152 = 0;
- var $153 = 0, $154 = 0, $155 = 0.0, $156 = 0, $157 = 0, $158 = 0, $159 = 0.0, $16 = 0.0, $160 = 0.0, $161 = 0, $162 = 0, $163 = 0, $164 = 0.0, $165 = 0.0, $166 = 0.0, $167 = 0.0, $168 = 0, $169 = 0, $17 = 0, $170 = 0.0;
- var $171 = 0.0, $172 = 0, $173 = 0, $174 = 0, $175 = 0, $176 = 0, $177 = 0, $178 = 0, $179 = 0.0, $18 = 0, $180 = 0.0, $181 = 0.0, $182 = 0, $183 = 0, $184 = 0, $185 = 0, $186 = 0, $187 = 0, $188 = 0.0, $189 = 0.0;
- var $19 = 0, $190 = 0, $191 = 0, $192 = 0, $193 = 0, $194 = 0, $195 = 0, $196 = 0.0, $197 = 0.0, $198 = 0, $199 = 0, $2 = 0, $20 = 0, $200 = 0, $201 = 0.0, $202 = 0.0, $203 = 0.0, $204 = 0, $205 = 0, $206 = 0;
- var $207 = 0, $208 = 0, $209 = 0, $21 = 0, $210 = 0, $211 = 0, $212 = 0, $213 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0.0, $27 = 0.0, $28 = 0, $29 = 0, $3 = 0.0, $30 = 0, $31 = 0, $32 = 0;
- var $33 = 0, $34 = 0.0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0, $43 = 0, $44 = 0, $45 = 0, $46 = 0, $47 = 0, $48 = 0, $49 = 0, $5 = 0, $50 = 0;
- var $51 = 0.0, $52 = 0.0, $53 = 0, $54 = 0, $55 = 0, $56 = 0, $57 = 0, $58 = 0, $59 = 0, $6 = 0, $60 = 0, $61 = 0.0, $62 = 0.0, $63 = 0, $64 = 0, $65 = 0, $66 = 0, $67 = 0, $68 = 0, $69 = 0;
- var $7 = 0, $70 = 0, $71 = 0, $72 = 0, $73 = 0.0, $74 = 0.0, $75 = 0.0, $76 = 0.0, $77 = 0.0, $78 = 0.0, $79 = 0.0, $8 = 0, $80 = 0, $81 = 0.0, $82 = 0.0, $83 = 0.0, $84 = 0.0, $85 = 0.0, $86 = 0.0, $87 = 0.0;
- var $88 = 0.0, $89 = 0, $9 = 0, $90 = 0.0, $91 = 0.0, $92 = 0.0, $93 = 0.0, $94 = 0.0, $95 = 0.0, $96 = 0.0, $97 = 0.0, $98 = 0.0, $99 = 0, $dgg = 0.0, $fp = 0.0, $ftol = 0.0, $g = 0, $gam = 0.0, $gg = 0.0, $h = 0;
- var $its = 0, $j = 0, $vararg_buffer = 0, $vararg_buffer1 = 0, $vararg_buffer11 = 0, $vararg_buffer14 = 0, $vararg_buffer17 = 0, $vararg_buffer20 = 0, $vararg_buffer23 = 0, $vararg_buffer26 = 0, $vararg_buffer28 = 0, $vararg_buffer3 = 0, $vararg_buffer6 = 0, $vararg_buffer8 = 0, $xi = 0, label = 0, sp = 0;
+ var $1 = 0, $10 = 0, $100 = 0, $101 = 0.0, $102 = 0, $103 = 0, $104 = 0, $105 = 0.0, $106 = 0.0, $107 = 0, $108 = 0, $109 = 0, $11 = 0, $110 = 0.0, $111 = 0.0, $112 = 0.0, $113 = 0.0, $114 = 0, $115 = 0, $116 = 0.0;
+ var $117 = 0.0, $118 = 0, $119 = 0, $12 = 0, $120 = 0, $121 = 0, $122 = 0, $123 = 0, $124 = 0, $125 = 0.0, $126 = 0.0, $127 = 0.0, $128 = 0, $129 = 0, $13 = 0, $130 = 0, $131 = 0, $132 = 0, $133 = 0, $134 = 0.0;
+ var $135 = 0.0, $136 = 0, $137 = 0, $138 = 0, $139 = 0, $14 = 0, $140 = 0, $141 = 0, $142 = 0.0, $143 = 0.0, $144 = 0, $145 = 0, $146 = 0, $147 = 0.0, $148 = 0.0, $149 = 0.0, $15 = 0, $150 = 0, $151 = 0, $152 = 0;
+ var $153 = 0, $154 = 0, $155 = 0, $156 = 0, $157 = 0, $158 = 0, $159 = 0, $16 = 0.0, $17 = 0, $18 = 0, $19 = 0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0.0, $27 = 0.0;
+ var $28 = 0, $29 = 0, $3 = 0.0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0.0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0, $43 = 0, $44 = 0, $45 = 0;
+ var $46 = 0, $47 = 0, $48 = 0, $49 = 0, $5 = 0, $50 = 0, $51 = 0, $52 = 0, $53 = 0.0, $54 = 0.0, $55 = 0.0, $56 = 0.0, $57 = 0.0, $58 = 0.0, $59 = 0.0, $6 = 0, $60 = 0.0, $61 = 0, $62 = 0.0, $63 = 0.0;
+ var $64 = 0.0, $65 = 0.0, $66 = 0.0, $67 = 0.0, $68 = 0.0, $69 = 0.0, $7 = 0, $70 = 0.0, $71 = 0, $72 = 0, $73 = 0, $74 = 0, $75 = 0, $76 = 0, $77 = 0, $78 = 0, $79 = 0, $8 = 0, $80 = 0.0, $81 = 0;
+ var $82 = 0, $83 = 0, $84 = 0, $85 = 0, $86 = 0, $87 = 0, $88 = 0, $89 = 0, $9 = 0, $90 = 0.0, $91 = 0, $92 = 0, $93 = 0, $94 = 0.0, $95 = 0.0, $96 = 0.0, $97 = 0.0, $98 = 0, $99 = 0, $dgg = 0.0;
+ var $fp = 0.0, $ftol = 0.0, $g = 0, $gam = 0.0, $gg = 0.0, $h = 0, $its = 0, $j = 0, $xi = 0, label = 0, sp = 0;
  sp = STACKTOP;
- STACKTOP = STACKTOP + 160|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
- $vararg_buffer28 = sp + 88|0;
- $vararg_buffer26 = sp + 80|0;
- $vararg_buffer23 = sp + 72|0;
- $vararg_buffer20 = sp + 64|0;
- $vararg_buffer17 = sp + 56|0;
- $vararg_buffer14 = sp + 48|0;
- $vararg_buffer11 = sp + 40|0;
- $vararg_buffer8 = sp + 32|0;
- $vararg_buffer6 = sp + 24|0;
- $vararg_buffer3 = sp + 16|0;
- $vararg_buffer1 = sp + 8|0;
- $vararg_buffer = sp;
+ STACKTOP = STACKTOP + 64|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
  $ftol = $0;
  $1 = $p;
  $2 = $n;
@@ -7655,718 +7640,176 @@ function _frprmn($p,$n,$0,$iter,$fret,$func,$dfunc) {
   $43 = $its; //@line 41 "frprmn.c"
   $44 = ($43|0)<=(200); //@line 41 "frprmn.c"
   if (!($44)) {
-   label = 23;
+   label = 17;
    break;
   }
-  $j = 1; //@line 42 "frprmn.c"
+  $45 = $its; //@line 42 "frprmn.c"
+  $46 = $4; //@line 42 "frprmn.c"
+  HEAP32[$46>>2] = $45; //@line 42 "frprmn.c"
+  $47 = $1; //@line 43 "frprmn.c"
+  $48 = $xi; //@line 43 "frprmn.c"
+  $49 = $2; //@line 43 "frprmn.c"
+  $50 = $5; //@line 43 "frprmn.c"
+  $51 = $6; //@line 43 "frprmn.c"
+  _linmin($47,$48,$49,$50,$51); //@line 43 "frprmn.c"
+  $52 = $5; //@line 44 "frprmn.c"
+  $53 = +HEAPF32[$52>>2]; //@line 44 "frprmn.c"
+  $54 = $fp; //@line 44 "frprmn.c"
+  $55 = $53 - $54; //@line 44 "frprmn.c"
+  $56 = $55; //@line 44 "frprmn.c"
+  $57 = (+Math_abs((+$56))); //@line 44 "frprmn.c"
+  $58 = 2.0 * $57; //@line 44 "frprmn.c"
+  $59 = $3; //@line 44 "frprmn.c"
+  $60 = $59; //@line 44 "frprmn.c"
+  $61 = $5; //@line 44 "frprmn.c"
+  $62 = +HEAPF32[$61>>2]; //@line 44 "frprmn.c"
+  $63 = $62; //@line 44 "frprmn.c"
+  $64 = (+Math_abs((+$63))); //@line 44 "frprmn.c"
+  $65 = $fp; //@line 44 "frprmn.c"
+  $66 = $65; //@line 44 "frprmn.c"
+  $67 = (+Math_abs((+$66))); //@line 44 "frprmn.c"
+  $68 = $64 + $67; //@line 44 "frprmn.c"
+  $69 = $68 + 1.0E-10; //@line 44 "frprmn.c"
+  $70 = $60 * $69; //@line 44 "frprmn.c"
+  $71 = $58 <= $70; //@line 44 "frprmn.c"
+  if ($71) {
+   label = 7;
+   break;
+  }
+  $78 = $6; //@line 48 "frprmn.c"
+  $79 = $1; //@line 48 "frprmn.c"
+  $80 = (+FUNCTION_TABLE_di[$78 & 1]($79)); //@line 48 "frprmn.c"
+  $fp = $80; //@line 48 "frprmn.c"
+  $81 = $7; //@line 49 "frprmn.c"
+  $82 = $1; //@line 49 "frprmn.c"
+  $83 = $xi; //@line 49 "frprmn.c"
+  FUNCTION_TABLE_vii[$81 & 3]($82,$83); //@line 49 "frprmn.c"
+  $gg = 0.0; //@line 50 "frprmn.c"
+  $dgg = 0.0; //@line 50 "frprmn.c"
+  $j = 1; //@line 51 "frprmn.c"
   while(1) {
-   $45 = $j; //@line 42 "frprmn.c"
-   $46 = $2; //@line 42 "frprmn.c"
-   $47 = ($45|0)<=($46|0); //@line 42 "frprmn.c"
-   if (!($47)) {
+   $84 = $j; //@line 51 "frprmn.c"
+   $85 = $2; //@line 51 "frprmn.c"
+   $86 = ($84|0)<=($85|0); //@line 51 "frprmn.c"
+   if (!($86)) {
     break;
    }
-   $48 = $j; //@line 43 "frprmn.c"
-   $49 = $1; //@line 43 "frprmn.c"
-   $50 = (($49) + ($48<<2)|0); //@line 43 "frprmn.c"
-   $51 = +HEAPF32[$50>>2]; //@line 43 "frprmn.c"
-   $52 = $51; //@line 43 "frprmn.c"
-   HEAPF64[$vararg_buffer>>3] = $52; //@line 43 "frprmn.c"
-   (_printf((184|0),($vararg_buffer|0))|0); //@line 43 "frprmn.c"
-   $53 = $j; //@line 42 "frprmn.c"
-   $54 = (($53) + 1)|0; //@line 42 "frprmn.c"
-   $j = $54; //@line 42 "frprmn.c"
+   $87 = $j; //@line 52 "frprmn.c"
+   $88 = $g; //@line 52 "frprmn.c"
+   $89 = (($88) + ($87<<2)|0); //@line 52 "frprmn.c"
+   $90 = +HEAPF32[$89>>2]; //@line 52 "frprmn.c"
+   $91 = $j; //@line 52 "frprmn.c"
+   $92 = $g; //@line 52 "frprmn.c"
+   $93 = (($92) + ($91<<2)|0); //@line 52 "frprmn.c"
+   $94 = +HEAPF32[$93>>2]; //@line 52 "frprmn.c"
+   $95 = $90 * $94; //@line 52 "frprmn.c"
+   $96 = $gg; //@line 52 "frprmn.c"
+   $97 = $96 + $95; //@line 52 "frprmn.c"
+   $gg = $97; //@line 52 "frprmn.c"
+   $98 = $j; //@line 54 "frprmn.c"
+   $99 = $xi; //@line 54 "frprmn.c"
+   $100 = (($99) + ($98<<2)|0); //@line 54 "frprmn.c"
+   $101 = +HEAPF32[$100>>2]; //@line 54 "frprmn.c"
+   $102 = $j; //@line 54 "frprmn.c"
+   $103 = $g; //@line 54 "frprmn.c"
+   $104 = (($103) + ($102<<2)|0); //@line 54 "frprmn.c"
+   $105 = +HEAPF32[$104>>2]; //@line 54 "frprmn.c"
+   $106 = $101 + $105; //@line 54 "frprmn.c"
+   $107 = $j; //@line 54 "frprmn.c"
+   $108 = $xi; //@line 54 "frprmn.c"
+   $109 = (($108) + ($107<<2)|0); //@line 54 "frprmn.c"
+   $110 = +HEAPF32[$109>>2]; //@line 54 "frprmn.c"
+   $111 = $106 * $110; //@line 54 "frprmn.c"
+   $112 = $dgg; //@line 54 "frprmn.c"
+   $113 = $112 + $111; //@line 54 "frprmn.c"
+   $dgg = $113; //@line 54 "frprmn.c"
+   $114 = $j; //@line 51 "frprmn.c"
+   $115 = (($114) + 1)|0; //@line 51 "frprmn.c"
+   $j = $115; //@line 51 "frprmn.c"
   }
-  (_printf((456|0),($vararg_buffer1|0))|0); //@line 45 "frprmn.c"
-  $j = 1; //@line 46 "frprmn.c"
+  $116 = $gg; //@line 56 "frprmn.c"
+  $117 = $116; //@line 56 "frprmn.c"
+  $118 = $117 == 0.0; //@line 56 "frprmn.c"
+  if ($118) {
+   label = 12;
+   break;
+  }
+  $125 = $dgg; //@line 60 "frprmn.c"
+  $126 = $gg; //@line 60 "frprmn.c"
+  $127 = $125 / $126; //@line 60 "frprmn.c"
+  $gam = $127; //@line 60 "frprmn.c"
+  $j = 1; //@line 61 "frprmn.c"
   while(1) {
-   $55 = $j; //@line 46 "frprmn.c"
-   $56 = $2; //@line 46 "frprmn.c"
-   $57 = ($55|0)<=($56|0); //@line 46 "frprmn.c"
-   if (!($57)) {
+   $128 = $j; //@line 61 "frprmn.c"
+   $129 = $2; //@line 61 "frprmn.c"
+   $130 = ($128|0)<=($129|0); //@line 61 "frprmn.c"
+   if (!($130)) {
     break;
    }
-   $58 = $j; //@line 47 "frprmn.c"
-   $59 = $xi; //@line 47 "frprmn.c"
-   $60 = (($59) + ($58<<2)|0); //@line 47 "frprmn.c"
-   $61 = +HEAPF32[$60>>2]; //@line 47 "frprmn.c"
-   $62 = $61; //@line 47 "frprmn.c"
-   HEAPF64[$vararg_buffer3>>3] = $62; //@line 47 "frprmn.c"
-   (_printf((184|0),($vararg_buffer3|0))|0); //@line 47 "frprmn.c"
-   $63 = $j; //@line 46 "frprmn.c"
-   $64 = (($63) + 1)|0; //@line 46 "frprmn.c"
-   $j = $64; //@line 46 "frprmn.c"
+   $131 = $j; //@line 62 "frprmn.c"
+   $132 = $xi; //@line 62 "frprmn.c"
+   $133 = (($132) + ($131<<2)|0); //@line 62 "frprmn.c"
+   $134 = +HEAPF32[$133>>2]; //@line 62 "frprmn.c"
+   $135 = -$134; //@line 62 "frprmn.c"
+   $136 = $j; //@line 62 "frprmn.c"
+   $137 = $g; //@line 62 "frprmn.c"
+   $138 = (($137) + ($136<<2)|0); //@line 62 "frprmn.c"
+   HEAPF32[$138>>2] = $135; //@line 62 "frprmn.c"
+   $139 = $j; //@line 63 "frprmn.c"
+   $140 = $g; //@line 63 "frprmn.c"
+   $141 = (($140) + ($139<<2)|0); //@line 63 "frprmn.c"
+   $142 = +HEAPF32[$141>>2]; //@line 63 "frprmn.c"
+   $143 = $gam; //@line 63 "frprmn.c"
+   $144 = $j; //@line 63 "frprmn.c"
+   $145 = $h; //@line 63 "frprmn.c"
+   $146 = (($145) + ($144<<2)|0); //@line 63 "frprmn.c"
+   $147 = +HEAPF32[$146>>2]; //@line 63 "frprmn.c"
+   $148 = $143 * $147; //@line 63 "frprmn.c"
+   $149 = $142 + $148; //@line 63 "frprmn.c"
+   $150 = $j; //@line 63 "frprmn.c"
+   $151 = $h; //@line 63 "frprmn.c"
+   $152 = (($151) + ($150<<2)|0); //@line 63 "frprmn.c"
+   HEAPF32[$152>>2] = $149; //@line 63 "frprmn.c"
+   $153 = $j; //@line 63 "frprmn.c"
+   $154 = $xi; //@line 63 "frprmn.c"
+   $155 = (($154) + ($153<<2)|0); //@line 63 "frprmn.c"
+   HEAPF32[$155>>2] = $149; //@line 63 "frprmn.c"
+   $156 = $j; //@line 61 "frprmn.c"
+   $157 = (($156) + 1)|0; //@line 61 "frprmn.c"
+   $j = $157; //@line 61 "frprmn.c"
   }
-  (_printf((456|0),($vararg_buffer6|0))|0); //@line 49 "frprmn.c"
-  $65 = $its; //@line 50 "frprmn.c"
-  $66 = $4; //@line 50 "frprmn.c"
-  HEAP32[$66>>2] = $65; //@line 50 "frprmn.c"
-  $67 = $1; //@line 51 "frprmn.c"
-  $68 = $xi; //@line 51 "frprmn.c"
-  $69 = $2; //@line 51 "frprmn.c"
-  $70 = $5; //@line 51 "frprmn.c"
-  $71 = $6; //@line 51 "frprmn.c"
-  _linmin($67,$68,$69,$70,$71); //@line 51 "frprmn.c"
-  $72 = $5; //@line 52 "frprmn.c"
-  $73 = +HEAPF32[$72>>2]; //@line 52 "frprmn.c"
-  $74 = $fp; //@line 52 "frprmn.c"
-  $75 = $73 - $74; //@line 52 "frprmn.c"
-  $76 = $75; //@line 52 "frprmn.c"
-  $77 = (+Math_abs((+$76))); //@line 52 "frprmn.c"
-  HEAPF64[$vararg_buffer8>>3] = $77; //@line 52 "frprmn.c"
-  (_printf((192|0),($vararg_buffer8|0))|0); //@line 52 "frprmn.c"
-  $78 = $3; //@line 53 "frprmn.c"
-  $79 = $78; //@line 53 "frprmn.c"
-  HEAPF64[$vararg_buffer11>>3] = $79; //@line 53 "frprmn.c"
-  (_printf((216|0),($vararg_buffer11|0))|0); //@line 53 "frprmn.c"
-  $80 = $5; //@line 54 "frprmn.c"
-  $81 = +HEAPF32[$80>>2]; //@line 54 "frprmn.c"
-  $82 = $fp; //@line 54 "frprmn.c"
-  $83 = $81 - $82; //@line 54 "frprmn.c"
-  $84 = $83; //@line 54 "frprmn.c"
-  $85 = (+Math_abs((+$84))); //@line 54 "frprmn.c"
-  $86 = 2.0 * $85; //@line 54 "frprmn.c"
-  HEAPF64[$vararg_buffer14>>3] = $86; //@line 54 "frprmn.c"
-  (_printf((232|0),($vararg_buffer14|0))|0); //@line 54 "frprmn.c"
-  $87 = $3; //@line 56 "frprmn.c"
-  $88 = $87; //@line 56 "frprmn.c"
-  $89 = $5; //@line 56 "frprmn.c"
-  $90 = +HEAPF32[$89>>2]; //@line 56 "frprmn.c"
-  $91 = $90; //@line 56 "frprmn.c"
-  $92 = (+Math_abs((+$91))); //@line 56 "frprmn.c"
-  $93 = $fp; //@line 56 "frprmn.c"
-  $94 = $93; //@line 56 "frprmn.c"
-  $95 = (+Math_abs((+$94))); //@line 56 "frprmn.c"
-  $96 = $92 + $95; //@line 56 "frprmn.c"
-  $97 = $96 + 1.0E-10; //@line 56 "frprmn.c"
-  $98 = $88 * $97; //@line 56 "frprmn.c"
-  HEAPF64[$vararg_buffer17>>3] = $98; //@line 55 "frprmn.c"
-  (_printf((264|0),($vararg_buffer17|0))|0); //@line 55 "frprmn.c"
-  $99 = $5; //@line 57 "frprmn.c"
-  $100 = +HEAPF32[$99>>2]; //@line 57 "frprmn.c"
-  $101 = $100; //@line 57 "frprmn.c"
-  HEAPF64[$vararg_buffer20>>3] = $101; //@line 57 "frprmn.c"
-  (_printf((304|0),($vararg_buffer20|0))|0); //@line 57 "frprmn.c"
-  $102 = $fp; //@line 58 "frprmn.c"
-  $103 = $102; //@line 58 "frprmn.c"
-  HEAPF64[$vararg_buffer23>>3] = $103; //@line 58 "frprmn.c"
-  (_printf((320|0),($vararg_buffer23|0))|0); //@line 58 "frprmn.c"
-  (_printf((328|0),($vararg_buffer26|0))|0); //@line 59 "frprmn.c"
-  $104 = $5; //@line 60 "frprmn.c"
-  $105 = +HEAPF32[$104>>2]; //@line 60 "frprmn.c"
-  $106 = $fp; //@line 60 "frprmn.c"
-  $107 = $105 - $106; //@line 60 "frprmn.c"
-  $108 = $107; //@line 60 "frprmn.c"
-  $109 = (+Math_abs((+$108))); //@line 60 "frprmn.c"
-  $110 = 2.0 * $109; //@line 60 "frprmn.c"
-  $111 = $3; //@line 60 "frprmn.c"
-  $112 = $111; //@line 60 "frprmn.c"
-  $113 = $5; //@line 60 "frprmn.c"
-  $114 = +HEAPF32[$113>>2]; //@line 60 "frprmn.c"
-  $115 = $114; //@line 60 "frprmn.c"
-  $116 = (+Math_abs((+$115))); //@line 60 "frprmn.c"
-  $117 = $fp; //@line 60 "frprmn.c"
-  $118 = $117; //@line 60 "frprmn.c"
-  $119 = (+Math_abs((+$118))); //@line 60 "frprmn.c"
-  $120 = $116 + $119; //@line 60 "frprmn.c"
-  $121 = $120 + 1.0E-10; //@line 60 "frprmn.c"
-  $122 = $112 * $121; //@line 60 "frprmn.c"
-  $123 = $110 <= $122; //@line 60 "frprmn.c"
-  if ($123) {
-   label = 13;
-   break;
-  }
-  $132 = $6; //@line 65 "frprmn.c"
-  $133 = $1; //@line 65 "frprmn.c"
-  $134 = (+FUNCTION_TABLE_di[$132 & 1]($133)); //@line 65 "frprmn.c"
-  $fp = $134; //@line 65 "frprmn.c"
-  $135 = $7; //@line 66 "frprmn.c"
-  $136 = $1; //@line 66 "frprmn.c"
-  $137 = $xi; //@line 66 "frprmn.c"
-  FUNCTION_TABLE_vii[$135 & 3]($136,$137); //@line 66 "frprmn.c"
-  $gg = 0.0; //@line 67 "frprmn.c"
-  $dgg = 0.0; //@line 67 "frprmn.c"
-  $j = 1; //@line 68 "frprmn.c"
-  while(1) {
-   $138 = $j; //@line 68 "frprmn.c"
-   $139 = $2; //@line 68 "frprmn.c"
-   $140 = ($138|0)<=($139|0); //@line 68 "frprmn.c"
-   if (!($140)) {
-    break;
-   }
-   $141 = $j; //@line 69 "frprmn.c"
-   $142 = $g; //@line 69 "frprmn.c"
-   $143 = (($142) + ($141<<2)|0); //@line 69 "frprmn.c"
-   $144 = +HEAPF32[$143>>2]; //@line 69 "frprmn.c"
-   $145 = $j; //@line 69 "frprmn.c"
-   $146 = $g; //@line 69 "frprmn.c"
-   $147 = (($146) + ($145<<2)|0); //@line 69 "frprmn.c"
-   $148 = +HEAPF32[$147>>2]; //@line 69 "frprmn.c"
-   $149 = $144 * $148; //@line 69 "frprmn.c"
-   $150 = $gg; //@line 69 "frprmn.c"
-   $151 = $150 + $149; //@line 69 "frprmn.c"
-   $gg = $151; //@line 69 "frprmn.c"
-   $152 = $j; //@line 71 "frprmn.c"
-   $153 = $xi; //@line 71 "frprmn.c"
-   $154 = (($153) + ($152<<2)|0); //@line 71 "frprmn.c"
-   $155 = +HEAPF32[$154>>2]; //@line 71 "frprmn.c"
-   $156 = $j; //@line 71 "frprmn.c"
-   $157 = $g; //@line 71 "frprmn.c"
-   $158 = (($157) + ($156<<2)|0); //@line 71 "frprmn.c"
-   $159 = +HEAPF32[$158>>2]; //@line 71 "frprmn.c"
-   $160 = $155 + $159; //@line 71 "frprmn.c"
-   $161 = $j; //@line 71 "frprmn.c"
-   $162 = $xi; //@line 71 "frprmn.c"
-   $163 = (($162) + ($161<<2)|0); //@line 71 "frprmn.c"
-   $164 = +HEAPF32[$163>>2]; //@line 71 "frprmn.c"
-   $165 = $160 * $164; //@line 71 "frprmn.c"
-   $166 = $dgg; //@line 71 "frprmn.c"
-   $167 = $166 + $165; //@line 71 "frprmn.c"
-   $dgg = $167; //@line 71 "frprmn.c"
-   $168 = $j; //@line 68 "frprmn.c"
-   $169 = (($168) + 1)|0; //@line 68 "frprmn.c"
-   $j = $169; //@line 68 "frprmn.c"
-  }
-  $170 = $gg; //@line 73 "frprmn.c"
-  $171 = $170; //@line 73 "frprmn.c"
-  $172 = $171 == 0.0; //@line 73 "frprmn.c"
-  if ($172) {
-   label = 18;
-   break;
-  }
-  $179 = $dgg; //@line 77 "frprmn.c"
-  $180 = $gg; //@line 77 "frprmn.c"
-  $181 = $179 / $180; //@line 77 "frprmn.c"
-  $gam = $181; //@line 77 "frprmn.c"
-  $j = 1; //@line 78 "frprmn.c"
-  while(1) {
-   $182 = $j; //@line 78 "frprmn.c"
-   $183 = $2; //@line 78 "frprmn.c"
-   $184 = ($182|0)<=($183|0); //@line 78 "frprmn.c"
-   if (!($184)) {
-    break;
-   }
-   $185 = $j; //@line 79 "frprmn.c"
-   $186 = $xi; //@line 79 "frprmn.c"
-   $187 = (($186) + ($185<<2)|0); //@line 79 "frprmn.c"
-   $188 = +HEAPF32[$187>>2]; //@line 79 "frprmn.c"
-   $189 = -$188; //@line 79 "frprmn.c"
-   $190 = $j; //@line 79 "frprmn.c"
-   $191 = $g; //@line 79 "frprmn.c"
-   $192 = (($191) + ($190<<2)|0); //@line 79 "frprmn.c"
-   HEAPF32[$192>>2] = $189; //@line 79 "frprmn.c"
-   $193 = $j; //@line 80 "frprmn.c"
-   $194 = $g; //@line 80 "frprmn.c"
-   $195 = (($194) + ($193<<2)|0); //@line 80 "frprmn.c"
-   $196 = +HEAPF32[$195>>2]; //@line 80 "frprmn.c"
-   $197 = $gam; //@line 80 "frprmn.c"
-   $198 = $j; //@line 80 "frprmn.c"
-   $199 = $h; //@line 80 "frprmn.c"
-   $200 = (($199) + ($198<<2)|0); //@line 80 "frprmn.c"
-   $201 = +HEAPF32[$200>>2]; //@line 80 "frprmn.c"
-   $202 = $197 * $201; //@line 80 "frprmn.c"
-   $203 = $196 + $202; //@line 80 "frprmn.c"
-   $204 = $j; //@line 80 "frprmn.c"
-   $205 = $h; //@line 80 "frprmn.c"
-   $206 = (($205) + ($204<<2)|0); //@line 80 "frprmn.c"
-   HEAPF32[$206>>2] = $203; //@line 80 "frprmn.c"
-   $207 = $j; //@line 80 "frprmn.c"
-   $208 = $xi; //@line 80 "frprmn.c"
-   $209 = (($208) + ($207<<2)|0); //@line 80 "frprmn.c"
-   HEAPF32[$209>>2] = $203; //@line 80 "frprmn.c"
-   $210 = $j; //@line 78 "frprmn.c"
-   $211 = (($210) + 1)|0; //@line 78 "frprmn.c"
-   $j = $211; //@line 78 "frprmn.c"
-  }
-  $212 = $its; //@line 41 "frprmn.c"
-  $213 = (($212) + 1)|0; //@line 41 "frprmn.c"
-  $its = $213; //@line 41 "frprmn.c"
+  $158 = $its; //@line 41 "frprmn.c"
+  $159 = (($158) + 1)|0; //@line 41 "frprmn.c"
+  $its = $159; //@line 41 "frprmn.c"
  }
- if ((label|0) == 13) {
-  $124 = $fp; //@line 61 "frprmn.c"
-  $125 = $124; //@line 61 "frprmn.c"
-  HEAPF64[$vararg_buffer28>>3] = $125; //@line 61 "frprmn.c"
-  (_printf((472|0),($vararg_buffer28|0))|0); //@line 61 "frprmn.c"
-  $126 = $xi; //@line 62 "frprmn.c"
-  $127 = $2; //@line 62 "frprmn.c"
-  _free_vector($126,1,$127); //@line 62 "frprmn.c"
-  $128 = $h; //@line 62 "frprmn.c"
-  $129 = $2; //@line 62 "frprmn.c"
-  _free_vector($128,1,$129); //@line 62 "frprmn.c"
-  $130 = $g; //@line 62 "frprmn.c"
-  $131 = $2; //@line 62 "frprmn.c"
-  _free_vector($130,1,$131); //@line 62 "frprmn.c"
-  STACKTOP = sp;return; //@line 84 "frprmn.c"
+ if ((label|0) == 7) {
+  $72 = $xi; //@line 45 "frprmn.c"
+  $73 = $2; //@line 45 "frprmn.c"
+  _free_vector($72,1,$73); //@line 45 "frprmn.c"
+  $74 = $h; //@line 45 "frprmn.c"
+  $75 = $2; //@line 45 "frprmn.c"
+  _free_vector($74,1,$75); //@line 45 "frprmn.c"
+  $76 = $g; //@line 45 "frprmn.c"
+  $77 = $2; //@line 45 "frprmn.c"
+  _free_vector($76,1,$77); //@line 45 "frprmn.c"
+  STACKTOP = sp;return; //@line 67 "frprmn.c"
  }
- else if ((label|0) == 18) {
-  $173 = $xi; //@line 74 "frprmn.c"
-  $174 = $2; //@line 74 "frprmn.c"
-  _free_vector($173,1,$174); //@line 74 "frprmn.c"
-  $175 = $h; //@line 74 "frprmn.c"
-  $176 = $2; //@line 74 "frprmn.c"
-  _free_vector($175,1,$176); //@line 74 "frprmn.c"
-  $177 = $g; //@line 74 "frprmn.c"
-  $178 = $2; //@line 74 "frprmn.c"
-  _free_vector($177,1,$178); //@line 74 "frprmn.c"
-  STACKTOP = sp;return; //@line 84 "frprmn.c"
+ else if ((label|0) == 12) {
+  $119 = $xi; //@line 57 "frprmn.c"
+  $120 = $2; //@line 57 "frprmn.c"
+  _free_vector($119,1,$120); //@line 57 "frprmn.c"
+  $121 = $h; //@line 57 "frprmn.c"
+  $122 = $2; //@line 57 "frprmn.c"
+  _free_vector($121,1,$122); //@line 57 "frprmn.c"
+  $123 = $g; //@line 57 "frprmn.c"
+  $124 = $2; //@line 57 "frprmn.c"
+  _free_vector($123,1,$124); //@line 57 "frprmn.c"
+  STACKTOP = sp;return; //@line 67 "frprmn.c"
  }
- else if ((label|0) == 23) {
-  _nrerror(368); //@line 83 "frprmn.c"
-  STACKTOP = sp;return; //@line 84 "frprmn.c"
+ else if ((label|0) == 17) {
+  _nrerror(184); //@line 66 "frprmn.c"
+  STACKTOP = sp;return; //@line 67 "frprmn.c"
  }
-}
-function _springEnergy($pi,$pj,$wij,$dij) {
- $pi = $pi|0;
- $pj = $pj|0;
- $wij = +$wij;
- $dij = +$dij;
- var $0 = 0.0, $1 = 0.0, $10 = 0.0, $11 = 0.0, $12 = 0.0, $13 = 0.0, $14 = 0.0, $15 = 0.0, $16 = 0.0, $17 = 0.0, $18 = 0.0, $19 = 0.0, $2 = 0.0, $20 = 0.0, $21 = 0.0, $22 = 0.0, $23 = 0, $24 = 0.0, $25 = 0.0, $26 = 0.0;
- var $27 = 0.0, $28 = 0.0, $29 = 0.0, $3 = 0.0, $30 = 0.0, $31 = 0.0, $4 = 0.0, $5 = 0, $6 = 0.0, $7 = 0, $8 = 0.0, $9 = 0.0, $dist = 0.0, $dx = 0.0, $dy = 0.0, label = 0, sp = 0;
- sp = STACKTOP;
- STACKTOP = STACKTOP + 32|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
- $0 = $wij;
- $1 = $dij;
- $2 = +HEAPF32[$pi>>2]; //@line 35 "minimizer.c"
- $3 = +HEAPF32[$pj>>2]; //@line 35 "minimizer.c"
- $4 = $2 - $3; //@line 35 "minimizer.c"
- $dx = $4; //@line 35 "minimizer.c"
- $5 = ((($pi)) + 4|0); //@line 36 "minimizer.c"
- $6 = +HEAPF32[$5>>2]; //@line 36 "minimizer.c"
- $7 = ((($pj)) + 4|0); //@line 36 "minimizer.c"
- $8 = +HEAPF32[$7>>2]; //@line 36 "minimizer.c"
- $9 = $6 - $8; //@line 36 "minimizer.c"
- $dy = $9; //@line 36 "minimizer.c"
- $10 = $dx; //@line 37 "minimizer.c"
- $11 = $dx; //@line 37 "minimizer.c"
- $12 = $10 * $11; //@line 37 "minimizer.c"
- $13 = $dy; //@line 37 "minimizer.c"
- $14 = $dy; //@line 37 "minimizer.c"
- $15 = $13 * $14; //@line 37 "minimizer.c"
- $16 = $12 + $15; //@line 37 "minimizer.c"
- $17 = $16; //@line 37 "minimizer.c"
- $18 = (+Math_sqrt((+$17))); //@line 37 "minimizer.c"
- $19 = $18; //@line 37 "minimizer.c"
- $dist = $19; //@line 37 "minimizer.c"
- $20 = $dist; //@line 38 "minimizer.c"
- $21 = $20; //@line 38 "minimizer.c"
- $22 = (+Math_abs((+$21))); //@line 38 "minimizer.c"
- $23 = $22 < 0.10000000000000001; //@line 38 "minimizer.c"
- if ($23) {
-  $dist = 1.0; //@line 39 "minimizer.c"
- }
- $24 = $0; //@line 41 "minimizer.c"
- $25 = $dist; //@line 41 "minimizer.c"
- $26 = $1; //@line 41 "minimizer.c"
- $27 = $25 - $26; //@line 41 "minimizer.c"
- $28 = $27; //@line 41 "minimizer.c"
- $29 = (+Math_pow((+$28),2.0)); //@line 41 "minimizer.c"
- $30 = $29; //@line 41 "minimizer.c"
- $31 = $24 * $30; //@line 41 "minimizer.c"
- STACKTOP = sp;return (+$31); //@line 41 "minimizer.c"
-}
-function _forceX($pi,$pj,$wij,$dij) {
- $pi = $pi|0;
- $pj = $pj|0;
- $wij = +$wij;
- $dij = +$dij;
- var $0 = 0.0, $1 = 0.0, $10 = 0.0, $11 = 0.0, $12 = 0.0, $13 = 0.0, $14 = 0.0, $15 = 0.0, $16 = 0.0, $17 = 0.0, $18 = 0.0, $19 = 0.0, $2 = 0.0, $20 = 0.0, $21 = 0.0, $22 = 0.0, $23 = 0, $24 = 0.0, $25 = 0.0, $26 = 0.0;
- var $27 = 0.0, $28 = 0.0, $29 = 0.0, $3 = 0.0, $30 = 0.0, $31 = 0.0, $32 = 0.0, $33 = 0.0, $4 = 0.0, $5 = 0, $6 = 0.0, $7 = 0, $8 = 0.0, $9 = 0.0, $dist = 0.0, $dx = 0.0, $dy = 0.0, label = 0, sp = 0;
- sp = STACKTOP;
- STACKTOP = STACKTOP + 32|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
- $0 = $wij;
- $1 = $dij;
- $2 = +HEAPF32[$pi>>2]; //@line 45 "minimizer.c"
- $3 = +HEAPF32[$pj>>2]; //@line 45 "minimizer.c"
- $4 = $2 - $3; //@line 45 "minimizer.c"
- $dx = $4; //@line 45 "minimizer.c"
- $5 = ((($pi)) + 4|0); //@line 46 "minimizer.c"
- $6 = +HEAPF32[$5>>2]; //@line 46 "minimizer.c"
- $7 = ((($pj)) + 4|0); //@line 46 "minimizer.c"
- $8 = +HEAPF32[$7>>2]; //@line 46 "minimizer.c"
- $9 = $6 - $8; //@line 46 "minimizer.c"
- $dy = $9; //@line 46 "minimizer.c"
- $10 = $dx; //@line 47 "minimizer.c"
- $11 = $dx; //@line 47 "minimizer.c"
- $12 = $10 * $11; //@line 47 "minimizer.c"
- $13 = $dy; //@line 47 "minimizer.c"
- $14 = $dy; //@line 47 "minimizer.c"
- $15 = $13 * $14; //@line 47 "minimizer.c"
- $16 = $12 + $15; //@line 47 "minimizer.c"
- $17 = $16; //@line 47 "minimizer.c"
- $18 = (+Math_sqrt((+$17))); //@line 47 "minimizer.c"
- $19 = $18; //@line 47 "minimizer.c"
- $dist = $19; //@line 47 "minimizer.c"
- $20 = $dist; //@line 48 "minimizer.c"
- $21 = $20; //@line 48 "minimizer.c"
- $22 = (+Math_abs((+$21))); //@line 48 "minimizer.c"
- $23 = $22 < 0.10000000000000001; //@line 48 "minimizer.c"
- if ($23) {
-  $dist = 1.0; //@line 49 "minimizer.c"
- }
- $24 = $0; //@line 51 "minimizer.c"
- $25 = -2.0 * $24; //@line 51 "minimizer.c"
- $26 = $dx; //@line 51 "minimizer.c"
- $27 = $25 * $26; //@line 51 "minimizer.c"
- $28 = $dist; //@line 51 "minimizer.c"
- $29 = $1; //@line 51 "minimizer.c"
- $30 = $28 - $29; //@line 51 "minimizer.c"
- $31 = $27 * $30; //@line 51 "minimizer.c"
- $32 = $dist; //@line 51 "minimizer.c"
- $33 = $31 / $32; //@line 51 "minimizer.c"
- STACKTOP = sp;return (+$33); //@line 51 "minimizer.c"
-}
-function _forceY($pi,$pj,$wij,$dij) {
- $pi = $pi|0;
- $pj = $pj|0;
- $wij = +$wij;
- $dij = +$dij;
- var $0 = 0.0, $1 = 0.0, $10 = 0.0, $11 = 0.0, $12 = 0.0, $13 = 0.0, $14 = 0.0, $15 = 0.0, $16 = 0.0, $17 = 0.0, $18 = 0.0, $19 = 0.0, $2 = 0.0, $20 = 0.0, $21 = 0.0, $22 = 0.0, $23 = 0, $24 = 0.0, $25 = 0.0, $26 = 0.0;
- var $27 = 0.0, $28 = 0.0, $29 = 0.0, $3 = 0.0, $30 = 0.0, $31 = 0.0, $32 = 0.0, $33 = 0.0, $4 = 0.0, $5 = 0, $6 = 0.0, $7 = 0, $8 = 0.0, $9 = 0.0, $dist = 0.0, $dx = 0.0, $dy = 0.0, label = 0, sp = 0;
- sp = STACKTOP;
- STACKTOP = STACKTOP + 32|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
- $0 = $wij;
- $1 = $dij;
- $2 = +HEAPF32[$pi>>2]; //@line 54 "minimizer.c"
- $3 = +HEAPF32[$pj>>2]; //@line 54 "minimizer.c"
- $4 = $2 - $3; //@line 54 "minimizer.c"
- $dx = $4; //@line 54 "minimizer.c"
- $5 = ((($pi)) + 4|0); //@line 55 "minimizer.c"
- $6 = +HEAPF32[$5>>2]; //@line 55 "minimizer.c"
- $7 = ((($pj)) + 4|0); //@line 55 "minimizer.c"
- $8 = +HEAPF32[$7>>2]; //@line 55 "minimizer.c"
- $9 = $6 - $8; //@line 55 "minimizer.c"
- $dy = $9; //@line 55 "minimizer.c"
- $10 = $dx; //@line 56 "minimizer.c"
- $11 = $dx; //@line 56 "minimizer.c"
- $12 = $10 * $11; //@line 56 "minimizer.c"
- $13 = $dy; //@line 56 "minimizer.c"
- $14 = $dy; //@line 56 "minimizer.c"
- $15 = $13 * $14; //@line 56 "minimizer.c"
- $16 = $12 + $15; //@line 56 "minimizer.c"
- $17 = $16; //@line 56 "minimizer.c"
- $18 = (+Math_sqrt((+$17))); //@line 56 "minimizer.c"
- $19 = $18; //@line 56 "minimizer.c"
- $dist = $19; //@line 56 "minimizer.c"
- $20 = $dist; //@line 57 "minimizer.c"
- $21 = $20; //@line 57 "minimizer.c"
- $22 = (+Math_abs((+$21))); //@line 57 "minimizer.c"
- $23 = $22 < 0.10000000000000001; //@line 57 "minimizer.c"
- if ($23) {
-  $dist = 1.0; //@line 58 "minimizer.c"
- }
- $24 = $0; //@line 60 "minimizer.c"
- $25 = -2.0 * $24; //@line 60 "minimizer.c"
- $26 = $dy; //@line 60 "minimizer.c"
- $27 = $25 * $26; //@line 60 "minimizer.c"
- $28 = $dist; //@line 60 "minimizer.c"
- $29 = $1; //@line 60 "minimizer.c"
- $30 = $28 - $29; //@line 60 "minimizer.c"
- $31 = $27 * $30; //@line 60 "minimizer.c"
- $32 = $dist; //@line 60 "minimizer.c"
- $33 = $31 / $32; //@line 60 "minimizer.c"
- STACKTOP = sp;return (+$33); //@line 60 "minimizer.c"
-}
-function _calcVectorGradient($p,$df) {
- $p = $p|0;
- $df = $df|0;
- var $0 = 0, $1 = 0, $10 = 0, $100 = 0, $101 = 0, $102 = 0, $103 = 0, $104 = 0, $105 = 0.0, $106 = 0.0, $107 = 0, $108 = 0, $109 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0.0, $15 = 0, $16 = 0, $17 = 0;
- var $18 = 0, $19 = 0.0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0, $27 = 0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0;
- var $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0, $43 = 0, $44 = 0, $45 = 0, $46 = 0, $47 = 0, $48 = 0, $49 = 0, $5 = 0, $50 = 0, $51 = 0, $52 = 0.0, $53 = 0.0;
- var $54 = 0.0, $55 = 0.0, $56 = 0.0, $57 = 0.0, $58 = 0.0, $59 = 0.0, $6 = 0, $60 = 0.0, $61 = 0.0, $62 = 0.0, $63 = 0.0, $64 = 0, $65 = 0, $66 = 0, $67 = 0, $68 = 0, $69 = 0, $7 = 0, $70 = 0.0, $71 = 0.0;
- var $72 = 0.0, $73 = 0.0, $74 = 0.0, $75 = 0, $76 = 0, $77 = 0, $78 = 0, $79 = 0, $8 = 0, $80 = 0, $81 = 0.0, $82 = 0.0, $83 = 0.0, $84 = 0.0, $85 = 0.0, $86 = 0.0, $87 = 0, $88 = 0, $89 = 0, $9 = 0;
- var $90 = 0, $91 = 0, $92 = 0, $93 = 0.0, $94 = 0.0, $95 = 0.0, $96 = 0.0, $97 = 0.0, $98 = 0.0, $99 = 0, $cp = 0, $cpi = 0, $cpi$byval_copy = 0, $cpi$byval_copy2 = 0, $cpi$byval_copy4 = 0, $cpi$byval_copy6 = 0, $cpj = 0, $cpj$byval_copy = 0, $cpj$byval_copy3 = 0, $cpj$byval_copy5 = 0;
- var $cpj$byval_copy7 = 0, $d = 0.0, $dij = 0.0, $i = 0, $j = 0, $nPositions = 0, $positions = 0, $vararg_buffer = 0, $vararg_ptr1 = 0, $wij = 0.0, label = 0, sp = 0;
- sp = STACKTOP;
- STACKTOP = STACKTOP + 144|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
- $cpj$byval_copy7 = sp + 128|0;
- $cpi$byval_copy6 = sp + 120|0;
- $cpj$byval_copy5 = sp + 112|0;
- $cpi$byval_copy4 = sp + 104|0;
- $cpj$byval_copy3 = sp + 96|0;
- $cpi$byval_copy2 = sp + 88|0;
- $cpj$byval_copy = sp + 80|0;
- $cpi$byval_copy = sp + 72|0;
- $vararg_buffer = sp;
- $cp = sp + 40|0;
- $cpj = sp + 32|0;
- $cpi = sp + 24|0;
- $0 = $p;
- $1 = $df;
- $2 = HEAP32[400>>2]|0; //@line 64 "minimizer.c"
- $3 = (($2|0) / 2)&-1; //@line 64 "minimizer.c"
- $nPositions = $3; //@line 64 "minimizer.c"
- $4 = $nPositions; //@line 65 "minimizer.c"
- $5 = $4<<3; //@line 65 "minimizer.c"
- $6 = (($5) + 1)|0; //@line 65 "minimizer.c"
- $7 = (_malloc($6)|0); //@line 65 "minimizer.c"
- $positions = $7; //@line 65 "minimizer.c"
- $i = 1; //@line 67 "minimizer.c"
- while(1) {
-  $8 = $i; //@line 67 "minimizer.c"
-  $9 = HEAP32[400>>2]|0; //@line 67 "minimizer.c"
-  $10 = ($8|0)<=($9|0); //@line 67 "minimizer.c"
-  if (!($10)) {
-   break;
-  }
-  $11 = $i; //@line 69 "minimizer.c"
-  $12 = $0; //@line 69 "minimizer.c"
-  $13 = (($12) + ($11<<2)|0); //@line 69 "minimizer.c"
-  $14 = +HEAPF32[$13>>2]; //@line 69 "minimizer.c"
-  HEAPF32[$cp>>2] = $14; //@line 69 "minimizer.c"
-  $15 = $i; //@line 70 "minimizer.c"
-  $16 = (($15) + 1)|0; //@line 70 "minimizer.c"
-  $17 = $0; //@line 70 "minimizer.c"
-  $18 = (($17) + ($16<<2)|0); //@line 70 "minimizer.c"
-  $19 = +HEAPF32[$18>>2]; //@line 70 "minimizer.c"
-  $20 = ((($cp)) + 4|0); //@line 70 "minimizer.c"
-  HEAPF32[$20>>2] = $19; //@line 70 "minimizer.c"
-  $21 = $positions; //@line 71 "minimizer.c"
-  $22 = $i; //@line 71 "minimizer.c"
-  $23 = (($22|0) / 2)&-1; //@line 71 "minimizer.c"
-  $24 = (($21) + ($23<<3)|0); //@line 71 "minimizer.c"
-  $25 = ((($24)) + 8|0); //@line 71 "minimizer.c"
-  ;HEAP32[$25>>2]=HEAP32[$cp>>2]|0;HEAP32[$25+4>>2]=HEAP32[$cp+4>>2]|0; //@line 71 "minimizer.c"
-  $26 = $i; //@line 67 "minimizer.c"
-  $27 = (($26) + 2)|0; //@line 67 "minimizer.c"
-  $i = $27; //@line 67 "minimizer.c"
- }
- $i = 1; //@line 73 "minimizer.c"
- while(1) {
-  $28 = $i; //@line 73 "minimizer.c"
-  $29 = $nPositions; //@line 73 "minimizer.c"
-  $30 = ($28|0)<=($29|0); //@line 73 "minimizer.c"
-  if (!($30)) {
-   break;
-  }
-  $31 = $i; //@line 74 "minimizer.c"
-  $32 = (($31) + 1)|0; //@line 74 "minimizer.c"
-  $j = $32; //@line 74 "minimizer.c"
-  while(1) {
-   $33 = $j; //@line 74 "minimizer.c"
-   $34 = $nPositions; //@line 74 "minimizer.c"
-   $35 = ($33|0)<=($34|0); //@line 74 "minimizer.c"
-   $36 = $i; //@line 77 "minimizer.c"
-   if (!($35)) {
-    break;
-   }
-   $37 = $j; //@line 77 "minimizer.c"
-   HEAP32[$vararg_buffer>>2] = $36; //@line 77 "minimizer.c"
-   $vararg_ptr1 = ((($vararg_buffer)) + 4|0); //@line 77 "minimizer.c"
-   HEAP32[$vararg_ptr1>>2] = $37; //@line 77 "minimizer.c"
-   (_printf((432|0),($vararg_buffer|0))|0); //@line 77 "minimizer.c"
-   $38 = $i; //@line 78 "minimizer.c"
-   $39 = $positions; //@line 78 "minimizer.c"
-   $40 = (($39) + ($38<<3)|0); //@line 78 "minimizer.c"
-   ;HEAP32[$cpi>>2]=HEAP32[$40>>2]|0;HEAP32[$cpi+4>>2]=HEAP32[$40+4>>2]|0; //@line 78 "minimizer.c"
-   $41 = $j; //@line 79 "minimizer.c"
-   $42 = $positions; //@line 79 "minimizer.c"
-   $43 = (($42) + ($41<<3)|0); //@line 79 "minimizer.c"
-   ;HEAP32[$cpj>>2]=HEAP32[$43>>2]|0;HEAP32[$cpj+4>>2]=HEAP32[$43+4>>2]|0; //@line 79 "minimizer.c"
-   $44 = $j; //@line 80 "minimizer.c"
-   $45 = (($44) - 1)|0; //@line 80 "minimizer.c"
-   $46 = $i; //@line 80 "minimizer.c"
-   $47 = (($46) - 1)|0; //@line 80 "minimizer.c"
-   $48 = HEAP32[408>>2]|0; //@line 80 "minimizer.c"
-   $49 = (($48) + ($47<<2)|0); //@line 80 "minimizer.c"
-   $50 = HEAP32[$49>>2]|0; //@line 80 "minimizer.c"
-   $51 = (($50) + ($45<<2)|0); //@line 80 "minimizer.c"
-   $52 = +HEAPF32[$51>>2]; //@line 80 "minimizer.c"
-   $d = $52; //@line 80 "minimizer.c"
-   $53 = $d; //@line 81 "minimizer.c"
-   $54 = $53; //@line 81 "minimizer.c"
-   $55 = $54 * 0.050000000000000003; //@line 81 "minimizer.c"
-   $56 = $55; //@line 81 "minimizer.c"
-   $wij = $56; //@line 81 "minimizer.c"
-   $57 = $d; //@line 82 "minimizer.c"
-   $58 = $57; //@line 82 "minimizer.c"
-   $59 = $58 * 200.0; //@line 82 "minimizer.c"
-   $60 = $59; //@line 82 "minimizer.c"
-   $dij = $60; //@line 82 "minimizer.c"
-   $61 = $wij; //@line 84 "minimizer.c"
-   $62 = $dij; //@line 84 "minimizer.c"
-   ;HEAP32[$cpi$byval_copy>>2]=HEAP32[$cpi>>2]|0;HEAP32[$cpi$byval_copy+4>>2]=HEAP32[$cpi+4>>2]|0; //@line 84 "minimizer.c"
-   ;HEAP32[$cpj$byval_copy>>2]=HEAP32[$cpj>>2]|0;HEAP32[$cpj$byval_copy+4>>2]=HEAP32[$cpj+4>>2]|0; //@line 84 "minimizer.c"
-   $63 = (+_forceX($cpi$byval_copy,$cpj$byval_copy,$61,$62)); //@line 84 "minimizer.c"
-   $64 = $i; //@line 84 "minimizer.c"
-   $65 = (($64) - 1)|0; //@line 84 "minimizer.c"
-   $66 = $65<<1; //@line 84 "minimizer.c"
-   $67 = (($66) + 1)|0; //@line 84 "minimizer.c"
-   $68 = $1; //@line 84 "minimizer.c"
-   $69 = (($68) + ($67<<2)|0); //@line 84 "minimizer.c"
-   $70 = +HEAPF32[$69>>2]; //@line 84 "minimizer.c"
-   $71 = $70 + $63; //@line 84 "minimizer.c"
-   HEAPF32[$69>>2] = $71; //@line 84 "minimizer.c"
-   $72 = $wij; //@line 85 "minimizer.c"
-   $73 = $dij; //@line 85 "minimizer.c"
-   ;HEAP32[$cpi$byval_copy2>>2]=HEAP32[$cpi>>2]|0;HEAP32[$cpi$byval_copy2+4>>2]=HEAP32[$cpi+4>>2]|0; //@line 85 "minimizer.c"
-   ;HEAP32[$cpj$byval_copy3>>2]=HEAP32[$cpj>>2]|0;HEAP32[$cpj$byval_copy3+4>>2]=HEAP32[$cpj+4>>2]|0; //@line 85 "minimizer.c"
-   $74 = (+_forceY($cpi$byval_copy2,$cpj$byval_copy3,$72,$73)); //@line 85 "minimizer.c"
-   $75 = $i; //@line 85 "minimizer.c"
-   $76 = (($75) - 1)|0; //@line 85 "minimizer.c"
-   $77 = $76<<1; //@line 85 "minimizer.c"
-   $78 = (($77) + 2)|0; //@line 85 "minimizer.c"
-   $79 = $1; //@line 85 "minimizer.c"
-   $80 = (($79) + ($78<<2)|0); //@line 85 "minimizer.c"
-   $81 = +HEAPF32[$80>>2]; //@line 85 "minimizer.c"
-   $82 = $81 + $74; //@line 85 "minimizer.c"
-   HEAPF32[$80>>2] = $82; //@line 85 "minimizer.c"
-   $83 = $wij; //@line 86 "minimizer.c"
-   $84 = $dij; //@line 86 "minimizer.c"
-   ;HEAP32[$cpi$byval_copy4>>2]=HEAP32[$cpi>>2]|0;HEAP32[$cpi$byval_copy4+4>>2]=HEAP32[$cpi+4>>2]|0; //@line 86 "minimizer.c"
-   ;HEAP32[$cpj$byval_copy5>>2]=HEAP32[$cpj>>2]|0;HEAP32[$cpj$byval_copy5+4>>2]=HEAP32[$cpj+4>>2]|0; //@line 86 "minimizer.c"
-   $85 = (+_forceX($cpi$byval_copy4,$cpj$byval_copy5,$83,$84)); //@line 86 "minimizer.c"
-   $86 = -$85; //@line 86 "minimizer.c"
-   $87 = $j; //@line 86 "minimizer.c"
-   $88 = (($87) - 1)|0; //@line 86 "minimizer.c"
-   $89 = $88<<1; //@line 86 "minimizer.c"
-   $90 = (($89) + 1)|0; //@line 86 "minimizer.c"
-   $91 = $1; //@line 86 "minimizer.c"
-   $92 = (($91) + ($90<<2)|0); //@line 86 "minimizer.c"
-   $93 = +HEAPF32[$92>>2]; //@line 86 "minimizer.c"
-   $94 = $93 + $86; //@line 86 "minimizer.c"
-   HEAPF32[$92>>2] = $94; //@line 86 "minimizer.c"
-   $95 = $wij; //@line 87 "minimizer.c"
-   $96 = $dij; //@line 87 "minimizer.c"
-   ;HEAP32[$cpi$byval_copy6>>2]=HEAP32[$cpi>>2]|0;HEAP32[$cpi$byval_copy6+4>>2]=HEAP32[$cpi+4>>2]|0; //@line 87 "minimizer.c"
-   ;HEAP32[$cpj$byval_copy7>>2]=HEAP32[$cpj>>2]|0;HEAP32[$cpj$byval_copy7+4>>2]=HEAP32[$cpj+4>>2]|0; //@line 87 "minimizer.c"
-   $97 = (+_forceY($cpi$byval_copy6,$cpj$byval_copy7,$95,$96)); //@line 87 "minimizer.c"
-   $98 = -$97; //@line 87 "minimizer.c"
-   $99 = $j; //@line 87 "minimizer.c"
-   $100 = (($99) - 1)|0; //@line 87 "minimizer.c"
-   $101 = $100<<1; //@line 87 "minimizer.c"
-   $102 = (($101) + 2)|0; //@line 87 "minimizer.c"
-   $103 = $1; //@line 87 "minimizer.c"
-   $104 = (($103) + ($102<<2)|0); //@line 87 "minimizer.c"
-   $105 = +HEAPF32[$104>>2]; //@line 87 "minimizer.c"
-   $106 = $105 + $98; //@line 87 "minimizer.c"
-   HEAPF32[$104>>2] = $106; //@line 87 "minimizer.c"
-   $107 = $j; //@line 74 "minimizer.c"
-   $108 = (($107) + 1)|0; //@line 74 "minimizer.c"
-   $j = $108; //@line 74 "minimizer.c"
-  }
-  $109 = (($36) + 1)|0; //@line 73 "minimizer.c"
-  $i = $109; //@line 73 "minimizer.c"
- }
- STACKTOP = sp;return; //@line 102 "minimizer.c"
-}
-function _calcEnergy($p) {
- $p = $p|0;
- var $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0.0, $13 = 0, $14 = 0, $15 = 0, $16 = 0, $17 = 0.0, $18 = 0, $19 = 0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0;
- var $27 = 0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0, $43 = 0, $44 = 0;
- var $45 = 0, $46 = 0, $47 = 0.0, $48 = 0, $49 = 0, $5 = 0, $50 = 0.0, $51 = 0.0, $52 = 0.0, $53 = 0, $54 = 0.0, $55 = 0.0, $56 = 0.0, $57 = 0.0, $58 = 0.0, $59 = 0.0, $6 = 0, $60 = 0.0, $61 = 0.0, $62 = 0;
- var $63 = 0, $64 = 0, $65 = 0, $66 = 0.0, $7 = 0, $8 = 0, $9 = 0, $cp = 0, $cpi = 0, $cpi$byval_copy = 0, $cpj = 0, $cpj$byval_copy = 0, $d = 0, $dij = 0.0, $energy = 0.0, $i = 0, $j = 0, $nPositions = 0, $positions = 0, $wij = 0.0;
- var label = 0, sp = 0;
- sp = STACKTOP;
- STACKTOP = STACKTOP + 96|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
- $cpj$byval_copy = sp + 80|0;
- $cpi$byval_copy = sp + 72|0;
- $cp = sp + 40|0;
- $cpi = sp + 24|0;
- $cpj = sp + 16|0;
- $0 = $p;
- $1 = HEAP32[400>>2]|0; //@line 105 "minimizer.c"
- $2 = (($1|0) / 2)&-1; //@line 105 "minimizer.c"
- $nPositions = $2; //@line 105 "minimizer.c"
- $3 = $nPositions; //@line 106 "minimizer.c"
- $4 = $3<<3; //@line 106 "minimizer.c"
- $5 = (_malloc($4)|0); //@line 106 "minimizer.c"
- $positions = $5; //@line 106 "minimizer.c"
- $i = 1; //@line 108 "minimizer.c"
- while(1) {
-  $6 = $i; //@line 108 "minimizer.c"
-  $7 = HEAP32[400>>2]|0; //@line 108 "minimizer.c"
-  $8 = ($6|0)<=($7|0); //@line 108 "minimizer.c"
-  if (!($8)) {
-   break;
-  }
-  $9 = $i; //@line 110 "minimizer.c"
-  $10 = $0; //@line 110 "minimizer.c"
-  $11 = (($10) + ($9<<2)|0); //@line 110 "minimizer.c"
-  $12 = +HEAPF32[$11>>2]; //@line 110 "minimizer.c"
-  HEAPF32[$cp>>2] = $12; //@line 110 "minimizer.c"
-  $13 = $i; //@line 111 "minimizer.c"
-  $14 = (($13) + 1)|0; //@line 111 "minimizer.c"
-  $15 = $0; //@line 111 "minimizer.c"
-  $16 = (($15) + ($14<<2)|0); //@line 111 "minimizer.c"
-  $17 = +HEAPF32[$16>>2]; //@line 111 "minimizer.c"
-  $18 = ((($cp)) + 4|0); //@line 111 "minimizer.c"
-  HEAPF32[$18>>2] = $17; //@line 111 "minimizer.c"
-  $19 = $positions; //@line 112 "minimizer.c"
-  $20 = $i; //@line 112 "minimizer.c"
-  $21 = (($20) - 1)|0; //@line 112 "minimizer.c"
-  $22 = (($21|0) / 2)&-1; //@line 112 "minimizer.c"
-  $23 = (($19) + ($22<<3)|0); //@line 112 "minimizer.c"
-  ;HEAP32[$23>>2]=HEAP32[$cp>>2]|0;HEAP32[$23+4>>2]=HEAP32[$cp+4>>2]|0; //@line 112 "minimizer.c"
-  $24 = $i; //@line 108 "minimizer.c"
-  $25 = (($24) + 2)|0; //@line 108 "minimizer.c"
-  $i = $25; //@line 108 "minimizer.c"
- }
- $energy = 0.0; //@line 114 "minimizer.c"
- $i = 0; //@line 115 "minimizer.c"
- while(1) {
-  $26 = $i; //@line 115 "minimizer.c"
-  $27 = $nPositions; //@line 115 "minimizer.c"
-  $28 = (($27) - 1)|0; //@line 115 "minimizer.c"
-  $29 = ($26|0)<($28|0); //@line 115 "minimizer.c"
-  if (!($29)) {
-   break;
-  }
-  $30 = $i; //@line 116 "minimizer.c"
-  $31 = (($30) + 1)|0; //@line 116 "minimizer.c"
-  $j = $31; //@line 116 "minimizer.c"
-  while(1) {
-   $32 = $j; //@line 116 "minimizer.c"
-   $33 = $nPositions; //@line 116 "minimizer.c"
-   $34 = ($32|0)<($33|0); //@line 116 "minimizer.c"
-   $35 = $i; //@line 118 "minimizer.c"
-   if (!($34)) {
-    break;
-   }
-   $36 = $positions; //@line 118 "minimizer.c"
-   $37 = (($36) + ($35<<3)|0); //@line 118 "minimizer.c"
-   ;HEAP32[$cpi>>2]=HEAP32[$37>>2]|0;HEAP32[$cpi+4>>2]=HEAP32[$37+4>>2]|0; //@line 118 "minimizer.c"
-   $38 = $j; //@line 119 "minimizer.c"
-   $39 = $positions; //@line 119 "minimizer.c"
-   $40 = (($39) + ($38<<3)|0); //@line 119 "minimizer.c"
-   ;HEAP32[$cpj>>2]=HEAP32[$40>>2]|0;HEAP32[$cpj+4>>2]=HEAP32[$40+4>>2]|0; //@line 119 "minimizer.c"
-   $41 = $j; //@line 120 "minimizer.c"
-   $42 = $i; //@line 120 "minimizer.c"
-   $43 = HEAP32[408>>2]|0; //@line 120 "minimizer.c"
-   $44 = (($43) + ($42<<2)|0); //@line 120 "minimizer.c"
-   $45 = HEAP32[$44>>2]|0; //@line 120 "minimizer.c"
-   $46 = (($45) + ($41<<2)|0); //@line 120 "minimizer.c"
-   $47 = +HEAPF32[$46>>2]; //@line 120 "minimizer.c"
-   $48 = (~~(($47))); //@line 120 "minimizer.c"
-   $d = $48; //@line 120 "minimizer.c"
-   $49 = $d; //@line 121 "minimizer.c"
-   $50 = (+($49|0)); //@line 121 "minimizer.c"
-   $51 = $50 * 0.050000000000000003; //@line 121 "minimizer.c"
-   $52 = $51; //@line 121 "minimizer.c"
-   $wij = $52; //@line 121 "minimizer.c"
-   $53 = $d; //@line 122 "minimizer.c"
-   $54 = (+($53|0)); //@line 122 "minimizer.c"
-   $55 = $54 * 200.0; //@line 122 "minimizer.c"
-   $56 = $55; //@line 122 "minimizer.c"
-   $dij = $56; //@line 122 "minimizer.c"
-   $57 = $wij; //@line 123 "minimizer.c"
-   $58 = $dij; //@line 123 "minimizer.c"
-   ;HEAP32[$cpi$byval_copy>>2]=HEAP32[$cpi>>2]|0;HEAP32[$cpi$byval_copy+4>>2]=HEAP32[$cpi+4>>2]|0; //@line 123 "minimizer.c"
-   ;HEAP32[$cpj$byval_copy>>2]=HEAP32[$cpj>>2]|0;HEAP32[$cpj$byval_copy+4>>2]=HEAP32[$cpj+4>>2]|0; //@line 123 "minimizer.c"
-   $59 = (+_springEnergy($cpi$byval_copy,$cpj$byval_copy,$57,$58)); //@line 123 "minimizer.c"
-   $60 = $energy; //@line 123 "minimizer.c"
-   $61 = $60 + $59; //@line 123 "minimizer.c"
-   $energy = $61; //@line 123 "minimizer.c"
-   $62 = $j; //@line 116 "minimizer.c"
-   $63 = (($62) + 1)|0; //@line 116 "minimizer.c"
-   $j = $63; //@line 116 "minimizer.c"
-  }
-  $64 = (($35) + 1)|0; //@line 115 "minimizer.c"
-  $i = $64; //@line 115 "minimizer.c"
- }
- $65 = $positions; //@line 126 "minimizer.c"
- _free($65); //@line 126 "minimizer.c"
- $66 = $energy; //@line 127 "minimizer.c"
- STACKTOP = sp;return (+$66); //@line 127 "minimizer.c"
 }
 function _convert($arr,$len) {
  $arr = $arr|0;
@@ -8377,44 +7820,561 @@ function _convert($arr,$len) {
  STACKTOP = STACKTOP + 16|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
  $0 = $arr;
  $1 = $len;
- $2 = $1; //@line 136 "minimizer.c"
- $3 = (_vector(1,$2)|0); //@line 136 "minimizer.c"
- $rtn = $3; //@line 136 "minimizer.c"
- $j = 1; //@line 137 "minimizer.c"
+ $2 = $1; //@line 35 "minimizer.c"
+ $3 = (_vector(1,$2)|0); //@line 35 "minimizer.c"
+ $rtn = $3; //@line 35 "minimizer.c"
+ $j = 1; //@line 36 "minimizer.c"
  while(1) {
-  $4 = $j; //@line 137 "minimizer.c"
-  $5 = $1; //@line 137 "minimizer.c"
-  $6 = ($4|0)<=($5|0); //@line 137 "minimizer.c"
+  $4 = $j; //@line 36 "minimizer.c"
+  $5 = $1; //@line 36 "minimizer.c"
+  $6 = ($4>>>0)<=($5>>>0); //@line 36 "minimizer.c"
   if (!($6)) {
    break;
   }
-  $7 = $0; //@line 138 "minimizer.c"
-  $8 = ((($7)) + -4|0); //@line 138 "minimizer.c"
-  $9 = $j; //@line 138 "minimizer.c"
-  $10 = (($8) + ($9<<2)|0); //@line 138 "minimizer.c"
-  $11 = +HEAPF32[$10>>2]; //@line 138 "minimizer.c"
-  $12 = $rtn; //@line 138 "minimizer.c"
-  $13 = $j; //@line 138 "minimizer.c"
-  $14 = (($12) + ($13<<2)|0); //@line 138 "minimizer.c"
-  HEAPF32[$14>>2] = $11; //@line 138 "minimizer.c"
-  $15 = $j; //@line 137 "minimizer.c"
-  $16 = (($15) + 1)|0; //@line 137 "minimizer.c"
-  $j = $16; //@line 137 "minimizer.c"
+  $7 = $0; //@line 37 "minimizer.c"
+  $8 = ((($7)) + -4|0); //@line 37 "minimizer.c"
+  $9 = $j; //@line 37 "minimizer.c"
+  $10 = (($8) + ($9<<2)|0); //@line 37 "minimizer.c"
+  $11 = +HEAPF32[$10>>2]; //@line 37 "minimizer.c"
+  $12 = $rtn; //@line 37 "minimizer.c"
+  $13 = $j; //@line 37 "minimizer.c"
+  $14 = (($12) + ($13<<2)|0); //@line 37 "minimizer.c"
+  HEAPF32[$14>>2] = $11; //@line 37 "minimizer.c"
+  $15 = $j; //@line 36 "minimizer.c"
+  $16 = (($15) + 1)|0; //@line 36 "minimizer.c"
+  $j = $16; //@line 36 "minimizer.c"
  }
- $17 = $rtn; //@line 140 "minimizer.c"
- STACKTOP = sp;return ($17|0); //@line 140 "minimizer.c"
+ $17 = $rtn; //@line 39 "minimizer.c"
+ STACKTOP = sp;return ($17|0); //@line 39 "minimizer.c"
+}
+function _energy($0,$1,$2,$3,$4,$5) {
+ $0 = +$0;
+ $1 = +$1;
+ $2 = +$2;
+ $3 = +$3;
+ $4 = +$4;
+ $5 = +$5;
+ var $10 = 0.0, $11 = 0.0, $12 = 0.0, $13 = 0.0, $14 = 0.0, $15 = 0.0, $16 = 0.0, $17 = 0.0, $18 = 0.0, $19 = 0.0, $20 = 0.0, $21 = 0.0, $22 = 0.0, $23 = 0.0, $24 = 0.0, $25 = 0.0, $26 = 0.0, $27 = 0.0, $28 = 0.0, $29 = 0.0;
+ var $30 = 0.0, $31 = 0, $32 = 0.0, $33 = 0.0, $34 = 0.0, $35 = 0.0, $36 = 0.0, $37 = 0.0, $38 = 0.0, $39 = 0.0, $6 = 0.0, $7 = 0.0, $8 = 0.0, $9 = 0.0, $dij = 0.0, $dist = 0.0, $dx = 0.0, $dy = 0.0, $wij = 0.0, $xi = 0.0;
+ var $xj = 0.0, $yi = 0.0, $yj = 0.0, label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 48|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
+ $xi = $0;
+ $yi = $1;
+ $xj = $2;
+ $yj = $3;
+ $wij = $4;
+ $dij = $5;
+ $6 = $xi;
+ $7 = $yi;
+ $8 = $xj;
+ $9 = $yj;
+ $10 = $wij;
+ $11 = $dij;
+ $12 = $6; //@line 45 "minimizer.c"
+ $13 = $8; //@line 45 "minimizer.c"
+ $14 = $12 - $13; //@line 45 "minimizer.c"
+ $dx = $14; //@line 45 "minimizer.c"
+ $15 = $7; //@line 46 "minimizer.c"
+ $16 = $9; //@line 46 "minimizer.c"
+ $17 = $15 - $16; //@line 46 "minimizer.c"
+ $dy = $17; //@line 46 "minimizer.c"
+ $18 = $dx; //@line 47 "minimizer.c"
+ $19 = $dx; //@line 47 "minimizer.c"
+ $20 = $18 * $19; //@line 47 "minimizer.c"
+ $21 = $dy; //@line 47 "minimizer.c"
+ $22 = $dy; //@line 47 "minimizer.c"
+ $23 = $21 * $22; //@line 47 "minimizer.c"
+ $24 = $20 + $23; //@line 47 "minimizer.c"
+ $25 = $24; //@line 47 "minimizer.c"
+ $26 = (+Math_sqrt((+$25))); //@line 47 "minimizer.c"
+ $27 = $26; //@line 47 "minimizer.c"
+ $dist = $27; //@line 47 "minimizer.c"
+ $28 = $dist; //@line 48 "minimizer.c"
+ $29 = $28; //@line 48 "minimizer.c"
+ $30 = (+Math_abs((+$29))); //@line 48 "minimizer.c"
+ $31 = $30 < 0.10000000000000001; //@line 48 "minimizer.c"
+ if ($31) {
+  $dist = 1.0; //@line 49 "minimizer.c"
+ }
+ $32 = $10; //@line 51 "minimizer.c"
+ $33 = $dist; //@line 51 "minimizer.c"
+ $34 = $11; //@line 51 "minimizer.c"
+ $35 = $33 - $34; //@line 51 "minimizer.c"
+ $36 = $35; //@line 51 "minimizer.c"
+ $37 = (+Math_pow((+$36),2.0)); //@line 51 "minimizer.c"
+ $38 = $37; //@line 51 "minimizer.c"
+ $39 = $32 * $38; //@line 51 "minimizer.c"
+ STACKTOP = sp;return (+$39); //@line 51 "minimizer.c"
+}
+function _force($0,$1,$2,$3,$4,$5,$6) {
+ $0 = +$0;
+ $1 = +$1;
+ $2 = +$2;
+ $3 = +$3;
+ $4 = +$4;
+ $5 = +$5;
+ $6 = $6|0;
+ var $10 = 0.0, $11 = 0.0, $12 = 0.0, $13 = 0.0, $14 = 0, $15 = 0.0, $16 = 0.0, $17 = 0.0, $18 = 0.0, $19 = 0.0, $20 = 0.0, $21 = 0.0, $22 = 0.0, $23 = 0.0, $24 = 0.0, $25 = 0.0, $26 = 0.0, $27 = 0.0, $28 = 0.0, $29 = 0.0;
+ var $30 = 0.0, $31 = 0.0, $32 = 0.0, $33 = 0.0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0.0, $39 = 0.0, $40 = 0.0, $41 = 0.0, $42 = 0.0, $43 = 0.0, $44 = 0.0, $45 = 0.0, $46 = 0.0, $47 = 0.0, $48 = 0.0, $49 = 0.0;
+ var $50 = 0.0, $51 = 0.0, $52 = 0.0, $53 = 0.0, $54 = 0.0, $55 = 0.0, $56 = 0.0, $7 = 0.0, $8 = 0.0, $9 = 0.0, $dij = 0.0, $dir = 0, $dist = 0.0, $dx = 0.0, $dy = 0.0, $wij = 0.0, $xi = 0.0, $xj = 0.0, $yi = 0.0, $yj = 0.0;
+ var label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 48|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
+ $xi = $0;
+ $yi = $1;
+ $xj = $2;
+ $yj = $3;
+ $wij = $4;
+ $dij = $5;
+ $dir = $6&255;
+ $8 = $xi;
+ $9 = $yi;
+ $10 = $xj;
+ $11 = $yj;
+ $12 = $wij;
+ $13 = $dij;
+ $14 = $dir;
+ $15 = $8; //@line 58 "minimizer.c"
+ $16 = $10; //@line 58 "minimizer.c"
+ $17 = $15 - $16; //@line 58 "minimizer.c"
+ $dx = $17; //@line 58 "minimizer.c"
+ $18 = $9; //@line 59 "minimizer.c"
+ $19 = $11; //@line 59 "minimizer.c"
+ $20 = $18 - $19; //@line 59 "minimizer.c"
+ $dy = $20; //@line 59 "minimizer.c"
+ $21 = $dx; //@line 60 "minimizer.c"
+ $22 = $dx; //@line 60 "minimizer.c"
+ $23 = $21 * $22; //@line 60 "minimizer.c"
+ $24 = $dy; //@line 60 "minimizer.c"
+ $25 = $dy; //@line 60 "minimizer.c"
+ $26 = $24 * $25; //@line 60 "minimizer.c"
+ $27 = $23 + $26; //@line 60 "minimizer.c"
+ $28 = $27; //@line 60 "minimizer.c"
+ $29 = (+Math_sqrt((+$28))); //@line 60 "minimizer.c"
+ $30 = $29; //@line 60 "minimizer.c"
+ $dist = $30; //@line 60 "minimizer.c"
+ $31 = $dist; //@line 61 "minimizer.c"
+ $32 = $31; //@line 61 "minimizer.c"
+ $33 = (+Math_abs((+$32))); //@line 61 "minimizer.c"
+ $34 = $33 < 0.10000000000000001; //@line 61 "minimizer.c"
+ if ($34) {
+  $dist = 1.0; //@line 62 "minimizer.c"
+ }
+ $35 = $14; //@line 64 "minimizer.c"
+ $36 = $35 << 24 >> 24; //@line 64 "minimizer.c"
+ $37 = ($36|0)==(120); //@line 64 "minimizer.c"
+ $38 = $12; //@line 65 "minimizer.c"
+ $39 = -2.0 * $38; //@line 65 "minimizer.c"
+ if ($37) {
+  $40 = $dx; //@line 65 "minimizer.c"
+  $41 = $39 * $40; //@line 65 "minimizer.c"
+  $42 = $dist; //@line 65 "minimizer.c"
+  $43 = $13; //@line 65 "minimizer.c"
+  $44 = $42 - $43; //@line 65 "minimizer.c"
+  $45 = $41 * $44; //@line 65 "minimizer.c"
+  $46 = $dist; //@line 65 "minimizer.c"
+  $47 = $45 / $46; //@line 65 "minimizer.c"
+  $7 = $47; //@line 65 "minimizer.c"
+  $56 = $7; //@line 68 "minimizer.c"
+  STACKTOP = sp;return (+$56); //@line 68 "minimizer.c"
+ } else {
+  $48 = $dy; //@line 67 "minimizer.c"
+  $49 = $39 * $48; //@line 67 "minimizer.c"
+  $50 = $dist; //@line 67 "minimizer.c"
+  $51 = $13; //@line 67 "minimizer.c"
+  $52 = $50 - $51; //@line 67 "minimizer.c"
+  $53 = $49 * $52; //@line 67 "minimizer.c"
+  $54 = $dist; //@line 67 "minimizer.c"
+  $55 = $53 / $54; //@line 67 "minimizer.c"
+  $7 = $55; //@line 67 "minimizer.c"
+  $56 = $7; //@line 68 "minimizer.c"
+  STACKTOP = sp;return (+$56); //@line 68 "minimizer.c"
+ }
+ return +(0.0);
+}
+function _calcFunction($p) {
+ $p = $p|0;
+ var $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0, $15 = 0, $16 = 0, $17 = 0, $18 = 0, $19 = 0.0, $2 = 0, $20 = 0.0, $21 = 0.0, $22 = 0.0, $23 = 0.0, $24 = 0.0, $25 = 0.0, $26 = 0.0;
+ var $27 = 0.0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0.0, $32 = 0.0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0.0, $38 = 0.0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0.0, $43 = 0.0, $44 = 0;
+ var $45 = 0, $46 = 0, $47 = 0, $48 = 0.0, $49 = 0.0, $5 = 0, $50 = 0.0, $51 = 0.0, $52 = 0.0, $53 = 0.0, $54 = 0.0, $55 = 0.0, $56 = 0.0, $57 = 0, $58 = 0, $59 = 0, $6 = 0, $60 = 0, $61 = 0.0, $7 = 0;
+ var $8 = 0, $9 = 0, $d = 0.0, $dij = 0.0, $i = 0, $j = 0, $rtn = 0.0, $wij = 0.0, label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 32|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
+ $0 = $p;
+ $rtn = 0.0; //@line 72 "minimizer.c"
+ $i = 1; //@line 73 "minimizer.c"
+ while(1) {
+  $1 = $i; //@line 73 "minimizer.c"
+  $2 = HEAP32[232>>2]|0; //@line 73 "minimizer.c"
+  $3 = ($1>>>0)<($2>>>0); //@line 73 "minimizer.c"
+  if (!($3)) {
+   break;
+  }
+  $4 = $i; //@line 74 "minimizer.c"
+  $5 = (($4) + 2)|0; //@line 74 "minimizer.c"
+  $j = $5; //@line 74 "minimizer.c"
+  while(1) {
+   $6 = $j; //@line 74 "minimizer.c"
+   $7 = HEAP32[232>>2]|0; //@line 74 "minimizer.c"
+   $8 = ($6>>>0)<=($7>>>0); //@line 74 "minimizer.c"
+   if (!($8)) {
+    break;
+   }
+   $9 = $j; //@line 75 "minimizer.c"
+   $10 = (($9>>>0) / 2)&-1; //@line 75 "minimizer.c"
+   $11 = (($10) + 1)|0; //@line 75 "minimizer.c"
+   $12 = $i; //@line 75 "minimizer.c"
+   $13 = (($12>>>0) / 2)&-1; //@line 75 "minimizer.c"
+   $14 = (($13) + 1)|0; //@line 75 "minimizer.c"
+   $15 = HEAP32[240>>2]|0; //@line 75 "minimizer.c"
+   $16 = (($15) + ($14<<2)|0); //@line 75 "minimizer.c"
+   $17 = HEAP32[$16>>2]|0; //@line 75 "minimizer.c"
+   $18 = (($17) + ($11<<2)|0); //@line 75 "minimizer.c"
+   $19 = +HEAPF32[$18>>2]; //@line 75 "minimizer.c"
+   $d = $19; //@line 75 "minimizer.c"
+   $20 = $d; //@line 76 "minimizer.c"
+   $21 = $20; //@line 76 "minimizer.c"
+   $22 = $21 * 0.050000000000000003; //@line 76 "minimizer.c"
+   $23 = $22; //@line 76 "minimizer.c"
+   $wij = $23; //@line 76 "minimizer.c"
+   $24 = $d; //@line 77 "minimizer.c"
+   $25 = $24; //@line 77 "minimizer.c"
+   $26 = $25 * 200.0; //@line 77 "minimizer.c"
+   $27 = $26; //@line 77 "minimizer.c"
+   $dij = $27; //@line 77 "minimizer.c"
+   $28 = $i; //@line 78 "minimizer.c"
+   $29 = $0; //@line 78 "minimizer.c"
+   $30 = (($29) + ($28<<2)|0); //@line 78 "minimizer.c"
+   $31 = +HEAPF32[$30>>2]; //@line 78 "minimizer.c"
+   $32 = $31; //@line 78 "minimizer.c"
+   $33 = $i; //@line 78 "minimizer.c"
+   $34 = (($33) + 1)|0; //@line 78 "minimizer.c"
+   $35 = $0; //@line 78 "minimizer.c"
+   $36 = (($35) + ($34<<2)|0); //@line 78 "minimizer.c"
+   $37 = +HEAPF32[$36>>2]; //@line 78 "minimizer.c"
+   $38 = $37; //@line 78 "minimizer.c"
+   $39 = $j; //@line 78 "minimizer.c"
+   $40 = $0; //@line 78 "minimizer.c"
+   $41 = (($40) + ($39<<2)|0); //@line 78 "minimizer.c"
+   $42 = +HEAPF32[$41>>2]; //@line 78 "minimizer.c"
+   $43 = $42; //@line 78 "minimizer.c"
+   $44 = $j; //@line 78 "minimizer.c"
+   $45 = (($44) + 1)|0; //@line 78 "minimizer.c"
+   $46 = $0; //@line 78 "minimizer.c"
+   $47 = (($46) + ($45<<2)|0); //@line 78 "minimizer.c"
+   $48 = +HEAPF32[$47>>2]; //@line 78 "minimizer.c"
+   $49 = $48; //@line 78 "minimizer.c"
+   $50 = $wij; //@line 78 "minimizer.c"
+   $51 = $50; //@line 78 "minimizer.c"
+   $52 = $dij; //@line 78 "minimizer.c"
+   $53 = $52; //@line 78 "minimizer.c"
+   $54 = (+_energy($32,$38,$43,$49,$51,$53)); //@line 78 "minimizer.c"
+   $55 = $rtn; //@line 78 "minimizer.c"
+   $56 = $55 + $54; //@line 78 "minimizer.c"
+   $rtn = $56; //@line 78 "minimizer.c"
+   $57 = $j; //@line 74 "minimizer.c"
+   $58 = (($57) + 2)|0; //@line 74 "minimizer.c"
+   $j = $58; //@line 74 "minimizer.c"
+  }
+  $59 = $i; //@line 73 "minimizer.c"
+  $60 = (($59) + 2)|0; //@line 73 "minimizer.c"
+  $i = $60; //@line 73 "minimizer.c"
+ }
+ $61 = $rtn; //@line 81 "minimizer.c"
+ STACKTOP = sp;return (+$61); //@line 81 "minimizer.c"
+}
+function _calcGradient($p,$df) {
+ $p = $p|0;
+ $df = $df|0;
+ var $0 = 0, $1 = 0, $10 = 0, $100 = 0, $101 = 0, $102 = 0, $103 = 0.0, $104 = 0.0, $105 = 0, $106 = 0, $107 = 0, $108 = 0.0, $109 = 0.0, $11 = 0, $110 = 0, $111 = 0, $112 = 0, $113 = 0, $114 = 0.0, $115 = 0.0;
+ var $116 = 0.0, $117 = 0.0, $118 = 0.0, $119 = 0.0, $12 = 0, $120 = 0.0, $121 = 0.0, $122 = 0, $123 = 0, $124 = 0, $125 = 0.0, $126 = 0.0, $127 = 0, $128 = 0, $129 = 0, $13 = 0, $130 = 0.0, $131 = 0.0, $132 = 0, $133 = 0;
+ var $134 = 0, $135 = 0, $136 = 0.0, $137 = 0.0, $138 = 0, $139 = 0, $14 = 0, $140 = 0, $141 = 0.0, $142 = 0.0, $143 = 0, $144 = 0, $145 = 0, $146 = 0, $147 = 0.0, $148 = 0.0, $149 = 0.0, $15 = 0, $150 = 0.0, $151 = 0.0;
+ var $152 = 0.0, $153 = 0.0, $154 = 0.0, $155 = 0, $156 = 0, $157 = 0, $158 = 0, $159 = 0.0, $16 = 0, $160 = 0.0, $161 = 0, $162 = 0, $163 = 0, $164 = 0, $17 = 0, $18 = 0, $19 = 0, $2 = 0, $20 = 0.0, $21 = 0.0;
+ var $22 = 0.0, $23 = 0.0, $24 = 0.0, $25 = 0.0, $26 = 0.0, $27 = 0.0, $28 = 0.0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0.0, $33 = 0.0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0.0, $39 = 0.0, $4 = 0;
+ var $40 = 0, $41 = 0, $42 = 0, $43 = 0.0, $44 = 0.0, $45 = 0, $46 = 0, $47 = 0, $48 = 0, $49 = 0.0, $5 = 0, $50 = 0.0, $51 = 0.0, $52 = 0.0, $53 = 0.0, $54 = 0.0, $55 = 0.0, $56 = 0, $57 = 0, $58 = 0;
+ var $59 = 0.0, $6 = 0, $60 = 0.0, $61 = 0, $62 = 0, $63 = 0, $64 = 0.0, $65 = 0.0, $66 = 0, $67 = 0, $68 = 0, $69 = 0, $7 = 0, $70 = 0.0, $71 = 0.0, $72 = 0, $73 = 0, $74 = 0, $75 = 0.0, $76 = 0.0;
+ var $77 = 0, $78 = 0, $79 = 0, $8 = 0, $80 = 0, $81 = 0.0, $82 = 0.0, $83 = 0.0, $84 = 0.0, $85 = 0.0, $86 = 0.0, $87 = 0.0, $88 = 0, $89 = 0, $9 = 0, $90 = 0, $91 = 0, $92 = 0.0, $93 = 0.0, $94 = 0;
+ var $95 = 0, $96 = 0, $97 = 0.0, $98 = 0.0, $99 = 0, $d = 0.0, $dij = 0.0, $i = 0, $j = 0, $wij = 0.0, label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 32|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
+ $0 = $p;
+ $1 = $df;
+ $i = 1; //@line 87 "minimizer.c"
+ while(1) {
+  $2 = $i; //@line 87 "minimizer.c"
+  $3 = HEAP32[232>>2]|0; //@line 87 "minimizer.c"
+  $4 = ($2>>>0)<($3>>>0); //@line 87 "minimizer.c"
+  if (!($4)) {
+   break;
+  }
+  $5 = $i; //@line 88 "minimizer.c"
+  $6 = (($5) + 2)|0; //@line 88 "minimizer.c"
+  $j = $6; //@line 88 "minimizer.c"
+  while(1) {
+   $7 = $j; //@line 88 "minimizer.c"
+   $8 = HEAP32[232>>2]|0; //@line 88 "minimizer.c"
+   $9 = ($7>>>0)<=($8>>>0); //@line 88 "minimizer.c"
+   if (!($9)) {
+    break;
+   }
+   $10 = $j; //@line 89 "minimizer.c"
+   $11 = (($10>>>0) / 2)&-1; //@line 89 "minimizer.c"
+   $12 = (($11) + 1)|0; //@line 89 "minimizer.c"
+   $13 = $i; //@line 89 "minimizer.c"
+   $14 = (($13>>>0) / 2)&-1; //@line 89 "minimizer.c"
+   $15 = (($14) + 1)|0; //@line 89 "minimizer.c"
+   $16 = HEAP32[240>>2]|0; //@line 89 "minimizer.c"
+   $17 = (($16) + ($15<<2)|0); //@line 89 "minimizer.c"
+   $18 = HEAP32[$17>>2]|0; //@line 89 "minimizer.c"
+   $19 = (($18) + ($12<<2)|0); //@line 89 "minimizer.c"
+   $20 = +HEAPF32[$19>>2]; //@line 89 "minimizer.c"
+   $d = $20; //@line 89 "minimizer.c"
+   $21 = $d; //@line 90 "minimizer.c"
+   $22 = $21; //@line 90 "minimizer.c"
+   $23 = $22 * 0.050000000000000003; //@line 90 "minimizer.c"
+   $24 = $23; //@line 90 "minimizer.c"
+   $wij = $24; //@line 90 "minimizer.c"
+   $25 = $d; //@line 91 "minimizer.c"
+   $26 = $25; //@line 91 "minimizer.c"
+   $27 = $26 * 200.0; //@line 91 "minimizer.c"
+   $28 = $27; //@line 91 "minimizer.c"
+   $dij = $28; //@line 91 "minimizer.c"
+   $29 = $i; //@line 92 "minimizer.c"
+   $30 = $0; //@line 92 "minimizer.c"
+   $31 = (($30) + ($29<<2)|0); //@line 92 "minimizer.c"
+   $32 = +HEAPF32[$31>>2]; //@line 92 "minimizer.c"
+   $33 = $32; //@line 92 "minimizer.c"
+   $34 = $i; //@line 92 "minimizer.c"
+   $35 = (($34) + 1)|0; //@line 92 "minimizer.c"
+   $36 = $0; //@line 92 "minimizer.c"
+   $37 = (($36) + ($35<<2)|0); //@line 92 "minimizer.c"
+   $38 = +HEAPF32[$37>>2]; //@line 92 "minimizer.c"
+   $39 = $38; //@line 92 "minimizer.c"
+   $40 = $j; //@line 92 "minimizer.c"
+   $41 = $0; //@line 92 "minimizer.c"
+   $42 = (($41) + ($40<<2)|0); //@line 92 "minimizer.c"
+   $43 = +HEAPF32[$42>>2]; //@line 92 "minimizer.c"
+   $44 = $43; //@line 92 "minimizer.c"
+   $45 = $j; //@line 92 "minimizer.c"
+   $46 = (($45) + 1)|0; //@line 92 "minimizer.c"
+   $47 = $0; //@line 92 "minimizer.c"
+   $48 = (($47) + ($46<<2)|0); //@line 92 "minimizer.c"
+   $49 = +HEAPF32[$48>>2]; //@line 92 "minimizer.c"
+   $50 = $49; //@line 92 "minimizer.c"
+   $51 = $wij; //@line 92 "minimizer.c"
+   $52 = $51; //@line 92 "minimizer.c"
+   $53 = $dij; //@line 92 "minimizer.c"
+   $54 = $53; //@line 92 "minimizer.c"
+   $55 = (+_force($33,$39,$44,$50,$52,$54,120)); //@line 92 "minimizer.c"
+   $56 = $i; //@line 92 "minimizer.c"
+   $57 = $1; //@line 92 "minimizer.c"
+   $58 = (($57) + ($56<<2)|0); //@line 92 "minimizer.c"
+   $59 = +HEAPF32[$58>>2]; //@line 92 "minimizer.c"
+   $60 = $59 + $55; //@line 92 "minimizer.c"
+   HEAPF32[$58>>2] = $60; //@line 92 "minimizer.c"
+   $61 = $i; //@line 93 "minimizer.c"
+   $62 = $0; //@line 93 "minimizer.c"
+   $63 = (($62) + ($61<<2)|0); //@line 93 "minimizer.c"
+   $64 = +HEAPF32[$63>>2]; //@line 93 "minimizer.c"
+   $65 = $64; //@line 93 "minimizer.c"
+   $66 = $i; //@line 93 "minimizer.c"
+   $67 = (($66) + 1)|0; //@line 93 "minimizer.c"
+   $68 = $0; //@line 93 "minimizer.c"
+   $69 = (($68) + ($67<<2)|0); //@line 93 "minimizer.c"
+   $70 = +HEAPF32[$69>>2]; //@line 93 "minimizer.c"
+   $71 = $70; //@line 93 "minimizer.c"
+   $72 = $j; //@line 93 "minimizer.c"
+   $73 = $0; //@line 93 "minimizer.c"
+   $74 = (($73) + ($72<<2)|0); //@line 93 "minimizer.c"
+   $75 = +HEAPF32[$74>>2]; //@line 93 "minimizer.c"
+   $76 = $75; //@line 93 "minimizer.c"
+   $77 = $j; //@line 93 "minimizer.c"
+   $78 = (($77) + 1)|0; //@line 93 "minimizer.c"
+   $79 = $0; //@line 93 "minimizer.c"
+   $80 = (($79) + ($78<<2)|0); //@line 93 "minimizer.c"
+   $81 = +HEAPF32[$80>>2]; //@line 93 "minimizer.c"
+   $82 = $81; //@line 93 "minimizer.c"
+   $83 = $wij; //@line 93 "minimizer.c"
+   $84 = $83; //@line 93 "minimizer.c"
+   $85 = $dij; //@line 93 "minimizer.c"
+   $86 = $85; //@line 93 "minimizer.c"
+   $87 = (+_force($65,$71,$76,$82,$84,$86,121)); //@line 93 "minimizer.c"
+   $88 = $i; //@line 93 "minimizer.c"
+   $89 = (($88) + 1)|0; //@line 93 "minimizer.c"
+   $90 = $1; //@line 93 "minimizer.c"
+   $91 = (($90) + ($89<<2)|0); //@line 93 "minimizer.c"
+   $92 = +HEAPF32[$91>>2]; //@line 93 "minimizer.c"
+   $93 = $92 + $87; //@line 93 "minimizer.c"
+   HEAPF32[$91>>2] = $93; //@line 93 "minimizer.c"
+   $94 = $i; //@line 94 "minimizer.c"
+   $95 = $0; //@line 94 "minimizer.c"
+   $96 = (($95) + ($94<<2)|0); //@line 94 "minimizer.c"
+   $97 = +HEAPF32[$96>>2]; //@line 94 "minimizer.c"
+   $98 = $97; //@line 94 "minimizer.c"
+   $99 = $i; //@line 94 "minimizer.c"
+   $100 = (($99) + 1)|0; //@line 94 "minimizer.c"
+   $101 = $0; //@line 94 "minimizer.c"
+   $102 = (($101) + ($100<<2)|0); //@line 94 "minimizer.c"
+   $103 = +HEAPF32[$102>>2]; //@line 94 "minimizer.c"
+   $104 = $103; //@line 94 "minimizer.c"
+   $105 = $j; //@line 94 "minimizer.c"
+   $106 = $0; //@line 94 "minimizer.c"
+   $107 = (($106) + ($105<<2)|0); //@line 94 "minimizer.c"
+   $108 = +HEAPF32[$107>>2]; //@line 94 "minimizer.c"
+   $109 = $108; //@line 94 "minimizer.c"
+   $110 = $j; //@line 94 "minimizer.c"
+   $111 = (($110) + 1)|0; //@line 94 "minimizer.c"
+   $112 = $0; //@line 94 "minimizer.c"
+   $113 = (($112) + ($111<<2)|0); //@line 94 "minimizer.c"
+   $114 = +HEAPF32[$113>>2]; //@line 94 "minimizer.c"
+   $115 = $114; //@line 94 "minimizer.c"
+   $116 = $wij; //@line 94 "minimizer.c"
+   $117 = $116; //@line 94 "minimizer.c"
+   $118 = $dij; //@line 94 "minimizer.c"
+   $119 = $118; //@line 94 "minimizer.c"
+   $120 = (+_force($98,$104,$109,$115,$117,$119,120)); //@line 94 "minimizer.c"
+   $121 = -$120; //@line 94 "minimizer.c"
+   $122 = $j; //@line 94 "minimizer.c"
+   $123 = $1; //@line 94 "minimizer.c"
+   $124 = (($123) + ($122<<2)|0); //@line 94 "minimizer.c"
+   $125 = +HEAPF32[$124>>2]; //@line 94 "minimizer.c"
+   $126 = $125 + $121; //@line 94 "minimizer.c"
+   HEAPF32[$124>>2] = $126; //@line 94 "minimizer.c"
+   $127 = $i; //@line 95 "minimizer.c"
+   $128 = $0; //@line 95 "minimizer.c"
+   $129 = (($128) + ($127<<2)|0); //@line 95 "minimizer.c"
+   $130 = +HEAPF32[$129>>2]; //@line 95 "minimizer.c"
+   $131 = $130; //@line 95 "minimizer.c"
+   $132 = $i; //@line 95 "minimizer.c"
+   $133 = (($132) + 1)|0; //@line 95 "minimizer.c"
+   $134 = $0; //@line 95 "minimizer.c"
+   $135 = (($134) + ($133<<2)|0); //@line 95 "minimizer.c"
+   $136 = +HEAPF32[$135>>2]; //@line 95 "minimizer.c"
+   $137 = $136; //@line 95 "minimizer.c"
+   $138 = $j; //@line 95 "minimizer.c"
+   $139 = $0; //@line 95 "minimizer.c"
+   $140 = (($139) + ($138<<2)|0); //@line 95 "minimizer.c"
+   $141 = +HEAPF32[$140>>2]; //@line 95 "minimizer.c"
+   $142 = $141; //@line 95 "minimizer.c"
+   $143 = $j; //@line 95 "minimizer.c"
+   $144 = (($143) + 1)|0; //@line 95 "minimizer.c"
+   $145 = $0; //@line 95 "minimizer.c"
+   $146 = (($145) + ($144<<2)|0); //@line 95 "minimizer.c"
+   $147 = +HEAPF32[$146>>2]; //@line 95 "minimizer.c"
+   $148 = $147; //@line 95 "minimizer.c"
+   $149 = $wij; //@line 95 "minimizer.c"
+   $150 = $149; //@line 95 "minimizer.c"
+   $151 = $dij; //@line 95 "minimizer.c"
+   $152 = $151; //@line 95 "minimizer.c"
+   $153 = (+_force($131,$137,$142,$148,$150,$152,121)); //@line 95 "minimizer.c"
+   $154 = -$153; //@line 95 "minimizer.c"
+   $155 = $j; //@line 95 "minimizer.c"
+   $156 = (($155) + 1)|0; //@line 95 "minimizer.c"
+   $157 = $1; //@line 95 "minimizer.c"
+   $158 = (($157) + ($156<<2)|0); //@line 95 "minimizer.c"
+   $159 = +HEAPF32[$158>>2]; //@line 95 "minimizer.c"
+   $160 = $159 + $154; //@line 95 "minimizer.c"
+   HEAPF32[$158>>2] = $160; //@line 95 "minimizer.c"
+   $161 = $j; //@line 88 "minimizer.c"
+   $162 = (($161) + 2)|0; //@line 88 "minimizer.c"
+   $j = $162; //@line 88 "minimizer.c"
+  }
+  $163 = $i; //@line 87 "minimizer.c"
+  $164 = (($163) + 2)|0; //@line 87 "minimizer.c"
+  $i = $164; //@line 87 "minimizer.c"
+ }
+ STACKTOP = sp;return; //@line 98 "minimizer.c"
+}
+function _initialize($fdm,$npos) {
+ $fdm = $fdm|0;
+ $npos = $npos|0;
+ var $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0, $15 = 0, $16 = 0, $17 = 0, $18 = 0, $19 = 0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0;
+ var $27 = 0.0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $5 = 0, $6 = 0, $7 = 0;
+ var $8 = 0, $9 = 0, $count = 0, $i = 0, $j = 0, label = 0, sp = 0;
+ sp = STACKTOP;
+ STACKTOP = STACKTOP + 32|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
+ $0 = $fdm;
+ $1 = $npos;
+ $2 = $1; //@line 105 "minimizer.c"
+ $3 = (($2) + 1)|0; //@line 105 "minimizer.c"
+ $4 = $3<<2; //@line 105 "minimizer.c"
+ $5 = (_malloc($4)|0); //@line 105 "minimizer.c"
+ HEAP32[240>>2] = $5; //@line 105 "minimizer.c"
+ $i = 1; //@line 106 "minimizer.c"
+ while(1) {
+  $6 = $i; //@line 106 "minimizer.c"
+  $7 = $1; //@line 106 "minimizer.c"
+  $8 = ($6>>>0)<=($7>>>0); //@line 106 "minimizer.c"
+  if (!($8)) {
+   break;
+  }
+  $9 = $1; //@line 107 "minimizer.c"
+  $10 = (($9) + 1)|0; //@line 107 "minimizer.c"
+  $11 = $10<<2; //@line 107 "minimizer.c"
+  $12 = (_malloc($11)|0); //@line 107 "minimizer.c"
+  $13 = HEAP32[240>>2]|0; //@line 107 "minimizer.c"
+  $14 = $i; //@line 107 "minimizer.c"
+  $15 = (($13) + ($14<<2)|0); //@line 107 "minimizer.c"
+  HEAP32[$15>>2] = $12; //@line 107 "minimizer.c"
+  $16 = $i; //@line 106 "minimizer.c"
+  $17 = (($16) + 1)|0; //@line 106 "minimizer.c"
+  $i = $17; //@line 106 "minimizer.c"
+ }
+ $count = 0; //@line 109 "minimizer.c"
+ $i = 1; //@line 110 "minimizer.c"
+ while(1) {
+  $18 = $i; //@line 110 "minimizer.c"
+  $19 = $1; //@line 110 "minimizer.c"
+  $20 = ($18>>>0)<=($19>>>0); //@line 110 "minimizer.c"
+  if (!($20)) {
+   break;
+  }
+  $j = 1; //@line 111 "minimizer.c"
+  while(1) {
+   $21 = $j; //@line 111 "minimizer.c"
+   $22 = $1; //@line 111 "minimizer.c"
+   $23 = ($21>>>0)<=($22>>>0); //@line 111 "minimizer.c"
+   if (!($23)) {
+    break;
+   }
+   $24 = $count; //@line 112 "minimizer.c"
+   $25 = $0; //@line 112 "minimizer.c"
+   $26 = (($25) + ($24<<2)|0); //@line 112 "minimizer.c"
+   $27 = +HEAPF32[$26>>2]; //@line 112 "minimizer.c"
+   $28 = HEAP32[240>>2]|0; //@line 112 "minimizer.c"
+   $29 = $i; //@line 112 "minimizer.c"
+   $30 = (($28) + ($29<<2)|0); //@line 112 "minimizer.c"
+   $31 = HEAP32[$30>>2]|0; //@line 112 "minimizer.c"
+   $32 = $j; //@line 112 "minimizer.c"
+   $33 = (($31) + ($32<<2)|0); //@line 112 "minimizer.c"
+   HEAPF32[$33>>2] = $27; //@line 112 "minimizer.c"
+   $34 = $count; //@line 113 "minimizer.c"
+   $35 = (($34) + 1)|0; //@line 113 "minimizer.c"
+   $count = $35; //@line 113 "minimizer.c"
+   $36 = $j; //@line 111 "minimizer.c"
+   $37 = (($36) + 1)|0; //@line 111 "minimizer.c"
+   $j = $37; //@line 111 "minimizer.c"
+  }
+  $38 = $i; //@line 110 "minimizer.c"
+  $39 = (($38) + 1)|0; //@line 110 "minimizer.c"
+  $i = $39; //@line 110 "minimizer.c"
+ }
+ $40 = (_malloc(4)|0); //@line 116 "minimizer.c"
+ HEAP32[248>>2] = $40; //@line 116 "minimizer.c"
+ $41 = (_malloc(4)|0); //@line 117 "minimizer.c"
+ HEAP32[256>>2] = $41; //@line 117 "minimizer.c"
+ STACKTOP = sp;return; //@line 118 "minimizer.c"
 }
 function _minimize($flatpos,$flatdmat,$posLen) {
  $flatpos = $flatpos|0;
  $flatdmat = $flatdmat|0;
  $posLen = $posLen|0;
- var $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0, $15 = 0, $16 = 0, $17 = 0, $18 = 0, $19 = 0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0;
- var $27 = 0, $28 = 0.0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0, $43 = 0, $44 = 0;
- var $45 = 0, $46 = 0, $47 = 0, $48 = 0, $49 = 0, $5 = 0, $50 = 0, $51 = 0, $52 = 0, $53 = 0, $54 = 0.0, $55 = 0.0, $56 = 0, $57 = 0, $58 = 0, $59 = 0, $6 = 0, $60 = 0, $61 = 0, $62 = 0;
- var $63 = 0, $64 = 0, $65 = 0, $66 = 0.0, $67 = 0, $68 = 0, $69 = 0, $7 = 0, $70 = 0, $71 = 0, $8 = 0, $9 = 0, $count = 0, $fret = 0, $i = 0, $iter = 0, $j = 0, $mflatpos = 0, $nPositions = 0, $vararg_buffer = 0;
- var $vararg_buffer1 = 0, $vararg_buffer3 = 0, $vararg_buffer5 = 0, label = 0, sp = 0;
+ var $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0, $15 = 0, $16 = 0, $17 = 0, $18 = 0.0, $19 = 0.0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0, $25 = 0, $26 = 0;
+ var $27 = 0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0.0, $41 = 0, $42 = 0, $43 = 0, $44 = 0;
+ var $45 = 0, $5 = 0, $6 = 0, $7 = 0, $8 = 0, $9 = 0, $i = 0, $mflatpos = 0, $nPositions = 0, $vararg_buffer = 0, $vararg_buffer1 = 0, $vararg_buffer3 = 0, $vararg_buffer5 = 0, label = 0, sp = 0;
  sp = STACKTOP;
- STACKTOP = STACKTOP + 80|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
+ STACKTOP = STACKTOP + 64|0; if ((STACKTOP|0) >= (STACK_MAX|0)) abort();
  $vararg_buffer5 = sp + 24|0;
  $vararg_buffer3 = sp + 16|0;
  $vararg_buffer1 = sp + 8|0;
@@ -8422,123 +8382,80 @@ function _minimize($flatpos,$flatdmat,$posLen) {
  $0 = $flatpos;
  $1 = $flatdmat;
  $2 = $posLen;
- $3 = $2; //@line 156 "minimizer.c"
- $4 = (($3|0) / 2)&-1; //@line 156 "minimizer.c"
- $nPositions = $4; //@line 156 "minimizer.c"
- $5 = $nPositions; //@line 159 "minimizer.c"
- $6 = $5<<2; //@line 159 "minimizer.c"
- $7 = (_malloc($6)|0); //@line 159 "minimizer.c"
- HEAP32[408>>2] = $7; //@line 159 "minimizer.c"
- $i = 0; //@line 160 "minimizer.c"
+ $3 = $2; //@line 124 "minimizer.c"
+ $4 = (($3>>>0) / 2)&-1; //@line 124 "minimizer.c"
+ $nPositions = $4; //@line 124 "minimizer.c"
+ $5 = $2; //@line 125 "minimizer.c"
+ HEAP32[232>>2] = $5; //@line 125 "minimizer.c"
+ $6 = $1; //@line 127 "minimizer.c"
+ $7 = $nPositions; //@line 127 "minimizer.c"
+ _initialize($6,$7); //@line 127 "minimizer.c"
+ $8 = $0; //@line 128 "minimizer.c"
+ $9 = $2; //@line 128 "minimizer.c"
+ $10 = (_convert($8,$9)|0); //@line 128 "minimizer.c"
+ $mflatpos = $10; //@line 128 "minimizer.c"
+ $11 = $mflatpos; //@line 130 "minimizer.c"
+ $12 = $2; //@line 130 "minimizer.c"
+ $13 = HEAP32[248>>2]|0; //@line 130 "minimizer.c"
+ $14 = HEAP32[256>>2]|0; //@line 130 "minimizer.c"
+ $15 = HEAP32[216>>2]|0; //@line 130 "minimizer.c"
+ $16 = HEAP32[224>>2]|0; //@line 130 "minimizer.c"
+ _frprmn($11,$12,1.0E-4,$13,$14,$15,$16); //@line 130 "minimizer.c"
+ (_printf((264|0),($vararg_buffer|0))|0); //@line 132 "minimizer.c"
+ (_printf((272|0),($vararg_buffer1|0))|0); //@line 133 "minimizer.c"
+ $17 = HEAP32[256>>2]|0; //@line 134 "minimizer.c"
+ $18 = +HEAPF32[$17>>2]; //@line 134 "minimizer.c"
+ $19 = $18; //@line 134 "minimizer.c"
+ HEAPF64[$vararg_buffer3>>3] = $19; //@line 134 "minimizer.c"
+ (_printf((280|0),($vararg_buffer3|0))|0); //@line 134 "minimizer.c"
+ $20 = HEAP32[248>>2]|0; //@line 135 "minimizer.c"
+ $21 = HEAP32[$20>>2]|0; //@line 135 "minimizer.c"
+ HEAP32[$vararg_buffer5>>2] = $21; //@line 135 "minimizer.c"
+ (_printf((288|0),($vararg_buffer5|0))|0); //@line 135 "minimizer.c"
+ $i = 1; //@line 137 "minimizer.c"
  while(1) {
-  $8 = $i; //@line 160 "minimizer.c"
-  $9 = $nPositions; //@line 160 "minimizer.c"
-  $10 = ($8|0)<($9|0); //@line 160 "minimizer.c"
-  if (!($10)) {
+  $22 = $i; //@line 137 "minimizer.c"
+  $23 = $nPositions; //@line 137 "minimizer.c"
+  $24 = ($22>>>0)<=($23>>>0); //@line 137 "minimizer.c"
+  $25 = HEAP32[240>>2]|0; //@line 138 "minimizer.c"
+  if (!($24)) {
    break;
   }
-  $11 = $nPositions; //@line 161 "minimizer.c"
-  $12 = $11<<2; //@line 161 "minimizer.c"
-  $13 = (_malloc($12)|0); //@line 161 "minimizer.c"
-  $14 = HEAP32[408>>2]|0; //@line 161 "minimizer.c"
-  $15 = $i; //@line 161 "minimizer.c"
-  $16 = (($14) + ($15<<2)|0); //@line 161 "minimizer.c"
-  HEAP32[$16>>2] = $13; //@line 161 "minimizer.c"
-  $17 = $i; //@line 160 "minimizer.c"
-  $18 = (($17) + 1)|0; //@line 160 "minimizer.c"
-  $i = $18; //@line 160 "minimizer.c"
+  $26 = $i; //@line 138 "minimizer.c"
+  $27 = (($25) + ($26<<2)|0); //@line 138 "minimizer.c"
+  $28 = HEAP32[$27>>2]|0; //@line 138 "minimizer.c"
+  _free($28); //@line 138 "minimizer.c"
+  $29 = $i; //@line 137 "minimizer.c"
+  $30 = (($29) + 1)|0; //@line 137 "minimizer.c"
+  $i = $30; //@line 137 "minimizer.c"
  }
- $count = 0; //@line 163 "minimizer.c"
- $i = 0; //@line 164 "minimizer.c"
+ _free($25); //@line 140 "minimizer.c"
+ $31 = HEAP32[256>>2]|0; //@line 141 "minimizer.c"
+ _free($31); //@line 141 "minimizer.c"
+ $32 = HEAP32[248>>2]|0; //@line 142 "minimizer.c"
+ _free($32); //@line 142 "minimizer.c"
+ $i = 0; //@line 144 "minimizer.c"
  while(1) {
-  $19 = $i; //@line 164 "minimizer.c"
-  $20 = $nPositions; //@line 164 "minimizer.c"
-  $21 = ($19|0)<($20|0); //@line 164 "minimizer.c"
-  if (!($21)) {
+  $33 = $i; //@line 144 "minimizer.c"
+  $34 = HEAP32[232>>2]|0; //@line 144 "minimizer.c"
+  $35 = ($33>>>0)<($34>>>0); //@line 144 "minimizer.c"
+  if (!($35)) {
    break;
   }
-  $j = 0; //@line 165 "minimizer.c"
-  while(1) {
-   $22 = $j; //@line 165 "minimizer.c"
-   $23 = $nPositions; //@line 165 "minimizer.c"
-   $24 = ($22|0)<($23|0); //@line 165 "minimizer.c"
-   if (!($24)) {
-    break;
-   }
-   $25 = $count; //@line 166 "minimizer.c"
-   $26 = $1; //@line 166 "minimizer.c"
-   $27 = (($26) + ($25<<2)|0); //@line 166 "minimizer.c"
-   $28 = +HEAPF32[$27>>2]; //@line 166 "minimizer.c"
-   $29 = HEAP32[408>>2]|0; //@line 166 "minimizer.c"
-   $30 = $i; //@line 166 "minimizer.c"
-   $31 = (($29) + ($30<<2)|0); //@line 166 "minimizer.c"
-   $32 = HEAP32[$31>>2]|0; //@line 166 "minimizer.c"
-   $33 = $j; //@line 166 "minimizer.c"
-   $34 = (($32) + ($33<<2)|0); //@line 166 "minimizer.c"
-   HEAPF32[$34>>2] = $28; //@line 166 "minimizer.c"
-   $35 = $count; //@line 167 "minimizer.c"
-   $36 = (($35) + 1)|0; //@line 167 "minimizer.c"
-   $count = $36; //@line 167 "minimizer.c"
-   $37 = $j; //@line 165 "minimizer.c"
-   $38 = (($37) + 1)|0; //@line 165 "minimizer.c"
-   $j = $38; //@line 165 "minimizer.c"
-  }
-  $39 = $i; //@line 164 "minimizer.c"
-  $40 = (($39) + 1)|0; //@line 164 "minimizer.c"
-  $i = $40; //@line 164 "minimizer.c"
+  $36 = $mflatpos; //@line 145 "minimizer.c"
+  $37 = $i; //@line 145 "minimizer.c"
+  $38 = (($36) + ($37<<2)|0); //@line 145 "minimizer.c"
+  $39 = ((($38)) + 4|0); //@line 145 "minimizer.c"
+  $40 = +HEAPF32[$39>>2]; //@line 145 "minimizer.c"
+  $41 = $0; //@line 145 "minimizer.c"
+  $42 = $i; //@line 145 "minimizer.c"
+  $43 = (($41) + ($42<<2)|0); //@line 145 "minimizer.c"
+  HEAPF32[$43>>2] = $40; //@line 145 "minimizer.c"
+  $44 = $i; //@line 144 "minimizer.c"
+  $45 = (($44) + 1)|0; //@line 144 "minimizer.c"
+  $i = $45; //@line 144 "minimizer.c"
  }
- $41 = $2; //@line 171 "minimizer.c"
- HEAP32[400>>2] = $41; //@line 171 "minimizer.c"
- $42 = (_malloc(4)|0); //@line 173 "minimizer.c"
- $iter = $42; //@line 173 "minimizer.c"
- $43 = (_malloc(4)|0); //@line 174 "minimizer.c"
- $fret = $43; //@line 174 "minimizer.c"
- $44 = $0; //@line 176 "minimizer.c"
- $45 = $2; //@line 176 "minimizer.c"
- $46 = (_convert($44,$45)|0); //@line 176 "minimizer.c"
- $mflatpos = $46; //@line 176 "minimizer.c"
- $47 = $mflatpos; //@line 178 "minimizer.c"
- $48 = $2; //@line 178 "minimizer.c"
- $49 = $iter; //@line 178 "minimizer.c"
- $50 = $fret; //@line 178 "minimizer.c"
- $51 = HEAP32[416>>2]|0; //@line 178 "minimizer.c"
- $52 = HEAP32[424>>2]|0; //@line 178 "minimizer.c"
- _frprmn($47,$48,9.9999999999999995E-7,$49,$50,$51,$52); //@line 178 "minimizer.c"
- (_printf((456|0),($vararg_buffer|0))|0); //@line 180 "minimizer.c"
- (_printf((464|0),($vararg_buffer1|0))|0); //@line 181 "minimizer.c"
- $53 = $fret; //@line 182 "minimizer.c"
- $54 = +HEAPF32[$53>>2]; //@line 182 "minimizer.c"
- $55 = $54; //@line 182 "minimizer.c"
- HEAPF64[$vararg_buffer3>>3] = $55; //@line 182 "minimizer.c"
- (_printf((472|0),($vararg_buffer3|0))|0); //@line 182 "minimizer.c"
- $56 = $iter; //@line 183 "minimizer.c"
- $57 = HEAP32[$56>>2]|0; //@line 183 "minimizer.c"
- HEAP32[$vararg_buffer5>>2] = $57; //@line 183 "minimizer.c"
- (_printf((480|0),($vararg_buffer5|0))|0); //@line 183 "minimizer.c"
- $58 = HEAP32[408>>2]|0; //@line 185 "minimizer.c"
- _free($58); //@line 185 "minimizer.c"
- $i = 0; //@line 187 "minimizer.c"
- while(1) {
-  $59 = $i; //@line 187 "minimizer.c"
-  $60 = $2; //@line 187 "minimizer.c"
-  $61 = ($59|0)<($60|0); //@line 187 "minimizer.c"
-  if (!($61)) {
-   break;
-  }
-  $62 = $mflatpos; //@line 188 "minimizer.c"
-  $63 = $i; //@line 188 "minimizer.c"
-  $64 = (($62) + ($63<<2)|0); //@line 188 "minimizer.c"
-  $65 = ((($64)) + 4|0); //@line 188 "minimizer.c"
-  $66 = +HEAPF32[$65>>2]; //@line 188 "minimizer.c"
-  $67 = $0; //@line 188 "minimizer.c"
-  $68 = $i; //@line 188 "minimizer.c"
-  $69 = (($67) + ($68<<2)|0); //@line 188 "minimizer.c"
-  HEAPF32[$69>>2] = $66; //@line 188 "minimizer.c"
-  $70 = $i; //@line 187 "minimizer.c"
-  $71 = (($70) + 1)|0; //@line 187 "minimizer.c"
-  $i = $71; //@line 187 "minimizer.c"
- }
- STACKTOP = sp;return 0; //@line 191 "minimizer.c"
+ STACKTOP = sp;return 0; //@line 148 "minimizer.c"
 }
 function _malloc($bytes) {
  $bytes = $bytes|0;
@@ -8616,7 +8533,7 @@ function _malloc($bytes) {
    $3 = $2 & -8;
    $4 = $1 ? 16 : $3;
    $5 = $4 >>> 3;
-   $6 = HEAP32[496>>2]|0;
+   $6 = HEAP32[304>>2]|0;
    $7 = $6 >>> $5;
    $8 = $7 & 3;
    $9 = ($8|0)==(0);
@@ -8625,9 +8542,9 @@ function _malloc($bytes) {
     $11 = $10 ^ 1;
     $12 = (($11) + ($5))|0;
     $13 = $12 << 1;
-    $14 = (536 + ($13<<2)|0);
+    $14 = (344 + ($13<<2)|0);
     $$sum10 = (($13) + 2)|0;
-    $15 = (536 + ($$sum10<<2)|0);
+    $15 = (344 + ($$sum10<<2)|0);
     $16 = HEAP32[$15>>2]|0;
     $17 = ((($16)) + 8|0);
     $18 = HEAP32[$17>>2]|0;
@@ -8637,9 +8554,9 @@ function _malloc($bytes) {
       $20 = 1 << $12;
       $21 = $20 ^ -1;
       $22 = $6 & $21;
-      HEAP32[496>>2] = $22;
+      HEAP32[304>>2] = $22;
      } else {
-      $23 = HEAP32[(512)>>2]|0;
+      $23 = HEAP32[(320)>>2]|0;
       $24 = ($18>>>0)<($23>>>0);
       if ($24) {
        _abort();
@@ -8670,7 +8587,7 @@ function _malloc($bytes) {
     $mem$0 = $17;
     return ($mem$0|0);
    }
-   $34 = HEAP32[(504)>>2]|0;
+   $34 = HEAP32[(312)>>2]|0;
    $35 = ($4>>>0)>($34>>>0);
    if ($35) {
     $36 = ($7|0)==(0);
@@ -8704,9 +8621,9 @@ function _malloc($bytes) {
      $63 = $59 >>> $61;
      $64 = (($62) + ($63))|0;
      $65 = $64 << 1;
-     $66 = (536 + ($65<<2)|0);
+     $66 = (344 + ($65<<2)|0);
      $$sum4 = (($65) + 2)|0;
-     $67 = (536 + ($$sum4<<2)|0);
+     $67 = (344 + ($$sum4<<2)|0);
      $68 = HEAP32[$67>>2]|0;
      $69 = ((($68)) + 8|0);
      $70 = HEAP32[$69>>2]|0;
@@ -8716,10 +8633,10 @@ function _malloc($bytes) {
        $72 = 1 << $64;
        $73 = $72 ^ -1;
        $74 = $6 & $73;
-       HEAP32[496>>2] = $74;
+       HEAP32[304>>2] = $74;
        $88 = $34;
       } else {
-       $75 = HEAP32[(512)>>2]|0;
+       $75 = HEAP32[(320)>>2]|0;
        $76 = ($70>>>0)<($75>>>0);
        if ($76) {
         _abort();
@@ -8731,7 +8648,7 @@ function _malloc($bytes) {
        if ($79) {
         HEAP32[$77>>2] = $66;
         HEAP32[$67>>2] = $70;
-        $$pre = HEAP32[(504)>>2]|0;
+        $$pre = HEAP32[(312)>>2]|0;
         $88 = $$pre;
         break;
        } else {
@@ -8754,25 +8671,25 @@ function _malloc($bytes) {
      HEAP32[$87>>2] = $81;
      $89 = ($88|0)==(0);
      if (!($89)) {
-      $90 = HEAP32[(516)>>2]|0;
+      $90 = HEAP32[(324)>>2]|0;
       $91 = $88 >>> 3;
       $92 = $91 << 1;
-      $93 = (536 + ($92<<2)|0);
-      $94 = HEAP32[496>>2]|0;
+      $93 = (344 + ($92<<2)|0);
+      $94 = HEAP32[304>>2]|0;
       $95 = 1 << $91;
       $96 = $94 & $95;
       $97 = ($96|0)==(0);
       if ($97) {
        $98 = $94 | $95;
-       HEAP32[496>>2] = $98;
+       HEAP32[304>>2] = $98;
        $$pre105 = (($92) + 2)|0;
-       $$pre106 = (536 + ($$pre105<<2)|0);
+       $$pre106 = (344 + ($$pre105<<2)|0);
        $$pre$phiZ2D = $$pre106;$F4$0 = $93;
       } else {
        $$sum9 = (($92) + 2)|0;
-       $99 = (536 + ($$sum9<<2)|0);
+       $99 = (344 + ($$sum9<<2)|0);
        $100 = HEAP32[$99>>2]|0;
-       $101 = HEAP32[(512)>>2]|0;
+       $101 = HEAP32[(320)>>2]|0;
        $102 = ($100>>>0)<($101>>>0);
        if ($102) {
         _abort();
@@ -8789,12 +8706,12 @@ function _malloc($bytes) {
       $105 = ((($90)) + 12|0);
       HEAP32[$105>>2] = $93;
      }
-     HEAP32[(504)>>2] = $81;
-     HEAP32[(516)>>2] = $84;
+     HEAP32[(312)>>2] = $81;
+     HEAP32[(324)>>2] = $84;
      $mem$0 = $69;
      return ($mem$0|0);
     }
-    $106 = HEAP32[(500)>>2]|0;
+    $106 = HEAP32[(308)>>2]|0;
     $107 = ($106|0)==(0);
     if ($107) {
      $nb$0 = $4;
@@ -8822,7 +8739,7 @@ function _malloc($bytes) {
      $128 = $124 | $127;
      $129 = $125 >>> $127;
      $130 = (($128) + ($129))|0;
-     $131 = (800 + ($130<<2)|0);
+     $131 = (608 + ($130<<2)|0);
      $132 = HEAP32[$131>>2]|0;
      $133 = ((($132)) + 4|0);
      $134 = HEAP32[$133>>2]|0;
@@ -8855,7 +8772,7 @@ function _malloc($bytes) {
       $$v$0$i = $148 ? $144 : $v$0$i;
       $rsize$0$i = $$rsize$0$i;$t$0$i = $144;$v$0$i = $$v$0$i;
      }
-     $149 = HEAP32[(512)>>2]|0;
+     $149 = HEAP32[(320)>>2]|0;
      $150 = ($v$0$i$lcssa>>>0)<($149>>>0);
      if ($150) {
       _abort();
@@ -8951,7 +8868,7 @@ function _malloc($bytes) {
       if (!($180)) {
        $181 = ((($v$0$i$lcssa)) + 28|0);
        $182 = HEAP32[$181>>2]|0;
-       $183 = (800 + ($182<<2)|0);
+       $183 = (608 + ($182<<2)|0);
        $184 = HEAP32[$183>>2]|0;
        $185 = ($v$0$i$lcssa|0)==($184|0);
        if ($185) {
@@ -8960,13 +8877,13 @@ function _malloc($bytes) {
         if ($cond$i) {
          $186 = 1 << $182;
          $187 = $186 ^ -1;
-         $188 = HEAP32[(500)>>2]|0;
+         $188 = HEAP32[(308)>>2]|0;
          $189 = $188 & $187;
-         HEAP32[(500)>>2] = $189;
+         HEAP32[(308)>>2] = $189;
          break;
         }
        } else {
-        $190 = HEAP32[(512)>>2]|0;
+        $190 = HEAP32[(320)>>2]|0;
         $191 = ($154>>>0)<($190>>>0);
         if ($191) {
          _abort();
@@ -8986,7 +8903,7 @@ function _malloc($bytes) {
          break;
         }
        }
-       $197 = HEAP32[(512)>>2]|0;
+       $197 = HEAP32[(320)>>2]|0;
        $198 = ($R$1$i>>>0)<($197>>>0);
        if ($198) {
         _abort();
@@ -9016,7 +8933,7 @@ function _malloc($bytes) {
        $207 = HEAP32[$206>>2]|0;
        $208 = ($207|0)==(0|0);
        if (!($208)) {
-        $209 = HEAP32[(512)>>2]|0;
+        $209 = HEAP32[(320)>>2]|0;
         $210 = ($207>>>0)<($209>>>0);
         if ($210) {
          _abort();
@@ -9053,28 +8970,28 @@ function _malloc($bytes) {
       $$sum1$i = (($rsize$0$i$lcssa) + ($4))|0;
       $224 = (($v$0$i$lcssa) + ($$sum1$i)|0);
       HEAP32[$224>>2] = $rsize$0$i$lcssa;
-      $225 = HEAP32[(504)>>2]|0;
+      $225 = HEAP32[(312)>>2]|0;
       $226 = ($225|0)==(0);
       if (!($226)) {
-       $227 = HEAP32[(516)>>2]|0;
+       $227 = HEAP32[(324)>>2]|0;
        $228 = $225 >>> 3;
        $229 = $228 << 1;
-       $230 = (536 + ($229<<2)|0);
-       $231 = HEAP32[496>>2]|0;
+       $230 = (344 + ($229<<2)|0);
+       $231 = HEAP32[304>>2]|0;
        $232 = 1 << $228;
        $233 = $231 & $232;
        $234 = ($233|0)==(0);
        if ($234) {
         $235 = $231 | $232;
-        HEAP32[496>>2] = $235;
+        HEAP32[304>>2] = $235;
         $$pre$i = (($229) + 2)|0;
-        $$pre8$i = (536 + ($$pre$i<<2)|0);
+        $$pre8$i = (344 + ($$pre$i<<2)|0);
         $$pre$phi$iZ2D = $$pre8$i;$F1$0$i = $230;
        } else {
         $$sum3$i = (($229) + 2)|0;
-        $236 = (536 + ($$sum3$i<<2)|0);
+        $236 = (344 + ($$sum3$i<<2)|0);
         $237 = HEAP32[$236>>2]|0;
-        $238 = HEAP32[(512)>>2]|0;
+        $238 = HEAP32[(320)>>2]|0;
         $239 = ($237>>>0)<($238>>>0);
         if ($239) {
          _abort();
@@ -9091,8 +9008,8 @@ function _malloc($bytes) {
        $242 = ((($227)) + 12|0);
        HEAP32[$242>>2] = $230;
       }
-      HEAP32[(504)>>2] = $rsize$0$i$lcssa;
-      HEAP32[(516)>>2] = $151;
+      HEAP32[(312)>>2] = $rsize$0$i$lcssa;
+      HEAP32[(324)>>2] = $151;
      }
      $243 = ((($v$0$i$lcssa)) + 8|0);
      $mem$0 = $243;
@@ -9108,7 +9025,7 @@ function _malloc($bytes) {
    } else {
     $245 = (($bytes) + 11)|0;
     $246 = $245 & -8;
-    $247 = HEAP32[(500)>>2]|0;
+    $247 = HEAP32[(308)>>2]|0;
     $248 = ($247|0)==(0);
     if ($248) {
      $nb$0 = $246;
@@ -9148,7 +9065,7 @@ function _malloc($bytes) {
        $idx$0$i = $274;
       }
      }
-     $275 = (800 + ($idx$0$i<<2)|0);
+     $275 = (608 + ($idx$0$i<<2)|0);
      $276 = HEAP32[$275>>2]|0;
      $277 = ($276|0)==(0|0);
      L123: do {
@@ -9238,7 +9155,7 @@ function _malloc($bytes) {
        $325 = $321 | $324;
        $326 = $322 >>> $324;
        $327 = (($325) + ($326))|0;
-       $328 = (800 + ($327<<2)|0);
+       $328 = (608 + ($327<<2)|0);
        $329 = HEAP32[$328>>2]|0;
        $t$2$ph$i = $329;$v$3$ph$i = 0;
       } else {
@@ -9286,11 +9203,11 @@ function _malloc($bytes) {
      if ($342) {
       $nb$0 = $246;
      } else {
-      $343 = HEAP32[(504)>>2]|0;
+      $343 = HEAP32[(312)>>2]|0;
       $344 = (($343) - ($246))|0;
       $345 = ($rsize$3$lcssa$i>>>0)<($344>>>0);
       if ($345) {
-       $346 = HEAP32[(512)>>2]|0;
+       $346 = HEAP32[(320)>>2]|0;
        $347 = ($v$3$lcssa$i>>>0)<($346>>>0);
        if ($347) {
         _abort();
@@ -9386,7 +9303,7 @@ function _malloc($bytes) {
         if (!($377)) {
          $378 = ((($v$3$lcssa$i)) + 28|0);
          $379 = HEAP32[$378>>2]|0;
-         $380 = (800 + ($379<<2)|0);
+         $380 = (608 + ($379<<2)|0);
          $381 = HEAP32[$380>>2]|0;
          $382 = ($v$3$lcssa$i|0)==($381|0);
          if ($382) {
@@ -9395,13 +9312,13 @@ function _malloc($bytes) {
           if ($cond$i21) {
            $383 = 1 << $379;
            $384 = $383 ^ -1;
-           $385 = HEAP32[(500)>>2]|0;
+           $385 = HEAP32[(308)>>2]|0;
            $386 = $385 & $384;
-           HEAP32[(500)>>2] = $386;
+           HEAP32[(308)>>2] = $386;
            break;
           }
          } else {
-          $387 = HEAP32[(512)>>2]|0;
+          $387 = HEAP32[(320)>>2]|0;
           $388 = ($351>>>0)<($387>>>0);
           if ($388) {
            _abort();
@@ -9421,7 +9338,7 @@ function _malloc($bytes) {
            break;
           }
          }
-         $394 = HEAP32[(512)>>2]|0;
+         $394 = HEAP32[(320)>>2]|0;
          $395 = ($R$1$i20>>>0)<($394>>>0);
          if ($395) {
           _abort();
@@ -9451,7 +9368,7 @@ function _malloc($bytes) {
          $404 = HEAP32[$403>>2]|0;
          $405 = ($404|0)==(0|0);
          if (!($405)) {
-          $406 = HEAP32[(512)>>2]|0;
+          $406 = HEAP32[(320)>>2]|0;
           $407 = ($404>>>0)<($406>>>0);
           if ($407) {
            _abort();
@@ -9493,22 +9410,22 @@ function _malloc($bytes) {
          $423 = ($rsize$3$lcssa$i>>>0)<(256);
          if ($423) {
           $424 = $422 << 1;
-          $425 = (536 + ($424<<2)|0);
-          $426 = HEAP32[496>>2]|0;
+          $425 = (344 + ($424<<2)|0);
+          $426 = HEAP32[304>>2]|0;
           $427 = 1 << $422;
           $428 = $426 & $427;
           $429 = ($428|0)==(0);
           if ($429) {
            $430 = $426 | $427;
-           HEAP32[496>>2] = $430;
+           HEAP32[304>>2] = $430;
            $$pre$i25 = (($424) + 2)|0;
-           $$pre43$i = (536 + ($$pre$i25<<2)|0);
+           $$pre43$i = (344 + ($$pre$i25<<2)|0);
            $$pre$phi$i26Z2D = $$pre43$i;$F5$0$i = $425;
           } else {
            $$sum17$i = (($424) + 2)|0;
-           $431 = (536 + ($$sum17$i<<2)|0);
+           $431 = (344 + ($$sum17$i<<2)|0);
            $432 = HEAP32[$431>>2]|0;
-           $433 = HEAP32[(512)>>2]|0;
+           $433 = HEAP32[(320)>>2]|0;
            $434 = ($432>>>0)<($433>>>0);
            if ($434) {
             _abort();
@@ -9562,7 +9479,7 @@ function _malloc($bytes) {
            $I7$0$i = $462;
           }
          }
-         $463 = (800 + ($I7$0$i<<2)|0);
+         $463 = (608 + ($I7$0$i<<2)|0);
          $$sum2$i = (($246) + 28)|0;
          $464 = (($v$3$lcssa$i) + ($$sum2$i)|0);
          HEAP32[$464>>2] = $I7$0$i;
@@ -9572,13 +9489,13 @@ function _malloc($bytes) {
          $466 = (($v$3$lcssa$i) + ($$sum4$i28)|0);
          HEAP32[$466>>2] = 0;
          HEAP32[$465>>2] = 0;
-         $467 = HEAP32[(500)>>2]|0;
+         $467 = HEAP32[(308)>>2]|0;
          $468 = 1 << $I7$0$i;
          $469 = $467 & $468;
          $470 = ($469|0)==(0);
          if ($470) {
           $471 = $467 | $468;
-          HEAP32[(500)>>2] = $471;
+          HEAP32[(308)>>2] = $471;
           HEAP32[$463>>2] = $348;
           $$sum5$i = (($246) + 24)|0;
           $472 = (($v$3$lcssa$i) + ($$sum5$i)|0);
@@ -9627,7 +9544,7 @@ function _malloc($bytes) {
              $K12$029$i = $485;$T$028$i = $487;
             }
            }
-           $494 = HEAP32[(512)>>2]|0;
+           $494 = HEAP32[(320)>>2]|0;
            $495 = ($$lcssa232>>>0)<($494>>>0);
            if ($495) {
             _abort();
@@ -9649,7 +9566,7 @@ function _malloc($bytes) {
          } while(0);
          $499 = ((($T$0$lcssa$i)) + 8|0);
          $500 = HEAP32[$499>>2]|0;
-         $501 = HEAP32[(512)>>2]|0;
+         $501 = HEAP32[(320)>>2]|0;
          $502 = ($500>>>0)>=($501>>>0);
          $not$$i = ($T$0$lcssa$i>>>0)>=($501>>>0);
          $503 = $502 & $not$$i;
@@ -9684,16 +9601,16 @@ function _malloc($bytes) {
    }
   }
  } while(0);
- $509 = HEAP32[(504)>>2]|0;
+ $509 = HEAP32[(312)>>2]|0;
  $510 = ($509>>>0)<($nb$0>>>0);
  if (!($510)) {
   $511 = (($509) - ($nb$0))|0;
-  $512 = HEAP32[(516)>>2]|0;
+  $512 = HEAP32[(324)>>2]|0;
   $513 = ($511>>>0)>(15);
   if ($513) {
    $514 = (($512) + ($nb$0)|0);
-   HEAP32[(516)>>2] = $514;
-   HEAP32[(504)>>2] = $511;
+   HEAP32[(324)>>2] = $514;
+   HEAP32[(312)>>2] = $511;
    $515 = $511 | 1;
    $$sum2 = (($nb$0) + 4)|0;
    $516 = (($512) + ($$sum2)|0);
@@ -9704,8 +9621,8 @@ function _malloc($bytes) {
    $519 = ((($512)) + 4|0);
    HEAP32[$519>>2] = $518;
   } else {
-   HEAP32[(504)>>2] = 0;
-   HEAP32[(516)>>2] = 0;
+   HEAP32[(312)>>2] = 0;
+   HEAP32[(324)>>2] = 0;
    $520 = $509 | 3;
    $521 = ((($512)) + 4|0);
    HEAP32[$521>>2] = $520;
@@ -9719,14 +9636,14 @@ function _malloc($bytes) {
   $mem$0 = $525;
   return ($mem$0|0);
  }
- $526 = HEAP32[(508)>>2]|0;
+ $526 = HEAP32[(316)>>2]|0;
  $527 = ($526>>>0)>($nb$0>>>0);
  if ($527) {
   $528 = (($526) - ($nb$0))|0;
-  HEAP32[(508)>>2] = $528;
-  $529 = HEAP32[(520)>>2]|0;
+  HEAP32[(316)>>2] = $528;
+  $529 = HEAP32[(328)>>2]|0;
   $530 = (($529) + ($nb$0)|0);
-  HEAP32[(520)>>2] = $530;
+  HEAP32[(328)>>2] = $530;
   $531 = $528 | 1;
   $$sum = (($nb$0) + 4)|0;
   $532 = (($529) + ($$sum)|0);
@@ -9738,7 +9655,7 @@ function _malloc($bytes) {
   $mem$0 = $535;
   return ($mem$0|0);
  }
- $536 = HEAP32[968>>2]|0;
+ $536 = HEAP32[776>>2]|0;
  $537 = ($536|0)==(0);
  do {
   if ($537) {
@@ -9747,16 +9664,16 @@ function _malloc($bytes) {
    $540 = $539 & $538;
    $541 = ($540|0)==(0);
    if ($541) {
-    HEAP32[(976)>>2] = $538;
-    HEAP32[(972)>>2] = $538;
-    HEAP32[(980)>>2] = -1;
-    HEAP32[(984)>>2] = -1;
-    HEAP32[(988)>>2] = 0;
-    HEAP32[(940)>>2] = 0;
+    HEAP32[(784)>>2] = $538;
+    HEAP32[(780)>>2] = $538;
+    HEAP32[(788)>>2] = -1;
+    HEAP32[(792)>>2] = -1;
+    HEAP32[(796)>>2] = 0;
+    HEAP32[(748)>>2] = 0;
     $542 = (_time((0|0))|0);
     $543 = $542 & -16;
     $544 = $543 ^ 1431655768;
-    HEAP32[968>>2] = $544;
+    HEAP32[776>>2] = $544;
     break;
    } else {
     _abort();
@@ -9765,7 +9682,7 @@ function _malloc($bytes) {
   }
  } while(0);
  $545 = (($nb$0) + 48)|0;
- $546 = HEAP32[(976)>>2]|0;
+ $546 = HEAP32[(784)>>2]|0;
  $547 = (($nb$0) + 47)|0;
  $548 = (($546) + ($547))|0;
  $549 = (0 - ($546))|0;
@@ -9775,10 +9692,10 @@ function _malloc($bytes) {
   $mem$0 = 0;
   return ($mem$0|0);
  }
- $552 = HEAP32[(936)>>2]|0;
+ $552 = HEAP32[(744)>>2]|0;
  $553 = ($552|0)==(0);
  if (!($553)) {
-  $554 = HEAP32[(928)>>2]|0;
+  $554 = HEAP32[(736)>>2]|0;
   $555 = (($554) + ($550))|0;
   $556 = ($555>>>0)<=($554>>>0);
   $557 = ($555>>>0)>($552>>>0);
@@ -9788,18 +9705,18 @@ function _malloc($bytes) {
    return ($mem$0|0);
   }
  }
- $558 = HEAP32[(940)>>2]|0;
+ $558 = HEAP32[(748)>>2]|0;
  $559 = $558 & 4;
  $560 = ($559|0)==(0);
  L258: do {
   if ($560) {
-   $561 = HEAP32[(520)>>2]|0;
+   $561 = HEAP32[(328)>>2]|0;
    $562 = ($561|0)==(0|0);
    L260: do {
     if ($562) {
      label = 174;
     } else {
-     $sp$0$i$i = (944);
+     $sp$0$i$i = (752);
      while(1) {
       $563 = HEAP32[$sp$0$i$i>>2]|0;
       $564 = ($563>>>0)>($561>>>0);
@@ -9823,7 +9740,7 @@ function _malloc($bytes) {
        $sp$0$i$i = $570;
       }
      }
-     $594 = HEAP32[(508)>>2]|0;
+     $594 = HEAP32[(316)>>2]|0;
      $595 = (($548) - ($594))|0;
      $596 = $595 & $549;
      $597 = ($596>>>0)<(2147483647);
@@ -9860,7 +9777,7 @@ function _malloc($bytes) {
       $tsize$0323944$i = 0;
      } else {
       $574 = $572;
-      $575 = HEAP32[(972)>>2]|0;
+      $575 = HEAP32[(780)>>2]|0;
       $576 = (($575) + -1)|0;
       $577 = $576 & $574;
       $578 = ($577|0)==(0);
@@ -9874,13 +9791,13 @@ function _malloc($bytes) {
        $583 = (($582) + ($581))|0;
        $ssize$0$i = $583;
       }
-      $584 = HEAP32[(928)>>2]|0;
+      $584 = HEAP32[(736)>>2]|0;
       $585 = (($584) + ($ssize$0$i))|0;
       $586 = ($ssize$0$i>>>0)>($nb$0>>>0);
       $587 = ($ssize$0$i>>>0)<(2147483647);
       $or$cond$i30 = $586 & $587;
       if ($or$cond$i30) {
-       $588 = HEAP32[(936)>>2]|0;
+       $588 = HEAP32[(744)>>2]|0;
        $589 = ($588|0)==(0);
        if (!($589)) {
         $590 = ($585>>>0)<=($584>>>0);
@@ -9918,7 +9835,7 @@ function _malloc($bytes) {
      $or$cond6$i = $607 & $or$cond5$i;
      do {
       if ($or$cond6$i) {
-       $608 = HEAP32[(976)>>2]|0;
+       $608 = HEAP32[(784)>>2]|0;
        $609 = (($547) - ($ssize$1$ph$i))|0;
        $610 = (($609) + ($608))|0;
        $611 = (0 - ($608))|0;
@@ -9953,9 +9870,9 @@ function _malloc($bytes) {
      }
     }
    } while(0);
-   $618 = HEAP32[(940)>>2]|0;
+   $618 = HEAP32[(748)>>2]|0;
    $619 = $618 | 4;
-   HEAP32[(940)>>2] = $619;
+   HEAP32[(748)>>2] = $619;
    $tsize$1$i = $tsize$0323944$i;
    label = 191;
   } else {
@@ -9988,40 +9905,40 @@ function _malloc($bytes) {
   }
  }
  if ((label|0) == 194) {
-  $631 = HEAP32[(928)>>2]|0;
+  $631 = HEAP32[(736)>>2]|0;
   $632 = (($631) + ($tsize$254$i))|0;
-  HEAP32[(928)>>2] = $632;
-  $633 = HEAP32[(932)>>2]|0;
+  HEAP32[(736)>>2] = $632;
+  $633 = HEAP32[(740)>>2]|0;
   $634 = ($632>>>0)>($633>>>0);
   if ($634) {
-   HEAP32[(932)>>2] = $632;
+   HEAP32[(740)>>2] = $632;
   }
-  $635 = HEAP32[(520)>>2]|0;
+  $635 = HEAP32[(328)>>2]|0;
   $636 = ($635|0)==(0|0);
   L299: do {
    if ($636) {
-    $637 = HEAP32[(512)>>2]|0;
+    $637 = HEAP32[(320)>>2]|0;
     $638 = ($637|0)==(0|0);
     $639 = ($tbase$255$i>>>0)<($637>>>0);
     $or$cond9$i = $638 | $639;
     if ($or$cond9$i) {
-     HEAP32[(512)>>2] = $tbase$255$i;
+     HEAP32[(320)>>2] = $tbase$255$i;
     }
-    HEAP32[(944)>>2] = $tbase$255$i;
-    HEAP32[(948)>>2] = $tsize$254$i;
-    HEAP32[(956)>>2] = 0;
-    $640 = HEAP32[968>>2]|0;
-    HEAP32[(532)>>2] = $640;
-    HEAP32[(528)>>2] = -1;
+    HEAP32[(752)>>2] = $tbase$255$i;
+    HEAP32[(756)>>2] = $tsize$254$i;
+    HEAP32[(764)>>2] = 0;
+    $640 = HEAP32[776>>2]|0;
+    HEAP32[(340)>>2] = $640;
+    HEAP32[(336)>>2] = -1;
     $i$02$i$i = 0;
     while(1) {
      $641 = $i$02$i$i << 1;
-     $642 = (536 + ($641<<2)|0);
+     $642 = (344 + ($641<<2)|0);
      $$sum$i$i = (($641) + 3)|0;
-     $643 = (536 + ($$sum$i$i<<2)|0);
+     $643 = (344 + ($$sum$i$i<<2)|0);
      HEAP32[$643>>2] = $642;
      $$sum1$i$i = (($641) + 2)|0;
-     $644 = (536 + ($$sum1$i$i<<2)|0);
+     $644 = (344 + ($$sum1$i$i<<2)|0);
      HEAP32[$644>>2] = $642;
      $645 = (($i$02$i$i) + 1)|0;
      $exitcond$i$i = ($645|0)==(32);
@@ -10041,8 +9958,8 @@ function _malloc($bytes) {
     $653 = $650 ? 0 : $652;
     $654 = (($tbase$255$i) + ($653)|0);
     $655 = (($646) - ($653))|0;
-    HEAP32[(520)>>2] = $654;
-    HEAP32[(508)>>2] = $655;
+    HEAP32[(328)>>2] = $654;
+    HEAP32[(316)>>2] = $655;
     $656 = $655 | 1;
     $$sum$i13$i = (($653) + 4)|0;
     $657 = (($tbase$255$i) + ($$sum$i13$i)|0);
@@ -10050,10 +9967,10 @@ function _malloc($bytes) {
     $$sum2$i$i = (($tsize$254$i) + -36)|0;
     $658 = (($tbase$255$i) + ($$sum2$i$i)|0);
     HEAP32[$658>>2] = 40;
-    $659 = HEAP32[(984)>>2]|0;
-    HEAP32[(524)>>2] = $659;
+    $659 = HEAP32[(792)>>2]|0;
+    HEAP32[(332)>>2] = $659;
    } else {
-    $sp$084$i = (944);
+    $sp$084$i = (752);
     while(1) {
      $660 = HEAP32[$sp$084$i>>2]|0;
      $661 = ((($sp$084$i)) + 4|0);
@@ -10086,7 +10003,7 @@ function _malloc($bytes) {
       if ($or$cond57$i) {
        $674 = (($$lcssa226) + ($tsize$254$i))|0;
        HEAP32[$$lcssa224>>2] = $674;
-       $675 = HEAP32[(508)>>2]|0;
+       $675 = HEAP32[(316)>>2]|0;
        $676 = (($675) + ($tsize$254$i))|0;
        $677 = ((($635)) + 8|0);
        $678 = $677;
@@ -10097,8 +10014,8 @@ function _malloc($bytes) {
        $683 = $680 ? 0 : $682;
        $684 = (($635) + ($683)|0);
        $685 = (($676) - ($683))|0;
-       HEAP32[(520)>>2] = $684;
-       HEAP32[(508)>>2] = $685;
+       HEAP32[(328)>>2] = $684;
+       HEAP32[(316)>>2] = $685;
        $686 = $685 | 1;
        $$sum$i17$i = (($683) + 4)|0;
        $687 = (($635) + ($$sum$i17$i)|0);
@@ -10106,22 +10023,22 @@ function _malloc($bytes) {
        $$sum2$i18$i = (($676) + 4)|0;
        $688 = (($635) + ($$sum2$i18$i)|0);
        HEAP32[$688>>2] = 40;
-       $689 = HEAP32[(984)>>2]|0;
-       HEAP32[(524)>>2] = $689;
+       $689 = HEAP32[(792)>>2]|0;
+       HEAP32[(332)>>2] = $689;
        break;
       }
      }
     }
-    $690 = HEAP32[(512)>>2]|0;
+    $690 = HEAP32[(320)>>2]|0;
     $691 = ($tbase$255$i>>>0)<($690>>>0);
     if ($691) {
-     HEAP32[(512)>>2] = $tbase$255$i;
+     HEAP32[(320)>>2] = $tbase$255$i;
      $755 = $tbase$255$i;
     } else {
      $755 = $690;
     }
     $692 = (($tbase$255$i) + ($tsize$254$i)|0);
-    $sp$183$i = (944);
+    $sp$183$i = (752);
     while(1) {
      $693 = HEAP32[$sp$183$i>>2]|0;
      $694 = ($693|0)==($692|0);
@@ -10134,7 +10051,7 @@ function _malloc($bytes) {
      $696 = HEAP32[$695>>2]|0;
      $697 = ($696|0)==(0|0);
      if ($697) {
-      $sp$0$i$i$i = (944);
+      $sp$0$i$i$i = (752);
       break;
      } else {
       $sp$183$i = $696;
@@ -10182,22 +10099,22 @@ function _malloc($bytes) {
       $728 = ($720|0)==($635|0);
       L324: do {
        if ($728) {
-        $729 = HEAP32[(508)>>2]|0;
+        $729 = HEAP32[(316)>>2]|0;
         $730 = (($729) + ($725))|0;
-        HEAP32[(508)>>2] = $730;
-        HEAP32[(520)>>2] = $724;
+        HEAP32[(316)>>2] = $730;
+        HEAP32[(328)>>2] = $724;
         $731 = $730 | 1;
         $$sum42$i$i = (($$sum$i19$i) + 4)|0;
         $732 = (($tbase$255$i) + ($$sum42$i$i)|0);
         HEAP32[$732>>2] = $731;
        } else {
-        $733 = HEAP32[(516)>>2]|0;
+        $733 = HEAP32[(324)>>2]|0;
         $734 = ($720|0)==($733|0);
         if ($734) {
-         $735 = HEAP32[(504)>>2]|0;
+         $735 = HEAP32[(312)>>2]|0;
          $736 = (($735) + ($725))|0;
-         HEAP32[(504)>>2] = $736;
-         HEAP32[(516)>>2] = $724;
+         HEAP32[(312)>>2] = $736;
+         HEAP32[(324)>>2] = $724;
          $737 = $736 | 1;
          $$sum40$i$i = (($$sum$i19$i) + 4)|0;
          $738 = (($tbase$255$i) + ($$sum40$i$i)|0);
@@ -10228,7 +10145,7 @@ function _malloc($bytes) {
            $749 = (($tbase$255$i) + ($$sum125$i)|0);
            $750 = HEAP32[$749>>2]|0;
            $751 = $745 << 1;
-           $752 = (536 + ($751<<2)|0);
+           $752 = (344 + ($751<<2)|0);
            $753 = ($748|0)==($752|0);
            do {
             if (!($753)) {
@@ -10251,9 +10168,9 @@ function _malloc($bytes) {
            if ($759) {
             $760 = 1 << $745;
             $761 = $760 ^ -1;
-            $762 = HEAP32[496>>2]|0;
+            $762 = HEAP32[304>>2]|0;
             $763 = $762 & $761;
-            HEAP32[496>>2] = $763;
+            HEAP32[304>>2] = $763;
             break;
            }
            $764 = ($750|0)==($752|0);
@@ -10378,7 +10295,7 @@ function _malloc($bytes) {
            $$sum118$i = (($$sum30$i$i) + ($719))|0;
            $798 = (($tbase$255$i) + ($$sum118$i)|0);
            $799 = HEAP32[$798>>2]|0;
-           $800 = (800 + ($799<<2)|0);
+           $800 = (608 + ($799<<2)|0);
            $801 = HEAP32[$800>>2]|0;
            $802 = ($720|0)==($801|0);
            do {
@@ -10390,12 +10307,12 @@ function _malloc($bytes) {
              }
              $803 = 1 << $799;
              $804 = $803 ^ -1;
-             $805 = HEAP32[(500)>>2]|0;
+             $805 = HEAP32[(308)>>2]|0;
              $806 = $805 & $804;
-             HEAP32[(500)>>2] = $806;
+             HEAP32[(308)>>2] = $806;
              break L331;
             } else {
-             $807 = HEAP32[(512)>>2]|0;
+             $807 = HEAP32[(320)>>2]|0;
              $808 = ($771>>>0)<($807>>>0);
              if ($808) {
               _abort();
@@ -10416,7 +10333,7 @@ function _malloc($bytes) {
              }
             }
            } while(0);
-           $814 = HEAP32[(512)>>2]|0;
+           $814 = HEAP32[(320)>>2]|0;
            $815 = ($R$1$i$i>>>0)<($814>>>0);
            if ($815) {
             _abort();
@@ -10451,7 +10368,7 @@ function _malloc($bytes) {
            if ($825) {
             break;
            }
-           $826 = HEAP32[(512)>>2]|0;
+           $826 = HEAP32[(320)>>2]|0;
            $827 = ($824>>>0)<($826>>>0);
            if ($827) {
             _abort();
@@ -10488,23 +10405,23 @@ function _malloc($bytes) {
         $839 = ($qsize$0$i$i>>>0)<(256);
         if ($839) {
          $840 = $838 << 1;
-         $841 = (536 + ($840<<2)|0);
-         $842 = HEAP32[496>>2]|0;
+         $841 = (344 + ($840<<2)|0);
+         $842 = HEAP32[304>>2]|0;
          $843 = 1 << $838;
          $844 = $842 & $843;
          $845 = ($844|0)==(0);
          do {
           if ($845) {
            $846 = $842 | $843;
-           HEAP32[496>>2] = $846;
+           HEAP32[304>>2] = $846;
            $$pre$i22$i = (($840) + 2)|0;
-           $$pre56$i$i = (536 + ($$pre$i22$i<<2)|0);
+           $$pre56$i$i = (344 + ($$pre$i22$i<<2)|0);
            $$pre$phi$i23$iZ2D = $$pre56$i$i;$F4$0$i$i = $841;
           } else {
            $$sum29$i$i = (($840) + 2)|0;
-           $847 = (536 + ($$sum29$i$i<<2)|0);
+           $847 = (344 + ($$sum29$i$i<<2)|0);
            $848 = HEAP32[$847>>2]|0;
-           $849 = HEAP32[(512)>>2]|0;
+           $849 = HEAP32[(320)>>2]|0;
            $850 = ($848>>>0)<($849>>>0);
            if (!($850)) {
             $$pre$phi$i23$iZ2D = $847;$F4$0$i$i = $848;
@@ -10561,7 +10478,7 @@ function _malloc($bytes) {
           $I7$0$i$i = $878;
          }
         } while(0);
-        $879 = (800 + ($I7$0$i$i<<2)|0);
+        $879 = (608 + ($I7$0$i$i<<2)|0);
         $$sum12$i$i = (($$sum$i19$i) + 28)|0;
         $880 = (($tbase$255$i) + ($$sum12$i$i)|0);
         HEAP32[$880>>2] = $I7$0$i$i;
@@ -10571,13 +10488,13 @@ function _malloc($bytes) {
         $882 = (($tbase$255$i) + ($$sum14$i$i)|0);
         HEAP32[$882>>2] = 0;
         HEAP32[$881>>2] = 0;
-        $883 = HEAP32[(500)>>2]|0;
+        $883 = HEAP32[(308)>>2]|0;
         $884 = 1 << $I7$0$i$i;
         $885 = $883 & $884;
         $886 = ($885|0)==(0);
         if ($886) {
          $887 = $883 | $884;
-         HEAP32[(500)>>2] = $887;
+         HEAP32[(308)>>2] = $887;
          HEAP32[$879>>2] = $724;
          $$sum15$i$i = (($$sum$i19$i) + 24)|0;
          $888 = (($tbase$255$i) + ($$sum15$i$i)|0);
@@ -10626,7 +10543,7 @@ function _malloc($bytes) {
             $K8$051$i$i = $901;$T$050$i$i = $903;
            }
           }
-          $910 = HEAP32[(512)>>2]|0;
+          $910 = HEAP32[(320)>>2]|0;
           $911 = ($$lcssa>>>0)<($910>>>0);
           if ($911) {
            _abort();
@@ -10648,7 +10565,7 @@ function _malloc($bytes) {
         } while(0);
         $915 = ((($T$0$lcssa$i25$i)) + 8|0);
         $916 = HEAP32[$915>>2]|0;
-        $917 = HEAP32[(512)>>2]|0;
+        $917 = HEAP32[(320)>>2]|0;
         $918 = ($916>>>0)>=($917>>>0);
         $not$$i26$i = ($T$0$lcssa$i25$i>>>0)>=($917>>>0);
         $919 = $918 & $not$$i26$i;
@@ -10677,7 +10594,7 @@ function _malloc($bytes) {
       $mem$0 = $924;
       return ($mem$0|0);
      } else {
-      $sp$0$i$i$i = (944);
+      $sp$0$i$i$i = (752);
      }
     }
     while(1) {
@@ -10722,8 +10639,8 @@ function _malloc($bytes) {
     $952 = $949 ? 0 : $951;
     $953 = (($tbase$255$i) + ($952)|0);
     $954 = (($945) - ($952))|0;
-    HEAP32[(520)>>2] = $953;
-    HEAP32[(508)>>2] = $954;
+    HEAP32[(328)>>2] = $953;
+    HEAP32[(316)>>2] = $954;
     $955 = $954 | 1;
     $$sum$i$i$i = (($952) + 4)|0;
     $956 = (($tbase$255$i) + ($$sum$i$i$i)|0);
@@ -10731,15 +10648,15 @@ function _malloc($bytes) {
     $$sum2$i$i$i = (($tsize$254$i) + -36)|0;
     $957 = (($tbase$255$i) + ($$sum2$i$i$i)|0);
     HEAP32[$957>>2] = 40;
-    $958 = HEAP32[(984)>>2]|0;
-    HEAP32[(524)>>2] = $958;
+    $958 = HEAP32[(792)>>2]|0;
+    HEAP32[(332)>>2] = $958;
     $959 = ((($943)) + 4|0);
     HEAP32[$959>>2] = 27;
-    ;HEAP32[$944>>2]=HEAP32[(944)>>2]|0;HEAP32[$944+4>>2]=HEAP32[(944)+4>>2]|0;HEAP32[$944+8>>2]=HEAP32[(944)+8>>2]|0;HEAP32[$944+12>>2]=HEAP32[(944)+12>>2]|0;
-    HEAP32[(944)>>2] = $tbase$255$i;
-    HEAP32[(948)>>2] = $tsize$254$i;
-    HEAP32[(956)>>2] = 0;
-    HEAP32[(952)>>2] = $944;
+    ;HEAP32[$944>>2]=HEAP32[(752)>>2]|0;HEAP32[$944+4>>2]=HEAP32[(752)+4>>2]|0;HEAP32[$944+8>>2]=HEAP32[(752)+8>>2]|0;HEAP32[$944+12>>2]=HEAP32[(752)+12>>2]|0;
+    HEAP32[(752)>>2] = $tbase$255$i;
+    HEAP32[(756)>>2] = $tsize$254$i;
+    HEAP32[(764)>>2] = 0;
+    HEAP32[(760)>>2] = $944;
     $960 = ((($943)) + 28|0);
     HEAP32[$960>>2] = 7;
     $961 = ((($943)) + 32|0);
@@ -10774,22 +10691,22 @@ function _malloc($bytes) {
      $976 = ($970>>>0)<(256);
      if ($976) {
       $977 = $975 << 1;
-      $978 = (536 + ($977<<2)|0);
-      $979 = HEAP32[496>>2]|0;
+      $978 = (344 + ($977<<2)|0);
+      $979 = HEAP32[304>>2]|0;
       $980 = 1 << $975;
       $981 = $979 & $980;
       $982 = ($981|0)==(0);
       if ($982) {
        $983 = $979 | $980;
-       HEAP32[496>>2] = $983;
+       HEAP32[304>>2] = $983;
        $$pre$i$i = (($977) + 2)|0;
-       $$pre14$i$i = (536 + ($$pre$i$i<<2)|0);
+       $$pre14$i$i = (344 + ($$pre$i$i<<2)|0);
        $$pre$phi$i$iZ2D = $$pre14$i$i;$F$0$i$i = $978;
       } else {
        $$sum4$i$i = (($977) + 2)|0;
-       $984 = (536 + ($$sum4$i$i<<2)|0);
+       $984 = (344 + ($$sum4$i$i<<2)|0);
        $985 = HEAP32[$984>>2]|0;
-       $986 = HEAP32[(512)>>2]|0;
+       $986 = HEAP32[(320)>>2]|0;
        $987 = ($985>>>0)<($986>>>0);
        if ($987) {
         _abort();
@@ -10841,19 +10758,19 @@ function _malloc($bytes) {
        $I1$0$i$i = $1015;
       }
      }
-     $1016 = (800 + ($I1$0$i$i<<2)|0);
+     $1016 = (608 + ($I1$0$i$i<<2)|0);
      $1017 = ((($635)) + 28|0);
      HEAP32[$1017>>2] = $I1$0$i$i;
      $1018 = ((($635)) + 20|0);
      HEAP32[$1018>>2] = 0;
      HEAP32[$941>>2] = 0;
-     $1019 = HEAP32[(500)>>2]|0;
+     $1019 = HEAP32[(308)>>2]|0;
      $1020 = 1 << $I1$0$i$i;
      $1021 = $1019 & $1020;
      $1022 = ($1021|0)==(0);
      if ($1022) {
       $1023 = $1019 | $1020;
-      HEAP32[(500)>>2] = $1023;
+      HEAP32[(308)>>2] = $1023;
       HEAP32[$1016>>2] = $635;
       $1024 = ((($635)) + 24|0);
       HEAP32[$1024>>2] = $1016;
@@ -10899,7 +10816,7 @@ function _malloc($bytes) {
          $K2$07$i$i = $1037;$T$06$i$i = $1039;
         }
        }
-       $1046 = HEAP32[(512)>>2]|0;
+       $1046 = HEAP32[(320)>>2]|0;
        $1047 = ($$lcssa211>>>0)<($1046>>>0);
        if ($1047) {
         _abort();
@@ -10918,7 +10835,7 @@ function _malloc($bytes) {
      } while(0);
      $1051 = ((($T$0$lcssa$i$i)) + 8|0);
      $1052 = HEAP32[$1051>>2]|0;
-     $1053 = HEAP32[(512)>>2]|0;
+     $1053 = HEAP32[(320)>>2]|0;
      $1054 = ($1052>>>0)>=($1053>>>0);
      $not$$i$i = ($T$0$lcssa$i$i>>>0)>=($1053>>>0);
      $1055 = $1054 & $not$$i$i;
@@ -10940,14 +10857,14 @@ function _malloc($bytes) {
     }
    }
   } while(0);
-  $1060 = HEAP32[(508)>>2]|0;
+  $1060 = HEAP32[(316)>>2]|0;
   $1061 = ($1060>>>0)>($nb$0>>>0);
   if ($1061) {
    $1062 = (($1060) - ($nb$0))|0;
-   HEAP32[(508)>>2] = $1062;
-   $1063 = HEAP32[(520)>>2]|0;
+   HEAP32[(316)>>2] = $1062;
+   $1063 = HEAP32[(328)>>2]|0;
    $1064 = (($1063) + ($nb$0)|0);
-   HEAP32[(520)>>2] = $1064;
+   HEAP32[(328)>>2] = $1064;
    $1065 = $1062 | 1;
    $$sum$i32 = (($nb$0) + 4)|0;
    $1066 = (($1063) + ($$sum$i32)|0);
@@ -10992,7 +10909,7 @@ function _free($mem) {
   return;
  }
  $1 = ((($mem)) + -8|0);
- $2 = HEAP32[(512)>>2]|0;
+ $2 = HEAP32[(320)>>2]|0;
  $3 = ($1>>>0)<($2>>>0);
  if ($3) {
   _abort();
@@ -11026,7 +10943,7 @@ function _free($mem) {
     _abort();
     // unreachable;
    }
-   $17 = HEAP32[(516)>>2]|0;
+   $17 = HEAP32[(324)>>2]|0;
    $18 = ($14|0)==($17|0);
    if ($18) {
     $$sum3 = (($8) + -4)|0;
@@ -11038,7 +10955,7 @@ function _free($mem) {
      $p$0 = $14;$psize$0 = $15;
      break;
     }
-    HEAP32[(504)>>2] = $15;
+    HEAP32[(312)>>2] = $15;
     $107 = $104 & -2;
     HEAP32[$103>>2] = $107;
     $108 = $15 | 1;
@@ -11058,7 +10975,7 @@ function _free($mem) {
     $23 = (($mem) + ($$sum31)|0);
     $24 = HEAP32[$23>>2]|0;
     $25 = $19 << 1;
-    $26 = (536 + ($25<<2)|0);
+    $26 = (344 + ($25<<2)|0);
     $27 = ($22|0)==($26|0);
     if (!($27)) {
      $28 = ($22>>>0)<($2>>>0);
@@ -11078,9 +10995,9 @@ function _free($mem) {
     if ($32) {
      $33 = 1 << $19;
      $34 = $33 ^ -1;
-     $35 = HEAP32[496>>2]|0;
+     $35 = HEAP32[304>>2]|0;
      $36 = $35 & $34;
-     HEAP32[496>>2] = $36;
+     HEAP32[304>>2] = $36;
      $p$0 = $14;$psize$0 = $15;
      break;
     }
@@ -11201,7 +11118,7 @@ function _free($mem) {
     $$sum26 = (($$sum2) + 28)|0;
     $71 = (($mem) + ($$sum26)|0);
     $72 = HEAP32[$71>>2]|0;
-    $73 = (800 + ($72<<2)|0);
+    $73 = (608 + ($72<<2)|0);
     $74 = HEAP32[$73>>2]|0;
     $75 = ($14|0)==($74|0);
     if ($75) {
@@ -11210,14 +11127,14 @@ function _free($mem) {
      if ($cond) {
       $76 = 1 << $72;
       $77 = $76 ^ -1;
-      $78 = HEAP32[(500)>>2]|0;
+      $78 = HEAP32[(308)>>2]|0;
       $79 = $78 & $77;
-      HEAP32[(500)>>2] = $79;
+      HEAP32[(308)>>2] = $79;
       $p$0 = $14;$psize$0 = $15;
       break;
      }
     } else {
-     $80 = HEAP32[(512)>>2]|0;
+     $80 = HEAP32[(320)>>2]|0;
      $81 = ($44>>>0)<($80>>>0);
      if ($81) {
       _abort();
@@ -11238,7 +11155,7 @@ function _free($mem) {
       break;
      }
     }
-    $87 = HEAP32[(512)>>2]|0;
+    $87 = HEAP32[(320)>>2]|0;
     $88 = ($R$1>>>0)<($87>>>0);
     if ($88) {
      _abort();
@@ -11272,7 +11189,7 @@ function _free($mem) {
     if ($98) {
      $p$0 = $14;$psize$0 = $15;
     } else {
-     $99 = HEAP32[(512)>>2]|0;
+     $99 = HEAP32[(320)>>2]|0;
      $100 = ($97>>>0)<($99>>>0);
      if ($100) {
       _abort();
@@ -11308,32 +11225,32 @@ function _free($mem) {
  $115 = $112 & 2;
  $116 = ($115|0)==(0);
  if ($116) {
-  $117 = HEAP32[(520)>>2]|0;
+  $117 = HEAP32[(328)>>2]|0;
   $118 = ($9|0)==($117|0);
   if ($118) {
-   $119 = HEAP32[(508)>>2]|0;
+   $119 = HEAP32[(316)>>2]|0;
    $120 = (($119) + ($psize$0))|0;
-   HEAP32[(508)>>2] = $120;
-   HEAP32[(520)>>2] = $p$0;
+   HEAP32[(316)>>2] = $120;
+   HEAP32[(328)>>2] = $p$0;
    $121 = $120 | 1;
    $122 = ((($p$0)) + 4|0);
    HEAP32[$122>>2] = $121;
-   $123 = HEAP32[(516)>>2]|0;
+   $123 = HEAP32[(324)>>2]|0;
    $124 = ($p$0|0)==($123|0);
    if (!($124)) {
     return;
    }
-   HEAP32[(516)>>2] = 0;
-   HEAP32[(504)>>2] = 0;
+   HEAP32[(324)>>2] = 0;
+   HEAP32[(312)>>2] = 0;
    return;
   }
-  $125 = HEAP32[(516)>>2]|0;
+  $125 = HEAP32[(324)>>2]|0;
   $126 = ($9|0)==($125|0);
   if ($126) {
-   $127 = HEAP32[(504)>>2]|0;
+   $127 = HEAP32[(312)>>2]|0;
    $128 = (($127) + ($psize$0))|0;
-   HEAP32[(504)>>2] = $128;
-   HEAP32[(516)>>2] = $p$0;
+   HEAP32[(312)>>2] = $128;
+   HEAP32[(324)>>2] = $p$0;
    $129 = $128 | 1;
    $130 = ((($p$0)) + 4|0);
    HEAP32[$130>>2] = $129;
@@ -11353,10 +11270,10 @@ function _free($mem) {
     $138 = (($mem) + ($$sum1718)|0);
     $139 = HEAP32[$138>>2]|0;
     $140 = $134 << 1;
-    $141 = (536 + ($140<<2)|0);
+    $141 = (344 + ($140<<2)|0);
     $142 = ($137|0)==($141|0);
     if (!($142)) {
-     $143 = HEAP32[(512)>>2]|0;
+     $143 = HEAP32[(320)>>2]|0;
      $144 = ($137>>>0)<($143>>>0);
      if ($144) {
       _abort();
@@ -11374,9 +11291,9 @@ function _free($mem) {
     if ($148) {
      $149 = 1 << $134;
      $150 = $149 ^ -1;
-     $151 = HEAP32[496>>2]|0;
+     $151 = HEAP32[304>>2]|0;
      $152 = $151 & $150;
-     HEAP32[496>>2] = $152;
+     HEAP32[304>>2] = $152;
      break;
     }
     $153 = ($139|0)==($141|0);
@@ -11384,7 +11301,7 @@ function _free($mem) {
      $$pre58 = ((($139)) + 8|0);
      $$pre$phi59Z2D = $$pre58;
     } else {
-     $154 = HEAP32[(512)>>2]|0;
+     $154 = HEAP32[(320)>>2]|0;
      $155 = ($139>>>0)<($154>>>0);
      if ($155) {
       _abort();
@@ -11449,7 +11366,7 @@ function _free($mem) {
         $R7$0 = $185;$RP9$0 = $184;
        }
       }
-      $187 = HEAP32[(512)>>2]|0;
+      $187 = HEAP32[(320)>>2]|0;
       $188 = ($RP9$0$lcssa>>>0)<($187>>>0);
       if ($188) {
        _abort();
@@ -11462,7 +11379,7 @@ function _free($mem) {
      } else {
       $165 = (($mem) + ($8)|0);
       $166 = HEAP32[$165>>2]|0;
-      $167 = HEAP32[(512)>>2]|0;
+      $167 = HEAP32[(320)>>2]|0;
       $168 = ($166>>>0)<($167>>>0);
       if ($168) {
        _abort();
@@ -11494,7 +11411,7 @@ function _free($mem) {
      $$sum12 = (($8) + 20)|0;
      $190 = (($mem) + ($$sum12)|0);
      $191 = HEAP32[$190>>2]|0;
-     $192 = (800 + ($191<<2)|0);
+     $192 = (608 + ($191<<2)|0);
      $193 = HEAP32[$192>>2]|0;
      $194 = ($9|0)==($193|0);
      if ($194) {
@@ -11503,13 +11420,13 @@ function _free($mem) {
       if ($cond47) {
        $195 = 1 << $191;
        $196 = $195 ^ -1;
-       $197 = HEAP32[(500)>>2]|0;
+       $197 = HEAP32[(308)>>2]|0;
        $198 = $197 & $196;
-       HEAP32[(500)>>2] = $198;
+       HEAP32[(308)>>2] = $198;
        break;
       }
      } else {
-      $199 = HEAP32[(512)>>2]|0;
+      $199 = HEAP32[(320)>>2]|0;
       $200 = ($161>>>0)<($199>>>0);
       if ($200) {
        _abort();
@@ -11529,7 +11446,7 @@ function _free($mem) {
        break;
       }
      }
-     $206 = HEAP32[(512)>>2]|0;
+     $206 = HEAP32[(320)>>2]|0;
      $207 = ($R7$1>>>0)<($206>>>0);
      if ($207) {
       _abort();
@@ -11561,7 +11478,7 @@ function _free($mem) {
      $216 = HEAP32[$215>>2]|0;
      $217 = ($216|0)==(0|0);
      if (!($217)) {
-      $218 = HEAP32[(512)>>2]|0;
+      $218 = HEAP32[(320)>>2]|0;
       $219 = ($216>>>0)<($218>>>0);
       if ($219) {
        _abort();
@@ -11582,10 +11499,10 @@ function _free($mem) {
   HEAP32[$223>>2] = $222;
   $224 = (($p$0) + ($133)|0);
   HEAP32[$224>>2] = $133;
-  $225 = HEAP32[(516)>>2]|0;
+  $225 = HEAP32[(324)>>2]|0;
   $226 = ($p$0|0)==($225|0);
   if ($226) {
-   HEAP32[(504)>>2] = $133;
+   HEAP32[(312)>>2] = $133;
    return;
   } else {
    $psize$1 = $133;
@@ -11604,22 +11521,22 @@ function _free($mem) {
  $232 = ($psize$1>>>0)<(256);
  if ($232) {
   $233 = $231 << 1;
-  $234 = (536 + ($233<<2)|0);
-  $235 = HEAP32[496>>2]|0;
+  $234 = (344 + ($233<<2)|0);
+  $235 = HEAP32[304>>2]|0;
   $236 = 1 << $231;
   $237 = $235 & $236;
   $238 = ($237|0)==(0);
   if ($238) {
    $239 = $235 | $236;
-   HEAP32[496>>2] = $239;
+   HEAP32[304>>2] = $239;
    $$pre = (($233) + 2)|0;
-   $$pre57 = (536 + ($$pre<<2)|0);
+   $$pre57 = (344 + ($$pre<<2)|0);
    $$pre$phiZ2D = $$pre57;$F16$0 = $234;
   } else {
    $$sum11 = (($233) + 2)|0;
-   $240 = (536 + ($$sum11<<2)|0);
+   $240 = (344 + ($$sum11<<2)|0);
    $241 = HEAP32[$240>>2]|0;
-   $242 = HEAP32[(512)>>2]|0;
+   $242 = HEAP32[(320)>>2]|0;
    $243 = ($241>>>0)<($242>>>0);
    if ($243) {
     _abort();
@@ -11671,21 +11588,21 @@ function _free($mem) {
    $I18$0 = $271;
   }
  }
- $272 = (800 + ($I18$0<<2)|0);
+ $272 = (608 + ($I18$0<<2)|0);
  $273 = ((($p$0)) + 28|0);
  HEAP32[$273>>2] = $I18$0;
  $274 = ((($p$0)) + 16|0);
  $275 = ((($p$0)) + 20|0);
  HEAP32[$275>>2] = 0;
  HEAP32[$274>>2] = 0;
- $276 = HEAP32[(500)>>2]|0;
+ $276 = HEAP32[(308)>>2]|0;
  $277 = 1 << $I18$0;
  $278 = $276 & $277;
  $279 = ($278|0)==(0);
  L199: do {
   if ($279) {
    $280 = $276 | $277;
-   HEAP32[(500)>>2] = $280;
+   HEAP32[(308)>>2] = $280;
    HEAP32[$272>>2] = $p$0;
    $281 = ((($p$0)) + 24|0);
    HEAP32[$281>>2] = $272;
@@ -11730,7 +11647,7 @@ function _free($mem) {
        $K19$052 = $294;$T$051 = $296;
       }
      }
-     $303 = HEAP32[(512)>>2]|0;
+     $303 = HEAP32[(320)>>2]|0;
      $304 = ($$lcssa>>>0)<($303>>>0);
      if ($304) {
       _abort();
@@ -11749,7 +11666,7 @@ function _free($mem) {
    } while(0);
    $308 = ((($T$0$lcssa)) + 8|0);
    $309 = HEAP32[$308>>2]|0;
-   $310 = HEAP32[(512)>>2]|0;
+   $310 = HEAP32[(320)>>2]|0;
    $311 = ($309>>>0)>=($310>>>0);
    $not$ = ($T$0$lcssa>>>0)>=($310>>>0);
    $312 = $311 & $not$;
@@ -11770,12 +11687,12 @@ function _free($mem) {
    }
   }
  } while(0);
- $317 = HEAP32[(528)>>2]|0;
+ $317 = HEAP32[(336)>>2]|0;
  $318 = (($317) + -1)|0;
- HEAP32[(528)>>2] = $318;
+ HEAP32[(336)>>2] = $318;
  $319 = ($318|0)==(0);
  if ($319) {
-  $sp$0$in$i = (952);
+  $sp$0$in$i = (760);
  } else {
   return;
  }
@@ -11789,7 +11706,7 @@ function _free($mem) {
    $sp$0$in$i = $321;
   }
  }
- HEAP32[(528)>>2] = -1;
+ HEAP32[(336)>>2] = -1;
  return;
 }
 function runPostSets() {
@@ -11888,8 +11805,8 @@ function b2(p0) { p0 = p0|0; nullFunc_di(2);return +0; }
 
 // EMSCRIPTEN_END_FUNCS
 var FUNCTION_TABLE_dd = [b0,b0,b0,_f1dim];
-var FUNCTION_TABLE_vii = [b1,b1,_calcVectorGradient,b1];
-var FUNCTION_TABLE_di = [b2,_calcEnergy];
+var FUNCTION_TABLE_vii = [b1,b1,_calcGradient,b1];
+var FUNCTION_TABLE_di = [b2,_calcFunction];
 
   return { _strlen: _strlen, _free: _free, _memset: _memset, _malloc: _malloc, _memcpy: _memcpy, _minimize: _minimize, runPostSets: runPostSets, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_dd: dynCall_dd, dynCall_vii: dynCall_vii, dynCall_di: dynCall_di };
 })
