@@ -15,13 +15,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.OBJECT = window.OBJECT || {};
   window.PHYSICS = window.PHYSICS || {};
   
-  // Standard bond length
-  PHYSICS.SPRING_LENGTH = 100;
-  // Gravity constant
-  PHYSICS.GRAVITY = 0.00;
-  // Stiffness constant
-  PHYSICS.STIFFNESS = 5; 
-  
   /** 
    * The force exerted by a spring between two objects.
    * The result is normalized in respect to the distance between the objects.

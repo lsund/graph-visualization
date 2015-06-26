@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.body = function (options) {
 
-    var dimx = 600;
-    var dimy = 600;
+    var dimx = 800;
+    var dimy = 800;
     var that = {};
 
     vertices = [];
@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
     };
 
     var addBonds = function () {
-      var cv1, cv2;
-      for (var i = 0; i < vertices.length - 1; i++) {
-        for (var j = i + 1; j < vertices.length; j++) {
+      var i, j, cv1, cv2;
+      for (i = 0; i < vertices.length - 1; i++) {
+        for (j = i + 1; j < vertices.length; j++) {
           bonds.push(APP.bond(
             { 
               first: vertices[i], 
@@ -45,6 +45,35 @@ document.addEventListener('DOMContentLoaded', function (e) {
         }
       }
     };
+
+    that.randomPosition = function () {
+      var i, ps;
+      ps = [];
+      for (i = 0; i < vertices.length; i++) {
+        ps.push(Math.random() * dimx)
+        ps.push(Math.random() * dimy);
+      }
+      that.setVerticePositions(ps);
+    }
+
+    that.gridPosition = function () {
+      var i, j, n, vdim, gap;
+      n = vertices.length;
+      while (Math.sqrt(n) !== parseInt(Math.sqrt(n), 10)) n++;
+      vdim = Math.sqrt(n);
+      gapx = dimx / vdim;
+      gapy = dimy / vdim;
+      offsetx = gapx / 2;
+      offsety = gapy / 2;
+      ps = [];
+      for (i = 0; i < vdim; i++) {
+        for (j = 0; j < vdim; j++) {
+          ps.push(j * gapx + offsetx); 
+          ps.push(i * gapy + offsetx); 
+        }
+      }
+      that.setVerticePositions(ps);
+    }
 
     that.dimension = APP.vector2D(dimx, dimy);
     that.center = APP.vector2D(dimx / 2, dimy / 2);
@@ -60,9 +89,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
     };
     
     that.setVerticePositions = function (vec) {
-      var i, vec;
+      var i, cpos, vec;
       for (i = 0; i < vertices.length; i++) {
-        var cpos = APP.vector2D(vec[i * 2], vec[i * 2 + 1]);
+        cpos = APP.vector2D(vec[i * 2], vec[i * 2 + 1]);
         vertices[i].setPosition(cpos); 
       } 
     };

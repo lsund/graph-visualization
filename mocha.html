@@ -14,10 +14,19 @@
 </head>
 <body>
   <div id="mocha"></div>
-  <button onclick="APP.startAnimation()">Start animation</button>
-  <button onclick="APP.stopAnimation()">Stop animation</button>
-  <button onclick="APP.minimize()">Minimize</button>
-  <button onclick="location.reload()">restart</button>
+  <div id="conrol">
+    <!--<button onclick="APP.startAnimation()">Start animation</button>-->
+    <!--<button onclick="APP.stopAnimation()">Stop animation</button>-->
+    <button onclick="APP.minimize()">Minimize</button>
+    <button onclick="APP.gridPosition()">grid position</button>
+    <button onclick="APP.randomPosition()">random position</button>
+    <button onclick="location.reload()">restart</button>
+  </div>
+  <div id="selection">
+    <button onclick="APP.useSet0()">dataset 0</button>
+    <button onclick="APP.useSet1()">dataset 1</button>
+    <button onclick="APP.useSet2()">dataset 2</button>
+  </div>
   <p id='variables'><p>
   <p id='statusText'>Stopped</p>
   <div>

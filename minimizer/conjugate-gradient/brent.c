@@ -1,29 +1,28 @@
 /*****************************************************************************
-
 * Author : Ludvig Sundström
-
-* File Name : brent2.c
-
+*
+* File Name : brent.c
+*
 * Purpose : 
-
+*
 * Creation Date : 25-06-2015
-
-* Last Modified : 
-
+*
 *****************************************************************************/
+
 #include <math.h>
-#define NRANSI
-#include "nrutil.h"
+#include "util.h"
+
 #define ITMAX 100
 #define CGOLD 0.3819660
 #define ZEPS 1.0e-10
-#define SHFT(a,b,c,d) (a)=(b);(b)=(c);(c)=(d);
+
 float brent(float ax, float bx, float cx, float (*f)(float), float tol,
         float *xmin)
 {
   int iter;
   float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
   float e=0.0;
+  void rt_error(); 
 
   a=(ax < cx ? ax : cx);
   b=(ax > cx ? ax : cx);
@@ -75,7 +74,7 @@ float brent(float ax, float bx, float cx, float (*f)(float), float tol,
       }
     }
   }
-  nrerror("Too many iterations in brent");
+  rt_error("Too many iterations in brent");
   *xmin=x;
   return fx;
 }
@@ -84,4 +83,3 @@ float brent(float ax, float bx, float cx, float (*f)(float), float tol,
 #undef CGOLD
 #undef ZEPS
 #undef SHFT
-#undef NRANSI
