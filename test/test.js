@@ -25,20 +25,20 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.DATA = window.DATA || {};
 
 
-  APP.useSet1();
+  APP.useSet0();
 
-  describe('Global', function () {
-      it('APP should not be empty', function(){
-        chai.assert.notEqual({}, APP);
-      });
-  });
-  describe('physicsEngine', function () {
-    describe('springForce()', function () {
-      it('should not fail on dist===0', function () {
-        chai.assert.equal(false, isNaN(TEST.springForce(0, 0, 0)));
-      }); 
-    });
-  });
+  //describe('Global', function () {
+      //it('APP should not be empty', function(){
+        //chai.assert.notEqual({}, APP);
+      //});
+  //});
+  //describe('physicsEngine', function () {
+    //describe('springForce()', function () {
+      //it('should not fail on dist===0', function () {
+        //chai.assert.equal(false, isNaN(TEST.springForce(0, 0, 0)));
+      //}); 
+    //});
+  //});
 
   mocha.checkLeaks();
   mocha.run();

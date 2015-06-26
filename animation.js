@@ -34,9 +34,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
   var refreshIntervalID;
   var dmat, vops;
 
-  variableParagraph.innerHTML += 'dT: ' + APP.ANIMATION_TICK;
-  variableParagraph.innerHTML += ', Gravity: ' + PHYSICS.GRAVITY;
-  variableParagraph.innerHTML += ', K: ' + PHYSICS.STIFFNESS;
+  variableParagraph.innerHTML += 'K: ' + PHYSICS.STIFFNESS;
   variableParagraph.innerHTML += ', Spring length: ' + PHYSICS.SPRING_LENGTH;
   
   APP.useSet0 = function () {
