@@ -23,12 +23,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
     that.id  = options.id;
 
     if (that.shape === 'circle') {
-      that.mass = that.dimension;
+      secret.mass = that.dimension / 10;
     } else {
-      that.mass = that.dimension.x + that.dimension.y / 4;
+      secret.mass = that.dimension.x + that.dimension.y / 40;
     }  
 
     that.getPosition = function () { return secret.position };
+    that.getMass     = function () { return secret.mass };
 
     that = APP.forceDirected(that, secret);
 

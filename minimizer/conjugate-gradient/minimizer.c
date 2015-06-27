@@ -16,11 +16,13 @@
 #include <stdio.h>
 #include <math.h>
 
-#define STIFFNESS 2.0
+#define STIFFNESS 200.0
 #define FTOL 0.0001
 
 //Distance matrix
 static float *fdm;
+
+static float *ms;
 
 // Dimesion of the coordinate vector
 static unsigned int dim;
@@ -57,14 +59,16 @@ char dir;
     return -2 * wij * dy * (dist - dij) / dist;
 } 
 
-float calcFunction (float p[]) {
+float calcFunction (float p[]) 
+{
   unsigned int i, j;
-  float rtn = 0;
+  float rtn, d, wij, dij;
+  rtn = 0;
   for (i = 0; i < dim - 1; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
-      float d = fdm[(i / 2) * (dim / 2) + (j / 2)];
-      float wij = d * STIFFNESS;
-      float dij = d * blen;
+      d = fdm[(i / 2) * (dim / 2) + (j / 2)];
+      wij = d * STIFFNESS;
+      dij = d * blen;
       rtn += energy(p[i], p[i + 1], p[j], p[j + 1], wij, dij);
     }
   }
@@ -74,11 +78,12 @@ float calcFunction (float p[]) {
 void calcGradient (float p[], float df[]) 
 {
   unsigned int i, j;
+  float d, wij, dij;
   for (i = 0; i < dim; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
-      float d = fdm[(i / 2) * (dim / 2) + (j / 2)];
-      float wij = d * STIFFNESS;
-      float dij = d * blen;
+      d = fdm[(i / 2) * (dim / 2) + (j / 2)];
+      wij = d * STIFFNESS;
+      dij = d * blen;
       df[i] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
       df[i + 1] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'y');
       df[j] += -force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
@@ -90,8 +95,8 @@ void calcGradient (float p[], float df[])
 float (*func)(float []) = calcFunction;
 void (*dfunc)(float [], float []) = calcGradient;
 
-int minimize (flatpos, flatdmat, len, bondlen) 
-float *flatpos, *flatdmat;
+int minimize (flatpos, flatdmat, masses, len, bondlen) 
+float *flatpos, *flatdmat, *masses;
 unsigned int len, bondlen;
 {
   void frprmn();
@@ -100,12 +105,12 @@ unsigned int len, bondlen;
     return -1;
   }
 
-
   dim = len;
   fdm = flatdmat; 
   blen = bondlen;
   iter = malloc(sizeof(int));
   fret = malloc(sizeof(float));
+  ms = masses;
 
   frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
 

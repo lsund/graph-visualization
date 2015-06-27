@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
     id: vertexID += 1,
     position: APP.vector2D(200, 400), 
     shape: 'circle', 
-    dimension: 10
+    dimension: 40
   };
   var vcoptions1 = {
     id: vertexID += 1,
     position: APP.vector2D(300, 500), 
     shape: 'circle', 
-    dimension: 10 
+    dimension: 20 
   };
   var vcoptions2 = {
     id: vertexID += 1,
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
     id: vertexID += 1,
     position: APP.vector2D(0, 400),
     shape: 'circle',
-    dimension: 20
+    dimension: 10
   };
   var vcoptions4 = {
     id: vertexID += 1,

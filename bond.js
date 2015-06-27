@@ -19,25 +19,15 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.bond = function (options) {
 
-    var that = {};    
-    that.first = options.first; 
-    that.second = options.second;
-    that.color = 'grey' || options.color;
+    var bond = {};    
+
+    bond.first = options.first; 
+    bond.second = options.second;
+    bond.color =  options.color || 'blue';
+    bond.type = options.type || 'r'; 
     
-    that.dist = OBJECT.body.dmat[that.first.id][that.second.id];
+    return bond;
 
-    if (that.dist === -1) {
-      that.dist = 4;
-    }
-    var weight = 1 / (that.dist);  
-    that.stiffness = weight * PHYSICS.STIFFNESS;
-    that.length = that.dist * PHYSICS.SPRING_LENGTH;
-
-    that.first.attachBond(that); 
-    that.second.attachBond(that); 
-
-    return that;
-
-  }
+  };
 
 });

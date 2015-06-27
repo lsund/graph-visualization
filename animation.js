@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
   window.PENCIL = window.PENCIL || {};
 
   APP.ANIMATION_TICK = 100;
+
+  APP.PANEL_DIM_X = 800;
+  APP.PANEL_DIM_Y = 800;
   
   // Standard bond length
   PHYSICS.SPRING_LENGTH = 150;
@@ -54,8 +57,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
   };
 
   var initialize = function () {
+    var canvas = document.getElementById('canvas');
+    canvas.style.width = '' + APP.PANEL_DIM_X + 'px';
+    canvas.style.height = '' + APP.PANEL_DIM_Y + 'px';
     OBJECT.head = APP.head({});
-    OBJECT.body = APP.body({});
+    OBJECT.body = APP.body(
+      { dimension: APP.vector2D(APP.PANEL_DIM_X, APP.PANEL_DIM_Y) }
+    );
     OBJECT.body.initialize(vopts, dmat);
     APP.draw();
   };
@@ -71,34 +79,40 @@ document.addEventListener('DOMContentLoaded', function (e) {
   }
 
   APP.minimize = function () {
-    var fps, fdm, c_minimize, arr32FPS, arr32FDM, nbytesFPS, nbytesFDM,
+    var fps, fdm, ms, c_minimize, arr32FPS, arr32FDM, nbytesFPS, nbytesFDM,
       dptrFPS, dptrFDM, dhFPS, dhFDM, result;
 
-    fps = OBJECT.body.verticePositions(); 
+    fps = OBJECT.body.getVerticePositions(); 
     fdm = [];  
     fdm = fdm.concat.apply(fdm, dmat);
+    ms = OBJECT.body.getVerticeMasses();
 
     c_minimize = Module.cwrap(
-      'minimize', 'number', ['number', 'number', 'number', 'number']
+      'minimize', 'number', ['number', 'number', 'number', 'number', 'number']
     );
 
     arr32FPS = new Float32Array(fps);
     arr32FDM = new Float32Array(fdm);
+    arr32MS = new Float32Array(ms);
 
     nbytesFPS = arr32FPS.length * arr32FPS.BYTES_PER_ELEMENT;
     nbytesFDM = arr32FDM.length * arr32FDM.BYTES_PER_ELEMENT;
+    nbytesMS = arr32MS.length * arr32FDM.BYTES_PER_ELEMENT;
     dptrFPS = Module._malloc(nbytesFPS);
     dptrFDM = Module._malloc(nbytesFDM);
+    dptrMS = Module._malloc(nbytesFDM);
 
     dhFPS = new Uint8Array(Module.HEAPU8.buffer, dptrFPS, nbytesFPS);
     dhFDM = new Uint8Array(Module.HEAPU8.buffer, dptrFDM, nbytesFDM);
+    dhMS = new Uint8Array(Module.HEAPU8.buffer, dptrMS, nbytesMS);
 
     dhFPS.set(new Uint8Array(arr32FPS.buffer));
     dhFDM.set(new Uint8Array(arr32FDM.buffer));
-
+    dhMS.set(new Uint8Array(arr32MS.buffer));
     c_minimize(
       dhFPS.byteOffset, 
       dhFDM.byteOffset, 
+      dhMS.byteOffset, 
       arr32FPS.length, 
       PHYSICS.SPRING_LENGTH
     );
@@ -115,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
   APP.draw = function () {
     PENCIL.ctx.clearRect(0, 0, canvas.width, canvas.height);
     OBJECT.body.getBonds().forEach(function (b) {
-      if (b.dist === 1) PENCIL.drawBond(b);
+      if (b.type === 'r') PENCIL.drawBond(b);
     });
     OBJECT.body.getRestraints().forEach(function (r) {
       PENCIL.drawRestraint(r);

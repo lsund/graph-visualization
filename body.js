@@ -16,19 +16,23 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.body = function (options) {
 
-    var dimx = 800;
-    var dimy = 800;
-    var that = {};
+    var body = {};
 
     vertices = [];
     bonds = [];
     restraints = [];
 
-    that.initialize = function (verticeOpts, dmat) {
+    body.dimension = options.dimension || APP.vector(800, 800);
+    body.center = APP.vector2D(dimx / 2, dimy / 2);
+
+    var dimx = body.dimension.x;
+    var dimy = body.dimension.y;
+
+    body.initialize = function (verticeOpts, dmat) {
       verticeOpts.forEach(function (o) {
         vertices.push(APP.vertex(o)); 
       });
-      that.dmat = dmat;
+      body.dmat = dmat;
       addBonds();
     };
 
@@ -40,23 +44,24 @@ document.addEventListener('DOMContentLoaded', function (e) {
             { 
               first: vertices[i], 
               second: vertices[j], 
+              type: body.dmat[i][j] === 1 ? 'r' : 'i'
             }
           ));
         }
       }
     };
 
-    that.randomPosition = function () {
+    body.randomPosition = function () {
       var i, ps;
       ps = [];
       for (i = 0; i < vertices.length; i++) {
         ps.push(Math.random() * dimx)
         ps.push(Math.random() * dimy);
       }
-      that.setVerticePositions(ps);
+      body.setVerticePositions(ps);
     }
 
-    that.gridPosition = function () {
+    body.gridPosition = function () {
       var i, j, n, vdim, gap;
       n = vertices.length;
       while (Math.sqrt(n) !== parseInt(Math.sqrt(n), 10)) n++;
@@ -72,13 +77,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
           ps.push(i * gapy + offsetx); 
         }
       }
-      that.setVerticePositions(ps);
+      body.setVerticePositions(ps);
     }
 
-    that.dimension = APP.vector2D(dimx, dimy);
-    that.center = APP.vector2D(dimx / 2, dimy / 2);
-
-    that.verticePositions = function () {
+    body.getVerticePositions = function () {
       var i, vec, rtn = [];
       for (i = 0; i < vertices.length; i++) {
         vec = vertices[i].getPosition();
@@ -88,7 +90,19 @@ document.addEventListener('DOMContentLoaded', function (e) {
       return rtn;
     };
     
-    that.setVerticePositions = function (vec) {
+    body.getVerticeMasses = function () {
+      var i, rtn = [];
+      for (i = 0; i < vertices.length; i++) {
+        rtn.push(vertices[i].getMass());
+      }
+      return rtn;
+    }
+
+    body.getVertices   = function () { return vertices; }
+    body.getBonds      = function () { return bonds; }
+    body.getRestraints = function () { return restraints; }
+
+    body.setVerticePositions = function (vec) {
       var i, cpos, vec;
       for (i = 0; i < vertices.length; i++) {
         cpos = APP.vector2D(vec[i * 2], vec[i * 2 + 1]);
@@ -96,11 +110,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
       } 
     };
 
-    that.getVertices   = function () { return vertices; }
-    that.getBonds      = function () { return bonds; }
-    that.getRestraints = function () { return restraints; }
-
-    return that;
+    return body;
   };
 
 });
