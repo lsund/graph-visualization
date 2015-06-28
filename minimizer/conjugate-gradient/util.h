@@ -4,3 +4,5 @@
 #define SHFT(a,b,c,d) (a)=(b);(b)=(c);(c)=(d);
 
 void rt_error(char []);
+
+float *vector(long n);

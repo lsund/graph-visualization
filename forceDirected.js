@@ -12,49 +12,55 @@
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
+(function () {
 
-  window.APP = window.APP || {};
+  'use strict';
 
-  APP.forceDirected = function (object, secret) {
+  document.addEventListener('DOMContentLoaded', function (){
 
-    object.setForce = function (vec) {
-      secret.force = vec;
+    window.window.APP = window.window.APP || {};
+
+    window.APP.forceDirected = function (obj) {
+
+      obj.setForce = function (vec) {
+        obj.force = vec;
+      };
+
+      obj.addForce = function (vec) {
+        obj.force = window.APP.vector2D(obj.force.x + vec.x, 
+          obj.force.y + vec.y);
+      };
+
+      obj.accelerate = function () {
+        obj.acceleration = window.APP.vector2D(obj.force.x, obj.force.y); 
+        obj.acceleration = obj.acceleration.scalar(1 / obj.mass);
+        obj.velocity = obj.velocity.add(obj.acceleration);
+        obj.velocity = obj.velocity.scalar(0.8);
+      };
+
+      obj.move = function () {
+        obj.position = obj.position.add(obj.velocity);
+      };
+
+      obj.zeroForce = function() {
+        obj.force.x = 0;
+        obj.force.y = 0;
+      };
+
+      obj.getVelocity = function () { return obj.velocity; };
+
+      obj.getKineticEnergy = function () { 
+        return 0.5 * obj.mass * obj.velocity.cross(obj.velocity).abs();
+      };
+      obj.getPotentialEnergy = function () {
+        var dist = obj.position.sub(window.OBJECT.body.center).abs();
+        return obj.mass * window.PHYSICS.GRAVITY * dist;
+      };
+
+      return obj;
+
     };
 
-    object.addForce = function (vec) {
-      secret.force = APP.vector2D(secret.force.x + vec.x, 
-        secret.force.y + vec.y);
-    };
+  });
 
-    object.accelerate = function () {
-      secret.acceleration = APP.vector2D(secret.force.x, secret.force.y); 
-      secret.acceleration = secret.acceleration.scalar(1 / object.mass);
-      secret.velocity = secret.velocity.add(secret.acceleration);
-      secret.velocity = secret.velocity.scalar(0.8);
-    };
-
-    object.move = function () {
-      secret.position = secret.position.add(secret.velocity);
-    };
-
-    object.zeroForce = function() {
-      secret.force.x = 0;
-      secret.force.y = 0;
-    };
-
-    object.getVelocity = function () { return secret.velocity };
-
-    object.getKineticEnergy = function () { 
-      return 0.5 * object.mass * secret.velocity.cross(secret.velocity).abs();
-    };
-    object.getPotentialEnergy = function () {
-      var dist = secret.position.sub(OBJECT.body.center).abs();
-      return object.mass * PHYSICS.GRAVITY * dist;
-    }
-
-    return object;
-
-  }
-
-});
+}());

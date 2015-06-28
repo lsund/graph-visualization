@@ -15,18 +15,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-float *vector(long n) 
-{
-  float *v;
-  v = (float *) malloc((size_t) (n * sizeof(float)));
-  return v;
-}
-
-
 void rt_error(char error_text[])
 {
   fprintf(stderr,"Run-time error...\n");
   fprintf(stderr,"%s\n",error_text);
   fprintf(stderr,"...now exiting to system...\n");
   exit(1);
+}
+
+float *vector(long n) 
+{
+  float *v;
+  v = (float *) malloc((size_t) (n * sizeof(float)));
+  if (v == NULL) {
+    rt_error("error while allocating memory");
+  }
+  return v;
 }

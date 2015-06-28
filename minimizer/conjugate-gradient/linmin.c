@@ -1,12 +1,12 @@
 /*****************************************************************************
 
-* Author : Numerical recepies in C, modified by Ludvig Sundström
+* Author: Numerical recepies in C, modified by Ludvig Sundström
 
-* File Name : linmin.c
+* File Name: linmin.c
 
-* Purpose : Performs line minimization.
+* Description: Performs line minimization.
 
-* Creation Date : 25-06-2015
+* Creation Date: 25-06-2015
 
 *****************************************************************************/
 
@@ -24,11 +24,7 @@ vector displacement that p was moved. Also returns as fret the value
 of func at the returned location p. This is actually all accomplished
 by calling the routines mnbrak and brent.  
 */   
-void linmin(p, xi, n, fret, func)   
-float p[], xi[];
-int n;
-float *fret;
-float (*func)();
+void linmin(float p[], float xi[], int n, float *fret, float (*func)())   
 {   
   float brent(float ax, float bx, float cx,   
     float (*f)(float), float tol, float *xmin);   

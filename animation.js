@@ -12,155 +12,165 @@
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
+(function () {
 
-  window.OBJECT = window.OBJECT || {};
-  window.PENCIL = window.PENCIL || {};
+  'use strict';
 
-  APP.ANIMATION_TICK = 100;
+  document.addEventListener('DOMContentLoaded', function () {
 
-  APP.PANEL_DIM_X = 800;
-  APP.PANEL_DIM_Y = 800;
-  
-  // Standard bond length
-  PHYSICS.SPRING_LENGTH = 150;
-  // Gravity constant
-  PHYSICS.GRAVITY = 0.01;
-  // Stiffness constant
-  PHYSICS.STIFFNESS = 1 / 2; 
-  
+    window.window.OBJECT = window.window.OBJECT || {};
+    window.PENCIL = window.PENCIL || {};
+    window.DATA = window.DATA || {};
+    window.PHYSICS = window.PHYSICS || {};
 
-  // Animation ----------------------------------------------------------------
-  
-  var ticks = 0;
-  var variableParagraph = document.getElementById('variables');
-  var refreshIntervalID;
-  var dmat, vops;
+    window.APP.ANIMATION_TICK = 100;
 
-  variableParagraph.innerHTML += 'K: ' + PHYSICS.STIFFNESS;
-  variableParagraph.innerHTML += ', Spring length: ' + PHYSICS.SPRING_LENGTH;
-  
-  APP.useSet0 = function () {
-    dmat = DATA.dmat0;
-    vopts = DATA.vopts0;
-    initialize();
-  };
-  APP.useSet1 = function () {
-    dmat = DATA.dmat1;
-    vopts = DATA.vopts1;
-    initialize();
-  };
-  APP.useSet2 = function () {
-    dmat = DATA.dmat2;
-    vopts = DATA.vopts2;
-    initialize();
-  };
+    window.APP.PANEL_DIM_X = 800;
+    window.APP.PANEL_DIM_Y = 800;
+    
+    // Standard bond length
+    window.PHYSICS.SPRING_LENGTH = 150;
+    // Gravity constant
+    window.PHYSICS.GRAVITY = 0.01;
+    // Stiffness constant
+    window.PHYSICS.STIFFNESS = 1 / 2; 
+    
 
-  var initialize = function () {
-    var canvas = document.getElementById('canvas');
-    canvas.style.width = '' + APP.PANEL_DIM_X + 'px';
-    canvas.style.height = '' + APP.PANEL_DIM_Y + 'px';
-    OBJECT.head = APP.head({});
-    OBJECT.body = APP.body(
-      { dimension: APP.vector2D(APP.PANEL_DIM_X, APP.PANEL_DIM_Y) }
-    );
-    OBJECT.body.initialize(vopts, dmat);
-    APP.draw();
-  };
-  
-  APP.randomPosition = function () {
-    OBJECT.body.randomPosition();
-    APP.draw();
-  }
+    // Animation --------------------------------------------------------------
+    
+    var variableParagraph = document.getElementById('variables');
+    var refreshIntervalID;
+    var dmat, vopts, canvas;
 
-  APP.gridPosition = function () {
-    OBJECT.body.gridPosition();
-    APP.draw();
-  }
+    variableParagraph.innerHTML += 'K: ' + window.PHYSICS.STIFFNESS;
+    variableParagraph.innerHTML += 'D: ' + window.PHYSICS.SPRING_LENGTH;
+    
+    window.APP.useSet0 = function () {
+      dmat = window.DATA.dmat0;
+      vopts = window.DATA.vopts0;
+      initialize();
+    };
+    window.APP.useSet1 = function () {
+      dmat = window.DATA.dmat1;
+      vopts = window.DATA.vopts1;
+      initialize();
+    };
+    window.APP.useSet2 = function () {
+      dmat = window.DATA.dmat2;
+      vopts = window.DATA.vopts2;
+      initialize();
+    };
 
-  APP.minimize = function () {
-    var fps, fdm, ms, c_minimize, arr32FPS, arr32FDM, nbytesFPS, nbytesFDM,
-      dptrFPS, dptrFDM, dhFPS, dhFDM, result;
+    var initialize = function () {
+      canvas = document.getElementById('canvas');
+      canvas.style.width = '' + window.APP.PANEL_DIM_X + 'px';
+      canvas.style.height = '' + window.APP.PANEL_DIM_Y + 'px';
+      window.OBJECT.head = window.APP.head({});
+      window.OBJECT.body = window.APP.body(
+        { dimension: window.APP.vector2D(window.APP.PANEL_DIM_X, window.APP.PANEL_DIM_Y) }
+      );
+      window.OBJECT.body.initialize(vopts, dmat);
+      window.APP.draw();
+    };
+    
+    window.APP.randomPosition = function () {
+      window.OBJECT.body.randomPosition();
+      window.APP.draw();
+    };
 
-    fps = OBJECT.body.getVerticePositions(); 
-    fdm = [];  
-    fdm = fdm.concat.apply(fdm, dmat);
-    ms = OBJECT.body.getVerticeMasses();
+    window.APP.gridPosition = function () {
+      window.OBJECT.body.gridPosition();
+      window.APP.draw();
+    };
 
-    c_minimize = Module.cwrap(
-      'minimize', 'number', ['number', 'number', 'number', 'number', 'number']
-    );
+    window.APP.minimize = function () {
+      var fps, fdm, ms, cMinimize, arr32FPS, arr32FDM, arr32MS, nbytesFPS,
+        nbytesFDM, nbytesMS, dptrFPS, dptrFDM, dptrMS, dhFPS, dhFDM, dhMS,
+        result;
 
-    arr32FPS = new Float32Array(fps);
-    arr32FDM = new Float32Array(fdm);
-    arr32MS = new Float32Array(ms);
+      fps = window.OBJECT.body.getVerticePositions(); 
+      fdm = [];  
+      fdm = fdm.concat.apply(fdm, dmat);
+      ms = window.OBJECT.body.getVerticeMasses();
 
-    nbytesFPS = arr32FPS.length * arr32FPS.BYTES_PER_ELEMENT;
-    nbytesFDM = arr32FDM.length * arr32FDM.BYTES_PER_ELEMENT;
-    nbytesMS = arr32MS.length * arr32FDM.BYTES_PER_ELEMENT;
-    dptrFPS = Module._malloc(nbytesFPS);
-    dptrFDM = Module._malloc(nbytesFDM);
-    dptrMS = Module._malloc(nbytesFDM);
+      cMinimize = Module.cwrap(
+        'minimize', 'number', ['number', 'number', 'number', 'number', 'number']
+      );
 
-    dhFPS = new Uint8Array(Module.HEAPU8.buffer, dptrFPS, nbytesFPS);
-    dhFDM = new Uint8Array(Module.HEAPU8.buffer, dptrFDM, nbytesFDM);
-    dhMS = new Uint8Array(Module.HEAPU8.buffer, dptrMS, nbytesMS);
+      arr32FPS = new Float32Array(fps);
+      arr32FDM = new Float32Array(fdm);
+      arr32MS = new Float32Array(ms);
 
-    dhFPS.set(new Uint8Array(arr32FPS.buffer));
-    dhFDM.set(new Uint8Array(arr32FDM.buffer));
-    dhMS.set(new Uint8Array(arr32MS.buffer));
-    c_minimize(
-      dhFPS.byteOffset, 
-      dhFDM.byteOffset, 
-      dhMS.byteOffset, 
-      arr32FPS.length, 
-      PHYSICS.SPRING_LENGTH
-    );
-    result = new Float32Array(dhFPS.buffer, dhFPS.byteOffset, arr32FPS.length);
+      nbytesFPS = arr32FPS.length * arr32FPS.BYTES_PER_ELEMENT;
+      nbytesFDM = arr32FDM.length * arr32FDM.BYTES_PER_ELEMENT;
+      nbytesMS = arr32MS.length * arr32FDM.BYTES_PER_ELEMENT;
+      dptrFPS = Module._malloc(nbytesFPS);
+      dptrFDM = Module._malloc(nbytesFDM);
+      dptrMS = Module._malloc(nbytesFDM);
 
-    OBJECT.body.setVerticePositions(result);
-    APP.draw();
+      dhFPS = new Uint8Array(Module.HEAPU8.buffer, dptrFPS, nbytesFPS);
+      dhFDM = new Uint8Array(Module.HEAPU8.buffer, dptrFDM, nbytesFDM);
+      dhMS = new Uint8Array(Module.HEAPU8.buffer, dptrMS, nbytesMS);
 
-    Module._free(dhFPS.byteOffset);
-    Module._free(dhFDM.byteOffset);
-  };
+      dhFPS.set(new Uint8Array(arr32FPS.buffer));
+      dhFDM.set(new Uint8Array(arr32FDM.buffer));
+      dhMS.set(new Uint8Array(arr32MS.buffer));
+      cMinimize(
+        dhFPS.byteOffset, 
+        dhFDM.byteOffset, 
+        dhMS.byteOffset, 
+        arr32FPS.length, 
+        window.PHYSICS.SPRING_LENGTH
+      );
+      result = new Float32Array(dhFPS.buffer, dhFPS.byteOffset, arr32FPS.length);
 
+      window.OBJECT.body.setVerticePositions(result);
+      window.APP.draw();
 
-  APP.draw = function () {
-    PENCIL.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    OBJECT.body.getBonds().forEach(function (b) {
-      if (b.type === 'r') PENCIL.drawBond(b);
-    });
-    OBJECT.body.getRestraints().forEach(function (r) {
-      PENCIL.drawRestraint(r);
-    });
-    OBJECT.body.getVertices().forEach(function (v) {
-      PENCIL.drawVertex(v);
-    });
-  };
+      Module._free(dhFPS.byteOffset);
+      Module._free(dhFDM.byteOffset);
+    };
 
 
-// Moving animation -----------------------------------------------------------
-
-  APP.startAnimation = function () {
-    var vs = OBJECT.body.getVertices();
-    var s = document.getElementById('statusText');
-    refreshIntervalID = setInterval(function () {
-      APP.draw();
-      OBJECT.body.getVertices().forEach(function (v) {
-        if (!v.fixed) v.move();
+    window.APP.draw = function () {
+      window.PENCIL.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      window.OBJECT.body.bonds.forEach(function (b) {
+        if (b.type === 'r') {
+          window.PENCIL.drawBond(b);
+        }
       });
-      OBJECT.head.physicsEngine.applyForces();
-      for (var i = 0; i < vs.length; i++) {
-        var v = vs[i];  
-        v.accelerate();
-      }
-    }, APP.ANIMATION_TICK);
-  }
-  
-  APP.stopAnimation = function () { 
-    clearInterval(refreshIntervalID);
-  }
+      window.OBJECT.body.restraints.forEach(function (r) {
+        window.PENCIL.drawRestraint(r);
+      });
+      window.OBJECT.body.vertices.forEach(function (v) {
+        window.PENCIL.drawVertex(v);
+      });
+    };
 
-});
 
+  // Moving animation -----------------------------------------------------------
+
+    window.APP.startAnimation = function () {
+      var vs = window.OBJECT.body.getVertices();
+      refreshIntervalID = setInterval(function () {
+        window.APP.draw();
+        window.OBJECT.body.getVertices().forEach(function (v) {
+          if (!v.fixed) { 
+            v.move();
+          }
+        });
+        window.OBJECT.head.physicsEngine.applyForces();
+        for (var i = 0; i < vs.length; i += 1) {
+          var v = vs[i];  
+          v.accelerate();
+        }
+      }, window.APP.ANIMATION_TICK);
+    };
+    
+    window.APP.stopAnimation = function () { 
+      clearInterval(refreshIntervalID);
+    };
+
+  });
+
+}());

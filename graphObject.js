@@ -12,60 +12,66 @@
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
+(function () {
 
-  window.APP = window.APP || {};
+  'use strict';
 
-  APP.graphObject = function (options, secret) {
+  document.addEventListener('DOMContentLoaded', function () {
 
-    secret = secret || {};
-    
-    var that = {};
+    window.window.APP = window.window.APP || {};
 
-    secret.force       = options.force || APP.vector2D(0, 0); 
-    secret.acceleration  = secret.acceleration || APP.vector2D(0, 0); 
-    secret.velocity      = options.velocity || APP.vector2D(0, 0); 
-    secret.position      = options.position || APP.vector2D(0, 0);
+    window.window.APP.graphObject = function (options) {
 
-    that.shape         = options.shape || 'circle';
-    that.dimension     = options.dimension || 20;
-    that.bonds         = options.bonds || [];
-    that.fixed         = options.fixed || false;
-    that.color         = options.color || 'grey';
+      var obj = {};
 
-    if (that.fixed) that.color = 'black';
+      obj.force       = options.force || window.APP.vector2D(0, 0); 
+      obj.acceleration  = options.acceleration || window.APP.vector2D(0, 0); 
+      obj.velocity      = options.velocity || window.APP.vector2D(0, 0); 
+      obj.position      = options.position || window.APP.vector2D(0, 0);
 
-    that.attachBond = function (bond) {
-      that.bonds.push(bond);  
+      obj.shape         = options.shape || 'circle';
+      obj.dimension     = options.dimension || 20;
+      obj.bonds         = options.bonds || [];
+      obj.fixed         = options.fixed || false;
+      obj.color         = options.color || 'grey';
+
+      if (obj.fixed) { 
+        obj.color = 'black';
+      }
+
+      obj.attachBond = function (bond) {
+        obj.bonds.push(bond);  
+      };
+
+      obj.setPosition = function (vec) {
+        obj.position = vec;
+      };
+      
+      obj.contains = function (vec) {
+        if (obj.shape === 'circle') {
+          return obj.position.sub(vec).abs() < obj.dimension;
+        }
+        else {
+          var dx = obj.position.x + obj.dimension.x - vec.x;
+          var dy = obj.position.y + obj.dimension.y - vec.y; 
+          return dx > 0 && dy > 0;
+        }
+      };
+
+      obj.getCenter = function () {
+        if (obj.shape === 'circle') {
+          return obj.position;
+        } else {
+          var vec = window.APP.vector2D(
+            obj.dimension.x / 2, obj.dimension.y / 2
+          );
+          return obj.position.add(vec);
+        }
+      };
+
+      return obj;
+      
     };
+  });
 
-    that.setPosition = function (vec) {
-      secret.position = vec;
-    }
-    
-    that.contains = function (vec) {
-      if (that.shape === 'circle') {
-        return secret.position.sub(vec).abs() < that.dimension;
-      }
-      else {
-        var dx = secret.position.x + that.dimension.x - vec.x;
-        var dy = secret.position.y + that.dimension.y - vec.y; 
-        return dx > 0 && dy > 0;
-      }
-    };
-
-    that.getCenter = function () {
-      if (that.shape === 'circle') {
-        return secret.position;
-      } else {
-        var vec = APP.vector2D(that.dimension.x / 2, that.dimension.y / 2);
-        return secret.position.add(vec);
-      }
-    }
-
-    return that;
-    
-  };
-
-});
-
+}());

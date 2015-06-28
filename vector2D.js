@@ -12,57 +12,61 @@
 
 *****************************************************************************/
 
-window.TEST = window.TEST || {};
-window.APP = window.APP || {};
+(function () {
 
-APP.vector2D = function (x, y) {
+  'use strict';
 
-  var that = {};
-  that.x = x;
-  that.y = y;
-  
-  that.add = function (vec) {
-    return APP.vector2D(that.x + vec.x, that.y + vec.y);
-  }
+  window.window.APP = window.window.APP || {};
 
-  that.sub = function (vec) {
-    return APP.vector2D(that.x - vec.x, that.y - vec.y);
-  }
+  window.APP.vector2D = function (x, y) {
 
-  that.negate = function () {
-    return APP.vector2D(-that.x, -that.y);
-  }
+    var that = {};
+    that.x = x;
+    that.y = y;
+    
+    that.add = function (vec) {
+      return window.APP.vector2D(that.x + vec.x, that.y + vec.y);
+    };
 
-  that.scalar = function (c) {
-    return APP.vector2D(that.x * c, that.y * c);
-  }
+    that.sub = function (vec) {
+      return window.APP.vector2D(that.x - vec.x, that.y - vec.y);
+    };
 
-  that.abs = function () {
-    return Math.sqrt(that.x * that.x + that.y * that.y);
-  }
+    that.negate = function () {
+      return window.APP.vector2D(-that.x, -that.y);
+    };
 
-  that.cross = function (vec) {
-    return APP.vector2D(that.x * vec.y,  -that.y * vec.x);
-  }
+    that.scalar = function (c) {
+      return window.APP.vector2D(that.x * c, that.y * c);
+    };
 
-  that.normalize = function () {
-    var norm = that.abs();
-    return APP.vector2D(that.x / norm, that.y / norm);
-  }
+    that.abs = function () {
+      return Math.sqrt(that.x * that.x + that.y * that.y);
+    };
 
-  that.perpendicular = function () {
-    return APP.vector2D(that.y, -that.x);
-  }
+    that.cross = function (vec) {
+      return window.APP.vector2D(that.x * vec.y,  -that.y * vec.x);
+    };
 
-  that.isZero = function () {
-    return that.x === 0 && that.y === 0;
-  }
+    that.normalize = function () {
+      var norm = that.abs();
+      return window.APP.vector2D(that.x / norm, that.y / norm);
+    };
 
-  that.equal = function (vec) {
-    return that.x === vec.x && that.y === vec.y;
-  }
+    that.perpendicular = function () {
+      return window.APP.vector2D(that.y, -that.x);
+    };
 
-  return that;
+    that.isZero = function () {
+      return that.x === 0 && that.y === 0;
+    };
 
-}
+    that.equal = function (vec) {
+      return that.x === vec.x && that.y === vec.y;
+    };
 
+    return that;
+
+  };
+
+}());

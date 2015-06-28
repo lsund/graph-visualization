@@ -1,9 +1,9 @@
 /*****************************************************************************
 * Author : Ludvig Sundström
 
-* File Name : vertex.js
+* File Name : obj.js
 
-* Purpose : Describes a vertex 
+* Purpose : Describes a obj 
 
 * Creation Date : 17-06-2015
 
@@ -11,31 +11,30 @@
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
+(function () {
 
-  window.OBJECT = window.OBJECT || {};
+  'use strict';
 
-  APP.vertex = function (options) {
+  document.addEventListener('DOMContentLoaded', function () {
 
-    var secret = {};
-    var that = APP.graphObject(options, secret);
-        
-    that.id  = options.id;
+    window.APP.vertex = function (options) {
 
-    if (that.shape === 'circle') {
-      secret.mass = that.dimension / 10;
-    } else {
-      secret.mass = that.dimension.x + that.dimension.y / 40;
-    }  
+      var obj = window.APP.graphObject(options);
+          
+      obj.id  = options.id;
 
-    that.getPosition = function () { return secret.position };
-    that.getMass     = function () { return secret.mass };
+      if (obj.shape === 'circle') {
+        obj.mass = obj.dimension / 10;
+      } else {
+        obj.mass = obj.dimension.x + obj.dimension.y / 40;
+      }  
 
-    that = APP.forceDirected(that, secret);
+      obj = window.APP.forceDirected(obj);
 
-    return that;
+      return obj;
 
-  };
+    };
 
+  });
 
-});
+}());

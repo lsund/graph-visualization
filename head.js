@@ -12,13 +12,20 @@
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
+(function () {
 
-  APP.head = function (options) {
-    var that = {};
-    that.physicsEngine = APP.physicsEngine;
-    return that;
-  };
+  'use strict';
 
+  document.addEventListener('DOMContentLoaded', function () {
 
-});
+  window.APP = window.APP || {};
+
+    window.APP.head = function () {
+      var obj = {};
+      obj.physicsEngine = window.APP.physicsEngine;
+      return obj;
+    };
+
+  });
+
+}());

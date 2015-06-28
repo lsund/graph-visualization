@@ -1,33 +1,37 @@
 /*****************************************************************************
 
-* Author : Ludvig Sundström
+* Author: Ludvig Sundström
 
-* File Name : restraint.js
+* File Name: restraint.js
 
-* Purpose : 
+* Description: 
 
-* Creation Date : 22-06-2015
-
-* Last Modified : 
+* Creation Date: 22-06-2015
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
-  
-  window.APP = window.APP || {};
+(function () {
 
-  APP.restraint = function (options) {
+  'use strict';
 
-    var that = {};
-
-    that = APP.graphObject(options);
+  document.addEventListener('DOMContentLoaded', function () {
     
-    that.shape = 'rectangle';
-    that.fixed = 'true';
+    window.APP = window.APP || {};
 
-    OBJECT.body.restraints.push(that);
-    return that;
+    window.APP.restraint = function (options) {
 
-  }
+      var that = {};
 
-});
+      that = window.APP.graphObject(options);
+      
+      that.shape = 'rectangle';
+      that.fixed = 'true';
+
+      window.OBJECT.body.restraints.push(that);
+      return that;
+
+    };
+
+  });
+
+}());

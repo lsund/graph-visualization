@@ -14,6 +14,9 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "util.h"
+#include "linmin.h"
+
 #define ITMAX 200
 #define EPS 1.0e-10
 #define FREEALL free(xi);free(h);free(g);
@@ -25,15 +28,12 @@
  * iterations performed and fret - the minimum value of value. 
  * Calls routine linmin to perform line minimizations.
  */
-void frprmn(p, n, ftol, iter, fret, func, dfunc)
-float p[], ftol, *fret, (*func)();
-void (*dfunc)();
-int n, *iter;
+void frprmn(float p[], int n, float ftol, int *iter, float *fret, 
+  float (*func)(), void (*dfunc)(float [], float []))
 {
   int j, its;
   float gg, gam, fp, dgg;
-  float *g, *h, *xi, *vector();
-  void linmin(), rt_error();
+  float *g, *h, *xi;
 
   g = vector(n);
   h = vector(n);
@@ -58,7 +58,7 @@ int n, *iter;
       gg += g[j] * g[j];
       dgg += (xi[j] + g[j]) * xi[j];
     }
-    if (gg == 0.0) {
+    if (fabs(gg) < EPS) {
       FREEALL
       return;
     }
@@ -68,6 +68,7 @@ int n, *iter;
       xi[j] = h[j] = g[j] + gam * h[j];
     }
   }
+  FREEALL
   rt_error("Too many iterations in frprmn()");
 }
 

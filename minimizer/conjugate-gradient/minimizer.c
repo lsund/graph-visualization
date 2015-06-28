@@ -1,14 +1,13 @@
 /*****************************************************************************
 
-* Author : Ludvig Sundström
+* Author: Ludvig Sundström
 
-* File Name : minimize.c
+* File Name: minimizer.c
 
-* Purpose :   
+* Description: Defines an energy function and its derivatives aswell as working
+* as minimize() which is the exported function by emscripten.
 
-* Creation Date : 24-06-2015
-
-* Last Modified : 
+* Creation Date: 24-06-2015
 
 *****************************************************************************/
 
@@ -16,23 +15,20 @@
 #include <stdio.h>
 #include <math.h>
 
-#define STIFFNESS 200.0
+#include "util.h"
+#include "frprmn.h"
+
+#define STIFFNESS (float) 200.0
 #define FTOL 0.0001
 
-//Distance matrix
 static float *fdm;
 
 static float *ms;
 
-// Dimesion of the coordinate vector
-static unsigned int dim;
-static unsigned int blen;
+static int dim;
+static int blen;
 
-static int *iter; 
-static float *fret; 
-
-float energy (xi, yi, xj, yj, wij, dij)
-float xi, yi, xj, yj, wij, dij; 
+float energy (float xi, float yi, float xj, float yj, float wij, float dij)
 {
   float dx = xi - xj;
   float dy = yi - yj;
@@ -43,9 +39,8 @@ float xi, yi, xj, yj, wij, dij;
   return wij * (float) pow(dist - dij, 2);
 }
 
-float force (xi, yi, xj, yj, wij, dij, dir)
-float xi, yi, xj, yj, wij, dij; 
-char dir;
+float force (float xi, float yi, float xj, float yj, 
+  float wij, float dij, char dir)
 {
   float dx = xi - xj;
   float dy = yi - yj; 
@@ -61,7 +56,7 @@ char dir;
 
 float calcFunction (float p[]) 
 {
-  unsigned int i, j;
+  int i, j;
   float rtn, d, wij, dij;
   rtn = 0;
   for (i = 0; i < dim - 1; i += 2) {
@@ -77,7 +72,7 @@ float calcFunction (float p[])
 
 void calcGradient (float p[], float df[]) 
 {
-  unsigned int i, j;
+  int i, j;
   float d, wij, dij;
   for (i = 0; i < dim; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
@@ -95,28 +90,30 @@ void calcGradient (float p[], float df[])
 float (*func)(float []) = calcFunction;
 void (*dfunc)(float [], float []) = calcGradient;
 
-int minimize (flatpos, flatdmat, masses, len, bondlen) 
-float *flatpos, *flatdmat, *masses;
-unsigned int len, bondlen;
+int minimize (float *flatpos, float *flatdmat, float *masses, 
+  int len, int bondlen) 
 {
-  void frprmn();
-  if (len % 2 != 0) {
-    printf("Error: uneven number of positions\n");
-    return -1;
-  }
-
-  dim = len;
-  fdm = flatdmat; 
-  blen = bondlen;
+  int *iter;
+  float *fret;
+  
   iter = malloc(sizeof(int));
   fret = malloc(sizeof(float));
-  ms = masses;
 
-  frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
+  if (iter == NULL || fret == NULL) {
+    free(iter);
+    free(fret);
+    rt_error("Error when allocating memory");
+  } else {
 
-  free(fret);
-  free(iter);
-
-  return 0; 
+    dim = len;
+    fdm = flatdmat; 
+    blen = bondlen;
+    ms = masses;
+    frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
+    free(fret);
+    free(iter);
+    
+    return 0; 
+  }
 }
 

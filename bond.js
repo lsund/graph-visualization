@@ -2,9 +2,9 @@
 
 * Author : Ludvig Sundström
 
-* File Name : bond.js
+* File Name : obj.js
 
-* Purpose : Describes a bond 
+* Purpose : Describes a obj 
 
 * Creation Date : 17-06-2015
 
@@ -12,22 +12,26 @@
 
 *****************************************************************************/
 
-document.addEventListener('DOMContentLoaded', function (e) {
+(function () {
 
-  window.OBJECT = window.OBJECT || {};
-  window.PHYSICS = window.PHYSICS || {};
+  'use strict';
 
-  APP.bond = function (options) {
+  document.addEventListener('DOMContentLoaded', function () {
 
-    var bond = {};    
+    window.APP = window.APP || {};
 
-    bond.first = options.first; 
-    bond.second = options.second;
-    bond.color =  options.color || 'blue';
-    bond.type = options.type || 'r'; 
-    
-    return bond;
+    window.APP.bond = function (options) {
 
-  };
+      var obj = {};    
 
-});
+      obj.first = options.first; 
+      obj.second = options.second;
+      obj.color =  options.color || 'blue';
+      obj.type = options.type || 'r'; 
+      
+      return obj;
+
+    };
+  });
+
+}());
