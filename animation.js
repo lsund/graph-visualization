@@ -170,7 +170,21 @@
     };
   // --------------------------------------------------------------------------
 
-  window.APP.useSet0();
+    window.APP.useSet0();
+    
+    var server = function () {
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', 'http://localhost:1337/getstring', true);
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200){
+          var string = xmlhttp.responseText;
+          console.log(string);
+        }
+      };
+      xmlhttp.send();
+    };
+
+    server();
 
   }); 
 
