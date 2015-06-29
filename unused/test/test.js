@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
 
   APP.useSet0();
 
+  console.log(window.test);
+
   //describe('Global', function () {
       //it('APP should not be empty', function(){
         //chai.assert.notEqual({}, APP);
@@ -40,8 +42,8 @@ document.addEventListener('DOMContentLoaded', function (e) {
     //});
   //});
 
-  mocha.checkLeaks();
-  mocha.run();
+  //mocha.checkLeaks();
+  //mocha.run();
   
 });
 

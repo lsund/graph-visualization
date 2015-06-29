@@ -1,14 +1,12 @@
 /*****************************************************************************
 
-* Author : Ludvig Sundström
+* Author: Ludvig Sundström
 
-* File Name : data.js
+* File Name: data.js
 
-* Purpose : 
+* Purpose: 
 
-* Creation Date : 24-06-2015
-
-* Last Modified : 
+* Creation Date: 24-06-2015
 
 *****************************************************************************/
 
@@ -19,6 +17,53 @@
   document.addEventListener('DOMContentLoaded', function () {
 
     window.window.DATA = window.window.DATA || {};
+
+    //// ref: http://stackoverflow.com/a/1293163/2343
+    //// This will parse a delimited string into an array of
+    //// arrays. The default delimiter is the comma, but this
+    //// can be overriden in the second argument.
+    //function CSVToArray(strData, strDelimiter) {
+
+      //strDelimiter = (strDelimiter || ',');
+
+      //var objPattern = new RegExp(
+        //(
+          //'(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
+          //'(?:\'([^\']*(?:\'\'[^\']*)*)\'|' +
+          //'([^\'\\' + strDelimiter + '\\r\\n]*))'
+        //),
+        //'gi'
+      //);
+
+      //var arrData = [[]];
+      //var arrMatches = objPattern.exec(strData);
+
+      //while (arrMatches) {
+
+        //var strMatchedDelimiter = arrMatches[1];
+
+        //if (strMatchedDelimiter.length && 
+          //strMatchedDelimiter !== strDelimiter) {
+          //arrData.push([]);
+        //}
+
+        //var strMatchedValue;
+        //if (arrMatches[2]) {
+          //strMatchedValue = arrMatches[ 2 ].replace(
+            //new RegExp( '\'\'', 'g' ),
+            //'\''
+          //);
+        //} else {
+          //strMatchedValue = arrMatches[ 3 ];
+        //}
+        //arrData[arrData.length - 1].push(strMatchedValue);
+        //arrMatches = objPattern.exec(strData);
+      //}
+      //return(arrData);
+    //}
+    
+    //var CSVstring = 
+    //var test = CSVToArray(
 
     var vertexID = -1;
     var clusterDist = 2;

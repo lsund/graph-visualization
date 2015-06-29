@@ -1,14 +1,12 @@
 /*****************************************************************************
 
-* Author : Ludvig Sundström
+* Author: Ludvig Sundström
 
-* File Name : animation.js
+* File Name: animation.js
 
-* Purpose : Animation   
+* Description: Animation   
 
-* Creation Date : 17-06-2015
-
-* Last Modified : 
+* Creation Date: 17-06-2015
 
 *****************************************************************************/
 
@@ -18,7 +16,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    window.window.OBJECT = window.window.OBJECT || {};
+    window.OBJECT = window.OBJECT || {};
     window.PENCIL = window.PENCIL || {};
     window.DATA = window.DATA || {};
     window.PHYSICS = window.PHYSICS || {};
@@ -35,7 +33,6 @@
     // Stiffness constant
     window.PHYSICS.STIFFNESS = 1 / 2; 
     
-
     // Animation --------------------------------------------------------------
     
     var variableParagraph = document.getElementById('variables');
@@ -45,6 +42,7 @@
     variableParagraph.innerHTML += 'K: ' + window.PHYSICS.STIFFNESS;
     variableParagraph.innerHTML += 'D: ' + window.PHYSICS.SPRING_LENGTH;
     
+
     window.APP.useSet0 = function () {
       dmat = window.DATA.dmat0;
       vopts = window.DATA.vopts0;
@@ -72,7 +70,7 @@
       window.OBJECT.body.initialize(vopts, dmat);
       window.APP.draw();
     };
-    
+
     window.APP.randomPosition = function () {
       window.OBJECT.body.randomPosition();
       window.APP.draw();
@@ -148,7 +146,7 @@
     };
 
 
-  // Moving animation -----------------------------------------------------------
+  // Moving animation ---------------------------------------------------------
 
     window.APP.startAnimation = function () {
       var vs = window.OBJECT.body.getVertices();
@@ -170,7 +168,10 @@
     window.APP.stopAnimation = function () { 
       clearInterval(refreshIntervalID);
     };
+  // --------------------------------------------------------------------------
 
-  });
+  window.APP.useSet0();
+
+  }); 
 
 }());
