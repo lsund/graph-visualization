@@ -18,16 +18,16 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    window.window.APP = window.window.APP || {};
+    window.COMPONENT = window.COMPONENT || {};
 
-    window.window.APP.graphObject = function (options) {
+    window.COMPONENT.graphObject = function (options) {
 
       var obj = {};
 
-      obj.force       = options.force || window.APP.vector2D(0, 0); 
-      obj.acceleration  = options.acceleration || window.APP.vector2D(0, 0); 
-      obj.velocity      = options.velocity || window.APP.vector2D(0, 0); 
-      obj.position      = options.position || window.APP.vector2D(0, 0);
+      obj.force       = options.force || window.COMPONENT.vector2D(0, 0); 
+      obj.acceleration  = options.acceleration || window.COMPONENT.vector2D(0, 0); 
+      obj.velocity      = options.velocity || window.COMPONENT.vector2D(0, 0); 
+      obj.position      = options.position || window.COMPONENT.vector2D(0, 0);
 
       obj.shape         = options.shape || 'circle';
       obj.dimension     = options.dimension || 20;
@@ -62,7 +62,7 @@
         if (obj.shape === 'circle') {
           return obj.position;
         } else {
-          var vec = window.APP.vector2D(
+          var vec = window.COMPONENT.vector2D(
             obj.dimension.x / 2, obj.dimension.y / 2
           );
           return obj.position.add(vec);

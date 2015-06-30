@@ -16,56 +16,56 @@
 
   'use strict';
 
-  window.window.APP = window.window.APP || {};
+  window.COMPONENT = window.COMPONENT || {};
 
-  window.APP.vector2D = function (x, y) {
+  window.COMPONENT.vector2D = function (x, y) {
 
-    var that = {};
-    that.x = x;
-    that.y = y;
+    var obj = {};
+    obj.x = x;
+    obj.y = y;
     
-    that.add = function (vec) {
-      return window.APP.vector2D(that.x + vec.x, that.y + vec.y);
+    obj.add = function (vec) {
+      return window.COMPONENT.vector2D(obj.x + vec.x, obj.y + vec.y);
     };
 
-    that.sub = function (vec) {
-      return window.APP.vector2D(that.x - vec.x, that.y - vec.y);
+    obj.sub = function (vec) {
+      return window.COMPONENT.vector2D(obj.x - vec.x, obj.y - vec.y);
     };
 
-    that.negate = function () {
-      return window.APP.vector2D(-that.x, -that.y);
+    obj.negate = function () {
+      return window.COMPONENT.vector2D(-obj.x, -obj.y);
     };
 
-    that.scalar = function (c) {
-      return window.APP.vector2D(that.x * c, that.y * c);
+    obj.scalar = function (c) {
+      return window.COMPONENT.vector2D(obj.x * c, obj.y * c);
     };
 
-    that.abs = function () {
-      return Math.sqrt(that.x * that.x + that.y * that.y);
+    obj.abs = function () {
+      return Math.sqrt(obj.x * obj.x + obj.y * obj.y);
     };
 
-    that.cross = function (vec) {
-      return window.APP.vector2D(that.x * vec.y,  -that.y * vec.x);
+    obj.cross = function (vec) {
+      return window.COMPONENT.vector2D(obj.x * vec.y,  -obj.y * vec.x);
     };
 
-    that.normalize = function () {
-      var norm = that.abs();
-      return window.APP.vector2D(that.x / norm, that.y / norm);
+    obj.normalize = function () {
+      var norm = obj.abs();
+      return window.COMPONENT.vector2D(obj.x / norm, obj.y / norm);
     };
 
-    that.perpendicular = function () {
-      return window.APP.vector2D(that.y, -that.x);
+    obj.perpendicular = function () {
+      return window.COMPONENT.vector2D(obj.y, -obj.x);
     };
 
-    that.isZero = function () {
-      return that.x === 0 && that.y === 0;
+    obj.isZero = function () {
+      return obj.x === 0 && obj.y === 0;
     };
 
-    that.equal = function (vec) {
-      return that.x === vec.x && that.y === vec.y;
+    obj.equal = function (vec) {
+      return obj.x === vec.x && obj.y === vec.y;
     };
 
-    return that;
+    return obj;
 
   };
 

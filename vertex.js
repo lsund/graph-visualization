@@ -16,10 +16,12 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function () {
+    
+    window.COMPONENT = window.COMPONENT || {};
 
-    window.APP.vertex = function (options) {
+    window.COMPONENT.vertex = function (options) {
 
-      var obj = window.APP.graphObject(options);
+      var obj = window.COMPONENT.graphObject(options);
           
       obj.id  = options.id;
 
@@ -28,8 +30,6 @@
       } else {
         obj.mass = obj.dimension.x + obj.dimension.y / 40;
       }  
-
-      obj = window.APP.forceDirected(obj);
 
       return obj;
 

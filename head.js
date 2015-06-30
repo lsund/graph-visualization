@@ -18,9 +18,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-  window.APP = window.APP || {};
+  window.COMPONENT = window.COMPONENT || {};
 
-    window.APP.head = function () {
+    window.COMPONENT.head = function () {
       var obj = {};
       obj.physicsEngine = window.APP.physicsEngine;
       return obj;

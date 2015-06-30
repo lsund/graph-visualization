@@ -17,28 +17,40 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function () {
+    
+    window.COMPONENT = window.COMPONENT || {};
 
-    window.window.APP.body = function (options) {
+    window.COMPONENT.body = function (options) {
 
       var obj = {};
 
       var dimx, dimy;
-
       obj.vertices = [];
       obj.bonds = [];
       obj.restraints = [];
 
-      obj.dimension = options.dimension || window.APP.vector(800, 800);
-      obj.center = window.APP.vector2D(dimx / 2, dimy / 2);
+      obj.dimension = options.dimension || window.COMPONENT.vector(800, 800);
+      obj.center = window.COMPONENT.vector2D(dimx / 2, dimy / 2);
 
       dimx = obj.dimension.x;
       dimy = obj.dimension.y;
 
-      obj.initialize = function (verticeOpts, dmat) {
-        verticeOpts.forEach(function (o) {
-          obj.vertices.push(window.APP.vertex(o)); 
-        });
-        obj.dmat = dmat;
+      obj.initialize = function (vec) {
+        obj.vertices = [];
+        obj.bonds = [];
+        obj.restraints = [];
+        var i, id;
+        id = 0;
+        for (i = 0; i < vec.length; i += 2) {
+          obj.vertices.push(window.COMPONENT.vertex(
+            {
+              id: id += 1,
+              position: window.COMPONENT.vector2D(vec[i], vec[i + 1]), 
+              shape: 'circle', 
+              dimension: 10
+            }
+          )); 
+        }
         addBonds();
       };
 
@@ -46,11 +58,10 @@
         var i, j;
         for (i = 0; i < obj.vertices.length - 1; i += 1) {
           for (j = i + 1; j < obj.vertices.length; j += 1) {
-            obj.bonds.push(window.APP.bond(
+            obj.bonds.push(window.COMPONENT.bond(
               { 
                 first: obj.vertices[i], 
                 second: obj.vertices[j], 
-                type: obj.dmat[i][j] === 1 ? 'r' : 'i'
               }
             ));
           }
@@ -82,7 +93,7 @@
         for (i = 0; i < vdim; i += 1) {
           for (j = 0; j < vdim; j += 1) {
             ps.push(j * gapx + offsetx); 
-            ps.push(i * gapy + offsetx); 
+            ps.push(i * gapy + offsety); 
           }
         }
         obj.setVerticePositions(ps);
@@ -109,7 +120,7 @@
       obj.setVerticePositions = function (vec) {
         var i, cpos;
         for (i = 0; i < obj.vertices.length; i += 1) {
-          cpos = window.APP.vector2D(vec[i * 2], vec[i * 2 + 1]);
+          cpos = window.COMPONENT.vector2D(vec[i * 2], vec[i * 2 + 1]);
           obj.vertices[i].setPosition(cpos); 
         } 
       };

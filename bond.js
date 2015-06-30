@@ -18,9 +18,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    window.APP = window.APP || {};
+    window.COMPONENT = window.COMPONENT || {};
 
-    window.APP.bond = function (options) {
+    window.COMPONENT.bond = function (options) {
 
       var obj = {};    
 

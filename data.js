@@ -16,103 +16,56 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    window.window.DATA = window.window.DATA || {};
-
-    //// ref: http://stackoverflow.com/a/1293163/2343
-    //// This will parse a delimited string into an array of
-    //// arrays. The default delimiter is the comma, but this
-    //// can be overriden in the second argument.
-    //function CSVToArray(strData, strDelimiter) {
-
-      //strDelimiter = (strDelimiter || ',');
-
-      //var objPattern = new RegExp(
-        //(
-          //'(\\' + strDelimiter + '|\\r?\\n|\\r|^)' +
-          //'(?:\'([^\']*(?:\'\'[^\']*)*)\'|' +
-          //'([^\'\\' + strDelimiter + '\\r\\n]*))'
-        //),
-        //'gi'
-      //);
-
-      //var arrData = [[]];
-      //var arrMatches = objPattern.exec(strData);
-
-      //while (arrMatches) {
-
-        //var strMatchedDelimiter = arrMatches[1];
-
-        //if (strMatchedDelimiter.length && 
-          //strMatchedDelimiter !== strDelimiter) {
-          //arrData.push([]);
-        //}
-
-        //var strMatchedValue;
-        //if (arrMatches[2]) {
-          //strMatchedValue = arrMatches[ 2 ].replace(
-            //new RegExp( '\'\'', 'g' ),
-            //'\''
-          //);
-        //} else {
-          //strMatchedValue = arrMatches[ 3 ];
-        //}
-        //arrData[arrData.length - 1].push(strMatchedValue);
-        //arrMatches = objPattern.exec(strData);
-      //}
-      //return(arrData);
-    //}
-    
-    //var CSVstring = 
-    //var test = CSVToArray(
+    window.DATA = window.DATA || {};
+    window.COMPONENT = window.COMPONENT || {};
 
     var vertexID = -1;
-    var clusterDist = 2;
 
     var vcoptions0 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(200, 400), 
+      position: window.COMPONENT.vector2D(200, 400), 
       shape: 'circle', 
       dimension: 40
     };
     var vcoptions1 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(300, 500), 
+      position: window.COMPONENT.vector2D(300, 500), 
       shape: 'circle', 
       dimension: 20 
     };
     var vcoptions2 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(800, 0),
+      position: window.COMPONENT.vector2D(800, 0),
       shape: 'circle',
       dimension: 10,
     };
     var vcoptions3 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(0, 400),
+      position: window.COMPONENT.vector2D(0, 400),
       shape: 'circle',
       dimension: 10
     };
     var vcoptions4 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(400, 400),
+      position: window.COMPONENT.vector2D(400, 400),
       shape: 'circle',
       dimension: 10  
     };
     var vcoptions5 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(800, 400),
+      position: window.COMPONENT.vector2D(800, 400),
       shape: 'circle',
       dimension: 20  
     };
     var vcoptions6 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(0, 800),
+      position: window.COMPONENT.vector2D(0, 800),
       shape: 'circle',
       dimension: 20  
     };
     var vcoptions7 = {
       id: vertexID += 1,
-      position: window.APP.vector2D(400, 800),
+      position: window.COMPONENT.vector2D(400, 800),
       shape: 'circle',
       dimension: 20  
     };
@@ -149,76 +102,84 @@
     }
 
     //Vertex 0
+    distanceMatrix0[0][0] = 0;
     distanceMatrix0[0][1] = 1;
     distanceMatrix0[0][2] = 1;
     distanceMatrix0[0][3] = 1;
     distanceMatrix0[0][4] = 2;
-    distanceMatrix0[0][5] = clusterDist;
-    distanceMatrix0[0][6] = clusterDist;
-    distanceMatrix0[0][7] = clusterDist;
+    distanceMatrix0[0][5] = 2;
+    distanceMatrix0[0][6] = 2;
+    distanceMatrix0[0][7] = 2;
 
     //Vertex 1
     distanceMatrix0[1][0] = 1;
+    distanceMatrix0[1][1] = 0;
     distanceMatrix0[1][2] = 1;
     distanceMatrix0[1][3] = 2;
     distanceMatrix0[1][4] = 2;
-    distanceMatrix0[1][5] = clusterDist;
-    distanceMatrix0[1][6] = clusterDist;
-    distanceMatrix0[1][7] = clusterDist;
+    distanceMatrix0[1][5] = 2;
+    distanceMatrix0[1][6] = 2;
+    distanceMatrix0[1][7] = 2;
     
     //Vertex 2
     distanceMatrix0[2][0] = 1;
     distanceMatrix0[2][1] = 1;
+    distanceMatrix0[2][2] = 0;
     distanceMatrix0[2][3] = 2;
     distanceMatrix0[2][4] = 1;
-    distanceMatrix0[2][5] = clusterDist;
-    distanceMatrix0[2][6] = clusterDist;
-    distanceMatrix0[2][7] = clusterDist;
+    distanceMatrix0[2][5] = 2;
+    distanceMatrix0[2][6] = 2;
+    distanceMatrix0[2][7] = 2;
 
     //Vertex 3
     distanceMatrix0[3][0] = 1;
     distanceMatrix0[3][1] = 2;
-    distanceMatrix0[3][3] = 2;
+    distanceMatrix0[3][2] = 2;
+    distanceMatrix0[3][3] = 0;
     distanceMatrix0[3][4] = 3;
-    distanceMatrix0[3][5] = clusterDist;
-    distanceMatrix0[3][6] = clusterDist;
-    distanceMatrix0[3][7] = clusterDist;
+    distanceMatrix0[3][5] = 2;
+    distanceMatrix0[3][6] = 2;
+    distanceMatrix0[3][7] = 2;
 
     //Vertex 4
     distanceMatrix0[4][0] = 2;
     distanceMatrix0[4][1] = 2;
     distanceMatrix0[4][2] = 1;
     distanceMatrix0[4][3] = 3;
-    distanceMatrix0[4][5] = clusterDist;
-    distanceMatrix0[4][6] = clusterDist;
-    distanceMatrix0[4][7] = clusterDist;
+    distanceMatrix0[4][4] = 0;
+    distanceMatrix0[4][5] = 2;
+    distanceMatrix0[4][6] = 2;
+    distanceMatrix0[4][7] = 2;
     
     //Vertex 5
-    distanceMatrix0[5][0] = clusterDist;
-    distanceMatrix0[5][1] = clusterDist;
-    distanceMatrix0[5][2] = clusterDist;
-    distanceMatrix0[5][3] = clusterDist;
-    distanceMatrix0[5][4] = clusterDist;
+    distanceMatrix0[5][0] = 2;
+    distanceMatrix0[5][1] = 2;
+    distanceMatrix0[5][2] = 2;
+    distanceMatrix0[5][3] = 2;
+    distanceMatrix0[5][4] = 2;
+    distanceMatrix0[5][5] = 0;
     distanceMatrix0[5][6] = 1;
     distanceMatrix0[5][7] = 2;
 
     //Vertex 6
-    distanceMatrix0[6][0] = clusterDist;
-    distanceMatrix0[6][1] = clusterDist;
-    distanceMatrix0[6][2] = clusterDist;
-    distanceMatrix0[6][3] = clusterDist;
-    distanceMatrix0[6][4] = clusterDist;
+    distanceMatrix0[6][0] = 2;
+    distanceMatrix0[6][1] = 2;
+    distanceMatrix0[6][2] = 2;
+    distanceMatrix0[6][3] = 2;
+    distanceMatrix0[6][4] = 2;
     distanceMatrix0[6][5] = 1;
+    distanceMatrix0[6][6] = 0;
     distanceMatrix0[6][7] = 1;
 
     //Vertex 7
-    distanceMatrix0[7][0] = clusterDist;
-    distanceMatrix0[7][1] = clusterDist;
-    distanceMatrix0[7][2] = clusterDist;
-    distanceMatrix0[7][3] = clusterDist;
-    distanceMatrix0[7][4] = clusterDist;
+    distanceMatrix0[7][0] = 2;
+    distanceMatrix0[7][1] = 2;
+    distanceMatrix0[7][2] = 2;
+    distanceMatrix0[7][3] = 2;
+    distanceMatrix0[7][4] = 2;
     distanceMatrix0[7][5] = 2;
     distanceMatrix0[7][6] = 1;
+    distanceMatrix0[7][7] = 0;
     
     distanceMatrix1[0][1] = 1;
     distanceMatrix1[0][2] = 1;

@@ -18,8 +18,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    window.PENCIL = window.PENCIL || {};
     window.OBJECT = window.OBJECT || {};
+    window.EXPORTS = window.EXPORTS || {};
+    window.GLOBALS = window.GLOBALS || {};
 
     var c = document.getElementById('canvas');
     var ctx = c.getContext('2d');
@@ -35,7 +36,7 @@
       offsetY = rect.y;
       mx = e.pageX - offsetX - document.body.scrollLeft;
       my = e.pageY - offsetY - document.body.scrollTop;
-      return window.APP.vector2D(mx, my);
+      return window.COMPONENT.vector2D(mx, my);
     };
 
     c.addEventListener('selectstart', function(e) { 
@@ -104,10 +105,39 @@
       ctx.stroke(); 
     };
 
-    window.PENCIL.drawVertex = drawVertex;
-    window.PENCIL.drawBond = drawBond;
-    window.PENCIL.drawRestraint = drawRestraint;
-    window.PENCIL.ctx = ctx;
+    var randomPosition = function () {
+      window.OBJECT.body.randomPosition();
+      draw();
+    };
+
+    var gridPosition = function () {
+      window.OBJECT.body.gridPosition();
+      draw();
+    };
+
+    var draw = function () {
+      ctx.clearRect(0, 0, c.width, c.height);
+      window.OBJECT.body.bonds.forEach(function (b) {
+        if (b.type === 'r') {
+          drawBond(b);
+        }
+      });
+      window.OBJECT.body.restraints.forEach(function (r) {
+        drawRestraint(r);
+      });
+      window.OBJECT.body.vertices.forEach(function (v) {
+        drawVertex(v);
+      });
+    };
+
+    var variableParagraph = document.getElementById('variables');
+
+    variableParagraph.innerHTML += 'K: ' + window.GLOBALS.STIFFNESS;
+    variableParagraph.innerHTML += 'D: ' + window.GLOBALS.SPRING_LENGTH;
+
+    window.EXPORTS.draw = draw;
+    window.EXPORTS.gridPosition = gridPosition;
+    window.EXPORTS.randomPosition = randomPosition;
 
   }); 
 

@@ -4,6 +4,8 @@
   "description": "Graph visualization tool for js",
   "main": "app.js",
   "dependencies": {
+    "JSONStream": "^1.0.4",
+    "csv-streamify": "^2.0.0",
     "express": "^4.13.0",
     "readline-stream": "^1.0.1"
   },
