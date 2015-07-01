@@ -25,12 +25,6 @@
           
       obj.id  = options.id;
 
-      if (obj.shape === 'circle') {
-        obj.mass = obj.dimension / 10;
-      } else {
-        obj.mass = obj.dimension.x + obj.dimension.y / 40;
-      }  
-
       return obj;
 
     };

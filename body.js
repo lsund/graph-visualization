@@ -47,7 +47,8 @@
               id: id += 1,
               position: window.COMPONENT.vector2D(vec[i], vec[i + 1]), 
               shape: 'circle', 
-              dimension: 10
+              dimension: 3,
+              color: '#660033'
             }
           )); 
         }
@@ -68,61 +69,12 @@
         }
       };
 
-      obj.randomPosition = function () {
-        var i, ps;
-        ps = [];
+      obj.moveVertices = function (vec) {
+        var i;
         for (i = 0; i < obj.vertices.length; i += 1) {
-          ps.push(Math.random() * dimx);
-          ps.push(Math.random() * dimy);
+          var cv = obj.vertices[i];
+          cv.setPosition(cv.position.add(vec));
         }
-        obj.setVerticePositions(ps);
-      };
-
-      obj.gridPosition = function () {
-        var i, j, n, vdim, gapx, gapy, offsetx, offsety, ps;
-        n = obj.vertices.length;
-        while (Math.sqrt(n) !== parseInt(Math.sqrt(n), 10)) {
-          n += 1;
-        }
-        vdim = Math.sqrt(n);
-        gapx = dimx / vdim;
-        gapy = dimy / vdim;
-        offsetx = gapx / 2;
-        offsety = gapy / 2;
-        ps = [];
-        for (i = 0; i < vdim; i += 1) {
-          for (j = 0; j < vdim; j += 1) {
-            ps.push(j * gapx + offsetx); 
-            ps.push(i * gapy + offsety); 
-          }
-        }
-        obj.setVerticePositions(ps);
-      };
-
-      obj.getVerticePositions = function () {
-        var i, vec, rtn = [];
-        for (i = 0; i < obj.vertices.length; i += 1) {
-          vec = obj.vertices[i].position;
-          rtn.push(vec.x);
-          rtn.push(vec.y);
-        } 
-        return rtn;
-      };
-      
-      obj.getVerticeMasses = function () {
-        var i, rtn = [];
-        for (i = 0; i < obj.vertices.length; i += 1) {
-          rtn.push(obj.vertices[i].mass);
-        }
-        return rtn;
-      };
-
-      obj.setVerticePositions = function (vec) {
-        var i, cpos;
-        for (i = 0; i < obj.vertices.length; i += 1) {
-          cpos = window.COMPONENT.vector2D(vec[i * 2], vec[i * 2 + 1]);
-          obj.vertices[i].setPosition(cpos); 
-        } 
       };
 
       return obj;

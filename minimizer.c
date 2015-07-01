@@ -15,55 +15,46 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "util.h"
-#include "frprmn.h"
+#include "c_src/util.h"
+#include "c_src/frprmn.h"
 
-#define STIFFNESS (float) 5.0
-#define FTOL 0.0001
-#define ROW_MAX_LEN 1000
-#define SPAN_X 800
-#define SPAN_Y 800
+#define FTOL 0.00001
+#define MIN_DIST 0.1
+#define PRECISION_DIGITS 8
 
 static float *fdm;
 
-static float *ms;
+static int dim, nv, stiffness, blen, spanx, spany;
 
-static int dim;
-static int nv;
-static int blen;
-
-void initDMT(char *filename) 
+void initDMT(char *fname) 
 {
-
+  
   FILE *fp;
-
-  char *buf = malloc(sizeof(char) * ROW_MAX_LEN);
+  char *pend, *p, *buf;
+  int i, j, ij;
+  
+  long rowMaxLen = (PRECISION_DIGITS + 3) * nv;
+  buf = malloc(sizeof(char) * rowMaxLen);
+  fp = fopen(fname, "r"); 
 
   if (buf == NULL) {
     rt_error("error in getDMT while allocating memory");
   }
-
-  fp = fopen(filename, "r"); 
-
   if (fp == NULL) {
     rt_error("error while opening file for reading");
   }
 
-  int i, j, ij;
-  char *pend, *p;
-
-  i = 0;
-  while (fgets(buf, ROW_MAX_LEN, fp)) {
+  for (i = 0; i < nv; i++) {
+    fgets(buf, rowMaxLen, fp);
     p = buf;
     for (j = 0; j < nv; j++) {
       ij = j + (i * nv);
       fdm[ij] = strtof(p, &pend);
-      if (fabs(fdm[ij]) < 0.01) {
-        fdm[ij] = 0.01;
+      if (fabs(fdm[ij]) < MIN_DIST) {
+        fdm[ij] = MIN_DIST;
       }
       p = pend + 1;
     }
-    i++;
   }
 
   fclose(fp);
@@ -79,8 +70,8 @@ void initFPS(float *ps)
     n++;
   }
   vdim = sqrt(n);
-  gapx = SPAN_X / vdim;
-  gapy = SPAN_Y / vdim;
+  gapx = spanx / vdim;
+  gapy = spany / vdim;
   offsetx = gapx / 2;
   offsety = gapy / 2;
   int rows = 0;
@@ -94,7 +85,6 @@ void initFPS(float *ps)
     ps[i + 1] = rows * gapy + offsety; 
     cols++;
   }
-  
 }
 
 float energy (float xi, float yi, float xj, float yj, float wij, float dij)
@@ -131,7 +121,7 @@ float calcFunction (float p[])
   for (i = 0; i < dim - 1; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
       d = fdm[(i / 2) * nv + (j / 2)];
-      wij = STIFFNESS;
+      wij = stiffness;
       dij = d * blen;
       rtn += energy(p[i], p[i + 1], p[j], p[j + 1], wij, dij);
     }
@@ -146,7 +136,7 @@ void calcGradient (float p[], float df[])
   for (i = 0; i < dim; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
       d = fdm[(i / 2) * nv + (j / 2)];
-      wij = STIFFNESS;
+      wij = stiffness;
       dij = d * blen;
       df[i] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
       df[i + 1] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'y');
@@ -159,29 +149,31 @@ void calcGradient (float p[], float df[])
 float (*func)(float []) = calcFunction;
 void (*dfunc)(float [], float []) = calcGradient;
 
-int minimize (char *dmtFilename, float *flatpos, 
-    float *masses, int len, int bondlen) 
+int minimize (char *dmtFilename, float *flatpos, int len,
+  int bondlen, int panelx, int panely) 
 {
   int *iter;
   float *fret;
 
+  spanx = panelx;
+  spany = panely;
+
   dim = len;
   nv = len / 2;
+  stiffness = panelx * panely /  1000;
 
+  fdm = malloc(sizeof(float) * (nv * nv));
   iter = malloc(sizeof(int));
   fret = malloc(sizeof(float));
-  fdm = malloc(sizeof(float) * (nv * nv));
+
+  initDMT(dmtFilename);
+  initFPS(flatpos);
 
   if (iter == NULL || fret == NULL || fdm == NULL) {
     rt_error("Error in minimize when allocating memory");
   }
 
-  initDMT(dmtFilename);
-  initFPS(flatpos);
-
   blen = bondlen;
-  ms = masses;
-  initFPS(flatpos);
   frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
 
   free(fdm);

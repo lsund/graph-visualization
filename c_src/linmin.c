@@ -54,8 +54,6 @@ void linmin(float p[], float xi[], int n, float *fret, float (*func)())
   free(pcom);
 }   
 
-
-//Must accompany linmin.   
 float f1dim(float x)   
 {   
   float *vector();

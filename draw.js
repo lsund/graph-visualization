@@ -25,8 +25,7 @@
     var c = document.getElementById('canvas');
     var ctx = c.getContext('2d');
     
-    var dragging = false;
-    var selection = null;
+    var mouseDownPos = null;
     
     var getMouse = function (e) {
       var mx, my, offsetX, offsetY;
@@ -39,37 +38,23 @@
       return window.COMPONENT.vector2D(mx, my);
     };
 
-    c.addEventListener('selectstart', function(e) { 
-      e.preventDefault(); return false; 
-    }, false);
-
     c.addEventListener('mousedown', function (e) {
-      dragging = true;
+      c.style.cursor = 'grabbing';
       var vec = getMouse(e);
-      window.OBJECT.body.vertices.forEach(function (v) {
-        if (v.contains(vec)) {
-          selection = v;  
-          selection.color = 'black';
-        }
-      }); 
+      mouseDownPos = vec;
     });
 
-    c.addEventListener('mousemove', function (e) {
-      if (dragging && selection !== null) {
-        var vec = getMouse(e);
-        selection.setPosition(vec);
-      }
+    c.addEventListener('mousemove', function () {
     });
 
-    c.addEventListener('mouseup', function () {
-      dragging = false;
-      if (selection !== null) {
-        selection.color = 'grey';
-        selection = null;
-      }
+    c.addEventListener('mouseup', function (e) {
+      c.style.cursor = 'grab';
+      var change = getMouse(e).sub(mouseDownPos);
+      window.OBJECT.body.moveVertices(change);
+      draw();
     });
 
-    var drawVertex = function (v) {
+    var drawVertex = function (v, id) {
       ctx.fillStyle = v.color;
       var position = v.position;
       if (v.shape === 'circle') {
@@ -78,12 +63,14 @@
         ctx.arc(position.x, position.y, v.dimension, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
-        ctx.font = 'bold 14px Arial';
-        ctx.fillStyle = 'black';
         if (v.fixed) {
           ctx.fillStyle = 'white';
         }
-        ctx.fillText(v.id, position.x - 2, position.y + 4);
+        if (id) {
+          ctx.font = 'bold 14px Arial';
+          ctx.fillStyle = 'black';
+          ctx.fillText(v.id, position.x - 2, position.y + 4);
+        }
       } else if (v.shape === 'rectangle') {
         ctx.fillRect(position.x, position.y, v.dimension.x, v.dimension.y);
       }
@@ -115,13 +102,15 @@
       draw();
     };
 
-    var draw = function () {
+    var draw = function (drawBonds) {
       ctx.clearRect(0, 0, c.width, c.height);
-      window.OBJECT.body.bonds.forEach(function (b) {
-        if (b.type === 'r') {
-          drawBond(b);
-        }
-      });
+      if (drawBonds) {
+        window.OBJECT.body.bonds.forEach(function (b) {
+          if (b.type === 'r') {
+            drawBond(b);
+          }
+        });
+      }
       window.OBJECT.body.restraints.forEach(function (r) {
         drawRestraint(r);
       });
@@ -129,11 +118,6 @@
         drawVertex(v);
       });
     };
-
-    var variableParagraph = document.getElementById('variables');
-
-    variableParagraph.innerHTML += 'K: ' + window.GLOBALS.STIFFNESS;
-    variableParagraph.innerHTML += 'D: ' + window.GLOBALS.SPRING_LENGTH;
 
     window.EXPORTS.draw = draw;
     window.EXPORTS.gridPosition = gridPosition;

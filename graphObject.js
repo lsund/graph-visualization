@@ -25,7 +25,8 @@
       var obj = {};
 
       obj.force       = options.force || window.COMPONENT.vector2D(0, 0); 
-      obj.acceleration  = options.acceleration || window.COMPONENT.vector2D(0, 0); 
+      obj.acceleration  = options.acceleration || 
+        window.COMPONENT.vector2D(0, 0); 
       obj.velocity      = options.velocity || window.COMPONENT.vector2D(0, 0); 
       obj.position      = options.position || window.COMPONENT.vector2D(0, 0);
 
@@ -33,7 +34,7 @@
       obj.dimension     = options.dimension || 20;
       obj.bonds         = options.bonds || [];
       obj.fixed         = options.fixed || false;
-      obj.color         = options.color || 'grey';
+      obj.color         = options.color || 'green';
 
       if (obj.fixed) { 
         obj.color = 'black';

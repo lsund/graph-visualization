@@ -24,104 +24,128 @@
     window.DATA = window.DATA || {};
     window.GLOBALS = window.GLOBALS || {};
 
-    window.GLOBALS.ANIMATION_TICK = 100;
-    window.GLOBALS.PANEL_DIM_X = 800;
-    window.GLOBALS.PANEL_DIM_Y = 800;
-    
     window.GLOBALS.SPRING_LENGTH = 300;
     window.GLOBALS.GRAVITY = 0.01;
-    window.GLOBALS.STIFFNESS = 1 / 2; 
 
     var initialize = function () {
 
       canvas = document.getElementById('canvas');
-      canvas.style.width = '' + window.GLOBALS.PANEL_DIM_X + 'px';
-      canvas.style.height = '' + window.GLOBALS.PANEL_DIM_Y + 'px';
+
+      var panelx = canvas.width;
+      var panely = canvas.height;
+
       window.OBJECT.head = window.COMPONENT.head({});
       window.OBJECT.body = window.COMPONENT.body(
-        { 
-          dimension: window.COMPONENT.vector2D(
-            window.GLOBALS.PANEL_DIM_X, 
-            window.GLOBALS.PANEL_DIM_Y) 
-        }
+        { dimension: window.COMPONENT.vector2D(panelx, panely) }
       );
+
+      var variableParagraph = document.getElementById('variables');
+
+      variableParagraph.innerHTML += ' Max distance (px): ' + 
+        window.GLOBALS.SPRING_LENGTH;
 
       window.EXPORTS.draw();
 
     };
     
-    var minimize = function (fopts) {
+    var statusParagraph = document.getElementById('status');
 
-      var ms, cMinimize, arr32FPS, arr32MS, nbytesFPS,
-        nbytesFDM, nbytesMS, dptrFPS, dptrMS, dhFPS, dhMS,
-        result;
+
+    var minimize = function (fopts, callback) {
+
+      var clusterParagraph = document.getElementById('cluster');
+      clusterParagraph.innerHTML = 'N: ' + fopts.nv;
+
+      var cMinimize, arr32, nbytes, dptr, dh, result;
 
       cMinimize = Module.cwrap(
         'minimize', 'number', 
-        ['string', 'number', 'number', 'number', 'number']
+        ['string', 'number', 'number', 'number', 'number', 'number', 'number']
       );
 
-      //ms = window.OBJECT.body.getVerticeMasses();
-      ms = [];
-      arr32FPS = new Float32Array(fopts.nv * 2);
-      arr32MS = new Float32Array(ms);
+      arr32= new Float32Array(fopts.nv * 2);
+      nbytes= arr32.length * arr32.BYTES_PER_ELEMENT;
+      dptr= Module._malloc(nbytes);
+      dh= new Uint8Array(Module.HEAPU8.buffer, dptr, nbytes);
+      dh.set(new Uint8Array(arr32.buffer));
 
-      nbytesFPS = arr32FPS.length * arr32FPS.BYTES_PER_ELEMENT;
-      nbytesMS = arr32MS.length * arr32MS.BYTES_PER_ELEMENT;
-      dptrFPS = Module._malloc(nbytesFPS);
-      dptrMS = Module._malloc(nbytesFDM);
-
-      dhFPS = new Uint8Array(Module.HEAPU8.buffer, dptrFPS, nbytesFPS);
-      dhMS = new Uint8Array(Module.HEAPU8.buffer, dptrMS, nbytesMS);
-
-      dhFPS.set(new Uint8Array(arr32FPS.buffer));
-      dhMS.set(new Uint8Array(arr32MS.buffer));
       cMinimize(
         fopts.name,
-        dhFPS.byteOffset, 
-        dhMS.byteOffset, 
-        arr32FPS.length, 
-        window.GLOBALS.SPRING_LENGTH
+        dh.byteOffset, 
+        arr32.length,
+        window.GLOBALS.SPRING_LENGTH,
+        window.OBJECT.body.dimension.x,
+        window.OBJECT.body.dimension.y
       );
+
       result = new Float32Array(
-        dhFPS.buffer, 
-        dhFPS.byteOffset, 
-        arr32FPS.length
+        dh.buffer, 
+        dh.byteOffset, 
+        arr32.length
       );
+
       window.OBJECT.body.initialize(result);
-
       window.EXPORTS.draw();
+      Module._free(dh.byteOffset);
 
-      Module._free(dhFPS.byteOffset);
-      Module._free(dhMS.byteOffset);
+      callback();
 
     };
-  
+
+    var fopts = 
+      [ 
+        { name: 'data/dmt_clusters_subset0/dmt_10_106.csv',  nv: 106 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_11_43.csv',  nv: 43 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_12_7.csv',  nv: 7 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_13_9.csv',  nv: 9 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_14_10.csv', nv: 10 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_15_2.csv', nv: 2 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_16_4.csv', nv: 4 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_17_9.csv', nv: 9 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_18_20.csv', nv: 20 }, 
+        { name: 'data/dmt_clusters_subset0/dmt_19_23.csv', nv: 23 },
+      ];
+
+    var sayDone = function () {
+      statusParagraph.innerHTML = 'Done';
+    };
+
+    var calc = function (i) {
+      setTimeout(function () {
+        minimize(fopts[i], sayDone);
+      }, 100);
+      statusParagraph.innerHTML = 'Loading...';
+    };
+    
     window.EXPORTS.minimizeSet0 = function () {
-      minimize(
-        {
-          name: 'data/dmt_12_7.csv',
-          nv: 7  
-        }
-      );
+      calc(0);
     };
-
     window.EXPORTS.minimizeSet1 = function () {
-      minimize(
-        {
-          name: 'data/dmt_14_10.csv',
-          nv: 10  
-        }
-      );
+      calc(1);
     };
-
     window.EXPORTS.minimizeSet2 = function () {
-      minimize(
-        {
-          name: 'data/dmt_22_10.csv',
-          nv: 10  
-        }
-      );
+      calc(2);
+    };
+    window.EXPORTS.minimizeSet3 = function () {
+      calc(3);
+    };
+    window.EXPORTS.minimizeSet4 = function () {
+      calc(4);
+    };
+    window.EXPORTS.minimizeSet5 = function () {
+      calc(5);
+    };
+    window.EXPORTS.minimizeSet6 = function () {
+      calc(6);
+    };
+    window.EXPORTS.minimizeSet7 = function () {
+      calc(7);
+    };
+    window.EXPORTS.minimizeSet8 = function () {
+      calc(8);
+    };
+    window.EXPORTS.minimizeSet9 = function () {
+      calc(9);
     };
 
     initialize();
@@ -129,3 +153,5 @@
   });
     
 }());
+
+
