@@ -20,7 +20,7 @@
 
     window.COMPONENT = window.COMPONENT || {};
 
-    window.COMPONENT.bond = function (options) {
+    window.COMPONENT.edge = function (options) {
 
       var obj = {};    
 

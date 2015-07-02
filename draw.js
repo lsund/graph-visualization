@@ -41,6 +41,7 @@
     c.addEventListener('mousedown', function (e) {
       c.style.cursor = 'grabbing';
       var vec = getMouse(e);
+      console.log('x: ' + vec.x + ', y: ' + vec.y);
       mouseDownPos = vec;
     });
 
@@ -51,21 +52,20 @@
       c.style.cursor = 'grab';
       var change = getMouse(e).sub(mouseDownPos);
       window.OBJECT.body.moveVertices(change);
-      draw();
+      draw(true);
     });
 
     var drawVertex = function (v, id) {
       ctx.fillStyle = v.color;
       var position = v.position;
       if (v.shape === 'circle') {
-        ctx.strokeStyle = v.color;
         ctx.beginPath();
         ctx.arc(position.x, position.y, v.dimension, 0, 2 * Math.PI);
+        ctx.strokeStyle = 'black';
+        ctx.fillStyle = v.color;
+        ctx.lineWidth = 3;
         ctx.stroke();
         ctx.fill();
-        if (v.fixed) {
-          ctx.fillStyle = 'white';
-        }
         if (id) {
           ctx.font = 'bold 14px Arial';
           ctx.fillStyle = 'black';
@@ -76,7 +76,7 @@
       }
     };
 
-    var drawBond = function (b) {
+    var drawEdge = function (b) {
       var fstCenter = b.first.getCenter();
       var sndCenter = b.second.getCenter();
       ctx.moveTo(fstCenter.x, fstCenter.y);
@@ -85,43 +85,39 @@
       ctx.stroke();
     };
 
-    var drawRestraint = function (r) {
-      var position = r.getCenter();
-      ctx.strokeStyle = 'black';
-      ctx.rect(position.x, position.y, r.dimension.x, r.dimension.y);
-      ctx.stroke(); 
-    };
-
-    var randomPosition = function () {
-      window.OBJECT.body.randomPosition();
-      draw();
-    };
-
-    var gridPosition = function () {
-      window.OBJECT.body.gridPosition();
-      draw();
-    };
-
-    var draw = function (drawBonds) {
-      ctx.clearRect(0, 0, c.width, c.height);
-      if (drawBonds) {
-        window.OBJECT.body.bonds.forEach(function (b) {
+    var draw = function (drawEdges) {
+      if (drawEdges) {
+        window.OBJECT.body.edge.forEach(function (b) {
           if (b.type === 'r') {
-            drawBond(b);
+            drawEdge(b);
           }
         });
       }
-      window.OBJECT.body.restraints.forEach(function (r) {
-        drawRestraint(r);
-      });
-      window.OBJECT.body.vertices.forEach(function (v) {
+      window.OBJECT.body.children.forEach(function (v) {
         drawVertex(v);
       });
     };
 
+    var drawVertices = function (drawEdges) {
+      if (drawEdges) {
+        window.OBJECT.body.edge.forEach(function (b) {
+          if (b.type === 'r') {
+            drawEdge(b);
+          }
+        });
+      }
+      window.OBJECT.body.children.forEach(function (v) {
+        v.children.forEach(function (v) {
+          drawVertex(v);
+        });
+      });
+    };
+
+    window.EXPORTS.redraw = function () {
+        ctx.clearRect(0, 0, c.width, c.height);
+    };
     window.EXPORTS.draw = draw;
-    window.EXPORTS.gridPosition = gridPosition;
-    window.EXPORTS.randomPosition = randomPosition;
+    window.EXPORTS.drawVertices = drawVertices;
 
   }); 
 

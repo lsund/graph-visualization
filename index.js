@@ -16,7 +16,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
 
-    var canvas;
+    var canvas, stime, etime, time;
 
     window.COMPONENT = window.COMPONENT || {};
     window.EXPORTS = window.EXPORTS || {};
@@ -24,7 +24,7 @@
     window.DATA = window.DATA || {};
     window.GLOBALS = window.GLOBALS || {};
 
-    window.GLOBALS.SPRING_LENGTH = 300;
+    window.GLOBALS.SPRING_LENGTH = 600;
     window.GLOBALS.GRAVITY = 0.01;
 
     var initialize = function () {
@@ -33,10 +33,12 @@
 
       var panelx = canvas.width;
       var panely = canvas.height;
-
       window.OBJECT.head = window.COMPONENT.head({});
       window.OBJECT.body = window.COMPONENT.body(
-        { dimension: window.COMPONENT.vector2D(panelx, panely) }
+        { 
+          dimension: window.COMPONENT.vector2D(panelx, panely),
+          dmtsizes: window.DATA.dmtsizes          
+        }
       );
 
       var variableParagraph = document.getElementById('variables');
@@ -51,7 +53,11 @@
     var statusParagraph = document.getElementById('status');
 
 
-    var minimize = function (fopts, callback) {
+    var minimize = function (opts) {
+
+      var fopts = opts.fopts;
+      var offset = opts.offset;
+      var callback = opts.callback;
 
       var clusterParagraph = document.getElementById('cluster');
       clusterParagraph.innerHTML = 'N: ' + fopts.nv;
@@ -60,7 +66,17 @@
 
       cMinimize = Module.cwrap(
         'minimize', 'number', 
-        ['string', 'number', 'number', 'number', 'number', 'number', 'number']
+        [
+          'string', 
+          'number', 
+          'number', 
+          'number', 
+          'number', 
+          'number', 
+          'number', 
+          'number', 
+          'number'
+        ]
       );
 
       arr32= new Float32Array(fopts.nv * 2);
@@ -75,7 +91,10 @@
         arr32.length,
         window.GLOBALS.SPRING_LENGTH,
         window.OBJECT.body.dimension.x,
-        window.OBJECT.body.dimension.y
+        window.OBJECT.body.dimension.y,
+        offset.x, 
+        offset.y,
+        opts.fact 
       );
 
       result = new Float32Array(
@@ -84,74 +103,113 @@
         arr32.length
       );
 
-      window.OBJECT.body.initialize(result);
-      window.EXPORTS.draw();
       Module._free(dh.byteOffset);
 
-      callback();
-
+      callback(result, { par: opts.par, sizes : opts.sizes });
     };
 
-    var fopts = 
-      [ 
-        { name: 'data/dmt_clusters_subset0/dmt_10_106.csv',  nv: 106 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_11_43.csv',  nv: 43 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_12_7.csv',  nv: 7 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_13_9.csv',  nv: 9 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_14_10.csv', nv: 10 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_15_2.csv', nv: 2 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_16_4.csv', nv: 4 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_17_9.csv', nv: 9 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_18_20.csv', nv: 20 }, 
-        { name: 'data/dmt_clusters_subset0/dmt_19_23.csv', nv: 23 },
-      ];
 
-    var sayDone = function () {
-      statusParagraph.innerHTML = 'Done';
+    var sayDone = function (result, opts) {
+      etime = new Date().getTime(); 
+      time = (etime - stime) / 1000;
+      statusParagraph.innerHTML = 'Done: ' + time + ' s';
+      
+      if (opts.par !== window.OBJECT.body) {
+        window.OBJECT.body.children[opts.par - 1].createChildren(result);
+      } else {
+        window.OBJECT.body.addVertices(result, opts.sizes);
+      }
     };
 
-    var calc = function (i) {
+    var calc = function (opts) {
+      var offset = opts.offset || window.COMPONENT.vector2D(0, 0);
       setTimeout(function () {
-        minimize(fopts[i], sayDone);
-      }, 100);
+        minimize(
+          {
+            fopts: window.DATA.fopts[opts.fn], 
+            fact: opts.fact,
+            offset: offset, 
+            callback: sayDone,
+            par: opts.par,
+            sizes: opts.sizes
+          }
+        );
+        opts.callback();
+      }, 20);
+      stime = new Date().getTime(); 
       statusParagraph.innerHTML = 'Loading...';
     };
-    
-    window.EXPORTS.minimizeSet0 = function () {
-      calc(0);
+
+    var drawL0 = function () {
+      window.EXPORTS.draw(false);
     };
-    window.EXPORTS.minimizeSet1 = function () {
-      calc(1);
-    };
-    window.EXPORTS.minimizeSet2 = function () {
-      calc(2);
-    };
-    window.EXPORTS.minimizeSet3 = function () {
-      calc(3);
-    };
-    window.EXPORTS.minimizeSet4 = function () {
-      calc(4);
-    };
-    window.EXPORTS.minimizeSet5 = function () {
-      calc(5);
-    };
-    window.EXPORTS.minimizeSet6 = function () {
-      calc(6);
-    };
-    window.EXPORTS.minimizeSet7 = function () {
-      calc(7);
-    };
-    window.EXPORTS.minimizeSet8 = function () {
-      calc(8);
-    };
-    window.EXPORTS.minimizeSet9 = function () {
-      calc(9);
+    var drawL1 = function () {
+      window.EXPORTS.drawVertices(false);
     };
 
+    var minimizeSet = function (opts) {
+      calc(
+        {
+          fn: opts.fn,
+          fact: opts.fact,
+          par: opts.par,
+          offset: window.OBJECT.body.lookupPosition(opts.par),
+          callback: drawL1 
+        }     
+      );
+    };
+    
     initialize();
+
+    var minimizeL0 = function (callback) {
+      calc(
+        { 
+          fn: 0, 
+          par: window.OBJECT.body,
+          fact: 1,
+          sizes: true,
+          callback: function () {
+            drawL0();
+            if (callback) {
+              callback();
+            }
+          }
+        }
+      );
+    };
+
+    var minimizeL1 = function () {
+      minimizeL0(function () {
+        window.EXPORTS.redraw();
+        minimizeSet({ fn: 1, par: 2, fact: 0.2, sizes: false });
+        minimizeSet({ fn: 2, par: 3, fact: 0.2, sizes: false });
+        minimizeSet({ fn: 3, par: 10, fact: 0.2, sizes: false });
+        minimizeSet({ fn: 4, par: 11, fact: 0.2, sizes: false });
+        minimizeSet({ fn: 5, par: 56, fact: 0.2, sizes: false });
+      });
+    };
+    
+    window.EXPORTS.minimizeL0 = minimizeL0; 
+    window.EXPORTS.minimizeL1 = minimizeL1; 
+
+    window.EXPORTS.minimizeSet0 = function () {
+      minimizeSet({ fn: 1, par: window.OBJECT.body, fact: 1, sizes: false });
+    };
+    window.EXPORTS.minimizeSet1 = function () {
+      minimizeSet({ fn: 2, par: window.OBJECT.body, fact: 1, sizes: false });
+    };
+    window.EXPORTS.minimizeSet2 = function () {
+      minimizeSet({ fn: 3, par: window.OBJECT.body, fact: 1, sizes: false });
+    };
+    window.EXPORTS.minimizeSet3 = function () {
+      minimizeSet({ fn: 4, par: window.OBJECT.body, fact: 1, sizes: false });
+    };
+    window.EXPORTS.minimizeSet4 = function () {
+      minimizeSet({ fn: 5, par: window.OBJECT.body, fact: 1, sizes: false });
+    };
+
 
   });
     
 }());
-
 

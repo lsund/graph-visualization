@@ -24,7 +24,7 @@
 
 static float *fdm;
 
-static int dim, nv, stiffness, blen, spanx, spany;
+static int dim, nv, stiffness, elen, spanx, spany, pox, poy;
 
 void initDMT(char *fname) 
 {
@@ -81,8 +81,8 @@ void initFPS(float *ps)
       rows++;
       cols = 0;
     }
-    ps[i] = cols * gapx + offsetx; 
-    ps[i + 1] = rows * gapy + offsety; 
+    ps[i] = cols * gapx + offsetx + pox;
+    ps[i + 1] = rows * gapy + offsety + poy; 
     cols++;
   }
 }
@@ -122,7 +122,7 @@ float calcFunction (float p[])
     for (j = i + 2; j < dim; j += 2) {
       d = fdm[(i / 2) * nv + (j / 2)];
       wij = stiffness;
-      dij = d * blen;
+      dij = d * elen;
       rtn += energy(p[i], p[i + 1], p[j], p[j + 1], wij, dij);
     }
   }
@@ -137,7 +137,7 @@ void calcGradient (float p[], float df[])
     for (j = i + 2; j < dim; j += 2) {
       d = fdm[(i / 2) * nv + (j / 2)];
       wij = stiffness;
-      dij = d * blen;
+      dij = d * elen;
       df[i] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
       df[i + 1] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'y');
       df[j] += -force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
@@ -150,13 +150,17 @@ float (*func)(float []) = calcFunction;
 void (*dfunc)(float [], float []) = calcGradient;
 
 int minimize (char *dmtFilename, float *flatpos, int len,
-  int bondlen, int panelx, int panely) 
+  int edgelen, int panelx, int panely, int panelOffsetX, int panelOffsetY, 
+  float fact) 
 {
   int *iter;
   float *fret;
 
-  spanx = panelx;
-  spany = panely;
+  pox = panelOffsetX;
+  poy = panelOffsetY;
+  spanx = panelx * fact;
+  spany = panely * fact;
+  elen = edgelen * fact;
 
   dim = len;
   nv = len / 2;
@@ -173,7 +177,6 @@ int minimize (char *dmtFilename, float *flatpos, int len,
     rt_error("Error in minimize when allocating memory");
   }
 
-  blen = bondlen;
   frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
 
   free(fdm);
