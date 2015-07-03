@@ -22,7 +22,6 @@
 
     window.COMPONENT.head = function () {
       var obj = {};
-      obj.physicsEngine = window.APP.physicsEngine;
       return obj;
     };
 

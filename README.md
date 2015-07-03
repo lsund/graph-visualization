@@ -7,4 +7,9 @@ Graph visualization tool in JS.
 
 `cd graph-visualization`
 
-`firefox mocha.html`
+For this to work you need a web-server ex:
+`python3 -m http.server` or `python -m SimpleHTTPServer` (for python 2)
+
+`http://localhost:8000/mocha.html`
+
+
