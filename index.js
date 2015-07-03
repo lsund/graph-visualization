@@ -29,7 +29,7 @@
     window.DATA = window.DATA || {};
     window.GLOBALS = window.GLOBALS || {};
 
-    window.GLOBALS.SPRING_LENGTH = 600;
+    window.GLOBALS.SPRING_LENGTH = 500;
     window.GLOBALS.GRAVITY = 0.01;
 
     statusParagraph = document.getElementById('status');
@@ -92,7 +92,7 @@
         opts.ssfopts.name,
         dh.byteOffset, 
         arr32.length,
-        window.GLOBALS.SPRING_LENGTH,
+        window.GLOBALS.SPRING_LENGTH + arr32.length,
         window.OBJECT.body.dimension.x,
         window.OBJECT.body.dimension.y,
         opts.offset.x, 
@@ -186,7 +186,7 @@
       minimizeSet({ fn: 4, par: window.OBJECT.body, fact: 1, sizes: false });
     };
     minimizeL0 = function () {
-      readSizes('data/c_32/dmt_sizes.json', function () {
+      window.EXPORTS.readSizes('data/c_32/dmt_sizes.json', function () {
         calc(
           { 
             fn: 5, 
@@ -202,7 +202,7 @@
       });
     };
     minimizeL1 = function () {
-      readSizes('data/c_64/dmt_sizes.json', function () {
+      window.EXPORTS.readSizes('data/c_64/dmt_sizes.json', function () {
         calc(
           { 
             fn: 6, 
@@ -218,7 +218,7 @@
       });
     };
     minimizeL2 = function () {
-      readSizes('data/c_128/dmt_sizes.json', function () {
+      window.EXPORTS.readSizes('data/c_128/dmt_sizes.json', function () {
         calc(
           { 
             fn: 7, 
@@ -234,7 +234,7 @@
       });
     };
     minimizeL3 = function () {
-      readSizes('data/c_256/dmt_sizes.json', function () {
+      window.EXPORTS.readSizes('data/c_256/dmt_sizes.json', function () {
         calc(
           { 
             fn: 8, 
@@ -261,25 +261,7 @@
     window.EXPORTS.minimizeSet3 = minimizeSet3; 
     window.EXPORTS.minimizeSet4 = minimizeSet4; 
     
-    function readSizes(file, callback) {
-      var rawFile = new XMLHttpRequest();
-      rawFile.open('GET', file, true);
-      rawFile.setRequestHeader('Content-type', 'application/json');
-      rawFile.overrideMimeType('application/json');
-      rawFile.onreadystatechange = function () {
-        if(rawFile.readyState === 4) {
-          if(rawFile.status === 200 || rawFile.status === 0) {
-            var ret = rawFile.responseText;
-            window.OBJECT.body.dmtsizes = JSON.parse(ret); 
-            callback();
-          }
-        }
-      };
-      rawFile.send(null);
-    }
-
     initialize();
-
 
   });
     

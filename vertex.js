@@ -23,7 +23,6 @@
       
       var maxSize = 99;
 
-
       var obj = window.COMPONENT.graphObject(options);
 
       obj.children = options.children || [];
@@ -57,8 +56,13 @@
         for (i = 0; i < vec.length; i += 2) {
           if (sizes) {
             csize = lookupSize(id, obj.dmtsizes);
-            csize *= 0.5;
-            color = '#00' + csize + '' + csize;
+            if (csize > 30) {
+              csize = 30;
+              color = '#006090';
+            } else {
+              var cc = csize < 10 ? 10 : csize;
+              color = '#00' + cc * 2 + '' + cc * 3;
+            }
           } else {
             csize = 3;
             color = '#003366';
