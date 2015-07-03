@@ -30,8 +30,8 @@ Module.expectedDataFileDownloads++;
                               Module['locateFile'](REMOTE_PACKAGE_BASE) :
                               ((Module['filePackagePrefixURL'] || '') + REMOTE_PACKAGE_BASE);
   
-      var REMOTE_PACKAGE_SIZE = 1316540;
-      var PACKAGE_UUID = '2426ed7a-dd45-4320-b2ef-4fa340c01724';
+      var REMOTE_PACKAGE_SIZE = 484;
+      var PACKAGE_UUID = '8f370015-722b-4672-8ac6-ad9b5d713daa';
     
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
       var xhr = new XMLHttpRequest();
@@ -94,12 +94,7 @@ Module.expectedDataFileDownloads++;
       if (!check) throw msg + new Error().stack;
     }
 Module['FS_createPath']('/', 'data', true, true);
-Module['FS_createPath']('/data', 'c_64', true, true);
-Module['FS_createPath']('/data/c_64', 'subsets', true, true);
-Module['FS_createPath']('/data/c_64/subsets', 'dmt_clusters_subset1', true, true);
 Module['FS_createPath']('/data', 'c_32', true, true);
-Module['FS_createPath']('/data', 'c_128', true, true);
-Module['FS_createPath']('/data', 'c_256', true, true);
 
     function DataRequest(start, end, crunched, audio) {
       this.start = start;
@@ -136,75 +131,7 @@ Module['FS_createPath']('/data', 'c_256', true, true);
       },
     };
 
-      new DataRequest(0, 22, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_27_2.csv');
-    new DataRequest(22, 25, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_52_1.csv');
-    new DataRequest(25, 53, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_7_2.csv');
-    new DataRequest(53, 450, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_59_7.csv');
-    new DataRequest(450, 570, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_40_4.csv');
-    new DataRequest(570, 633, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_26_3.csv');
-    new DataRequest(633, 814, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_23_5.csv');
-    new DataRequest(814, 979, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_58_5.csv');
-    new DataRequest(979, 1803, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_14_10.csv');
-    new DataRequest(1803, 1827, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_28_2.csv');
-    new DataRequest(1827, 1935, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_16_4.csv');
-    new DataRequest(1935, 1959, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_25_2.csv');
-    new DataRequest(1959, 1962, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_63_1.csv');
-    new DataRequest(1962, 14142, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_38_38.csv');
-    new DataRequest(14142, 17480, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_18_20.csv');
-    new DataRequest(17480, 17590, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_51_4.csv');
-    new DataRequest(17590, 17649, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_44_3.csv');
-    new DataRequest(17649, 18636, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_4_11.csv');
-    new DataRequest(18636, 19442, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_22_10.csv');
-    new DataRequest(19442, 23981, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_19_23.csv');
-    new DataRequest(23981, 26269, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_62_18.csv');
-    new DataRequest(26269, 26332, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_54_3.csv');
-    new DataRequest(26332, 26395, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_37_3.csv');
-    new DataRequest(26395, 26460, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_45_3.csv');
-    new DataRequest(26460, 27129, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_17_9.csv');
-    new DataRequest(27129, 68794, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_56_71.csv');
-    new DataRequest(68794, 69076, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_24_6.csv');
-    new DataRequest(69076, 84901, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_11_43.csv');
-    new DataRequest(84901, 165291, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_3_96.csv');
-    new DataRequest(165291, 410293, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_31_168.csv');
-    new DataRequest(410293, 422016, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_20_37.csv');
-    new DataRequest(422016, 422040, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_32_2.csv');
-    new DataRequest(422040, 422103, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_41_3.csv');
-    new DataRequest(422103, 422937, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_sizes.txt');
-    new DataRequest(422937, 422940, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_50_1.csv');
-    new DataRequest(422940, 422943, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_64_1.csv');
-    new DataRequest(422943, 422967, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_15_2.csv');
-    new DataRequest(422967, 423247, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_8_6.csv');
-    new DataRequest(423247, 423896, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_6_9.csv');
-    new DataRequest(423896, 423959, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_39_3.csv');
-    new DataRequest(423959, 423983, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_55_2.csv');
-    new DataRequest(423983, 424007, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_21_2.csv');
-    new DataRequest(424007, 424010, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_46_1.csv');
-    new DataRequest(424010, 424013, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_60_1.csv');
-    new DataRequest(424013, 426687, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_34_18.csv');
-    new DataRequest(426687, 524641, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_10_106.csv');
-    new DataRequest(524641, 524665, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_36_2.csv');
-    new DataRequest(524665, 525302, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_13_9.csv');
-    new DataRequest(525302, 525363, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_43_3.csv');
-    new DataRequest(525363, 525366, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_35_1.csv');
-    new DataRequest(525366, 548934, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_2_52.csv');
-    new DataRequest(548934, 548937, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_48_1.csv');
-    new DataRequest(548937, 548940, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_47_1.csv');
-    new DataRequest(548940, 548943, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_29_1.csv');
-    new DataRequest(548943, 548967, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_5_2.csv');
-    new DataRequest(548967, 548983, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_53_2.csv');
-    new DataRequest(548983, 549164, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_61_5.csv');
-    new DataRequest(549164, 549284, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_42_4.csv');
-    new DataRequest(549284, 549673, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_12_7.csv');
-    new DataRequest(549673, 549783, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_49_4.csv');
-    new DataRequest(549783, 549807, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_57_2.csv');
-    new DataRequest(549807, 558583, 0, 0).open('GET', '/data/c_32/dmt_cluster.csv');
-    new DataRequest(558583, 559067, 0, 0).open('GET', '/data/c_32/dmt_sizes.json');
-    new DataRequest(559067, 594471, 0, 0).open('GET', '/data/c_64/dmt_cluster.csv');
-    new DataRequest(594471, 595449, 0, 0).open('GET', '/data/c_64/dmt_sizes.json');
-    new DataRequest(595449, 737741, 0, 0).open('GET', '/data/c_128/dmt_cluster.csv');
-    new DataRequest(737741, 739733, 0, 0).open('GET', '/data/c_128/dmt_sizes.json');
-    new DataRequest(739733, 1312453, 0, 0).open('GET', '/data/c_256/dmt_cluster.csv');
-    new DataRequest(1312453, 1316540, 0, 0).open('GET', '/data/c_256/dmt_sizes.json');
+      new DataRequest(0, 484, 0, 0).open('GET', '/data/c_32/dmt_sizes.json');
 
     function processPackageData(arrayBuffer) {
       Module.finishedDataFileDownloads++;
@@ -217,75 +144,7 @@ Module['FS_createPath']('/data', 'c_256', true, true);
       var ptr = Module['getMemory'](byteArray.length);
       Module['HEAPU8'].set(byteArray, ptr);
       DataRequest.prototype.byteArray = Module['HEAPU8'].subarray(ptr, ptr+byteArray.length);
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_27_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_52_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_7_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_59_7.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_40_4.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_26_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_23_5.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_58_5.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_14_10.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_28_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_16_4.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_25_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_63_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_38_38.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_18_20.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_51_4.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_44_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_4_11.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_22_10.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_19_23.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_62_18.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_54_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_37_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_45_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_17_9.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_56_71.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_24_6.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_11_43.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_3_96.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_31_168.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_20_37.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_32_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_41_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_sizes.txt"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_50_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_64_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_15_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_8_6.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_6_9.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_39_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_55_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_21_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_46_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_60_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_34_18.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_10_106.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_36_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_13_9.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_43_3.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_35_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_2_52.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_48_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_47_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_29_1.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_5_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_53_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_61_5.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_42_4.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_12_7.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_49_4.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_57_2.csv"].onload();
-          DataRequest.prototype.requests["/data/c_32/dmt_cluster.csv"].onload();
           DataRequest.prototype.requests["/data/c_32/dmt_sizes.json"].onload();
-          DataRequest.prototype.requests["/data/c_64/dmt_cluster.csv"].onload();
-          DataRequest.prototype.requests["/data/c_64/dmt_sizes.json"].onload();
-          DataRequest.prototype.requests["/data/c_128/dmt_cluster.csv"].onload();
-          DataRequest.prototype.requests["/data/c_128/dmt_sizes.json"].onload();
-          DataRequest.prototype.requests["/data/c_256/dmt_cluster.csv"].onload();
-          DataRequest.prototype.requests["/data/c_256/dmt_sizes.json"].onload();
           Module['removeRunDependency']('datafile_c_assets.data');
 
     };
@@ -1510,7 +1369,7 @@ function enlargeMemory() {
 
 
 var TOTAL_STACK = Module['TOTAL_STACK'] || 5242880;
-var TOTAL_MEMORY = Module['TOTAL_MEMORY'] || 30777216;
+var TOTAL_MEMORY = Module['TOTAL_MEMORY'] || 16777216;
 
 var totalMemory = 64*1024;
 while (totalMemory < TOTAL_MEMORY || totalMemory < 2*TOTAL_STACK) {
@@ -1777,6 +1636,7 @@ function getUniqueRunDependency(id) {
 }
 
 function addRunDependency(id) {
+  console.log('hello');
   runDependencies++;
   if (Module['monitorRunDependencies']) {
     Module['monitorRunDependencies'](runDependencies);
@@ -8537,23 +8397,23 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
  $root = sp + 288|0;
  $alloc = sp + 284|0;
  $state = sp + 232|0;
- HEAP32[$alloc>>2] = 0; //@line 228 "json-parser/json.c"
- dest=$state; stop=dest+52|0; do { HEAP32[dest>>2]=0|0; dest=dest+4|0; } while ((dest|0) < (stop|0)); //@line 229 "json-parser/json.c"
- $0 = ($length>>>0)>(2); //@line 236 "json-parser/json.c"
+ HEAP32[$alloc>>2] = 0; //@line 228 "c_src/json.c"
+ dest=$state; stop=dest+52|0; do { HEAP32[dest>>2]=0|0; dest=dest+4|0; } while ((dest|0) < (stop|0)); //@line 229 "c_src/json.c"
+ $0 = ($length>>>0)>(2); //@line 236 "c_src/json.c"
  if ($0) {
-  $1 = HEAP8[$json>>0]|0; //@line 236 "json-parser/json.c"
-  $2 = ($1<<24>>24)==(-17); //@line 236 "json-parser/json.c"
+  $1 = HEAP8[$json>>0]|0; //@line 236 "c_src/json.c"
+  $2 = ($1<<24>>24)==(-17); //@line 236 "c_src/json.c"
   if ($2) {
-   $3 = ((($json)) + 1|0); //@line 237 "json-parser/json.c"
-   $4 = HEAP8[$3>>0]|0; //@line 237 "json-parser/json.c"
-   $5 = ($4<<24>>24)==(-69); //@line 237 "json-parser/json.c"
+   $3 = ((($json)) + 1|0); //@line 237 "c_src/json.c"
+   $4 = HEAP8[$3>>0]|0; //@line 237 "c_src/json.c"
+   $5 = ($4<<24>>24)==(-69); //@line 237 "c_src/json.c"
    if ($5) {
-    $6 = ((($json)) + 2|0); //@line 238 "json-parser/json.c"
-    $7 = HEAP8[$6>>0]|0; //@line 238 "json-parser/json.c"
-    $8 = ($7<<24>>24)==(-65); //@line 238 "json-parser/json.c"
+    $6 = ((($json)) + 2|0); //@line 238 "c_src/json.c"
+    $7 = HEAP8[$6>>0]|0; //@line 238 "c_src/json.c"
+    $8 = ($7<<24>>24)==(-65); //@line 238 "c_src/json.c"
     if ($8) {
-     $9 = ((($json)) + 3|0); //@line 240 "json-parser/json.c"
-     $10 = (($length) + -3)|0; //@line 241 "json-parser/json.c"
+     $9 = ((($json)) + 3|0); //@line 240 "c_src/json.c"
+     $10 = (($length) + -3)|0; //@line 241 "c_src/json.c"
      $$06 = $9;$$07 = $10;
     } else {
      $$06 = $json;$$07 = $length;
@@ -8567,114 +8427,114 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
  } else {
   $$06 = $json;$$07 = $length;
  }
- HEAP8[$error>>0] = 0; //@line 244 "json-parser/json.c"
- $11 = (($$06) + ($$07)|0); //@line 245 "json-parser/json.c"
- $12 = ((($state)) + 12|0); //@line 247 "json-parser/json.c"
- ;HEAP32[$12>>2]=HEAP32[$settings>>2]|0;HEAP32[$12+4>>2]=HEAP32[$settings+4>>2]|0;HEAP32[$12+8>>2]=HEAP32[$settings+8>>2]|0;HEAP32[$12+12>>2]=HEAP32[$settings+12>>2]|0;HEAP32[$12+16>>2]=HEAP32[$settings+16>>2]|0;HEAP32[$12+20>>2]=HEAP32[$settings+20>>2]|0; //@line 247 "json-parser/json.c"
- $13 = ((($state)) + 20|0); //@line 249 "json-parser/json.c"
- $14 = HEAP32[$13>>2]|0; //@line 249 "json-parser/json.c"
- $15 = ($14|0)==(0|0); //@line 249 "json-parser/json.c"
+ HEAP8[$error>>0] = 0; //@line 244 "c_src/json.c"
+ $11 = (($$06) + ($$07)|0); //@line 245 "c_src/json.c"
+ $12 = ((($state)) + 12|0); //@line 247 "c_src/json.c"
+ ;HEAP32[$12>>2]=HEAP32[$settings>>2]|0;HEAP32[$12+4>>2]=HEAP32[$settings+4>>2]|0;HEAP32[$12+8>>2]=HEAP32[$settings+8>>2]|0;HEAP32[$12+12>>2]=HEAP32[$settings+12>>2]|0;HEAP32[$12+16>>2]=HEAP32[$settings+16>>2]|0;HEAP32[$12+20>>2]=HEAP32[$settings+20>>2]|0; //@line 247 "c_src/json.c"
+ $13 = ((($state)) + 20|0); //@line 249 "c_src/json.c"
+ $14 = HEAP32[$13>>2]|0; //@line 249 "c_src/json.c"
+ $15 = ($14|0)==(0|0); //@line 249 "c_src/json.c"
  if ($15) {
-  HEAP32[$13>>2] = 2; //@line 250 "json-parser/json.c"
+  HEAP32[$13>>2] = 2; //@line 250 "c_src/json.c"
  }
- $16 = ((($state)) + 24|0); //@line 252 "json-parser/json.c"
- $17 = HEAP32[$16>>2]|0; //@line 252 "json-parser/json.c"
- $18 = ($17|0)==(0|0); //@line 252 "json-parser/json.c"
+ $16 = ((($state)) + 24|0); //@line 252 "c_src/json.c"
+ $17 = HEAP32[$16>>2]|0; //@line 252 "c_src/json.c"
+ $18 = ($17|0)==(0|0); //@line 252 "c_src/json.c"
  if ($18) {
-  HEAP32[$16>>2] = 2; //@line 253 "json-parser/json.c"
+  HEAP32[$16>>2] = 2; //@line 253 "c_src/json.c"
  }
- $19 = ((($state)) + 4|0); //@line 255 "json-parser/json.c"
- HEAP32[$19>>2] = -1; //@line 255 "json-parser/json.c"
- $20 = ((($state)) + 8|0); //@line 256 "json-parser/json.c"
- HEAP32[$20>>2] = -1; //@line 256 "json-parser/json.c"
- $21 = HEAP32[$19>>2]|0; //@line 258 "json-parser/json.c"
- $22 = (($21) + -8)|0; //@line 258 "json-parser/json.c"
- HEAP32[$19>>2] = $22; //@line 258 "json-parser/json.c"
- $23 = HEAP32[$20>>2]|0; //@line 259 "json-parser/json.c"
- $24 = (($23) + -8)|0; //@line 259 "json-parser/json.c"
- HEAP32[$20>>2] = $24; //@line 259 "json-parser/json.c"
- $25 = ((($state)) + 36|0); //@line 261 "json-parser/json.c"
- HEAP32[$25>>2] = 1; //@line 261 "json-parser/json.c"
- $26 = ((($state)) + 44|0); //@line 271 "json-parser/json.c"
- $27 = ((($state)) + 40|0); //@line 273 "json-parser/json.c"
- $28 = ((($state)) + 16|0); //@line 434 "json-parser/json.c"
- $29 = ((($state)) + 48|0); //@line 696 "json-parser/json.c"
- $30 = $11; //@line 596 "json-parser/json.c"
- $31 = $11; //@line 612 "json-parser/json.c"
- $32 = $11; //@line 627 "json-parser/json.c"
- $33 = ((($state)) + 48|0); //@line 517 "json-parser/json.c"
- $34 = ((($state)) + 48|0); //@line 501 "json-parser/json.c"
- $$sum = (($$07) + -1)|0; //@line 456 "json-parser/json.c"
- $35 = (($$06) + ($$sum)|0); //@line 456 "json-parser/json.c"
- $36 = $11; //@line 300 "json-parser/json.c"
+ $19 = ((($state)) + 4|0); //@line 255 "c_src/json.c"
+ HEAP32[$19>>2] = -1; //@line 255 "c_src/json.c"
+ $20 = ((($state)) + 8|0); //@line 256 "c_src/json.c"
+ HEAP32[$20>>2] = -1; //@line 256 "c_src/json.c"
+ $21 = HEAP32[$19>>2]|0; //@line 258 "c_src/json.c"
+ $22 = (($21) + -8)|0; //@line 258 "c_src/json.c"
+ HEAP32[$19>>2] = $22; //@line 258 "c_src/json.c"
+ $23 = HEAP32[$20>>2]|0; //@line 259 "c_src/json.c"
+ $24 = (($23) + -8)|0; //@line 259 "c_src/json.c"
+ HEAP32[$20>>2] = $24; //@line 259 "c_src/json.c"
+ $25 = ((($state)) + 36|0); //@line 261 "c_src/json.c"
+ HEAP32[$25>>2] = 1; //@line 261 "c_src/json.c"
+ $26 = ((($state)) + 44|0); //@line 271 "c_src/json.c"
+ $27 = ((($state)) + 40|0); //@line 273 "c_src/json.c"
+ $28 = ((($state)) + 16|0); //@line 434 "c_src/json.c"
+ $29 = ((($state)) + 48|0); //@line 696 "c_src/json.c"
+ $30 = $11; //@line 596 "c_src/json.c"
+ $31 = $11; //@line 612 "c_src/json.c"
+ $32 = $11; //@line 627 "c_src/json.c"
+ $33 = ((($state)) + 48|0); //@line 517 "c_src/json.c"
+ $34 = ((($state)) + 48|0); //@line 501 "c_src/json.c"
+ $$sum = (($$07) + -1)|0; //@line 456 "c_src/json.c"
+ $35 = (($$06) + ($$sum)|0); //@line 456 "c_src/json.c"
+ $36 = $11; //@line 300 "c_src/json.c"
  $641 = 0;$642 = 0;$num_digits$0141 = 0;$num_e$0142 = 0;
  L13: while(1) {
-  HEAP32[$root>>2] = 0; //@line 268 "json-parser/json.c"
-  HEAP32[$top>>2] = 0; //@line 268 "json-parser/json.c"
-  HEAP32[$26>>2] = 1; //@line 271 "json-parser/json.c"
+  HEAP32[$root>>2] = 0; //@line 268 "c_src/json.c"
+  HEAP32[$top>>2] = 0; //@line 268 "c_src/json.c"
+  HEAP32[$26>>2] = 1; //@line 271 "c_src/json.c"
   $475 = $641;$476 = $642;$flags$0 = 8;$num_digits$1 = $num_digits$0141;$num_e$1 = $num_e$0142;$storemerge8 = $$06;$string$0 = 0;$string_length$0 = 0;
   L15: while(1) {
-   HEAP32[$27>>2] = $storemerge8; //@line 273 "json-parser/json.c"
-   $37 = ($storemerge8|0)==($11|0); //@line 275 "json-parser/json.c"
+   HEAP32[$27>>2] = $storemerge8; //@line 273 "c_src/json.c"
+   $37 = ($storemerge8|0)==($11|0); //@line 275 "c_src/json.c"
    if ($37) {
     $41 = 0;
    } else {
-    $38 = HEAP8[$storemerge8>>0]|0; //@line 275 "json-parser/json.c"
-    $39 = $38 << 24 >> 24; //@line 275 "json-parser/json.c"
+    $38 = HEAP8[$storemerge8>>0]|0; //@line 275 "c_src/json.c"
+    $39 = $38 << 24 >> 24; //@line 275 "c_src/json.c"
     $41 = $39;
    }
-   $40 = $41&255; //@line 275 "json-parser/json.c"
-   $42 = $flags$0 & 32; //@line 277 "json-parser/json.c"
-   $43 = ($42|0)==(0); //@line 277 "json-parser/json.c"
+   $40 = $41&255; //@line 275 "c_src/json.c"
+   $42 = $flags$0 & 32; //@line 277 "c_src/json.c"
+   $43 = ($42|0)==(0); //@line 277 "c_src/json.c"
    L20: do {
     if ($43) {
      $flags$1 = $flags$0;$string$1 = $string$0;
      label = 81;
     } else {
-     $44 = ($40<<24>>24)==(0); //@line 279 "json-parser/json.c"
+     $44 = ($40<<24>>24)==(0); //@line 279 "c_src/json.c"
      if ($44) {
       label = 16;
       break L13;
      }
-     $48 = HEAP32[$19>>2]|0; //@line 284 "json-parser/json.c"
-     $49 = ($string_length$0>>>0)>($48>>>0); //@line 284 "json-parser/json.c"
+     $48 = HEAP32[$19>>2]|0; //@line 284 "c_src/json.c"
+     $49 = ($string_length$0>>>0)>($48>>>0); //@line 284 "c_src/json.c"
      if ($49) {
       label = 219;
       break L13;
      }
-     $50 = $flags$0 & 16; //@line 287 "json-parser/json.c"
-     $51 = ($50|0)==(0); //@line 287 "json-parser/json.c"
+     $50 = $flags$0 & 16; //@line 287 "c_src/json.c"
+     $51 = ($50|0)==(0); //@line 287 "c_src/json.c"
      if ($51) {
-      $211 = ($41|0)==(92); //@line 382 "json-parser/json.c"
+      $211 = ($41|0)==(92); //@line 382 "c_src/json.c"
       if ($211) {
-       $212 = $flags$0 | 16; //@line 384 "json-parser/json.c"
+       $212 = $flags$0 | 16; //@line 384 "c_src/json.c"
        $643 = $475;$644 = $476;$flags$6 = $212;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $string_length$0;
        break;
       }
-      $213 = ($41|0)==(34); //@line 388 "json-parser/json.c"
-      $214 = HEAP32[$25>>2]|0; //@line 390 "json-parser/json.c"
-      $215 = ($214|0)!=(0); //@line 390 "json-parser/json.c"
+      $213 = ($41|0)==(34); //@line 388 "c_src/json.c"
+      $214 = HEAP32[$25>>2]|0; //@line 390 "c_src/json.c"
+      $215 = ($214|0)!=(0); //@line 390 "c_src/json.c"
       if (!($213)) {
        if (!($215)) {
-        $249 = (($string$0) + ($string_length$0)|0); //@line 429 "json-parser/json.c"
-        HEAP8[$249>>0] = $40; //@line 429 "json-parser/json.c"
+        $249 = (($string$0) + ($string_length$0)|0); //@line 429 "c_src/json.c"
+        HEAP8[$249>>0] = $40; //@line 429 "c_src/json.c"
        }
-       $250 = (($string_length$0) + 1)|0; //@line 429 "json-parser/json.c"
+       $250 = (($string_length$0) + 1)|0; //@line 429 "c_src/json.c"
        $643 = $475;$644 = $476;$flags$6 = $flags$0;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $250;
        break;
       }
       if (!($215)) {
-       $216 = (($string$0) + ($string_length$0)|0); //@line 391 "json-parser/json.c"
-       HEAP8[$216>>0] = 0; //@line 391 "json-parser/json.c"
+       $216 = (($string$0) + ($string_length$0)|0); //@line 391 "c_src/json.c"
+       HEAP8[$216>>0] = 0; //@line 391 "c_src/json.c"
       }
-      $217 = $flags$0 & -33; //@line 393 "json-parser/json.c"
-      $218 = HEAP32[$top>>2]|0; //@line 396 "json-parser/json.c"
-      $219 = ((($218)) + 4|0); //@line 396 "json-parser/json.c"
-      $220 = HEAP32[$219>>2]|0; //@line 396 "json-parser/json.c"
+      $217 = $flags$0 & -33; //@line 393 "c_src/json.c"
+      $218 = HEAP32[$top>>2]|0; //@line 396 "c_src/json.c"
+      $219 = ((($218)) + 4|0); //@line 396 "c_src/json.c"
+      $220 = HEAP32[$219>>2]|0; //@line 396 "c_src/json.c"
       if ((($220|0) == 5)) {
-       $221 = ((($218)) + 8|0); //@line 400 "json-parser/json.c"
-       HEAP32[$221>>2] = $string_length$0; //@line 400 "json-parser/json.c"
-       $222 = $217 | 1; //@line 401 "json-parser/json.c"
+       $221 = ((($218)) + 8|0); //@line 400 "c_src/json.c"
+       HEAP32[$221>>2] = $string_length$0; //@line 400 "c_src/json.c"
+       $222 = $217 | 1; //@line 401 "c_src/json.c"
        $flags$1 = $222;$string$1 = 0;
        label = 81;
        break;
@@ -8683,359 +8543,359 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
        label = 81;
        break;
       }
-      $223 = HEAP32[$25>>2]|0; //@line 407 "json-parser/json.c"
-      $224 = ($223|0)==(0); //@line 407 "json-parser/json.c"
+      $223 = HEAP32[$25>>2]|0; //@line 407 "c_src/json.c"
+      $224 = ($223|0)==(0); //@line 407 "c_src/json.c"
       if ($224) {
-       $230 = ((($218)) + 16|0); //@line 412 "json-parser/json.c"
-       $231 = HEAP32[$230>>2]|0; //@line 412 "json-parser/json.c"
-       $232 = ((($218)) + 8|0); //@line 411 "json-parser/json.c"
-       $233 = HEAP32[$232>>2]|0; //@line 411 "json-parser/json.c"
-       $234 = ((($232)) + 4|0); //@line 411 "json-parser/json.c"
-       $235 = HEAP32[$234>>2]|0; //@line 411 "json-parser/json.c"
-       $236 = (($235) + (($233*12)|0)|0); //@line 411 "json-parser/json.c"
-       HEAP32[$236>>2] = $231; //@line 412 "json-parser/json.c"
-       $237 = HEAP32[$top>>2]|0; //@line 414 "json-parser/json.c"
-       $238 = ((($237)) + 8|0); //@line 414 "json-parser/json.c"
-       $239 = HEAP32[$238>>2]|0; //@line 414 "json-parser/json.c"
-       $240 = ((($238)) + 4|0); //@line 414 "json-parser/json.c"
-       $241 = HEAP32[$240>>2]|0; //@line 414 "json-parser/json.c"
-       $242 = (((($241) + (($239*12)|0)|0)) + 4|0); //@line 414 "json-parser/json.c"
-       HEAP32[$242>>2] = $string_length$0; //@line 415 "json-parser/json.c"
-       $243 = (($string_length$0) + 1)|0; //@line 417 "json-parser/json.c"
-       $244 = HEAP32[$top>>2]|0; //@line 417 "json-parser/json.c"
-       $245 = ((($244)) + 16|0); //@line 417 "json-parser/json.c"
-       $246 = HEAP32[$245>>2]|0; //@line 417 "json-parser/json.c"
-       $247 = (($246) + ($243)|0); //@line 417 "json-parser/json.c"
-       HEAP32[$245>>2] = $247; //@line 417 "json-parser/json.c"
+       $230 = ((($218)) + 16|0); //@line 412 "c_src/json.c"
+       $231 = HEAP32[$230>>2]|0; //@line 412 "c_src/json.c"
+       $232 = ((($218)) + 8|0); //@line 411 "c_src/json.c"
+       $233 = HEAP32[$232>>2]|0; //@line 411 "c_src/json.c"
+       $234 = ((($232)) + 4|0); //@line 411 "c_src/json.c"
+       $235 = HEAP32[$234>>2]|0; //@line 411 "c_src/json.c"
+       $236 = (($235) + (($233*12)|0)|0); //@line 411 "c_src/json.c"
+       HEAP32[$236>>2] = $231; //@line 412 "c_src/json.c"
+       $237 = HEAP32[$top>>2]|0; //@line 414 "c_src/json.c"
+       $238 = ((($237)) + 8|0); //@line 414 "c_src/json.c"
+       $239 = HEAP32[$238>>2]|0; //@line 414 "c_src/json.c"
+       $240 = ((($238)) + 4|0); //@line 414 "c_src/json.c"
+       $241 = HEAP32[$240>>2]|0; //@line 414 "c_src/json.c"
+       $242 = (((($241) + (($239*12)|0)|0)) + 4|0); //@line 414 "c_src/json.c"
+       HEAP32[$242>>2] = $string_length$0; //@line 415 "c_src/json.c"
+       $243 = (($string_length$0) + 1)|0; //@line 417 "c_src/json.c"
+       $244 = HEAP32[$top>>2]|0; //@line 417 "c_src/json.c"
+       $245 = ((($244)) + 16|0); //@line 417 "c_src/json.c"
+       $246 = HEAP32[$245>>2]|0; //@line 417 "c_src/json.c"
+       $247 = (($246) + ($243)|0); //@line 417 "c_src/json.c"
+       HEAP32[$245>>2] = $247; //@line 417 "c_src/json.c"
       } else {
-       $225 = (($string_length$0) + 1)|0; //@line 408 "json-parser/json.c"
-       $226 = ((($218)) + 8|0); //@line 408 "json-parser/json.c"
-       $227 = ((($226)) + 4|0); //@line 408 "json-parser/json.c"
-       $228 = HEAP32[$227>>2]|0; //@line 408 "json-parser/json.c"
-       $229 = (($228) + ($225)|0); //@line 408 "json-parser/json.c"
-       HEAP32[$227>>2] = $229; //@line 408 "json-parser/json.c"
+       $225 = (($string_length$0) + 1)|0; //@line 408 "c_src/json.c"
+       $226 = ((($218)) + 8|0); //@line 408 "c_src/json.c"
+       $227 = ((($226)) + 4|0); //@line 408 "c_src/json.c"
+       $228 = HEAP32[$227>>2]|0; //@line 408 "c_src/json.c"
+       $229 = (($228) + ($225)|0); //@line 408 "c_src/json.c"
+       HEAP32[$227>>2] = $229; //@line 408 "c_src/json.c"
       }
-      $248 = $217 | 72; //@line 420 "json-parser/json.c"
+      $248 = $217 | 72; //@line 420 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $248;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = 0;$string_length$2 = $string_length$0;
       break;
      }
-     $52 = $flags$0 & -17; //@line 289 "json-parser/json.c"
+     $52 = $flags$0 & -17; //@line 289 "c_src/json.c"
      switch ($41|0) {
      case 98:  {
-      $53 = HEAP32[$25>>2]|0; //@line 293 "json-parser/json.c"
-      $54 = ($53|0)==(0); //@line 293 "json-parser/json.c"
+      $53 = HEAP32[$25>>2]|0; //@line 293 "c_src/json.c"
+      $54 = ($53|0)==(0); //@line 293 "c_src/json.c"
       if ($54) {
-       $55 = (($string$0) + ($string_length$0)|0); //@line 293 "json-parser/json.c"
-       HEAP8[$55>>0] = 8; //@line 293 "json-parser/json.c"
+       $55 = (($string$0) + ($string_length$0)|0); //@line 293 "c_src/json.c"
+       HEAP8[$55>>0] = 8; //@line 293 "c_src/json.c"
       }
-      $56 = (($string_length$0) + 1)|0; //@line 293 "json-parser/json.c"
+      $56 = (($string_length$0) + 1)|0; //@line 293 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $56;
       break L20;
       break;
      }
      case 110:  {
-      $61 = HEAP32[$25>>2]|0; //@line 295 "json-parser/json.c"
-      $62 = ($61|0)==(0); //@line 295 "json-parser/json.c"
+      $61 = HEAP32[$25>>2]|0; //@line 295 "c_src/json.c"
+      $62 = ($61|0)==(0); //@line 295 "c_src/json.c"
       if ($62) {
-       $63 = (($string$0) + ($string_length$0)|0); //@line 295 "json-parser/json.c"
-       HEAP8[$63>>0] = 10; //@line 295 "json-parser/json.c"
+       $63 = (($string$0) + ($string_length$0)|0); //@line 295 "c_src/json.c"
+       HEAP8[$63>>0] = 10; //@line 295 "c_src/json.c"
       }
-      $64 = (($string_length$0) + 1)|0; //@line 295 "json-parser/json.c"
+      $64 = (($string_length$0) + 1)|0; //@line 295 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $64;
       break L20;
       break;
      }
      case 114:  {
-      $65 = HEAP32[$25>>2]|0; //@line 296 "json-parser/json.c"
-      $66 = ($65|0)==(0); //@line 296 "json-parser/json.c"
+      $65 = HEAP32[$25>>2]|0; //@line 296 "c_src/json.c"
+      $66 = ($65|0)==(0); //@line 296 "c_src/json.c"
       if ($66) {
-       $67 = (($string$0) + ($string_length$0)|0); //@line 296 "json-parser/json.c"
-       HEAP8[$67>>0] = 13; //@line 296 "json-parser/json.c"
+       $67 = (($string$0) + ($string_length$0)|0); //@line 296 "c_src/json.c"
+       HEAP8[$67>>0] = 13; //@line 296 "c_src/json.c"
       }
-      $68 = (($string_length$0) + 1)|0; //@line 296 "json-parser/json.c"
+      $68 = (($string_length$0) + 1)|0; //@line 296 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $68;
       break L20;
       break;
      }
      case 116:  {
-      $69 = HEAP32[$25>>2]|0; //@line 297 "json-parser/json.c"
-      $70 = ($69|0)==(0); //@line 297 "json-parser/json.c"
+      $69 = HEAP32[$25>>2]|0; //@line 297 "c_src/json.c"
+      $70 = ($69|0)==(0); //@line 297 "c_src/json.c"
       if ($70) {
-       $71 = (($string$0) + ($string_length$0)|0); //@line 297 "json-parser/json.c"
-       HEAP8[$71>>0] = 9; //@line 297 "json-parser/json.c"
+       $71 = (($string$0) + ($string_length$0)|0); //@line 297 "c_src/json.c"
+       HEAP8[$71>>0] = 9; //@line 297 "c_src/json.c"
       }
-      $72 = (($string_length$0) + 1)|0; //@line 297 "json-parser/json.c"
+      $72 = (($string_length$0) + 1)|0; //@line 297 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $72;
       break L20;
       break;
      }
+     case 102:  {
+      $57 = HEAP32[$25>>2]|0; //@line 294 "c_src/json.c"
+      $58 = ($57|0)==(0); //@line 294 "c_src/json.c"
+      if ($58) {
+       $59 = (($string$0) + ($string_length$0)|0); //@line 294 "c_src/json.c"
+       HEAP8[$59>>0] = 12; //@line 294 "c_src/json.c"
+      }
+      $60 = (($string_length$0) + 1)|0; //@line 294 "c_src/json.c"
+      $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $60;
+      break L20;
+      break;
+     }
      case 117:  {
-      $73 = HEAP32[$27>>2]|0; //@line 300 "json-parser/json.c"
-      $74 = $73; //@line 300 "json-parser/json.c"
-      $75 = (($36) - ($74))|0; //@line 300 "json-parser/json.c"
-      $76 = ($75|0)<(4); //@line 300 "json-parser/json.c"
+      $73 = HEAP32[$27>>2]|0; //@line 300 "c_src/json.c"
+      $74 = $73; //@line 300 "c_src/json.c"
+      $75 = (($36) - ($74))|0; //@line 300 "c_src/json.c"
+      $76 = ($75|0)<(4); //@line 300 "c_src/json.c"
       if ($76) {
        $$lcssa544 = $41;
        label = 40;
        break L13;
       }
-      $77 = ((($73)) + 1|0); //@line 301 "json-parser/json.c"
-      HEAP32[$27>>2] = $77; //@line 301 "json-parser/json.c"
-      $78 = HEAP8[$77>>0]|0; //@line 301 "json-parser/json.c"
-      $79 = (_hex_value($78)|0); //@line 301 "json-parser/json.c"
-      $80 = $79&255; //@line 301 "json-parser/json.c"
-      $81 = ($79<<24>>24)==(-1); //@line 301 "json-parser/json.c"
+      $77 = ((($73)) + 1|0); //@line 301 "c_src/json.c"
+      HEAP32[$27>>2] = $77; //@line 301 "c_src/json.c"
+      $78 = HEAP8[$77>>0]|0; //@line 301 "c_src/json.c"
+      $79 = (_hex_value($78)|0); //@line 301 "c_src/json.c"
+      $80 = $79&255; //@line 301 "c_src/json.c"
+      $81 = ($79<<24>>24)==(-1); //@line 301 "c_src/json.c"
       if ($81) {
        $$lcssa544 = $41;
        label = 40;
        break L13;
       }
-      $82 = ((($73)) + 2|0); //@line 302 "json-parser/json.c"
-      HEAP32[$27>>2] = $82; //@line 302 "json-parser/json.c"
-      $83 = HEAP8[$82>>0]|0; //@line 302 "json-parser/json.c"
-      $84 = (_hex_value($83)|0); //@line 302 "json-parser/json.c"
-      $85 = $84&255; //@line 302 "json-parser/json.c"
-      $86 = ($84<<24>>24)==(-1); //@line 302 "json-parser/json.c"
+      $82 = ((($73)) + 2|0); //@line 302 "c_src/json.c"
+      HEAP32[$27>>2] = $82; //@line 302 "c_src/json.c"
+      $83 = HEAP8[$82>>0]|0; //@line 302 "c_src/json.c"
+      $84 = (_hex_value($83)|0); //@line 302 "c_src/json.c"
+      $85 = $84&255; //@line 302 "c_src/json.c"
+      $86 = ($84<<24>>24)==(-1); //@line 302 "c_src/json.c"
       if ($86) {
        $$lcssa544 = $41;
        label = 40;
        break L13;
       }
-      $87 = ((($73)) + 3|0); //@line 303 "json-parser/json.c"
-      HEAP32[$27>>2] = $87; //@line 303 "json-parser/json.c"
-      $88 = HEAP8[$87>>0]|0; //@line 303 "json-parser/json.c"
-      $89 = (_hex_value($88)|0); //@line 303 "json-parser/json.c"
-      $90 = $89&255; //@line 303 "json-parser/json.c"
-      $91 = ($89<<24>>24)==(-1); //@line 303 "json-parser/json.c"
+      $87 = ((($73)) + 3|0); //@line 303 "c_src/json.c"
+      HEAP32[$27>>2] = $87; //@line 303 "c_src/json.c"
+      $88 = HEAP8[$87>>0]|0; //@line 303 "c_src/json.c"
+      $89 = (_hex_value($88)|0); //@line 303 "c_src/json.c"
+      $90 = $89&255; //@line 303 "c_src/json.c"
+      $91 = ($89<<24>>24)==(-1); //@line 303 "c_src/json.c"
       if ($91) {
        $$lcssa544 = $41;
        label = 40;
        break L13;
       }
-      $92 = ((($73)) + 4|0); //@line 304 "json-parser/json.c"
-      HEAP32[$27>>2] = $92; //@line 304 "json-parser/json.c"
-      $93 = HEAP8[$92>>0]|0; //@line 304 "json-parser/json.c"
-      $94 = (_hex_value($93)|0); //@line 304 "json-parser/json.c"
-      $95 = ($94<<24>>24)==(-1); //@line 304 "json-parser/json.c"
+      $92 = ((($73)) + 4|0); //@line 304 "c_src/json.c"
+      HEAP32[$27>>2] = $92; //@line 304 "c_src/json.c"
+      $93 = HEAP8[$92>>0]|0; //@line 304 "c_src/json.c"
+      $94 = (_hex_value($93)|0); //@line 304 "c_src/json.c"
+      $95 = ($94<<24>>24)==(-1); //@line 304 "c_src/json.c"
       if ($95) {
        $$lcssa544 = $41;
        label = 40;
        break L13;
       }
-      $99 = $94&255; //@line 304 "json-parser/json.c"
-      $100 = $80 << 4; //@line 310 "json-parser/json.c"
-      $101 = $90 << 4; //@line 311 "json-parser/json.c"
-      $$masked = $100 & 240; //@line 312 "json-parser/json.c"
-      $102 = $85 | $$masked; //@line 312 "json-parser/json.c"
-      $103 = $102 << 8; //@line 312 "json-parser/json.c"
-      $$masked13 = $101 & 240; //@line 312 "json-parser/json.c"
-      $104 = $99 | $$masked13; //@line 312 "json-parser/json.c"
-      $105 = $104 | $103; //@line 312 "json-parser/json.c"
-      $106 = $103 & 63488; //@line 314 "json-parser/json.c"
-      $107 = ($106|0)==(55296); //@line 314 "json-parser/json.c"
+      $99 = $94&255; //@line 304 "c_src/json.c"
+      $100 = $80 << 4; //@line 310 "c_src/json.c"
+      $101 = $90 << 4; //@line 311 "c_src/json.c"
+      $$masked = $100 & 240; //@line 312 "c_src/json.c"
+      $102 = $85 | $$masked; //@line 312 "c_src/json.c"
+      $103 = $102 << 8; //@line 312 "c_src/json.c"
+      $$masked13 = $101 & 240; //@line 312 "c_src/json.c"
+      $104 = $99 | $$masked13; //@line 312 "c_src/json.c"
+      $105 = $104 | $103; //@line 312 "c_src/json.c"
+      $106 = $103 & 63488; //@line 314 "c_src/json.c"
+      $107 = ($106|0)==(55296); //@line 314 "c_src/json.c"
       if ($107) {
-       $108 = $92; //@line 317 "json-parser/json.c"
-       $109 = (($36) - ($108))|0; //@line 317 "json-parser/json.c"
-       $110 = ($109|0)<(6); //@line 317 "json-parser/json.c"
+       $108 = $92; //@line 317 "c_src/json.c"
+       $109 = (($36) - ($108))|0; //@line 317 "c_src/json.c"
+       $110 = ($109|0)<(6); //@line 317 "c_src/json.c"
        if ($110) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $111 = ((($73)) + 5|0); //@line 317 "json-parser/json.c"
-       HEAP32[$27>>2] = $111; //@line 317 "json-parser/json.c"
-       $112 = HEAP8[$111>>0]|0; //@line 317 "json-parser/json.c"
-       $113 = ($112<<24>>24)==(92); //@line 317 "json-parser/json.c"
+       $111 = ((($73)) + 5|0); //@line 317 "c_src/json.c"
+       HEAP32[$27>>2] = $111; //@line 317 "c_src/json.c"
+       $112 = HEAP8[$111>>0]|0; //@line 317 "c_src/json.c"
+       $113 = ($112<<24>>24)==(92); //@line 317 "c_src/json.c"
        if (!($113)) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $114 = ((($73)) + 6|0); //@line 317 "json-parser/json.c"
-       HEAP32[$27>>2] = $114; //@line 317 "json-parser/json.c"
-       $115 = HEAP8[$114>>0]|0; //@line 317 "json-parser/json.c"
-       $116 = ($115<<24>>24)==(117); //@line 317 "json-parser/json.c"
+       $114 = ((($73)) + 6|0); //@line 317 "c_src/json.c"
+       HEAP32[$27>>2] = $114; //@line 317 "c_src/json.c"
+       $115 = HEAP8[$114>>0]|0; //@line 317 "c_src/json.c"
+       $116 = ($115<<24>>24)==(117); //@line 317 "c_src/json.c"
        if (!($116)) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $117 = ((($73)) + 7|0); //@line 318 "json-parser/json.c"
-       HEAP32[$27>>2] = $117; //@line 318 "json-parser/json.c"
-       $118 = HEAP8[$117>>0]|0; //@line 318 "json-parser/json.c"
-       $119 = (_hex_value($118)|0); //@line 318 "json-parser/json.c"
-       $120 = ($119<<24>>24)==(-1); //@line 318 "json-parser/json.c"
+       $117 = ((($73)) + 7|0); //@line 318 "c_src/json.c"
+       HEAP32[$27>>2] = $117; //@line 318 "c_src/json.c"
+       $118 = HEAP8[$117>>0]|0; //@line 318 "c_src/json.c"
+       $119 = (_hex_value($118)|0); //@line 318 "c_src/json.c"
+       $120 = ($119<<24>>24)==(-1); //@line 318 "c_src/json.c"
        if ($120) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $121 = ((($73)) + 8|0); //@line 319 "json-parser/json.c"
-       HEAP32[$27>>2] = $121; //@line 319 "json-parser/json.c"
-       $122 = HEAP8[$121>>0]|0; //@line 319 "json-parser/json.c"
-       $123 = (_hex_value($122)|0); //@line 319 "json-parser/json.c"
-       $124 = $123&255; //@line 319 "json-parser/json.c"
-       $125 = ($123<<24>>24)==(-1); //@line 319 "json-parser/json.c"
+       $121 = ((($73)) + 8|0); //@line 319 "c_src/json.c"
+       HEAP32[$27>>2] = $121; //@line 319 "c_src/json.c"
+       $122 = HEAP8[$121>>0]|0; //@line 319 "c_src/json.c"
+       $123 = (_hex_value($122)|0); //@line 319 "c_src/json.c"
+       $124 = $123&255; //@line 319 "c_src/json.c"
+       $125 = ($123<<24>>24)==(-1); //@line 319 "c_src/json.c"
        if ($125) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $126 = ((($73)) + 9|0); //@line 320 "json-parser/json.c"
-       HEAP32[$27>>2] = $126; //@line 320 "json-parser/json.c"
-       $127 = HEAP8[$126>>0]|0; //@line 320 "json-parser/json.c"
-       $128 = (_hex_value($127)|0); //@line 320 "json-parser/json.c"
-       $129 = $128&255; //@line 320 "json-parser/json.c"
-       $130 = ($128<<24>>24)==(-1); //@line 320 "json-parser/json.c"
+       $126 = ((($73)) + 9|0); //@line 320 "c_src/json.c"
+       HEAP32[$27>>2] = $126; //@line 320 "c_src/json.c"
+       $127 = HEAP8[$126>>0]|0; //@line 320 "c_src/json.c"
+       $128 = (_hex_value($127)|0); //@line 320 "c_src/json.c"
+       $129 = $128&255; //@line 320 "c_src/json.c"
+       $130 = ($128<<24>>24)==(-1); //@line 320 "c_src/json.c"
        if ($130) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $131 = ((($73)) + 10|0); //@line 321 "json-parser/json.c"
-       HEAP32[$27>>2] = $131; //@line 321 "json-parser/json.c"
-       $132 = HEAP8[$131>>0]|0; //@line 321 "json-parser/json.c"
-       $133 = (_hex_value($132)|0); //@line 321 "json-parser/json.c"
-       $134 = ($133<<24>>24)==(-1); //@line 321 "json-parser/json.c"
+       $131 = ((($73)) + 10|0); //@line 321 "c_src/json.c"
+       HEAP32[$27>>2] = $131; //@line 321 "c_src/json.c"
+       $132 = HEAP8[$131>>0]|0; //@line 321 "c_src/json.c"
+       $133 = (_hex_value($132)|0); //@line 321 "c_src/json.c"
+       $134 = ($133<<24>>24)==(-1); //@line 321 "c_src/json.c"
        if ($134) {
         $$lcssa545 = $41;
         label = 49;
         break L13;
        }
-       $138 = $133&255; //@line 321 "json-parser/json.c"
-       $139 = $129 << 4; //@line 328 "json-parser/json.c"
-       $140 = $124 << 8; //@line 329 "json-parser/json.c"
-       $$masked15 = $139 & 240; //@line 329 "json-parser/json.c"
-       $141 = $105 << 10; //@line 331 "json-parser/json.c"
-       $142 = $141 & 982016; //@line 331 "json-parser/json.c"
-       $$masked16 = $140 & 768; //@line 331 "json-parser/json.c"
-       $143 = $142 | $$masked16; //@line 331 "json-parser/json.c"
-       $144 = $143 | $$masked15; //@line 331 "json-parser/json.c"
-       $145 = $144 | $138; //@line 331 "json-parser/json.c"
-       $146 = HEAP32[$25>>2]|0; //@line 353 "json-parser/json.c"
-       $147 = ($146|0)==(0); //@line 353 "json-parser/json.c"
+       $138 = $133&255; //@line 321 "c_src/json.c"
+       $139 = $129 << 4; //@line 328 "c_src/json.c"
+       $140 = $124 << 8; //@line 329 "c_src/json.c"
+       $$masked15 = $139 & 240; //@line 329 "c_src/json.c"
+       $141 = $105 << 10; //@line 331 "c_src/json.c"
+       $142 = $141 & 982016; //@line 331 "c_src/json.c"
+       $$masked16 = $140 & 768; //@line 331 "c_src/json.c"
+       $143 = $142 | $$masked16; //@line 331 "c_src/json.c"
+       $144 = $143 | $$masked15; //@line 331 "c_src/json.c"
+       $145 = $144 | $138; //@line 331 "c_src/json.c"
+       $146 = HEAP32[$25>>2]|0; //@line 353 "c_src/json.c"
+       $147 = ($146|0)==(0); //@line 353 "c_src/json.c"
        if ($147) {
-        $186 = $142 >>> 18; //@line 367 "json-parser/json.c"
-        $187 = $186 | 240; //@line 367 "json-parser/json.c"
-        $188 = $187&255; //@line 367 "json-parser/json.c"
-        $189 = (($string_length$0) + 1)|0; //@line 367 "json-parser/json.c"
-        $190 = (($string$0) + ($string_length$0)|0); //@line 367 "json-parser/json.c"
-        HEAP8[$190>>0] = $188; //@line 367 "json-parser/json.c"
-        $191 = $104 >>> 2; //@line 368 "json-parser/json.c"
-        $192 = $191 | 144; //@line 368 "json-parser/json.c"
-        $193 = $192&255; //@line 368 "json-parser/json.c"
-        $194 = (($string_length$0) + 2)|0; //@line 368 "json-parser/json.c"
-        $195 = (($string$0) + ($189)|0); //@line 368 "json-parser/json.c"
-        HEAP8[$195>>0] = $193; //@line 368 "json-parser/json.c"
-        $196 = $145 >>> 6; //@line 369 "json-parser/json.c"
-        $197 = $196 & 63; //@line 369 "json-parser/json.c"
-        $198 = $197 | 128; //@line 369 "json-parser/json.c"
-        $199 = $198&255; //@line 369 "json-parser/json.c"
-        $200 = (($string_length$0) + 3)|0; //@line 369 "json-parser/json.c"
-        $201 = (($string$0) + ($194)|0); //@line 369 "json-parser/json.c"
-        HEAP8[$201>>0] = $199; //@line 369 "json-parser/json.c"
-        $202 = $145 & 63; //@line 370 "json-parser/json.c"
-        $203 = $202 | 128; //@line 370 "json-parser/json.c"
-        $204 = $203&255; //@line 370 "json-parser/json.c"
-        $205 = (($string_length$0) + 4)|0; //@line 370 "json-parser/json.c"
-        $206 = (($string$0) + ($200)|0); //@line 370 "json-parser/json.c"
-        HEAP8[$206>>0] = $204; //@line 370 "json-parser/json.c"
+        $186 = $142 >>> 18; //@line 367 "c_src/json.c"
+        $187 = $186 | 240; //@line 367 "c_src/json.c"
+        $188 = $187&255; //@line 367 "c_src/json.c"
+        $189 = (($string_length$0) + 1)|0; //@line 367 "c_src/json.c"
+        $190 = (($string$0) + ($string_length$0)|0); //@line 367 "c_src/json.c"
+        HEAP8[$190>>0] = $188; //@line 367 "c_src/json.c"
+        $191 = $104 >>> 2; //@line 368 "c_src/json.c"
+        $192 = $191 | 144; //@line 368 "c_src/json.c"
+        $193 = $192&255; //@line 368 "c_src/json.c"
+        $194 = (($string_length$0) + 2)|0; //@line 368 "c_src/json.c"
+        $195 = (($string$0) + ($189)|0); //@line 368 "c_src/json.c"
+        HEAP8[$195>>0] = $193; //@line 368 "c_src/json.c"
+        $196 = $145 >>> 6; //@line 369 "c_src/json.c"
+        $197 = $196 & 63; //@line 369 "c_src/json.c"
+        $198 = $197 | 128; //@line 369 "c_src/json.c"
+        $199 = $198&255; //@line 369 "c_src/json.c"
+        $200 = (($string_length$0) + 3)|0; //@line 369 "c_src/json.c"
+        $201 = (($string$0) + ($194)|0); //@line 369 "c_src/json.c"
+        HEAP8[$201>>0] = $199; //@line 369 "c_src/json.c"
+        $202 = $145 & 63; //@line 370 "c_src/json.c"
+        $203 = $202 | 128; //@line 370 "c_src/json.c"
+        $204 = $203&255; //@line 370 "c_src/json.c"
+        $205 = (($string_length$0) + 4)|0; //@line 370 "c_src/json.c"
+        $206 = (($string$0) + ($200)|0); //@line 370 "c_src/json.c"
+        HEAP8[$206>>0] = $204; //@line 370 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $205;
         break L20;
        } else {
-        $185 = (($string_length$0) + 4)|0; //@line 365 "json-parser/json.c"
+        $185 = (($string_length$0) + 4)|0; //@line 365 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $185;
         break L20;
        }
       }
-      $148 = ($105>>>0)<(128); //@line 334 "json-parser/json.c"
+      $148 = ($105>>>0)<(128); //@line 334 "c_src/json.c"
       if ($148) {
-       $149 = HEAP32[$25>>2]|0; //@line 336 "json-parser/json.c"
-       $150 = ($149|0)==(0); //@line 336 "json-parser/json.c"
+       $149 = HEAP32[$25>>2]|0; //@line 336 "c_src/json.c"
+       $150 = ($149|0)==(0); //@line 336 "c_src/json.c"
        if ($150) {
-        $151 = $104&255; //@line 336 "json-parser/json.c"
-        $152 = (($string$0) + ($string_length$0)|0); //@line 336 "json-parser/json.c"
-        HEAP8[$152>>0] = $151; //@line 336 "json-parser/json.c"
+        $151 = $104&255; //@line 336 "c_src/json.c"
+        $152 = (($string$0) + ($string_length$0)|0); //@line 336 "c_src/json.c"
+        HEAP8[$152>>0] = $151; //@line 336 "c_src/json.c"
        }
-       $153 = (($string_length$0) + 1)|0; //@line 336 "json-parser/json.c"
+       $153 = (($string_length$0) + 1)|0; //@line 336 "c_src/json.c"
        $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $153;
        break L20;
       }
-      $154 = ($105>>>0)<(2048); //@line 340 "json-parser/json.c"
-      $155 = HEAP32[$25>>2]|0; //@line 342 "json-parser/json.c"
-      $156 = ($155|0)==(0); //@line 342 "json-parser/json.c"
+      $154 = ($105>>>0)<(2048); //@line 340 "c_src/json.c"
+      $155 = HEAP32[$25>>2]|0; //@line 342 "c_src/json.c"
+      $156 = ($155|0)==(0); //@line 342 "c_src/json.c"
       if ($154) {
        if ($156) {
-        $158 = $105 >>> 6; //@line 345 "json-parser/json.c"
-        $159 = $158 | 192; //@line 345 "json-parser/json.c"
-        $160 = $159&255; //@line 345 "json-parser/json.c"
-        $161 = (($string_length$0) + 1)|0; //@line 345 "json-parser/json.c"
-        $162 = (($string$0) + ($string_length$0)|0); //@line 345 "json-parser/json.c"
-        HEAP8[$162>>0] = $160; //@line 345 "json-parser/json.c"
-        $163 = $104 & 63; //@line 346 "json-parser/json.c"
-        $164 = $163 | 128; //@line 346 "json-parser/json.c"
-        $165 = $164&255; //@line 346 "json-parser/json.c"
-        $166 = (($string_length$0) + 2)|0; //@line 346 "json-parser/json.c"
-        $167 = (($string$0) + ($161)|0); //@line 346 "json-parser/json.c"
-        HEAP8[$167>>0] = $165; //@line 346 "json-parser/json.c"
+        $158 = $105 >>> 6; //@line 345 "c_src/json.c"
+        $159 = $158 | 192; //@line 345 "c_src/json.c"
+        $160 = $159&255; //@line 345 "c_src/json.c"
+        $161 = (($string_length$0) + 1)|0; //@line 345 "c_src/json.c"
+        $162 = (($string$0) + ($string_length$0)|0); //@line 345 "c_src/json.c"
+        HEAP8[$162>>0] = $160; //@line 345 "c_src/json.c"
+        $163 = $104 & 63; //@line 346 "c_src/json.c"
+        $164 = $163 | 128; //@line 346 "c_src/json.c"
+        $165 = $164&255; //@line 346 "c_src/json.c"
+        $166 = (($string_length$0) + 2)|0; //@line 346 "c_src/json.c"
+        $167 = (($string$0) + ($161)|0); //@line 346 "c_src/json.c"
+        HEAP8[$167>>0] = $165; //@line 346 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $166;
         break L20;
        } else {
-        $157 = (($string_length$0) + 2)|0; //@line 343 "json-parser/json.c"
+        $157 = (($string_length$0) + 2)|0; //@line 343 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $157;
         break L20;
        }
       } else {
        if ($156) {
-        $169 = $102 >>> 4; //@line 356 "json-parser/json.c"
-        $170 = $169 | 224; //@line 356 "json-parser/json.c"
-        $171 = $170&255; //@line 356 "json-parser/json.c"
-        $172 = (($string_length$0) + 1)|0; //@line 356 "json-parser/json.c"
-        $173 = (($string$0) + ($string_length$0)|0); //@line 356 "json-parser/json.c"
-        HEAP8[$173>>0] = $171; //@line 356 "json-parser/json.c"
-        $174 = $105 >>> 6; //@line 357 "json-parser/json.c"
-        $175 = $174 & 63; //@line 357 "json-parser/json.c"
-        $176 = $175 | 128; //@line 357 "json-parser/json.c"
-        $177 = $176&255; //@line 357 "json-parser/json.c"
-        $178 = (($string_length$0) + 2)|0; //@line 357 "json-parser/json.c"
-        $179 = (($string$0) + ($172)|0); //@line 357 "json-parser/json.c"
-        HEAP8[$179>>0] = $177; //@line 357 "json-parser/json.c"
-        $180 = $104 & 63; //@line 358 "json-parser/json.c"
-        $181 = $180 | 128; //@line 358 "json-parser/json.c"
-        $182 = $181&255; //@line 358 "json-parser/json.c"
-        $183 = (($string_length$0) + 3)|0; //@line 358 "json-parser/json.c"
-        $184 = (($string$0) + ($178)|0); //@line 358 "json-parser/json.c"
-        HEAP8[$184>>0] = $182; //@line 358 "json-parser/json.c"
+        $169 = $102 >>> 4; //@line 356 "c_src/json.c"
+        $170 = $169 | 224; //@line 356 "c_src/json.c"
+        $171 = $170&255; //@line 356 "c_src/json.c"
+        $172 = (($string_length$0) + 1)|0; //@line 356 "c_src/json.c"
+        $173 = (($string$0) + ($string_length$0)|0); //@line 356 "c_src/json.c"
+        HEAP8[$173>>0] = $171; //@line 356 "c_src/json.c"
+        $174 = $105 >>> 6; //@line 357 "c_src/json.c"
+        $175 = $174 & 63; //@line 357 "c_src/json.c"
+        $176 = $175 | 128; //@line 357 "c_src/json.c"
+        $177 = $176&255; //@line 357 "c_src/json.c"
+        $178 = (($string_length$0) + 2)|0; //@line 357 "c_src/json.c"
+        $179 = (($string$0) + ($172)|0); //@line 357 "c_src/json.c"
+        HEAP8[$179>>0] = $177; //@line 357 "c_src/json.c"
+        $180 = $104 & 63; //@line 358 "c_src/json.c"
+        $181 = $180 | 128; //@line 358 "c_src/json.c"
+        $182 = $181&255; //@line 358 "c_src/json.c"
+        $183 = (($string_length$0) + 3)|0; //@line 358 "c_src/json.c"
+        $184 = (($string$0) + ($178)|0); //@line 358 "c_src/json.c"
+        HEAP8[$184>>0] = $182; //@line 358 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $183;
         break L20;
        } else {
-        $168 = (($string_length$0) + 3)|0; //@line 354 "json-parser/json.c"
+        $168 = (($string_length$0) + 3)|0; //@line 354 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $168;
         break L20;
        }
       }
       break;
      }
-     case 102:  {
-      $57 = HEAP32[$25>>2]|0; //@line 294 "json-parser/json.c"
-      $58 = ($57|0)==(0); //@line 294 "json-parser/json.c"
-      if ($58) {
-       $59 = (($string$0) + ($string_length$0)|0); //@line 294 "json-parser/json.c"
-       HEAP8[$59>>0] = 12; //@line 294 "json-parser/json.c"
-      }
-      $60 = (($string_length$0) + 1)|0; //@line 294 "json-parser/json.c"
-      $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $60;
-      break L20;
-      break;
-     }
      default: {
-      $207 = HEAP32[$25>>2]|0; //@line 376 "json-parser/json.c"
-      $208 = ($207|0)==(0); //@line 376 "json-parser/json.c"
+      $207 = HEAP32[$25>>2]|0; //@line 376 "c_src/json.c"
+      $208 = ($207|0)==(0); //@line 376 "c_src/json.c"
       if ($208) {
-       $209 = (($string$0) + ($string_length$0)|0); //@line 376 "json-parser/json.c"
-       HEAP8[$209>>0] = $40; //@line 376 "json-parser/json.c"
+       $209 = (($string$0) + ($string_length$0)|0); //@line 376 "c_src/json.c"
+       HEAP8[$209>>0] = $40; //@line 376 "c_src/json.c"
       }
-      $210 = (($string_length$0) + 1)|0; //@line 376 "json-parser/json.c"
+      $210 = (($string_length$0) + 1)|0; //@line 376 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $210;
       break L20;
      }
@@ -9045,46 +8905,46 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
    L105: do {
     if ((label|0) == 81) {
      label = 0;
-     $251 = HEAP32[$28>>2]|0; //@line 434 "json-parser/json.c"
-     $252 = $251 & 1; //@line 434 "json-parser/json.c"
-     $253 = ($252|0)==(0); //@line 434 "json-parser/json.c"
+     $251 = HEAP32[$28>>2]|0; //@line 434 "c_src/json.c"
+     $252 = $251 & 1; //@line 434 "c_src/json.c"
+     $253 = ($252|0)==(0); //@line 434 "c_src/json.c"
      do {
       if (!($253)) {
-       $254 = $flags$1 & 24576; //@line 436 "json-parser/json.c"
-       $255 = ($254|0)==(0); //@line 436 "json-parser/json.c"
+       $254 = $flags$1 & 24576; //@line 436 "c_src/json.c"
+       $255 = ($254|0)==(0); //@line 436 "c_src/json.c"
        if ($255) {
-        $277 = ($41|0)==(47); //@line 465 "json-parser/json.c"
+        $277 = ($41|0)==(47); //@line 465 "c_src/json.c"
         if (!($277)) {
          break;
         }
-        $278 = $flags$1 & 136; //@line 467 "json-parser/json.c"
-        $279 = ($278|0)==(0); //@line 467 "json-parser/json.c"
+        $278 = $flags$1 & 136; //@line 467 "c_src/json.c"
+        $279 = ($278|0)==(0); //@line 467 "c_src/json.c"
         if ($279) {
-         $280 = HEAP32[$top>>2]|0; //@line 467 "json-parser/json.c"
-         $281 = ((($280)) + 4|0); //@line 467 "json-parser/json.c"
-         $282 = HEAP32[$281>>2]|0; //@line 467 "json-parser/json.c"
-         $283 = ($282|0)==(1); //@line 467 "json-parser/json.c"
+         $280 = HEAP32[$top>>2]|0; //@line 467 "c_src/json.c"
+         $281 = ((($280)) + 4|0); //@line 467 "c_src/json.c"
+         $282 = HEAP32[$281>>2]|0; //@line 467 "c_src/json.c"
+         $283 = ($282|0)==(1); //@line 467 "c_src/json.c"
          if (!($283)) {
           label = 97;
           break L13;
          }
         }
-        $287 = HEAP32[$27>>2]|0; //@line 472 "json-parser/json.c"
-        $288 = ((($287)) + 1|0); //@line 472 "json-parser/json.c"
-        HEAP32[$27>>2] = $288; //@line 472 "json-parser/json.c"
-        $289 = ($288|0)==($11|0); //@line 472 "json-parser/json.c"
+        $287 = HEAP32[$27>>2]|0; //@line 472 "c_src/json.c"
+        $288 = ((($287)) + 1|0); //@line 472 "c_src/json.c"
+        HEAP32[$27>>2] = $288; //@line 472 "c_src/json.c"
+        $289 = ($288|0)==($11|0); //@line 472 "c_src/json.c"
         if ($289) {
          label = 99;
          break L13;
         }
-        $293 = HEAP8[$288>>0]|0; //@line 477 "json-parser/json.c"
-        $294 = $293 << 24 >> 24; //@line 477 "json-parser/json.c"
+        $293 = HEAP8[$288>>0]|0; //@line 477 "c_src/json.c"
+        $294 = $293 << 24 >> 24; //@line 477 "c_src/json.c"
         if ((($294|0) == 47)) {
-         $295 = $flags$1 | 8192; //@line 480 "json-parser/json.c"
+         $295 = $flags$1 | 8192; //@line 480 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $295;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         } else if ((($294|0) == 42)) {
-         $296 = $flags$1 | 16384; //@line 484 "json-parser/json.c"
+         $296 = $flags$1 | 16384; //@line 484 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $296;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         } else {
@@ -9093,63 +8953,63 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
          break L13;
         }
        }
-       $256 = $flags$1 & 8192; //@line 438 "json-parser/json.c"
-       $257 = ($256|0)==(0); //@line 438 "json-parser/json.c"
+       $256 = $flags$1 & 8192; //@line 438 "c_src/json.c"
+       $257 = ($256|0)==(0); //@line 438 "c_src/json.c"
        if (!($257)) {
-        $258 = ($41|0)==(13); //@line 440 "json-parser/json.c"
+        $258 = ($41|0)==(13); //@line 440 "c_src/json.c"
         if (!($258)) {
-         $259 = ($41|0)!=(10); //@line 440 "json-parser/json.c"
-         $260 = ($40<<24>>24)!=(0); //@line 440 "json-parser/json.c"
-         $or$cond = $259 & $260; //@line 440 "json-parser/json.c"
+         $259 = ($41|0)!=(10); //@line 440 "c_src/json.c"
+         $260 = ($40<<24>>24)!=(0); //@line 440 "c_src/json.c"
+         $or$cond = $259 & $260; //@line 440 "c_src/json.c"
          if ($or$cond) {
           $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
           break L105;
          }
         }
-        $261 = $flags$1 & -8193; //@line 442 "json-parser/json.c"
-        $262 = HEAP32[$27>>2]|0; //@line 443 "json-parser/json.c"
-        $263 = ((($262)) + -1|0); //@line 443 "json-parser/json.c"
-        HEAP32[$27>>2] = $263; //@line 443 "json-parser/json.c"
+        $261 = $flags$1 & -8193; //@line 442 "c_src/json.c"
+        $262 = HEAP32[$27>>2]|0; //@line 443 "c_src/json.c"
+        $263 = ((($262)) + -1|0); //@line 443 "c_src/json.c"
+        HEAP32[$27>>2] = $263; //@line 443 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $261;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
         break L105;
        }
-       $264 = $flags$1 & 16384; //@line 449 "json-parser/json.c"
-       $265 = ($264|0)==(0); //@line 449 "json-parser/json.c"
+       $264 = $flags$1 & 16384; //@line 449 "c_src/json.c"
+       $265 = ($264|0)==(0); //@line 449 "c_src/json.c"
        if (!($265)) {
-        $266 = ($40<<24>>24)==(0); //@line 451 "json-parser/json.c"
+        $266 = ($40<<24>>24)==(0); //@line 451 "c_src/json.c"
         if ($266) {
          label = 89;
          break L13;
         }
-        $270 = ($41|0)==(42); //@line 456 "json-parser/json.c"
+        $270 = ($41|0)==(42); //@line 456 "c_src/json.c"
         if (!($270)) {
          $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
-        $271 = HEAP32[$27>>2]|0; //@line 456 "json-parser/json.c"
-        $272 = ($271>>>0)<($35>>>0); //@line 456 "json-parser/json.c"
+        $271 = HEAP32[$27>>2]|0; //@line 456 "c_src/json.c"
+        $272 = ($271>>>0)<($35>>>0); //@line 456 "c_src/json.c"
         if (!($272)) {
          $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
-        $273 = ((($271)) + 1|0); //@line 456 "json-parser/json.c"
-        $274 = HEAP8[$273>>0]|0; //@line 456 "json-parser/json.c"
-        $275 = ($274<<24>>24)==(47); //@line 456 "json-parser/json.c"
+        $273 = ((($271)) + 1|0); //@line 456 "c_src/json.c"
+        $274 = HEAP8[$273>>0]|0; //@line 456 "c_src/json.c"
+        $275 = ($274<<24>>24)==(47); //@line 456 "c_src/json.c"
         if (!($275)) {
          $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
-        $276 = $flags$1 & -16385; //@line 458 "json-parser/json.c"
-        HEAP32[$27>>2] = $273; //@line 459 "json-parser/json.c"
+        $276 = $flags$1 & -16385; //@line 458 "c_src/json.c"
+        HEAP32[$27>>2] = $273; //@line 459 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $276;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
         break L105;
        }
       }
      } while(0);
-     $300 = $flags$1 & 128; //@line 494 "json-parser/json.c"
-     $301 = ($300|0)==(0); //@line 494 "json-parser/json.c"
+     $300 = $flags$1 & 128; //@line 494 "c_src/json.c"
+     $301 = ($300|0)==(0); //@line 494 "c_src/json.c"
      if (!($301)) {
-      $302 = ($40<<24>>24)==(0); //@line 496 "json-parser/json.c"
+      $302 = ($40<<24>>24)==(0); //@line 496 "c_src/json.c"
       if ($302) {
        $645 = $475;$646 = $476;$num_digits$1$lcssa487 = $num_digits$1;$num_e$1$lcssa508 = $num_e$1;
        break L15;
@@ -9162,61 +9022,61 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
        label = 108;
        break L13;
       }
-      $303 = HEAP32[$26>>2]|0; //@line 501 "json-parser/json.c"
-      $304 = (($303) + 1)|0; //@line 501 "json-parser/json.c"
-      HEAP32[$26>>2] = $304; //@line 501 "json-parser/json.c"
-      HEAP32[$34>>2] = 0; //@line 501 "json-parser/json.c"
+      $303 = HEAP32[$26>>2]|0; //@line 501 "c_src/json.c"
+      $304 = (($303) + 1)|0; //@line 501 "c_src/json.c"
+      HEAP32[$26>>2] = $304; //@line 501 "c_src/json.c"
+      HEAP32[$34>>2] = 0; //@line 501 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
       break;
      }
-     $308 = $flags$1 & 8; //@line 513 "json-parser/json.c"
-     $309 = ($308|0)==(0); //@line 513 "json-parser/json.c"
+     $308 = $flags$1 & 8; //@line 513 "c_src/json.c"
+     $309 = ($308|0)==(0); //@line 513 "c_src/json.c"
      L137: do {
       if ($309) {
-       $419 = HEAP32[$top>>2]|0; //@line 690 "json-parser/json.c"
-       $420 = ((($419)) + 4|0); //@line 690 "json-parser/json.c"
-       $421 = HEAP32[$420>>2]|0; //@line 690 "json-parser/json.c"
+       $419 = HEAP32[$top>>2]|0; //@line 690 "c_src/json.c"
+       $420 = ((($419)) + 4|0); //@line 690 "c_src/json.c"
+       $421 = HEAP32[$420>>2]|0; //@line 690 "c_src/json.c"
        if ((($421|0) == 1)) {
         switch ($41|0) {
         case 10:  {
-         $422 = HEAP32[$26>>2]|0; //@line 696 "json-parser/json.c"
-         $423 = (($422) + 1)|0; //@line 696 "json-parser/json.c"
-         HEAP32[$26>>2] = $423; //@line 696 "json-parser/json.c"
-         HEAP32[$29>>2] = 0; //@line 696 "json-parser/json.c"
+         $422 = HEAP32[$26>>2]|0; //@line 696 "c_src/json.c"
+         $423 = (($422) + 1)|0; //@line 696 "c_src/json.c"
+         HEAP32[$26>>2] = $423; //@line 696 "c_src/json.c"
+         HEAP32[$29>>2] = 0; //@line 696 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
          break;
         }
         case 34:  {
-         $424 = $flags$1 & 4; //@line 701 "json-parser/json.c"
-         $425 = ($424|0)==(0); //@line 701 "json-parser/json.c"
+         $424 = $flags$1 & 4; //@line 701 "c_src/json.c"
+         $425 = ($424|0)==(0); //@line 701 "c_src/json.c"
          if (!($425)) {
           label = 165;
           break L13;
          }
-         $429 = $flags$1 | 32; //@line 706 "json-parser/json.c"
-         $430 = ((($419)) + 16|0); //@line 708 "json-parser/json.c"
-         $431 = HEAP32[$430>>2]|0; //@line 708 "json-parser/json.c"
+         $429 = $flags$1 | 32; //@line 706 "c_src/json.c"
+         $430 = ((($419)) + 16|0); //@line 708 "c_src/json.c"
+         $431 = HEAP32[$430>>2]|0; //@line 708 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $429;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $431;$string_length$1 = 0;
          break L137;
          break;
         }
         case 125:  {
-         $432 = $flags$1 & -6; //@line 715 "json-parser/json.c"
-         $433 = $432 | 1; //@line 715 "json-parser/json.c"
+         $432 = $flags$1 & -6; //@line 715 "c_src/json.c"
+         $433 = $432 | 1; //@line 715 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $433;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
          break L137;
          break;
         }
         case 44:  {
-         $434 = $flags$1 & 4; //@line 720 "json-parser/json.c"
-         $435 = ($434|0)==(0); //@line 720 "json-parser/json.c"
+         $434 = $flags$1 & 4; //@line 720 "c_src/json.c"
+         $435 = ($434|0)==(0); //@line 720 "c_src/json.c"
          if ($435) {
           $$lcssa562 = $41;
           label = 170;
           break L13;
          }
-         $436 = $flags$1 & -5; //@line 722 "json-parser/json.c"
+         $436 = $flags$1 & -5; //@line 722 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $436;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
          break L137;
          break;
@@ -9236,229 +9096,229 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
         $647 = $475;$648 = $476;$flags$3 = $flags$1;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
         break;
        }
-       $isdigittmp = (($41) + -48)|0; //@line 736 "json-parser/json.c"
-       $isdigit = ($isdigittmp>>>0)<(10); //@line 736 "json-parser/json.c"
+       $isdigittmp = (($41) + -48)|0; //@line 736 "c_src/json.c"
+       $isdigit = ($isdigittmp>>>0)<(10); //@line 736 "c_src/json.c"
        if ($isdigit) {
-        $440 = (($num_digits$1) + 1)|0; //@line 738 "json-parser/json.c"
-        $441 = HEAP32[$top>>2]|0; //@line 740 "json-parser/json.c"
-        $442 = ((($441)) + 4|0); //@line 740 "json-parser/json.c"
-        $443 = HEAP32[$442>>2]|0; //@line 740 "json-parser/json.c"
-        $444 = ($443|0)!=(3); //@line 740 "json-parser/json.c"
+        $440 = (($num_digits$1) + 1)|0; //@line 738 "c_src/json.c"
+        $441 = HEAP32[$top>>2]|0; //@line 740 "c_src/json.c"
+        $442 = ((($441)) + 4|0); //@line 740 "c_src/json.c"
+        $443 = HEAP32[$442>>2]|0; //@line 740 "c_src/json.c"
+        $444 = ($443|0)!=(3); //@line 740 "c_src/json.c"
         $445 = $flags$1 & 1024;
-        $446 = ($445|0)==(0); //@line 740 "json-parser/json.c"
-        $or$cond24 = $446 & $444; //@line 740 "json-parser/json.c"
+        $446 = ($445|0)==(0); //@line 740 "c_src/json.c"
+        $or$cond24 = $446 & $444; //@line 740 "c_src/json.c"
         if ($or$cond24) {
-         $477 = (___muldi3(($475|0),($476|0),10,0)|0); //@line 763 "json-parser/json.c"
-         $478 = tempRet0; //@line 763 "json-parser/json.c"
-         $479 = ($isdigittmp|0)<(0); //@line 763 "json-parser/json.c"
-         $480 = $479 << 31 >> 31; //@line 763 "json-parser/json.c"
-         $481 = (_i64Add(($isdigittmp|0),($480|0),($477|0),($478|0))|0); //@line 763 "json-parser/json.c"
-         $482 = tempRet0; //@line 763 "json-parser/json.c"
+         $477 = (___muldi3(($475|0),($476|0),10,0)|0); //@line 763 "c_src/json.c"
+         $478 = tempRet0; //@line 763 "c_src/json.c"
+         $479 = ($isdigittmp|0)<(0); //@line 763 "c_src/json.c"
+         $480 = $479 << 31 >> 31; //@line 763 "c_src/json.c"
+         $481 = (_i64Add(($isdigittmp|0),($480|0),($477|0),($478|0))|0); //@line 763 "c_src/json.c"
+         $482 = tempRet0; //@line 763 "c_src/json.c"
          $643 = $481;$644 = $482;$flags$6 = $flags$1;$num_digits$3 = $440;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
         if (!($446)) {
-         $472 = $flags$1 | 2048; //@line 754 "json-parser/json.c"
-         $473 = ($num_e$1*10)|0; //@line 755 "json-parser/json.c"
-         $474 = (($isdigittmp) + ($473))|0; //@line 755 "json-parser/json.c"
+         $472 = $flags$1 | 2048; //@line 754 "c_src/json.c"
+         $473 = ($num_e$1*10)|0; //@line 755 "c_src/json.c"
+         $474 = (($isdigittmp) + ($473))|0; //@line 755 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $472;$num_digits$3 = $440;$num_e$3 = $474;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
-        $447 = $flags$1 & 512; //@line 744 "json-parser/json.c"
-        $448 = ($447|0)==(0); //@line 744 "json-parser/json.c"
+        $447 = $flags$1 & 512; //@line 744 "c_src/json.c"
+        $448 = ($447|0)==(0); //@line 744 "c_src/json.c"
         if (!($448)) {
          $$lcssa561 = $41;
          label = 175;
          break L13;
         }
-        $452 = ($num_digits$1|0)==(0); //@line 749 "json-parser/json.c"
-        $453 = ($41|0)==(48); //@line 749 "json-parser/json.c"
-        $or$cond25 = $452 & $453; //@line 749 "json-parser/json.c"
-        $454 = $flags$1 | 512; //@line 750 "json-parser/json.c"
-        $flags$2 = $or$cond25 ? $454 : $flags$1; //@line 749 "json-parser/json.c"
-        $455 = ((($441)) + 8|0); //@line 759 "json-parser/json.c"
-        $456 = $455; //@line 759 "json-parser/json.c"
-        $457 = $456; //@line 759 "json-parser/json.c"
-        $458 = HEAP32[$457>>2]|0; //@line 759 "json-parser/json.c"
-        $459 = (($456) + 4)|0; //@line 759 "json-parser/json.c"
-        $460 = $459; //@line 759 "json-parser/json.c"
-        $461 = HEAP32[$460>>2]|0; //@line 759 "json-parser/json.c"
-        $462 = (___muldi3(($458|0),($461|0),10,0)|0); //@line 759 "json-parser/json.c"
-        $463 = tempRet0; //@line 759 "json-parser/json.c"
-        $464 = ($isdigittmp|0)<(0); //@line 759 "json-parser/json.c"
-        $465 = $464 << 31 >> 31; //@line 759 "json-parser/json.c"
-        $466 = (_i64Add(($462|0),($463|0),($isdigittmp|0),($465|0))|0); //@line 759 "json-parser/json.c"
-        $467 = tempRet0; //@line 759 "json-parser/json.c"
-        $468 = $455; //@line 759 "json-parser/json.c"
-        $469 = $468; //@line 759 "json-parser/json.c"
-        HEAP32[$469>>2] = $466; //@line 759 "json-parser/json.c"
-        $470 = (($468) + 4)|0; //@line 759 "json-parser/json.c"
-        $471 = $470; //@line 759 "json-parser/json.c"
-        HEAP32[$471>>2] = $467; //@line 759 "json-parser/json.c"
+        $452 = ($num_digits$1|0)==(0); //@line 749 "c_src/json.c"
+        $453 = ($41|0)==(48); //@line 749 "c_src/json.c"
+        $or$cond25 = $452 & $453; //@line 749 "c_src/json.c"
+        $454 = $flags$1 | 512; //@line 750 "c_src/json.c"
+        $flags$2 = $or$cond25 ? $454 : $flags$1; //@line 749 "c_src/json.c"
+        $455 = ((($441)) + 8|0); //@line 759 "c_src/json.c"
+        $456 = $455; //@line 759 "c_src/json.c"
+        $457 = $456; //@line 759 "c_src/json.c"
+        $458 = HEAP32[$457>>2]|0; //@line 759 "c_src/json.c"
+        $459 = (($456) + 4)|0; //@line 759 "c_src/json.c"
+        $460 = $459; //@line 759 "c_src/json.c"
+        $461 = HEAP32[$460>>2]|0; //@line 759 "c_src/json.c"
+        $462 = (___muldi3(($458|0),($461|0),10,0)|0); //@line 759 "c_src/json.c"
+        $463 = tempRet0; //@line 759 "c_src/json.c"
+        $464 = ($isdigittmp|0)<(0); //@line 759 "c_src/json.c"
+        $465 = $464 << 31 >> 31; //@line 759 "c_src/json.c"
+        $466 = (_i64Add(($462|0),($463|0),($isdigittmp|0),($465|0))|0); //@line 759 "c_src/json.c"
+        $467 = tempRet0; //@line 759 "c_src/json.c"
+        $468 = $455; //@line 759 "c_src/json.c"
+        $469 = $468; //@line 759 "c_src/json.c"
+        HEAP32[$469>>2] = $466; //@line 759 "c_src/json.c"
+        $470 = (($468) + 4)|0; //@line 759 "c_src/json.c"
+        $471 = $470; //@line 759 "c_src/json.c"
+        HEAP32[$471>>2] = $467; //@line 759 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $flags$2;$num_digits$3 = $440;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
         break L105;
        }
        if ((($41|0) == 45) | (($41|0) == 43)) {
-        $483 = $flags$1 & 3072; //@line 769 "json-parser/json.c"
-        $484 = ($483|0)==(1024); //@line 769 "json-parser/json.c"
+        $483 = $flags$1 & 3072; //@line 769 "c_src/json.c"
+        $484 = ($483|0)==(1024); //@line 769 "c_src/json.c"
         if ($484) {
-         $485 = ($41|0)==(45); //@line 773 "json-parser/json.c"
-         $$$v = $485 ? 6144 : 2048; //@line 773 "json-parser/json.c"
-         $$ = $flags$1 | $$$v; //@line 773 "json-parser/json.c"
+         $485 = ($41|0)==(45); //@line 773 "c_src/json.c"
+         $$$v = $485 ? 6144 : 2048; //@line 773 "c_src/json.c"
+         $$ = $flags$1 | $$$v; //@line 773 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $$;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
        } else if ((($41|0) == 46)) {
-        $486 = HEAP32[$top>>2]|0; //@line 779 "json-parser/json.c"
-        $487 = ((($486)) + 4|0); //@line 779 "json-parser/json.c"
-        $488 = HEAP32[$487>>2]|0; //@line 779 "json-parser/json.c"
-        $489 = ($488|0)==(3); //@line 779 "json-parser/json.c"
+        $486 = HEAP32[$top>>2]|0; //@line 779 "c_src/json.c"
+        $487 = ((($486)) + 4|0); //@line 779 "c_src/json.c"
+        $488 = HEAP32[$487>>2]|0; //@line 779 "c_src/json.c"
+        $489 = ($488|0)==(3); //@line 779 "c_src/json.c"
         if ($489) {
-         $490 = ($num_digits$1|0)==(0); //@line 781 "json-parser/json.c"
+         $490 = ($num_digits$1|0)==(0); //@line 781 "c_src/json.c"
          if ($490) {
           label = 184;
           break L13;
          }
-         HEAP32[$487>>2] = 4; //@line 786 "json-parser/json.c"
-         $494 = HEAP32[$top>>2]|0; //@line 787 "json-parser/json.c"
-         $495 = ((($494)) + 8|0); //@line 787 "json-parser/json.c"
-         $496 = $495; //@line 787 "json-parser/json.c"
-         $497 = $496; //@line 787 "json-parser/json.c"
-         $498 = HEAP32[$497>>2]|0; //@line 787 "json-parser/json.c"
-         $499 = (($496) + 4)|0; //@line 787 "json-parser/json.c"
-         $500 = $499; //@line 787 "json-parser/json.c"
-         $501 = HEAP32[$500>>2]|0; //@line 787 "json-parser/json.c"
-         $502 = (+($498>>>0)) + (4294967296.0*(+($501|0))); //@line 787 "json-parser/json.c"
-         HEAPF64[$495>>3] = $502; //@line 787 "json-parser/json.c"
+         HEAP32[$487>>2] = 4; //@line 786 "c_src/json.c"
+         $494 = HEAP32[$top>>2]|0; //@line 787 "c_src/json.c"
+         $495 = ((($494)) + 8|0); //@line 787 "c_src/json.c"
+         $496 = $495; //@line 787 "c_src/json.c"
+         $497 = $496; //@line 787 "c_src/json.c"
+         $498 = HEAP32[$497>>2]|0; //@line 787 "c_src/json.c"
+         $499 = (($496) + 4)|0; //@line 787 "c_src/json.c"
+         $500 = $499; //@line 787 "c_src/json.c"
+         $501 = HEAP32[$500>>2]|0; //@line 787 "c_src/json.c"
+         $502 = (+($498>>>0)) + (4294967296.0*(+($501|0))); //@line 787 "c_src/json.c"
+         HEAPF64[$495>>3] = $502; //@line 787 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = 0;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
        }
-       $503 = $flags$1 & 1024; //@line 793 "json-parser/json.c"
-       $504 = ($503|0)==(0); //@line 793 "json-parser/json.c"
+       $503 = $flags$1 & 1024; //@line 793 "c_src/json.c"
+       $504 = ($503|0)==(0); //@line 793 "c_src/json.c"
        if ($504) {
-        $505 = HEAP32[$top>>2]|0; //@line 795 "json-parser/json.c"
-        $506 = ((($505)) + 4|0); //@line 795 "json-parser/json.c"
-        $507 = HEAP32[$506>>2]|0; //@line 795 "json-parser/json.c"
-        $508 = ($507|0)==(4); //@line 795 "json-parser/json.c"
+        $505 = HEAP32[$top>>2]|0; //@line 795 "c_src/json.c"
+        $506 = ((($505)) + 4|0); //@line 795 "c_src/json.c"
+        $507 = HEAP32[$506>>2]|0; //@line 795 "c_src/json.c"
+        $508 = ($507|0)==(4); //@line 795 "c_src/json.c"
         if ($508) {
-         $509 = ($num_digits$1|0)==(0); //@line 797 "json-parser/json.c"
+         $509 = ($num_digits$1|0)==(0); //@line 797 "c_src/json.c"
          if ($509) {
           label = 189;
           break L13;
          }
-         $513 = (+($475>>>0)) + (4294967296.0*(+($476|0))); //@line 802 "json-parser/json.c"
-         $514 = (+($num_digits$1|0)); //@line 802 "json-parser/json.c"
-         $515 = (+Math_pow(10.0,(+$514))); //@line 802 "json-parser/json.c"
-         $516 = $513 / $515; //@line 802 "json-parser/json.c"
-         $517 = ((($505)) + 8|0); //@line 802 "json-parser/json.c"
-         $518 = +HEAPF64[$517>>3]; //@line 802 "json-parser/json.c"
-         $519 = $516 + $518; //@line 802 "json-parser/json.c"
-         HEAPF64[$517>>3] = $519; //@line 802 "json-parser/json.c"
+         $513 = (+($475>>>0)) + (4294967296.0*(+($476|0))); //@line 802 "c_src/json.c"
+         $514 = (+($num_digits$1|0)); //@line 802 "c_src/json.c"
+         $515 = (+Math_pow(10.0,(+$514))); //@line 802 "c_src/json.c"
+         $516 = $513 / $515; //@line 802 "c_src/json.c"
+         $517 = ((($505)) + 8|0); //@line 802 "c_src/json.c"
+         $518 = +HEAPF64[$517>>3]; //@line 802 "c_src/json.c"
+         $519 = $516 + $518; //@line 802 "c_src/json.c"
+         HEAPF64[$517>>3] = $519; //@line 802 "c_src/json.c"
         }
         if ((($41|0) == 69) | (($41|0) == 101)) {
-         $520 = HEAP32[$top>>2]|0; //@line 809 "json-parser/json.c"
-         $521 = ((($520)) + 4|0); //@line 809 "json-parser/json.c"
-         $522 = HEAP32[$521>>2]|0; //@line 809 "json-parser/json.c"
-         $523 = ($522|0)==(3); //@line 809 "json-parser/json.c"
+         $520 = HEAP32[$top>>2]|0; //@line 809 "c_src/json.c"
+         $521 = ((($520)) + 4|0); //@line 809 "c_src/json.c"
+         $522 = HEAP32[$521>>2]|0; //@line 809 "c_src/json.c"
+         $523 = ($522|0)==(3); //@line 809 "c_src/json.c"
          if ($523) {
-          HEAP32[$521>>2] = 4; //@line 811 "json-parser/json.c"
-          $524 = HEAP32[$top>>2]|0; //@line 812 "json-parser/json.c"
-          $525 = ((($524)) + 8|0); //@line 812 "json-parser/json.c"
-          $526 = $525; //@line 812 "json-parser/json.c"
-          $527 = $526; //@line 812 "json-parser/json.c"
-          $528 = HEAP32[$527>>2]|0; //@line 812 "json-parser/json.c"
-          $529 = (($526) + 4)|0; //@line 812 "json-parser/json.c"
-          $530 = $529; //@line 812 "json-parser/json.c"
-          $531 = HEAP32[$530>>2]|0; //@line 812 "json-parser/json.c"
-          $532 = (+($528>>>0)) + (4294967296.0*(+($531|0))); //@line 812 "json-parser/json.c"
-          HEAPF64[$525>>3] = $532; //@line 812 "json-parser/json.c"
+          HEAP32[$521>>2] = 4; //@line 811 "c_src/json.c"
+          $524 = HEAP32[$top>>2]|0; //@line 812 "c_src/json.c"
+          $525 = ((($524)) + 8|0); //@line 812 "c_src/json.c"
+          $526 = $525; //@line 812 "c_src/json.c"
+          $527 = $526; //@line 812 "c_src/json.c"
+          $528 = HEAP32[$527>>2]|0; //@line 812 "c_src/json.c"
+          $529 = (($526) + 4)|0; //@line 812 "c_src/json.c"
+          $530 = $529; //@line 812 "c_src/json.c"
+          $531 = HEAP32[$530>>2]|0; //@line 812 "c_src/json.c"
+          $532 = (+($528>>>0)) + (4294967296.0*(+($531|0))); //@line 812 "c_src/json.c"
+          HEAPF64[$525>>3] = $532; //@line 812 "c_src/json.c"
          }
-         $533 = $flags$1 & -1537; //@line 816 "json-parser/json.c"
-         $534 = $533 | 1024; //@line 816 "json-parser/json.c"
+         $533 = $flags$1 & -1537; //@line 816 "c_src/json.c"
+         $534 = $533 | 1024; //@line 816 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $534;$num_digits$3 = 0;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
        } else {
-        $535 = ($num_digits$1|0)==(0); //@line 823 "json-parser/json.c"
+        $535 = ($num_digits$1|0)==(0); //@line 823 "c_src/json.c"
         if ($535) {
          label = 196;
          break L13;
         }
-        $539 = $flags$1 & 4096; //@line 829 "json-parser/json.c"
-        $540 = ($539|0)!=(0); //@line 829 "json-parser/json.c"
-        $541 = (0 - ($num_e$1))|0; //@line 829 "json-parser/json.c"
-        $542 = $540 ? $541 : $num_e$1; //@line 829 "json-parser/json.c"
-        $543 = (+($542|0)); //@line 828 "json-parser/json.c"
-        $544 = (+Math_pow(10.0,(+$543))); //@line 828 "json-parser/json.c"
-        $545 = HEAP32[$top>>2]|0; //@line 828 "json-parser/json.c"
-        $546 = ((($545)) + 8|0); //@line 828 "json-parser/json.c"
-        $547 = +HEAPF64[$546>>3]; //@line 828 "json-parser/json.c"
-        $548 = $544 * $547; //@line 828 "json-parser/json.c"
-        HEAPF64[$546>>3] = $548; //@line 828 "json-parser/json.c"
+        $539 = $flags$1 & 4096; //@line 829 "c_src/json.c"
+        $540 = ($539|0)!=(0); //@line 829 "c_src/json.c"
+        $541 = (0 - ($num_e$1))|0; //@line 829 "c_src/json.c"
+        $542 = $540 ? $541 : $num_e$1; //@line 829 "c_src/json.c"
+        $543 = (+($542|0)); //@line 828 "c_src/json.c"
+        $544 = (+Math_pow(10.0,(+$543))); //@line 828 "c_src/json.c"
+        $545 = HEAP32[$top>>2]|0; //@line 828 "c_src/json.c"
+        $546 = ((($545)) + 8|0); //@line 828 "c_src/json.c"
+        $547 = +HEAPF64[$546>>3]; //@line 828 "c_src/json.c"
+        $548 = $544 * $547; //@line 828 "c_src/json.c"
+        HEAPF64[$546>>3] = $548; //@line 828 "c_src/json.c"
        }
-       $549 = $flags$1 & 256; //@line 832 "json-parser/json.c"
-       $550 = ($549|0)==(0); //@line 832 "json-parser/json.c"
+       $549 = $flags$1 & 256; //@line 832 "c_src/json.c"
+       $550 = ($549|0)==(0); //@line 832 "c_src/json.c"
        do {
         if (!($550)) {
-         $551 = HEAP32[$top>>2]|0; //@line 834 "json-parser/json.c"
-         $552 = ((($551)) + 4|0); //@line 834 "json-parser/json.c"
-         $553 = HEAP32[$552>>2]|0; //@line 834 "json-parser/json.c"
-         $554 = ($553|0)==(3); //@line 834 "json-parser/json.c"
-         $555 = ((($551)) + 8|0); //@line 835 "json-parser/json.c"
+         $551 = HEAP32[$top>>2]|0; //@line 834 "c_src/json.c"
+         $552 = ((($551)) + 4|0); //@line 834 "c_src/json.c"
+         $553 = HEAP32[$552>>2]|0; //@line 834 "c_src/json.c"
+         $554 = ($553|0)==(3); //@line 834 "c_src/json.c"
+         $555 = ((($551)) + 8|0); //@line 835 "c_src/json.c"
          if ($554) {
-          $556 = $555; //@line 835 "json-parser/json.c"
-          $557 = $556; //@line 835 "json-parser/json.c"
-          $558 = HEAP32[$557>>2]|0; //@line 835 "json-parser/json.c"
-          $559 = (($556) + 4)|0; //@line 835 "json-parser/json.c"
-          $560 = $559; //@line 835 "json-parser/json.c"
-          $561 = HEAP32[$560>>2]|0; //@line 835 "json-parser/json.c"
-          $562 = (_i64Subtract(0,0,($558|0),($561|0))|0); //@line 835 "json-parser/json.c"
-          $563 = tempRet0; //@line 835 "json-parser/json.c"
-          $564 = $555; //@line 835 "json-parser/json.c"
-          $565 = $564; //@line 835 "json-parser/json.c"
-          HEAP32[$565>>2] = $562; //@line 835 "json-parser/json.c"
-          $566 = (($564) + 4)|0; //@line 835 "json-parser/json.c"
-          $567 = $566; //@line 835 "json-parser/json.c"
-          HEAP32[$567>>2] = $563; //@line 835 "json-parser/json.c"
+          $556 = $555; //@line 835 "c_src/json.c"
+          $557 = $556; //@line 835 "c_src/json.c"
+          $558 = HEAP32[$557>>2]|0; //@line 835 "c_src/json.c"
+          $559 = (($556) + 4)|0; //@line 835 "c_src/json.c"
+          $560 = $559; //@line 835 "c_src/json.c"
+          $561 = HEAP32[$560>>2]|0; //@line 835 "c_src/json.c"
+          $562 = (_i64Subtract(0,0,($558|0),($561|0))|0); //@line 835 "c_src/json.c"
+          $563 = tempRet0; //@line 835 "c_src/json.c"
+          $564 = $555; //@line 835 "c_src/json.c"
+          $565 = $564; //@line 835 "c_src/json.c"
+          HEAP32[$565>>2] = $562; //@line 835 "c_src/json.c"
+          $566 = (($564) + 4)|0; //@line 835 "c_src/json.c"
+          $567 = $566; //@line 835 "c_src/json.c"
+          HEAP32[$567>>2] = $563; //@line 835 "c_src/json.c"
           break;
          } else {
-          $568 = +HEAPF64[$555>>3]; //@line 837 "json-parser/json.c"
-          $569 = -$568; //@line 837 "json-parser/json.c"
-          HEAPF64[$555>>3] = $569; //@line 837 "json-parser/json.c"
+          $568 = +HEAPF64[$555>>3]; //@line 837 "c_src/json.c"
+          $569 = -$568; //@line 837 "c_src/json.c"
+          HEAPF64[$555>>3] = $569; //@line 837 "c_src/json.c"
           break;
          }
         }
        } while(0);
-       $570 = $flags$1 | 3; //@line 840 "json-parser/json.c"
+       $570 = $flags$1 | 3; //@line 840 "c_src/json.c"
        $647 = $475;$648 = $476;$flags$3 = $570;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
       } else {
        switch ($41|0) {
        case 10:  {
-        $310 = HEAP32[$26>>2]|0; //@line 517 "json-parser/json.c"
-        $311 = (($310) + 1)|0; //@line 517 "json-parser/json.c"
-        HEAP32[$26>>2] = $311; //@line 517 "json-parser/json.c"
-        HEAP32[$33>>2] = 0; //@line 517 "json-parser/json.c"
+        $310 = HEAP32[$26>>2]|0; //@line 517 "c_src/json.c"
+        $311 = (($310) + 1)|0; //@line 517 "c_src/json.c"
+        HEAP32[$26>>2] = $311; //@line 517 "c_src/json.c"
+        HEAP32[$33>>2] = 0; //@line 517 "c_src/json.c"
         $643 = $475;$644 = $476;$flags$6 = $flags$1;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
         break L105;
         break;
        }
        case 93:  {
-        $312 = HEAP32[$top>>2]|0; //@line 522 "json-parser/json.c"
-        $313 = ($312|0)==(0|0); //@line 522 "json-parser/json.c"
+        $312 = HEAP32[$top>>2]|0; //@line 522 "c_src/json.c"
+        $313 = ($312|0)==(0|0); //@line 522 "c_src/json.c"
         if ($313) {
          label = 115;
          break L13;
         }
-        $314 = ((($312)) + 4|0); //@line 522 "json-parser/json.c"
-        $315 = HEAP32[$314>>2]|0; //@line 522 "json-parser/json.c"
-        $316 = ($315|0)==(2); //@line 522 "json-parser/json.c"
+        $314 = ((($312)) + 4|0); //@line 522 "c_src/json.c"
+        $315 = HEAP32[$314>>2]|0; //@line 522 "c_src/json.c"
+        $316 = ($315|0)==(2); //@line 522 "c_src/json.c"
         if (!($316)) {
          label = 115;
          break L13;
         }
-        $317 = $flags$1 & -14; //@line 523 "json-parser/json.c"
-        $318 = $317 | 1; //@line 523 "json-parser/json.c"
+        $317 = $flags$1 & -14; //@line 523 "c_src/json.c"
+        $318 = $317 | 1; //@line 523 "c_src/json.c"
         $647 = $475;$648 = $476;$flags$3 = $318;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
         break L137;
         break;
@@ -9469,37 +9329,37 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
         break;
        }
        default: {
-        $322 = $flags$1 & 4; //@line 533 "json-parser/json.c"
-        $323 = ($322|0)==(0); //@line 533 "json-parser/json.c"
+        $322 = $flags$1 & 4; //@line 533 "c_src/json.c"
+        $323 = ($322|0)==(0); //@line 533 "c_src/json.c"
         if (!($323)) {
-         $324 = ($41|0)==(44); //@line 535 "json-parser/json.c"
+         $324 = ($41|0)==(44); //@line 535 "c_src/json.c"
          if (!($324)) {
           $$lcssa553 = $41;
           label = 119;
           break L13;
          }
-         $325 = $flags$1 & -5; //@line 536 "json-parser/json.c"
+         $325 = $flags$1 & -5; //@line 536 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $325;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
-        $329 = $flags$1 & 64; //@line 548 "json-parser/json.c"
-        $330 = ($329|0)==(0); //@line 548 "json-parser/json.c"
+        $329 = $flags$1 & 64; //@line 548 "c_src/json.c"
+        $330 = ($329|0)==(0); //@line 548 "c_src/json.c"
         if (!($330)) {
-         $331 = ($41|0)==(58); //@line 550 "json-parser/json.c"
+         $331 = ($41|0)==(58); //@line 550 "c_src/json.c"
          if (!($331)) {
           $$lcssa554 = $41;
           label = 123;
           break L13;
          }
-         $332 = $flags$1 & -65; //@line 551 "json-parser/json.c"
+         $332 = $flags$1 & -65; //@line 551 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $332;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
         }
-        $336 = $flags$1 & -9; //@line 563 "json-parser/json.c"
+        $336 = $flags$1 & -9; //@line 563 "c_src/json.c"
         switch ($41|0) {
         case 123:  {
-         $337 = (_new_value($state,$top,$root,$alloc,1)|0); //@line 569 "json-parser/json.c"
-         $338 = ($337|0)==(0); //@line 569 "json-parser/json.c"
+         $337 = (_new_value($state,$top,$root,$alloc,1)|0); //@line 569 "c_src/json.c"
+         $338 = ($337|0)==(0); //@line 569 "c_src/json.c"
          if ($338) {
           label = 218;
           break L13;
@@ -9510,212 +9370,212 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
          break;
         }
         case 91:  {
-         $339 = (_new_value($state,$top,$root,$alloc,2)|0); //@line 576 "json-parser/json.c"
-         $340 = ($339|0)==(0); //@line 576 "json-parser/json.c"
+         $339 = (_new_value($state,$top,$root,$alloc,2)|0); //@line 576 "c_src/json.c"
+         $340 = ($339|0)==(0); //@line 576 "c_src/json.c"
          if ($340) {
           label = 218;
           break L13;
          }
-         $341 = $flags$1 | 8; //@line 579 "json-parser/json.c"
+         $341 = $flags$1 | 8; //@line 579 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $341;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$1;$string_length$2 = $string_length$0;
          break L105;
          break;
         }
         case 34:  {
-         $342 = (_new_value($state,$top,$root,$alloc,5)|0); //@line 584 "json-parser/json.c"
-         $343 = ($342|0)==(0); //@line 584 "json-parser/json.c"
+         $342 = (_new_value($state,$top,$root,$alloc,5)|0); //@line 584 "c_src/json.c"
+         $343 = ($342|0)==(0); //@line 584 "c_src/json.c"
          if ($343) {
           label = 218;
           break L13;
          }
-         $344 = $336 | 32; //@line 587 "json-parser/json.c"
-         $345 = HEAP32[$top>>2]|0; //@line 589 "json-parser/json.c"
-         $346 = ((($345)) + 8|0); //@line 589 "json-parser/json.c"
-         $347 = ((($346)) + 4|0); //@line 589 "json-parser/json.c"
-         $348 = HEAP32[$347>>2]|0; //@line 589 "json-parser/json.c"
+         $344 = $336 | 32; //@line 587 "c_src/json.c"
+         $345 = HEAP32[$top>>2]|0; //@line 589 "c_src/json.c"
+         $346 = ((($345)) + 8|0); //@line 589 "c_src/json.c"
+         $347 = ((($346)) + 4|0); //@line 589 "c_src/json.c"
+         $348 = HEAP32[$347>>2]|0; //@line 589 "c_src/json.c"
          $643 = $475;$644 = $476;$flags$6 = $344;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $348;$string_length$2 = 0;
          break L105;
          break;
         }
         case 102:  {
-         $367 = HEAP32[$27>>2]|0; //@line 612 "json-parser/json.c"
-         $368 = $367; //@line 612 "json-parser/json.c"
-         $369 = (($31) - ($368))|0; //@line 612 "json-parser/json.c"
-         $370 = ($369|0)<(4); //@line 612 "json-parser/json.c"
+         $367 = HEAP32[$27>>2]|0; //@line 612 "c_src/json.c"
+         $368 = $367; //@line 612 "c_src/json.c"
+         $369 = (($31) - ($368))|0; //@line 612 "c_src/json.c"
+         $370 = ($369|0)<(4); //@line 612 "c_src/json.c"
          if ($370) {
           label = 217;
           break L13;
          }
-         $371 = ((($367)) + 1|0); //@line 612 "json-parser/json.c"
-         HEAP32[$27>>2] = $371; //@line 612 "json-parser/json.c"
-         $372 = HEAP8[$371>>0]|0; //@line 612 "json-parser/json.c"
-         $373 = ($372<<24>>24)==(97); //@line 612 "json-parser/json.c"
+         $371 = ((($367)) + 1|0); //@line 612 "c_src/json.c"
+         HEAP32[$27>>2] = $371; //@line 612 "c_src/json.c"
+         $372 = HEAP8[$371>>0]|0; //@line 612 "c_src/json.c"
+         $373 = ($372<<24>>24)==(97); //@line 612 "c_src/json.c"
          if (!($373)) {
           label = 217;
           break L13;
          }
-         $374 = ((($367)) + 2|0); //@line 613 "json-parser/json.c"
-         HEAP32[$27>>2] = $374; //@line 613 "json-parser/json.c"
-         $375 = HEAP8[$374>>0]|0; //@line 613 "json-parser/json.c"
-         $376 = ($375<<24>>24)==(108); //@line 613 "json-parser/json.c"
+         $374 = ((($367)) + 2|0); //@line 613 "c_src/json.c"
+         HEAP32[$27>>2] = $374; //@line 613 "c_src/json.c"
+         $375 = HEAP8[$374>>0]|0; //@line 613 "c_src/json.c"
+         $376 = ($375<<24>>24)==(108); //@line 613 "c_src/json.c"
          if (!($376)) {
           label = 217;
           break L13;
          }
-         $377 = ((($367)) + 3|0); //@line 613 "json-parser/json.c"
-         HEAP32[$27>>2] = $377; //@line 613 "json-parser/json.c"
-         $378 = HEAP8[$377>>0]|0; //@line 613 "json-parser/json.c"
-         $379 = ($378<<24>>24)==(115); //@line 613 "json-parser/json.c"
+         $377 = ((($367)) + 3|0); //@line 613 "c_src/json.c"
+         HEAP32[$27>>2] = $377; //@line 613 "c_src/json.c"
+         $378 = HEAP8[$377>>0]|0; //@line 613 "c_src/json.c"
+         $379 = ($378<<24>>24)==(115); //@line 613 "c_src/json.c"
          if (!($379)) {
           label = 217;
           break L13;
          }
-         $380 = ((($367)) + 4|0); //@line 614 "json-parser/json.c"
-         HEAP32[$27>>2] = $380; //@line 614 "json-parser/json.c"
-         $381 = HEAP8[$380>>0]|0; //@line 614 "json-parser/json.c"
-         $382 = ($381<<24>>24)==(101); //@line 614 "json-parser/json.c"
+         $380 = ((($367)) + 4|0); //@line 614 "c_src/json.c"
+         HEAP32[$27>>2] = $380; //@line 614 "c_src/json.c"
+         $381 = HEAP8[$380>>0]|0; //@line 614 "c_src/json.c"
+         $382 = ($381<<24>>24)==(101); //@line 614 "c_src/json.c"
          if (!($382)) {
           label = 217;
           break L13;
          }
-         $383 = (_new_value($state,$top,$root,$alloc,6)|0); //@line 619 "json-parser/json.c"
-         $384 = ($383|0)==(0); //@line 619 "json-parser/json.c"
+         $383 = (_new_value($state,$top,$root,$alloc,6)|0); //@line 619 "c_src/json.c"
+         $384 = ($383|0)==(0); //@line 619 "c_src/json.c"
          if ($384) {
           label = 218;
           break L13;
          }
-         $385 = $336 | 1; //@line 622 "json-parser/json.c"
+         $385 = $336 | 1; //@line 622 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $385;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
          break L137;
          break;
         }
         case 116:  {
-         $349 = HEAP32[$27>>2]|0; //@line 596 "json-parser/json.c"
-         $350 = $349; //@line 596 "json-parser/json.c"
-         $351 = (($30) - ($350))|0; //@line 596 "json-parser/json.c"
-         $352 = ($351|0)<(3); //@line 596 "json-parser/json.c"
+         $349 = HEAP32[$27>>2]|0; //@line 596 "c_src/json.c"
+         $350 = $349; //@line 596 "c_src/json.c"
+         $351 = (($30) - ($350))|0; //@line 596 "c_src/json.c"
+         $352 = ($351|0)<(3); //@line 596 "c_src/json.c"
          if ($352) {
           label = 217;
           break L13;
          }
-         $353 = ((($349)) + 1|0); //@line 596 "json-parser/json.c"
-         HEAP32[$27>>2] = $353; //@line 596 "json-parser/json.c"
-         $354 = HEAP8[$353>>0]|0; //@line 596 "json-parser/json.c"
-         $355 = ($354<<24>>24)==(114); //@line 596 "json-parser/json.c"
+         $353 = ((($349)) + 1|0); //@line 596 "c_src/json.c"
+         HEAP32[$27>>2] = $353; //@line 596 "c_src/json.c"
+         $354 = HEAP8[$353>>0]|0; //@line 596 "c_src/json.c"
+         $355 = ($354<<24>>24)==(114); //@line 596 "c_src/json.c"
          if (!($355)) {
           label = 217;
           break L13;
          }
-         $356 = ((($349)) + 2|0); //@line 597 "json-parser/json.c"
-         HEAP32[$27>>2] = $356; //@line 597 "json-parser/json.c"
-         $357 = HEAP8[$356>>0]|0; //@line 597 "json-parser/json.c"
-         $358 = ($357<<24>>24)==(117); //@line 597 "json-parser/json.c"
+         $356 = ((($349)) + 2|0); //@line 597 "c_src/json.c"
+         HEAP32[$27>>2] = $356; //@line 597 "c_src/json.c"
+         $357 = HEAP8[$356>>0]|0; //@line 597 "c_src/json.c"
+         $358 = ($357<<24>>24)==(117); //@line 597 "c_src/json.c"
          if (!($358)) {
           label = 217;
           break L13;
          }
-         $359 = ((($349)) + 3|0); //@line 597 "json-parser/json.c"
-         HEAP32[$27>>2] = $359; //@line 597 "json-parser/json.c"
-         $360 = HEAP8[$359>>0]|0; //@line 597 "json-parser/json.c"
-         $361 = ($360<<24>>24)==(101); //@line 597 "json-parser/json.c"
+         $359 = ((($349)) + 3|0); //@line 597 "c_src/json.c"
+         HEAP32[$27>>2] = $359; //@line 597 "c_src/json.c"
+         $360 = HEAP8[$359>>0]|0; //@line 597 "c_src/json.c"
+         $361 = ($360<<24>>24)==(101); //@line 597 "c_src/json.c"
          if (!($361)) {
           label = 217;
           break L13;
          }
-         $362 = (_new_value($state,$top,$root,$alloc,6)|0); //@line 602 "json-parser/json.c"
-         $363 = ($362|0)==(0); //@line 602 "json-parser/json.c"
+         $362 = (_new_value($state,$top,$root,$alloc,6)|0); //@line 602 "c_src/json.c"
+         $363 = ($362|0)==(0); //@line 602 "c_src/json.c"
          if ($363) {
           label = 218;
           break L13;
          }
-         $364 = HEAP32[$top>>2]|0; //@line 605 "json-parser/json.c"
-         $365 = ((($364)) + 8|0); //@line 605 "json-parser/json.c"
-         HEAP32[$365>>2] = 1; //@line 605 "json-parser/json.c"
-         $366 = $336 | 1; //@line 607 "json-parser/json.c"
+         $364 = HEAP32[$top>>2]|0; //@line 605 "c_src/json.c"
+         $365 = ((($364)) + 8|0); //@line 605 "c_src/json.c"
+         HEAP32[$365>>2] = 1; //@line 605 "c_src/json.c"
+         $366 = $336 | 1; //@line 607 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $366;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
          break L137;
          break;
         }
         case 110:  {
-         $386 = HEAP32[$27>>2]|0; //@line 627 "json-parser/json.c"
-         $387 = $386; //@line 627 "json-parser/json.c"
-         $388 = (($32) - ($387))|0; //@line 627 "json-parser/json.c"
-         $389 = ($388|0)<(3); //@line 627 "json-parser/json.c"
+         $386 = HEAP32[$27>>2]|0; //@line 627 "c_src/json.c"
+         $387 = $386; //@line 627 "c_src/json.c"
+         $388 = (($32) - ($387))|0; //@line 627 "c_src/json.c"
+         $389 = ($388|0)<(3); //@line 627 "c_src/json.c"
          if ($389) {
           label = 217;
           break L13;
          }
-         $390 = ((($386)) + 1|0); //@line 627 "json-parser/json.c"
-         HEAP32[$27>>2] = $390; //@line 627 "json-parser/json.c"
-         $391 = HEAP8[$390>>0]|0; //@line 627 "json-parser/json.c"
-         $392 = ($391<<24>>24)==(117); //@line 627 "json-parser/json.c"
+         $390 = ((($386)) + 1|0); //@line 627 "c_src/json.c"
+         HEAP32[$27>>2] = $390; //@line 627 "c_src/json.c"
+         $391 = HEAP8[$390>>0]|0; //@line 627 "c_src/json.c"
+         $392 = ($391<<24>>24)==(117); //@line 627 "c_src/json.c"
          if (!($392)) {
           label = 217;
           break L13;
          }
-         $393 = ((($386)) + 2|0); //@line 628 "json-parser/json.c"
-         HEAP32[$27>>2] = $393; //@line 628 "json-parser/json.c"
-         $394 = HEAP8[$393>>0]|0; //@line 628 "json-parser/json.c"
-         $395 = ($394<<24>>24)==(108); //@line 628 "json-parser/json.c"
+         $393 = ((($386)) + 2|0); //@line 628 "c_src/json.c"
+         HEAP32[$27>>2] = $393; //@line 628 "c_src/json.c"
+         $394 = HEAP8[$393>>0]|0; //@line 628 "c_src/json.c"
+         $395 = ($394<<24>>24)==(108); //@line 628 "c_src/json.c"
          if (!($395)) {
           label = 217;
           break L13;
          }
-         $396 = ((($386)) + 3|0); //@line 628 "json-parser/json.c"
-         HEAP32[$27>>2] = $396; //@line 628 "json-parser/json.c"
-         $397 = HEAP8[$396>>0]|0; //@line 628 "json-parser/json.c"
-         $398 = ($397<<24>>24)==(108); //@line 628 "json-parser/json.c"
+         $396 = ((($386)) + 3|0); //@line 628 "c_src/json.c"
+         HEAP32[$27>>2] = $396; //@line 628 "c_src/json.c"
+         $397 = HEAP8[$396>>0]|0; //@line 628 "c_src/json.c"
+         $398 = ($397<<24>>24)==(108); //@line 628 "c_src/json.c"
          if (!($398)) {
           label = 217;
           break L13;
          }
-         $399 = (_new_value($state,$top,$root,$alloc,7)|0); //@line 633 "json-parser/json.c"
-         $400 = ($399|0)==(0); //@line 633 "json-parser/json.c"
+         $399 = (_new_value($state,$top,$root,$alloc,7)|0); //@line 633 "c_src/json.c"
+         $400 = ($399|0)==(0); //@line 633 "c_src/json.c"
          if ($400) {
           label = 218;
           break L13;
          }
-         $401 = $336 | 1; //@line 636 "json-parser/json.c"
+         $401 = $336 | 1; //@line 636 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $401;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
          break L137;
          break;
         }
         default: {
-         $isdigittmp9 = (($41) + -48)|0; //@line 641 "json-parser/json.c"
-         $isdigit10 = ($isdigittmp9>>>0)<(10); //@line 641 "json-parser/json.c"
-         $402 = ($41|0)==(45); //@line 641 "json-parser/json.c"
-         $or$cond17 = $402 | $isdigit10; //@line 641 "json-parser/json.c"
+         $isdigittmp9 = (($41) + -48)|0; //@line 641 "c_src/json.c"
+         $isdigit10 = ($isdigittmp9>>>0)<(10); //@line 641 "c_src/json.c"
+         $402 = ($41|0)==(45); //@line 641 "c_src/json.c"
+         $or$cond17 = $402 | $isdigit10; //@line 641 "c_src/json.c"
          if (!($or$cond17)) {
           $$lcssa557 = $41;
           label = 160;
           break L13;
          }
-         $403 = (_new_value($state,$top,$root,$alloc,3)|0); //@line 643 "json-parser/json.c"
-         $404 = ($403|0)==(0); //@line 643 "json-parser/json.c"
+         $403 = (_new_value($state,$top,$root,$alloc,3)|0); //@line 643 "c_src/json.c"
+         $404 = ($403|0)==(0); //@line 643 "c_src/json.c"
          if ($404) {
           label = 218;
           break L13;
          }
-         $405 = HEAP32[$25>>2]|0; //@line 646 "json-parser/json.c"
-         $406 = ($405|0)==(0); //@line 646 "json-parser/json.c"
+         $405 = HEAP32[$25>>2]|0; //@line 646 "c_src/json.c"
+         $406 = ($405|0)==(0); //@line 646 "c_src/json.c"
          if ($406) {
           $b$0 = $40;
          } else {
-          $413 = $flags$1 & -7945; //@line 664 "json-parser/json.c"
+          $413 = $flags$1 & -7945; //@line 664 "c_src/json.c"
           if ($402) {
-           $415 = $413 | 256; //@line 678 "json-parser/json.c"
+           $415 = $413 | 256; //@line 678 "c_src/json.c"
            $643 = 0;$644 = 0;$flags$6 = $415;$num_digits$3 = 0;$num_e$3 = 0;$string$3 = $string$1;$string_length$2 = $string_length$0;
            break L105;
           } else {
-           $414 = $413 | 2; //@line 674 "json-parser/json.c"
+           $414 = $413 | 2; //@line 674 "c_src/json.c"
            $647 = 0;$648 = 0;$flags$3 = $414;$num_digits$2 = 0;$num_e$2 = 0;$string$2 = $string$1;$string_length$1 = $string_length$0;
            break L137;
           }
          }
          L186: while(1) {
-          $407 = $b$0 << 24 >> 24; //@line 648 "json-parser/json.c"
-          $isdigittmp11 = (($407) + -48)|0; //@line 648 "json-parser/json.c"
-          $isdigit12 = ($isdigittmp11>>>0)<(10); //@line 648 "json-parser/json.c"
+          $407 = $b$0 << 24 >> 24; //@line 648 "c_src/json.c"
+          $isdigittmp11 = (($407) + -48)|0; //@line 648 "c_src/json.c"
+          $isdigit12 = ($isdigittmp11>>>0)<(10); //@line 648 "c_src/json.c"
           if (!($isdigit12)) {
            switch ($b$0<<24>>24) {
            case 43: case 45: case 46: case 69: case 101:  {
@@ -9726,17 +9586,17 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
            }
            }
           }
-          $408 = HEAP32[$27>>2]|0; //@line 651 "json-parser/json.c"
-          $409 = ((($408)) + 1|0); //@line 651 "json-parser/json.c"
-          HEAP32[$27>>2] = $409; //@line 651 "json-parser/json.c"
-          $410 = ($409|0)==($11|0); //@line 651 "json-parser/json.c"
+          $408 = HEAP32[$27>>2]|0; //@line 651 "c_src/json.c"
+          $409 = ((($408)) + 1|0); //@line 651 "c_src/json.c"
+          HEAP32[$27>>2] = $409; //@line 651 "c_src/json.c"
+          $410 = ($409|0)==($11|0); //@line 651 "c_src/json.c"
           if ($410) {
            break;
           }
-          $411 = HEAP8[$409>>0]|0; //@line 657 "json-parser/json.c"
+          $411 = HEAP8[$409>>0]|0; //@line 657 "c_src/json.c"
           $b$0 = $411;
          }
-         $412 = $336 | 3; //@line 660 "json-parser/json.c"
+         $412 = $336 | 3; //@line 660 "c_src/json.c"
          $647 = $475;$648 = $476;$flags$3 = $412;$num_digits$2 = $num_digits$1;$num_e$2 = $num_e$1;$string$2 = $string$1;$string_length$1 = $string_length$0;
          break L137;
         }
@@ -9745,90 +9605,90 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
        }
       }
      } while(0);
-     $571 = $flags$3 & 2; //@line 848 "json-parser/json.c"
-     $572 = ($571|0)==(0); //@line 848 "json-parser/json.c"
+     $571 = $flags$3 & 2; //@line 848 "c_src/json.c"
+     $572 = ($571|0)==(0); //@line 848 "c_src/json.c"
      if ($572) {
       $flags$4 = $flags$3;
      } else {
-      $573 = $flags$3 & -3; //@line 850 "json-parser/json.c"
-      $574 = HEAP32[$27>>2]|0; //@line 851 "json-parser/json.c"
-      $575 = ((($574)) + -1|0); //@line 851 "json-parser/json.c"
-      HEAP32[$27>>2] = $575; //@line 851 "json-parser/json.c"
+      $573 = $flags$3 & -3; //@line 850 "c_src/json.c"
+      $574 = HEAP32[$27>>2]|0; //@line 851 "c_src/json.c"
+      $575 = ((($574)) + -1|0); //@line 851 "c_src/json.c"
+      HEAP32[$27>>2] = $575; //@line 851 "c_src/json.c"
       $flags$4 = $573;
      }
-     $576 = $flags$4 & 1; //@line 854 "json-parser/json.c"
-     $577 = ($576|0)==(0); //@line 854 "json-parser/json.c"
+     $576 = $flags$4 & 1; //@line 854 "c_src/json.c"
+     $577 = ($576|0)==(0); //@line 854 "c_src/json.c"
      if ($577) {
       $643 = $647;$644 = $648;$flags$6 = $flags$4;$num_digits$3 = $num_digits$2;$num_e$3 = $num_e$2;$string$3 = $string$2;$string_length$2 = $string_length$1;
      } else {
-      $578 = $flags$4 & -6; //@line 856 "json-parser/json.c"
-      $579 = HEAP32[$top>>2]|0; //@line 858 "json-parser/json.c"
-      $580 = HEAP32[$579>>2]|0; //@line 858 "json-parser/json.c"
-      $581 = ($580|0)==(0|0); //@line 858 "json-parser/json.c"
+      $578 = $flags$4 & -6; //@line 856 "c_src/json.c"
+      $579 = HEAP32[$top>>2]|0; //@line 858 "c_src/json.c"
+      $580 = HEAP32[$579>>2]|0; //@line 858 "c_src/json.c"
+      $581 = ($580|0)==(0|0); //@line 858 "c_src/json.c"
       if ($581) {
-       $582 = $578 | 132; //@line 862 "json-parser/json.c"
+       $582 = $578 | 132; //@line 862 "c_src/json.c"
        $643 = $647;$644 = $648;$flags$6 = $582;$num_digits$3 = $num_digits$2;$num_e$3 = $num_e$2;$string$3 = $string$2;$string_length$2 = $string_length$1;
        break;
       }
-      $583 = ((($580)) + 4|0); //@line 866 "json-parser/json.c"
-      $584 = HEAP32[$583>>2]|0; //@line 866 "json-parser/json.c"
-      $585 = ($584|0)==(2); //@line 866 "json-parser/json.c"
-      $$28$v = $585 ? 12 : 4; //@line 866 "json-parser/json.c"
-      $$28 = $$28$v | $578; //@line 866 "json-parser/json.c"
-      $586 = HEAP32[$25>>2]|0; //@line 869 "json-parser/json.c"
-      $587 = ($586|0)==(0); //@line 869 "json-parser/json.c"
+      $583 = ((($580)) + 4|0); //@line 866 "c_src/json.c"
+      $584 = HEAP32[$583>>2]|0; //@line 866 "c_src/json.c"
+      $585 = ($584|0)==(2); //@line 866 "c_src/json.c"
+      $$28$v = $585 ? 12 : 4; //@line 866 "c_src/json.c"
+      $$28 = $$28$v | $578; //@line 866 "c_src/json.c"
+      $586 = HEAP32[$25>>2]|0; //@line 869 "c_src/json.c"
+      $587 = ($586|0)==(0); //@line 869 "c_src/json.c"
       do {
        if ($587) {
         if ((($584|0) == 1)) {
-         $588 = ((($580)) + 8|0); //@line 878 "json-parser/json.c"
-         $589 = HEAP32[$588>>2]|0; //@line 878 "json-parser/json.c"
-         $590 = ((($588)) + 4|0); //@line 877 "json-parser/json.c"
-         $591 = HEAP32[$590>>2]|0; //@line 877 "json-parser/json.c"
-         $592 = (((($591) + (($589*12)|0)|0)) + 8|0); //@line 878 "json-parser/json.c"
-         HEAP32[$592>>2] = $579; //@line 878 "json-parser/json.c"
+         $588 = ((($580)) + 8|0); //@line 878 "c_src/json.c"
+         $589 = HEAP32[$588>>2]|0; //@line 878 "c_src/json.c"
+         $590 = ((($588)) + 4|0); //@line 877 "c_src/json.c"
+         $591 = HEAP32[$590>>2]|0; //@line 877 "c_src/json.c"
+         $592 = (((($591) + (($589*12)|0)|0)) + 8|0); //@line 878 "c_src/json.c"
+         HEAP32[$592>>2] = $579; //@line 878 "c_src/json.c"
          break;
         } else if ((($584|0) == 2)) {
-         $593 = ((($580)) + 8|0); //@line 885 "json-parser/json.c"
-         $594 = HEAP32[$593>>2]|0; //@line 885 "json-parser/json.c"
-         $595 = ((($593)) + 4|0); //@line 884 "json-parser/json.c"
-         $596 = HEAP32[$595>>2]|0; //@line 884 "json-parser/json.c"
-         $597 = (($596) + ($594<<2)|0); //@line 884 "json-parser/json.c"
-         HEAP32[$597>>2] = $579; //@line 885 "json-parser/json.c"
+         $593 = ((($580)) + 8|0); //@line 885 "c_src/json.c"
+         $594 = HEAP32[$593>>2]|0; //@line 885 "c_src/json.c"
+         $595 = ((($593)) + 4|0); //@line 884 "c_src/json.c"
+         $596 = HEAP32[$595>>2]|0; //@line 884 "c_src/json.c"
+         $597 = (($596) + ($594<<2)|0); //@line 884 "c_src/json.c"
+         HEAP32[$597>>2] = $579; //@line 885 "c_src/json.c"
          break;
         } else {
          break;
         }
        }
       } while(0);
-      $598 = HEAP32[$top>>2]|0; //@line 894 "json-parser/json.c"
-      $599 = HEAP32[$598>>2]|0; //@line 894 "json-parser/json.c"
-      $600 = ((($599)) + 8|0); //@line 894 "json-parser/json.c"
-      $601 = HEAP32[$600>>2]|0; //@line 894 "json-parser/json.c"
-      $602 = (($601) + 1)|0; //@line 894 "json-parser/json.c"
-      HEAP32[$600>>2] = $602; //@line 894 "json-parser/json.c"
-      $603 = HEAP32[$19>>2]|0; //@line 894 "json-parser/json.c"
-      $604 = ($602>>>0)>($603>>>0); //@line 894 "json-parser/json.c"
+      $598 = HEAP32[$top>>2]|0; //@line 894 "c_src/json.c"
+      $599 = HEAP32[$598>>2]|0; //@line 894 "c_src/json.c"
+      $600 = ((($599)) + 8|0); //@line 894 "c_src/json.c"
+      $601 = HEAP32[$600>>2]|0; //@line 894 "c_src/json.c"
+      $602 = (($601) + 1)|0; //@line 894 "c_src/json.c"
+      HEAP32[$600>>2] = $602; //@line 894 "c_src/json.c"
+      $603 = HEAP32[$19>>2]|0; //@line 894 "c_src/json.c"
+      $604 = ($602>>>0)>($603>>>0); //@line 894 "c_src/json.c"
       if ($604) {
        label = 219;
        break L13;
       }
-      $605 = HEAP32[$top>>2]|0; //@line 897 "json-parser/json.c"
-      $606 = HEAP32[$605>>2]|0; //@line 897 "json-parser/json.c"
-      HEAP32[$top>>2] = $606; //@line 897 "json-parser/json.c"
+      $605 = HEAP32[$top>>2]|0; //@line 897 "c_src/json.c"
+      $606 = HEAP32[$605>>2]|0; //@line 897 "c_src/json.c"
+      HEAP32[$top>>2] = $606; //@line 897 "c_src/json.c"
       $643 = $647;$644 = $648;$flags$6 = $$28;$num_digits$3 = $num_digits$2;$num_e$3 = $num_e$2;$string$3 = $string$2;$string_length$2 = $string_length$1;
      }
     }
    } while(0);
-   $607 = HEAP32[$27>>2]|0; //@line 273 "json-parser/json.c"
-   $608 = ((($607)) + 1|0); //@line 273 "json-parser/json.c"
+   $607 = HEAP32[$27>>2]|0; //@line 273 "c_src/json.c"
+   $608 = ((($607)) + 1|0); //@line 273 "c_src/json.c"
    $475 = $643;$476 = $644;$flags$0 = $flags$6;$num_digits$1 = $num_digits$3;$num_e$1 = $num_e$3;$storemerge8 = $608;$string$0 = $string$3;$string_length$0 = $string_length$2;
   }
-  $609 = HEAP32[$root>>2]|0; //@line 903 "json-parser/json.c"
-  HEAP32[$alloc>>2] = $609; //@line 903 "json-parser/json.c"
-  $610 = HEAP32[$25>>2]|0; //@line 261 "json-parser/json.c"
-  $611 = (($610) + -1)|0; //@line 261 "json-parser/json.c"
-  HEAP32[$25>>2] = $611; //@line 261 "json-parser/json.c"
-  $612 = ($610|0)>(0); //@line 261 "json-parser/json.c"
+  $609 = HEAP32[$root>>2]|0; //@line 903 "c_src/json.c"
+  HEAP32[$alloc>>2] = $609; //@line 903 "c_src/json.c"
+  $610 = HEAP32[$25>>2]|0; //@line 261 "c_src/json.c"
+  $611 = (($610) + -1)|0; //@line 261 "c_src/json.c"
+  HEAP32[$25>>2] = $611; //@line 261 "c_src/json.c"
+  $612 = ($610|0)>(0); //@line 261 "c_src/json.c"
   if ($612) {
    $641 = $645;$642 = $646;$num_digits$0141 = $num_digits$1$lcssa487;$num_e$0142 = $num_e$1$lcssa508;
   } else {
@@ -9838,275 +9698,275 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
  }
  switch (label|0) {
   case 16: {
-   $45 = HEAP32[$26>>2]|0; //@line 280 "json-parser/json.c"
-   $46 = ((($state)) + 48|0); //@line 280 "json-parser/json.c"
-   $47 = HEAP32[$46>>2]|0; //@line 280 "json-parser/json.c"
-   HEAP32[$vararg_buffer>>2] = $45; //@line 280 "json-parser/json.c"
-   $vararg_ptr1 = ((($vararg_buffer)) + 4|0); //@line 280 "json-parser/json.c"
-   HEAP32[$vararg_ptr1>>2] = $47; //@line 280 "json-parser/json.c"
-   (_sprintf($error,632,$vararg_buffer)|0); //@line 280 "json-parser/json.c"
+   $45 = HEAP32[$26>>2]|0; //@line 280 "c_src/json.c"
+   $46 = ((($state)) + 48|0); //@line 280 "c_src/json.c"
+   $47 = HEAP32[$46>>2]|0; //@line 280 "c_src/json.c"
+   HEAP32[$vararg_buffer>>2] = $45; //@line 280 "c_src/json.c"
+   $vararg_ptr1 = ((($vararg_buffer)) + 4|0); //@line 280 "c_src/json.c"
+   HEAP32[$vararg_ptr1>>2] = $47; //@line 280 "c_src/json.c"
+   (_sprintf($error,632,$vararg_buffer)|0); //@line 280 "c_src/json.c"
    break;
   }
   case 40: {
-   $96 = HEAP32[$26>>2]|0; //@line 306 "json-parser/json.c"
-   $97 = ((($state)) + 48|0); //@line 306 "json-parser/json.c"
-   $98 = HEAP32[$97>>2]|0; //@line 306 "json-parser/json.c"
-   HEAP32[$vararg_buffer2>>2] = $$lcssa544; //@line 306 "json-parser/json.c"
-   $vararg_ptr5 = ((($vararg_buffer2)) + 4|0); //@line 306 "json-parser/json.c"
-   HEAP32[$vararg_ptr5>>2] = $96; //@line 306 "json-parser/json.c"
-   $vararg_ptr6 = ((($vararg_buffer2)) + 8|0); //@line 306 "json-parser/json.c"
-   HEAP32[$vararg_ptr6>>2] = $98; //@line 306 "json-parser/json.c"
-   (_sprintf($error,672,$vararg_buffer2)|0); //@line 306 "json-parser/json.c"
+   $96 = HEAP32[$26>>2]|0; //@line 306 "c_src/json.c"
+   $97 = ((($state)) + 48|0); //@line 306 "c_src/json.c"
+   $98 = HEAP32[$97>>2]|0; //@line 306 "c_src/json.c"
+   HEAP32[$vararg_buffer2>>2] = $$lcssa544; //@line 306 "c_src/json.c"
+   $vararg_ptr5 = ((($vararg_buffer2)) + 4|0); //@line 306 "c_src/json.c"
+   HEAP32[$vararg_ptr5>>2] = $96; //@line 306 "c_src/json.c"
+   $vararg_ptr6 = ((($vararg_buffer2)) + 8|0); //@line 306 "c_src/json.c"
+   HEAP32[$vararg_ptr6>>2] = $98; //@line 306 "c_src/json.c"
+   (_sprintf($error,672,$vararg_buffer2)|0); //@line 306 "c_src/json.c"
    break;
   }
   case 49: {
-   $135 = HEAP32[$26>>2]|0; //@line 323 "json-parser/json.c"
-   $136 = ((($state)) + 48|0); //@line 323 "json-parser/json.c"
-   $137 = HEAP32[$136>>2]|0; //@line 323 "json-parser/json.c"
-   HEAP32[$vararg_buffer7>>2] = $$lcssa545; //@line 323 "json-parser/json.c"
-   $vararg_ptr10 = ((($vararg_buffer7)) + 4|0); //@line 323 "json-parser/json.c"
-   HEAP32[$vararg_ptr10>>2] = $135; //@line 323 "json-parser/json.c"
-   $vararg_ptr11 = ((($vararg_buffer7)) + 8|0); //@line 323 "json-parser/json.c"
-   HEAP32[$vararg_ptr11>>2] = $137; //@line 323 "json-parser/json.c"
-   (_sprintf($error,672,$vararg_buffer7)|0); //@line 323 "json-parser/json.c"
+   $135 = HEAP32[$26>>2]|0; //@line 323 "c_src/json.c"
+   $136 = ((($state)) + 48|0); //@line 323 "c_src/json.c"
+   $137 = HEAP32[$136>>2]|0; //@line 323 "c_src/json.c"
+   HEAP32[$vararg_buffer7>>2] = $$lcssa545; //@line 323 "c_src/json.c"
+   $vararg_ptr10 = ((($vararg_buffer7)) + 4|0); //@line 323 "c_src/json.c"
+   HEAP32[$vararg_ptr10>>2] = $135; //@line 323 "c_src/json.c"
+   $vararg_ptr11 = ((($vararg_buffer7)) + 8|0); //@line 323 "c_src/json.c"
+   HEAP32[$vararg_ptr11>>2] = $137; //@line 323 "c_src/json.c"
+   (_sprintf($error,672,$vararg_buffer7)|0); //@line 323 "c_src/json.c"
    break;
   }
   case 89: {
-   $267 = HEAP32[$26>>2]|0; //@line 452 "json-parser/json.c"
-   $268 = ((($state)) + 48|0); //@line 452 "json-parser/json.c"
-   $269 = HEAP32[$268>>2]|0; //@line 452 "json-parser/json.c"
-   HEAP32[$vararg_buffer12>>2] = $267; //@line 452 "json-parser/json.c"
-   $vararg_ptr15 = ((($vararg_buffer12)) + 4|0); //@line 452 "json-parser/json.c"
-   HEAP32[$vararg_ptr15>>2] = $269; //@line 452 "json-parser/json.c"
-   (_sprintf($error,712,$vararg_buffer12)|0); //@line 452 "json-parser/json.c"
+   $267 = HEAP32[$26>>2]|0; //@line 452 "c_src/json.c"
+   $268 = ((($state)) + 48|0); //@line 452 "c_src/json.c"
+   $269 = HEAP32[$268>>2]|0; //@line 452 "c_src/json.c"
+   HEAP32[$vararg_buffer12>>2] = $267; //@line 452 "c_src/json.c"
+   $vararg_ptr15 = ((($vararg_buffer12)) + 4|0); //@line 452 "c_src/json.c"
+   HEAP32[$vararg_ptr15>>2] = $269; //@line 452 "c_src/json.c"
+   (_sprintf($error,712,$vararg_buffer12)|0); //@line 452 "c_src/json.c"
    break;
   }
   case 97: {
-   $284 = HEAP32[$26>>2]|0; //@line 468 "json-parser/json.c"
-   $285 = ((($state)) + 48|0); //@line 468 "json-parser/json.c"
-   $286 = HEAP32[$285>>2]|0; //@line 468 "json-parser/json.c"
-   HEAP32[$vararg_buffer16>>2] = $284; //@line 468 "json-parser/json.c"
-   $vararg_ptr19 = ((($vararg_buffer16)) + 4|0); //@line 468 "json-parser/json.c"
-   HEAP32[$vararg_ptr19>>2] = $286; //@line 468 "json-parser/json.c"
-   (_sprintf($error,752,$vararg_buffer16)|0); //@line 468 "json-parser/json.c"
+   $284 = HEAP32[$26>>2]|0; //@line 468 "c_src/json.c"
+   $285 = ((($state)) + 48|0); //@line 468 "c_src/json.c"
+   $286 = HEAP32[$285>>2]|0; //@line 468 "c_src/json.c"
+   HEAP32[$vararg_buffer16>>2] = $284; //@line 468 "c_src/json.c"
+   $vararg_ptr19 = ((($vararg_buffer16)) + 4|0); //@line 468 "c_src/json.c"
+   HEAP32[$vararg_ptr19>>2] = $286; //@line 468 "c_src/json.c"
+   (_sprintf($error,752,$vararg_buffer16)|0); //@line 468 "c_src/json.c"
    break;
   }
   case 99: {
-   $290 = HEAP32[$26>>2]|0; //@line 473 "json-parser/json.c"
-   $291 = ((($state)) + 48|0); //@line 473 "json-parser/json.c"
-   $292 = HEAP32[$291>>2]|0; //@line 473 "json-parser/json.c"
-   HEAP32[$vararg_buffer20>>2] = $290; //@line 473 "json-parser/json.c"
-   $vararg_ptr23 = ((($vararg_buffer20)) + 4|0); //@line 473 "json-parser/json.c"
-   HEAP32[$vararg_ptr23>>2] = $292; //@line 473 "json-parser/json.c"
-   (_sprintf($error,784,$vararg_buffer20)|0); //@line 473 "json-parser/json.c"
+   $290 = HEAP32[$26>>2]|0; //@line 473 "c_src/json.c"
+   $291 = ((($state)) + 48|0); //@line 473 "c_src/json.c"
+   $292 = HEAP32[$291>>2]|0; //@line 473 "c_src/json.c"
+   HEAP32[$vararg_buffer20>>2] = $290; //@line 473 "c_src/json.c"
+   $vararg_ptr23 = ((($vararg_buffer20)) + 4|0); //@line 473 "c_src/json.c"
+   HEAP32[$vararg_ptr23>>2] = $292; //@line 473 "c_src/json.c"
+   (_sprintf($error,784,$vararg_buffer20)|0); //@line 473 "c_src/json.c"
    break;
   }
   case 103: {
-   $297 = HEAP32[$26>>2]|0; //@line 488 "json-parser/json.c"
-   $298 = ((($state)) + 48|0); //@line 488 "json-parser/json.c"
-   $299 = HEAP32[$298>>2]|0; //@line 488 "json-parser/json.c"
-   HEAP32[$vararg_buffer24>>2] = $297; //@line 488 "json-parser/json.c"
-   $vararg_ptr27 = ((($vararg_buffer24)) + 4|0); //@line 488 "json-parser/json.c"
-   HEAP32[$vararg_ptr27>>2] = $299; //@line 488 "json-parser/json.c"
-   $vararg_ptr28 = ((($vararg_buffer24)) + 8|0); //@line 488 "json-parser/json.c"
-   HEAP32[$vararg_ptr28>>2] = $$lcssa; //@line 488 "json-parser/json.c"
-   (_sprintf($error,808,$vararg_buffer24)|0); //@line 488 "json-parser/json.c"
+   $297 = HEAP32[$26>>2]|0; //@line 488 "c_src/json.c"
+   $298 = ((($state)) + 48|0); //@line 488 "c_src/json.c"
+   $299 = HEAP32[$298>>2]|0; //@line 488 "c_src/json.c"
+   HEAP32[$vararg_buffer24>>2] = $297; //@line 488 "c_src/json.c"
+   $vararg_ptr27 = ((($vararg_buffer24)) + 4|0); //@line 488 "c_src/json.c"
+   HEAP32[$vararg_ptr27>>2] = $299; //@line 488 "c_src/json.c"
+   $vararg_ptr28 = ((($vararg_buffer24)) + 8|0); //@line 488 "c_src/json.c"
+   HEAP32[$vararg_ptr28>>2] = $$lcssa; //@line 488 "c_src/json.c"
+   (_sprintf($error,808,$vararg_buffer24)|0); //@line 488 "c_src/json.c"
    break;
   }
   case 108: {
-   $305 = HEAP32[$26>>2]|0; //@line 507 "json-parser/json.c"
-   $306 = ((($state)) + 48|0); //@line 507 "json-parser/json.c"
-   $307 = HEAP32[$306>>2]|0; //@line 507 "json-parser/json.c"
-   HEAP32[$vararg_buffer29>>2] = $305; //@line 506 "json-parser/json.c"
-   $vararg_ptr32 = ((($vararg_buffer29)) + 4|0); //@line 506 "json-parser/json.c"
-   HEAP32[$vararg_ptr32>>2] = $307; //@line 506 "json-parser/json.c"
-   $vararg_ptr33 = ((($vararg_buffer29)) + 8|0); //@line 506 "json-parser/json.c"
-   HEAP32[$vararg_ptr33>>2] = $$lcssa551; //@line 506 "json-parser/json.c"
-   (_sprintf($error,864,$vararg_buffer29)|0); //@line 506 "json-parser/json.c"
+   $305 = HEAP32[$26>>2]|0; //@line 507 "c_src/json.c"
+   $306 = ((($state)) + 48|0); //@line 507 "c_src/json.c"
+   $307 = HEAP32[$306>>2]|0; //@line 507 "c_src/json.c"
+   HEAP32[$vararg_buffer29>>2] = $305; //@line 506 "c_src/json.c"
+   $vararg_ptr32 = ((($vararg_buffer29)) + 4|0); //@line 506 "c_src/json.c"
+   HEAP32[$vararg_ptr32>>2] = $307; //@line 506 "c_src/json.c"
+   $vararg_ptr33 = ((($vararg_buffer29)) + 8|0); //@line 506 "c_src/json.c"
+   HEAP32[$vararg_ptr33>>2] = $$lcssa551; //@line 506 "c_src/json.c"
+   (_sprintf($error,864,$vararg_buffer29)|0); //@line 506 "c_src/json.c"
    break;
   }
   case 115: {
-   $319 = HEAP32[$26>>2]|0; //@line 525 "json-parser/json.c"
-   $320 = ((($state)) + 48|0); //@line 525 "json-parser/json.c"
-   $321 = HEAP32[$320>>2]|0; //@line 525 "json-parser/json.c"
-   HEAP32[$vararg_buffer34>>2] = $319; //@line 525 "json-parser/json.c"
-   $vararg_ptr37 = ((($vararg_buffer34)) + 4|0); //@line 525 "json-parser/json.c"
-   HEAP32[$vararg_ptr37>>2] = $321; //@line 525 "json-parser/json.c"
-   (_sprintf($error,896,$vararg_buffer34)|0); //@line 525 "json-parser/json.c"
+   $319 = HEAP32[$26>>2]|0; //@line 525 "c_src/json.c"
+   $320 = ((($state)) + 48|0); //@line 525 "c_src/json.c"
+   $321 = HEAP32[$320>>2]|0; //@line 525 "c_src/json.c"
+   HEAP32[$vararg_buffer34>>2] = $319; //@line 525 "c_src/json.c"
+   $vararg_ptr37 = ((($vararg_buffer34)) + 4|0); //@line 525 "c_src/json.c"
+   HEAP32[$vararg_ptr37>>2] = $321; //@line 525 "c_src/json.c"
+   (_sprintf($error,896,$vararg_buffer34)|0); //@line 525 "c_src/json.c"
    break;
   }
   case 119: {
-   $326 = HEAP32[$26>>2]|0; //@line 542 "json-parser/json.c"
-   $327 = ((($state)) + 48|0); //@line 542 "json-parser/json.c"
-   $328 = HEAP32[$327>>2]|0; //@line 542 "json-parser/json.c"
-   HEAP32[$vararg_buffer38>>2] = $326; //@line 541 "json-parser/json.c"
-   $vararg_ptr41 = ((($vararg_buffer38)) + 4|0); //@line 541 "json-parser/json.c"
-   HEAP32[$vararg_ptr41>>2] = $328; //@line 541 "json-parser/json.c"
-   $vararg_ptr42 = ((($vararg_buffer38)) + 8|0); //@line 541 "json-parser/json.c"
-   HEAP32[$vararg_ptr42>>2] = $$lcssa553; //@line 541 "json-parser/json.c"
-   (_sprintf($error,920,$vararg_buffer38)|0); //@line 541 "json-parser/json.c"
+   $326 = HEAP32[$26>>2]|0; //@line 542 "c_src/json.c"
+   $327 = ((($state)) + 48|0); //@line 542 "c_src/json.c"
+   $328 = HEAP32[$327>>2]|0; //@line 542 "c_src/json.c"
+   HEAP32[$vararg_buffer38>>2] = $326; //@line 541 "c_src/json.c"
+   $vararg_ptr41 = ((($vararg_buffer38)) + 4|0); //@line 541 "c_src/json.c"
+   HEAP32[$vararg_ptr41>>2] = $328; //@line 541 "c_src/json.c"
+   $vararg_ptr42 = ((($vararg_buffer38)) + 8|0); //@line 541 "c_src/json.c"
+   HEAP32[$vararg_ptr42>>2] = $$lcssa553; //@line 541 "c_src/json.c"
+   (_sprintf($error,920,$vararg_buffer38)|0); //@line 541 "c_src/json.c"
    break;
   }
   case 123: {
-   $333 = HEAP32[$26>>2]|0; //@line 557 "json-parser/json.c"
-   $334 = ((($state)) + 48|0); //@line 557 "json-parser/json.c"
-   $335 = HEAP32[$334>>2]|0; //@line 557 "json-parser/json.c"
-   HEAP32[$vararg_buffer43>>2] = $333; //@line 556 "json-parser/json.c"
-   $vararg_ptr46 = ((($vararg_buffer43)) + 4|0); //@line 556 "json-parser/json.c"
-   HEAP32[$vararg_ptr46>>2] = $335; //@line 556 "json-parser/json.c"
-   $vararg_ptr47 = ((($vararg_buffer43)) + 8|0); //@line 556 "json-parser/json.c"
-   HEAP32[$vararg_ptr47>>2] = $$lcssa554; //@line 556 "json-parser/json.c"
-   (_sprintf($error,952,$vararg_buffer43)|0); //@line 556 "json-parser/json.c"
+   $333 = HEAP32[$26>>2]|0; //@line 557 "c_src/json.c"
+   $334 = ((($state)) + 48|0); //@line 557 "c_src/json.c"
+   $335 = HEAP32[$334>>2]|0; //@line 557 "c_src/json.c"
+   HEAP32[$vararg_buffer43>>2] = $333; //@line 556 "c_src/json.c"
+   $vararg_ptr46 = ((($vararg_buffer43)) + 4|0); //@line 556 "c_src/json.c"
+   HEAP32[$vararg_ptr46>>2] = $335; //@line 556 "c_src/json.c"
+   $vararg_ptr47 = ((($vararg_buffer43)) + 8|0); //@line 556 "c_src/json.c"
+   HEAP32[$vararg_ptr47>>2] = $$lcssa554; //@line 556 "c_src/json.c"
+   (_sprintf($error,952,$vararg_buffer43)|0); //@line 556 "c_src/json.c"
    break;
   }
   case 160: {
-   $416 = HEAP32[$26>>2]|0; //@line 682 "json-parser/json.c"
-   $417 = ((($state)) + 48|0); //@line 682 "json-parser/json.c"
-   $418 = HEAP32[$417>>2]|0; //@line 682 "json-parser/json.c"
-   HEAP32[$vararg_buffer48>>2] = $416; //@line 682 "json-parser/json.c"
-   $vararg_ptr51 = ((($vararg_buffer48)) + 4|0); //@line 682 "json-parser/json.c"
-   HEAP32[$vararg_ptr51>>2] = $418; //@line 682 "json-parser/json.c"
-   $vararg_ptr52 = ((($vararg_buffer48)) + 8|0); //@line 682 "json-parser/json.c"
-   HEAP32[$vararg_ptr52>>2] = $$lcssa557; //@line 682 "json-parser/json.c"
-   (_sprintf($error,984,$vararg_buffer48)|0); //@line 682 "json-parser/json.c"
+   $416 = HEAP32[$26>>2]|0; //@line 682 "c_src/json.c"
+   $417 = ((($state)) + 48|0); //@line 682 "c_src/json.c"
+   $418 = HEAP32[$417>>2]|0; //@line 682 "c_src/json.c"
+   HEAP32[$vararg_buffer48>>2] = $416; //@line 682 "c_src/json.c"
+   $vararg_ptr51 = ((($vararg_buffer48)) + 4|0); //@line 682 "c_src/json.c"
+   HEAP32[$vararg_ptr51>>2] = $418; //@line 682 "c_src/json.c"
+   $vararg_ptr52 = ((($vararg_buffer48)) + 8|0); //@line 682 "c_src/json.c"
+   HEAP32[$vararg_ptr52>>2] = $$lcssa557; //@line 682 "c_src/json.c"
+   (_sprintf($error,984,$vararg_buffer48)|0); //@line 682 "c_src/json.c"
    break;
   }
   case 165: {
-   $426 = HEAP32[$26>>2]|0; //@line 702 "json-parser/json.c"
-   $427 = ((($state)) + 48|0); //@line 702 "json-parser/json.c"
-   $428 = HEAP32[$427>>2]|0; //@line 702 "json-parser/json.c"
-   HEAP32[$vararg_buffer53>>2] = $426; //@line 702 "json-parser/json.c"
-   $vararg_ptr56 = ((($vararg_buffer53)) + 4|0); //@line 702 "json-parser/json.c"
-   HEAP32[$vararg_ptr56>>2] = $428; //@line 702 "json-parser/json.c"
-   (_sprintf($error,1024,$vararg_buffer53)|0); //@line 702 "json-parser/json.c"
+   $426 = HEAP32[$26>>2]|0; //@line 702 "c_src/json.c"
+   $427 = ((($state)) + 48|0); //@line 702 "c_src/json.c"
+   $428 = HEAP32[$427>>2]|0; //@line 702 "c_src/json.c"
+   HEAP32[$vararg_buffer53>>2] = $426; //@line 702 "c_src/json.c"
+   $vararg_ptr56 = ((($vararg_buffer53)) + 4|0); //@line 702 "c_src/json.c"
+   HEAP32[$vararg_ptr56>>2] = $428; //@line 702 "c_src/json.c"
+   (_sprintf($error,1024,$vararg_buffer53)|0); //@line 702 "c_src/json.c"
    break;
   }
   case 170: {
-   $437 = HEAP32[$26>>2]|0; //@line 727 "json-parser/json.c"
-   $438 = ((($state)) + 48|0); //@line 727 "json-parser/json.c"
-   $439 = HEAP32[$438>>2]|0; //@line 727 "json-parser/json.c"
-   HEAP32[$vararg_buffer57>>2] = $437; //@line 727 "json-parser/json.c"
-   $vararg_ptr60 = ((($vararg_buffer57)) + 4|0); //@line 727 "json-parser/json.c"
-   HEAP32[$vararg_ptr60>>2] = $439; //@line 727 "json-parser/json.c"
-   $vararg_ptr61 = ((($vararg_buffer57)) + 8|0); //@line 727 "json-parser/json.c"
-   HEAP32[$vararg_ptr61>>2] = $$lcssa562; //@line 727 "json-parser/json.c"
-   (_sprintf($error,1056,$vararg_buffer57)|0); //@line 727 "json-parser/json.c"
+   $437 = HEAP32[$26>>2]|0; //@line 727 "c_src/json.c"
+   $438 = ((($state)) + 48|0); //@line 727 "c_src/json.c"
+   $439 = HEAP32[$438>>2]|0; //@line 727 "c_src/json.c"
+   HEAP32[$vararg_buffer57>>2] = $437; //@line 727 "c_src/json.c"
+   $vararg_ptr60 = ((($vararg_buffer57)) + 4|0); //@line 727 "c_src/json.c"
+   HEAP32[$vararg_ptr60>>2] = $439; //@line 727 "c_src/json.c"
+   $vararg_ptr61 = ((($vararg_buffer57)) + 8|0); //@line 727 "c_src/json.c"
+   HEAP32[$vararg_ptr61>>2] = $$lcssa562; //@line 727 "c_src/json.c"
+   (_sprintf($error,1056,$vararg_buffer57)|0); //@line 727 "c_src/json.c"
    break;
   }
   case 175: {
-   $449 = HEAP32[$26>>2]|0; //@line 745 "json-parser/json.c"
-   $450 = ((($state)) + 48|0); //@line 745 "json-parser/json.c"
-   $451 = HEAP32[$450>>2]|0; //@line 745 "json-parser/json.c"
-   HEAP32[$vararg_buffer62>>2] = $449; //@line 745 "json-parser/json.c"
-   $vararg_ptr65 = ((($vararg_buffer62)) + 4|0); //@line 745 "json-parser/json.c"
-   HEAP32[$vararg_ptr65>>2] = $451; //@line 745 "json-parser/json.c"
-   $vararg_ptr66 = ((($vararg_buffer62)) + 8|0); //@line 745 "json-parser/json.c"
-   HEAP32[$vararg_ptr66>>2] = $$lcssa561; //@line 745 "json-parser/json.c"
-   (_sprintf($error,1096,$vararg_buffer62)|0); //@line 745 "json-parser/json.c"
+   $449 = HEAP32[$26>>2]|0; //@line 745 "c_src/json.c"
+   $450 = ((($state)) + 48|0); //@line 745 "c_src/json.c"
+   $451 = HEAP32[$450>>2]|0; //@line 745 "c_src/json.c"
+   HEAP32[$vararg_buffer62>>2] = $449; //@line 745 "c_src/json.c"
+   $vararg_ptr65 = ((($vararg_buffer62)) + 4|0); //@line 745 "c_src/json.c"
+   HEAP32[$vararg_ptr65>>2] = $451; //@line 745 "c_src/json.c"
+   $vararg_ptr66 = ((($vararg_buffer62)) + 8|0); //@line 745 "c_src/json.c"
+   HEAP32[$vararg_ptr66>>2] = $$lcssa561; //@line 745 "c_src/json.c"
+   (_sprintf($error,1096,$vararg_buffer62)|0); //@line 745 "c_src/json.c"
    break;
   }
   case 184: {
-   $491 = HEAP32[$26>>2]|0; //@line 782 "json-parser/json.c"
-   $492 = ((($state)) + 48|0); //@line 782 "json-parser/json.c"
-   $493 = HEAP32[$492>>2]|0; //@line 782 "json-parser/json.c"
-   HEAP32[$vararg_buffer67>>2] = $491; //@line 782 "json-parser/json.c"
-   $vararg_ptr70 = ((($vararg_buffer67)) + 4|0); //@line 782 "json-parser/json.c"
-   HEAP32[$vararg_ptr70>>2] = $493; //@line 782 "json-parser/json.c"
-   (_sprintf($error,1136,$vararg_buffer67)|0); //@line 782 "json-parser/json.c"
+   $491 = HEAP32[$26>>2]|0; //@line 782 "c_src/json.c"
+   $492 = ((($state)) + 48|0); //@line 782 "c_src/json.c"
+   $493 = HEAP32[$492>>2]|0; //@line 782 "c_src/json.c"
+   HEAP32[$vararg_buffer67>>2] = $491; //@line 782 "c_src/json.c"
+   $vararg_ptr70 = ((($vararg_buffer67)) + 4|0); //@line 782 "c_src/json.c"
+   HEAP32[$vararg_ptr70>>2] = $493; //@line 782 "c_src/json.c"
+   (_sprintf($error,1136,$vararg_buffer67)|0); //@line 782 "c_src/json.c"
    break;
   }
   case 189: {
-   $510 = HEAP32[$26>>2]|0; //@line 798 "json-parser/json.c"
-   $511 = ((($state)) + 48|0); //@line 798 "json-parser/json.c"
-   $512 = HEAP32[$511>>2]|0; //@line 798 "json-parser/json.c"
-   HEAP32[$vararg_buffer71>>2] = $510; //@line 798 "json-parser/json.c"
-   $vararg_ptr74 = ((($vararg_buffer71)) + 4|0); //@line 798 "json-parser/json.c"
-   HEAP32[$vararg_ptr74>>2] = $512; //@line 798 "json-parser/json.c"
-   (_sprintf($error,1176,$vararg_buffer71)|0); //@line 798 "json-parser/json.c"
+   $510 = HEAP32[$26>>2]|0; //@line 798 "c_src/json.c"
+   $511 = ((($state)) + 48|0); //@line 798 "c_src/json.c"
+   $512 = HEAP32[$511>>2]|0; //@line 798 "c_src/json.c"
+   HEAP32[$vararg_buffer71>>2] = $510; //@line 798 "c_src/json.c"
+   $vararg_ptr74 = ((($vararg_buffer71)) + 4|0); //@line 798 "c_src/json.c"
+   HEAP32[$vararg_ptr74>>2] = $512; //@line 798 "c_src/json.c"
+   (_sprintf($error,1176,$vararg_buffer71)|0); //@line 798 "c_src/json.c"
    break;
   }
   case 196: {
-   $536 = HEAP32[$26>>2]|0; //@line 824 "json-parser/json.c"
-   $537 = ((($state)) + 48|0); //@line 824 "json-parser/json.c"
-   $538 = HEAP32[$537>>2]|0; //@line 824 "json-parser/json.c"
-   HEAP32[$vararg_buffer75>>2] = $536; //@line 824 "json-parser/json.c"
-   $vararg_ptr78 = ((($vararg_buffer75)) + 4|0); //@line 824 "json-parser/json.c"
-   HEAP32[$vararg_ptr78>>2] = $538; //@line 824 "json-parser/json.c"
-   (_sprintf($error,1208,$vararg_buffer75)|0); //@line 824 "json-parser/json.c"
+   $536 = HEAP32[$26>>2]|0; //@line 824 "c_src/json.c"
+   $537 = ((($state)) + 48|0); //@line 824 "c_src/json.c"
+   $538 = HEAP32[$537>>2]|0; //@line 824 "c_src/json.c"
+   HEAP32[$vararg_buffer75>>2] = $536; //@line 824 "c_src/json.c"
+   $vararg_ptr78 = ((($vararg_buffer75)) + 4|0); //@line 824 "c_src/json.c"
+   HEAP32[$vararg_ptr78>>2] = $538; //@line 824 "c_src/json.c"
+   (_sprintf($error,1208,$vararg_buffer75)|0); //@line 824 "c_src/json.c"
    break;
   }
   case 216: {
-   $613 = HEAP32[$root>>2]|0; //@line 906 "json-parser/json.c"
+   $613 = HEAP32[$root>>2]|0; //@line 906 "c_src/json.c"
    $$0 = $613;
-   STACKTOP = sp;return ($$0|0); //@line 947 "json-parser/json.c"
+   STACKTOP = sp;return ($$0|0); //@line 947 "c_src/json.c"
    break;
   }
   case 217: {
-   $614 = HEAP32[$26>>2]|0; //@line 910 "json-parser/json.c"
-   $615 = ((($state)) + 48|0); //@line 910 "json-parser/json.c"
-   $616 = HEAP32[$615>>2]|0; //@line 910 "json-parser/json.c"
-   HEAP32[$vararg_buffer79>>2] = $614; //@line 910 "json-parser/json.c"
-   $vararg_ptr82 = ((($vararg_buffer79)) + 4|0); //@line 910 "json-parser/json.c"
-   HEAP32[$vararg_ptr82>>2] = $616; //@line 910 "json-parser/json.c"
-   (_sprintf($error,1240,$vararg_buffer79)|0); //@line 910 "json-parser/json.c"
+   $614 = HEAP32[$26>>2]|0; //@line 910 "c_src/json.c"
+   $615 = ((($state)) + 48|0); //@line 910 "c_src/json.c"
+   $616 = HEAP32[$615>>2]|0; //@line 910 "c_src/json.c"
+   HEAP32[$vararg_buffer79>>2] = $614; //@line 910 "c_src/json.c"
+   $vararg_ptr82 = ((($vararg_buffer79)) + 4|0); //@line 910 "c_src/json.c"
+   HEAP32[$vararg_ptr82>>2] = $616; //@line 910 "c_src/json.c"
+   (_sprintf($error,1240,$vararg_buffer79)|0); //@line 910 "c_src/json.c"
    break;
   }
   case 218: {
-   dest=$error; src=1264; stop=dest+26|0; do { HEAP8[dest>>0]=HEAP8[src>>0]|0; dest=dest+1|0; src=src+1|0; } while ((dest|0) < (stop|0)); //@line 915 "json-parser/json.c"
+   dest=$error; src=1264; stop=dest+26|0; do { HEAP8[dest>>0]=HEAP8[src>>0]|0; dest=dest+1|0; src=src+1|0; } while ((dest|0) < (stop|0)); //@line 915 "c_src/json.c"
    break;
   }
   case 219: {
-   $617 = HEAP32[$26>>2]|0; //@line 920 "json-parser/json.c"
-   $618 = ((($state)) + 48|0); //@line 920 "json-parser/json.c"
-   $619 = HEAP32[$618>>2]|0; //@line 920 "json-parser/json.c"
-   HEAP32[$vararg_buffer83>>2] = $617; //@line 920 "json-parser/json.c"
-   $vararg_ptr86 = ((($vararg_buffer83)) + 4|0); //@line 920 "json-parser/json.c"
-   HEAP32[$vararg_ptr86>>2] = $619; //@line 920 "json-parser/json.c"
-   (_sprintf($error,1296,$vararg_buffer83)|0); //@line 920 "json-parser/json.c"
+   $617 = HEAP32[$26>>2]|0; //@line 920 "c_src/json.c"
+   $618 = ((($state)) + 48|0); //@line 920 "c_src/json.c"
+   $619 = HEAP32[$618>>2]|0; //@line 920 "c_src/json.c"
+   HEAP32[$vararg_buffer83>>2] = $617; //@line 920 "c_src/json.c"
+   $vararg_ptr86 = ((($vararg_buffer83)) + 4|0); //@line 920 "c_src/json.c"
+   HEAP32[$vararg_ptr86>>2] = $619; //@line 920 "c_src/json.c"
+   (_sprintf($error,1296,$vararg_buffer83)|0); //@line 920 "c_src/json.c"
    break;
   }
  }
- $620 = ($error_buf|0)==(0|0); //@line 925 "json-parser/json.c"
+ $620 = ($error_buf|0)==(0|0); //@line 925 "c_src/json.c"
  do {
   if (!($620)) {
-   $621 = HEAP8[$error>>0]|0; //@line 927 "json-parser/json.c"
-   $622 = ($621<<24>>24)==(0); //@line 927 "json-parser/json.c"
+   $621 = HEAP8[$error>>0]|0; //@line 927 "c_src/json.c"
+   $622 = ($621<<24>>24)==(0); //@line 927 "c_src/json.c"
    if ($622) {
-    dest=$error_buf; src=1336; stop=dest+14|0; do { HEAP8[dest>>0]=HEAP8[src>>0]|0; dest=dest+1|0; src=src+1|0; } while ((dest|0) < (stop|0)); //@line 930 "json-parser/json.c"
+    dest=$error_buf; src=1336; stop=dest+14|0; do { HEAP8[dest>>0]=HEAP8[src>>0]|0; dest=dest+1|0; src=src+1|0; } while ((dest|0) < (stop|0)); //@line 930 "c_src/json.c"
     break;
    } else {
-    (_strcpy(($error_buf|0),($error|0))|0); //@line 928 "json-parser/json.c"
+    (_strcpy(($error_buf|0),($error|0))|0); //@line 928 "c_src/json.c"
     break;
    }
   }
  } while(0);
- $623 = HEAP32[$25>>2]|0; //@line 933 "json-parser/json.c"
- $624 = ($623|0)==(0); //@line 933 "json-parser/json.c"
+ $623 = HEAP32[$25>>2]|0; //@line 933 "c_src/json.c"
+ $624 = ($623|0)==(0); //@line 933 "c_src/json.c"
  if ($624) {
-  $$pr = HEAP32[$alloc>>2]|0; //@line 936 "json-parser/json.c"
+  $$pr = HEAP32[$alloc>>2]|0; //@line 936 "c_src/json.c"
   $$ph = $$pr;
  } else {
-  $625 = HEAP32[$root>>2]|0; //@line 934 "json-parser/json.c"
-  HEAP32[$alloc>>2] = $625; //@line 934 "json-parser/json.c"
+  $625 = HEAP32[$root>>2]|0; //@line 934 "c_src/json.c"
+  HEAP32[$alloc>>2] = $625; //@line 934 "c_src/json.c"
   $626 = $625;
   $$ph = $626;
  }
- $627 = ($$ph|0)==(0|0); //@line 936 "json-parser/json.c"
+ $627 = ($$ph|0)==(0|0); //@line 936 "c_src/json.c"
  if (!($627)) {
-  $628 = ((($state)) + 28|0); //@line 939 "json-parser/json.c"
+  $628 = ((($state)) + 28|0); //@line 939 "c_src/json.c"
   $630 = $$ph;
   while(1) {
-   $629 = ((($630)) + 16|0); //@line 938 "json-parser/json.c"
-   $631 = HEAP32[$629>>2]|0; //@line 938 "json-parser/json.c"
-   HEAP32[$top>>2] = $631; //@line 938 "json-parser/json.c"
-   $632 = HEAP32[$16>>2]|0; //@line 939 "json-parser/json.c"
-   $633 = HEAP32[$alloc>>2]|0; //@line 939 "json-parser/json.c"
-   $634 = HEAP32[$628>>2]|0; //@line 939 "json-parser/json.c"
-   FUNCTION_TABLE_vii[$632 & 3]($633,$634); //@line 939 "json-parser/json.c"
-   $635 = HEAP32[$top>>2]|0; //@line 940 "json-parser/json.c"
-   HEAP32[$alloc>>2] = $635; //@line 940 "json-parser/json.c"
+   $629 = ((($630)) + 16|0); //@line 938 "c_src/json.c"
+   $631 = HEAP32[$629>>2]|0; //@line 938 "c_src/json.c"
+   HEAP32[$top>>2] = $631; //@line 938 "c_src/json.c"
+   $632 = HEAP32[$16>>2]|0; //@line 939 "c_src/json.c"
+   $633 = HEAP32[$alloc>>2]|0; //@line 939 "c_src/json.c"
+   $634 = HEAP32[$628>>2]|0; //@line 939 "c_src/json.c"
+   FUNCTION_TABLE_vii[$632 & 3]($633,$634); //@line 939 "c_src/json.c"
+   $635 = HEAP32[$top>>2]|0; //@line 940 "c_src/json.c"
+   HEAP32[$alloc>>2] = $635; //@line 940 "c_src/json.c"
    $636 = $635;
-   $637 = ($635|0)==(0); //@line 936 "json-parser/json.c"
+   $637 = ($635|0)==(0); //@line 936 "c_src/json.c"
    if ($637) {
     break;
    } else {
@@ -10114,16 +9974,16 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
    }
   }
  }
- $638 = HEAP32[$25>>2]|0; //@line 943 "json-parser/json.c"
- $639 = ($638|0)==(0); //@line 943 "json-parser/json.c"
+ $638 = HEAP32[$25>>2]|0; //@line 943 "c_src/json.c"
+ $639 = ($638|0)==(0); //@line 943 "c_src/json.c"
  if (!($639)) {
   $$0 = 0;
-  STACKTOP = sp;return ($$0|0); //@line 947 "json-parser/json.c"
+  STACKTOP = sp;return ($$0|0); //@line 947 "c_src/json.c"
  }
- $640 = HEAP32[$root>>2]|0; //@line 944 "json-parser/json.c"
- _json_value_free_ex($12,$640); //@line 944 "json-parser/json.c"
+ $640 = HEAP32[$root>>2]|0; //@line 944 "c_src/json.c"
+ _json_value_free_ex($12,$640); //@line 944 "c_src/json.c"
  $$0 = 0;
- STACKTOP = sp;return ($$0|0); //@line 947 "json-parser/json.c"
+ STACKTOP = sp;return ($$0|0); //@line 947 "c_src/json.c"
 }
 function _json_value_free_ex($settings,$value) {
  $settings = $settings|0;
@@ -10132,96 +9992,96 @@ function _json_value_free_ex($settings,$value) {
  var $25 = 0, $26 = 0, $27 = 0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0;
  var $43 = 0, $5 = 0, $6 = 0, $7 = 0, $8 = 0, $9 = 0, label = 0, sp = 0;
  sp = STACKTOP;
- $0 = ($value|0)==(0|0); //@line 959 "json-parser/json.c"
+ $0 = ($value|0)==(0|0); //@line 959 "c_src/json.c"
  if ($0) {
-  return; //@line 1003 "json-parser/json.c"
+  return; //@line 1003 "c_src/json.c"
  }
- HEAP32[$value>>2] = 0; //@line 962 "json-parser/json.c"
- $1 = ((($settings)) + 12|0); //@line 1001 "json-parser/json.c"
- $2 = ((($settings)) + 16|0); //@line 1001 "json-parser/json.c"
- $3 = ((($settings)) + 12|0); //@line 972 "json-parser/json.c"
- $4 = ((($settings)) + 16|0); //@line 972 "json-parser/json.c"
- $5 = ((($settings)) + 12|0); //@line 983 "json-parser/json.c"
- $6 = ((($settings)) + 16|0); //@line 983 "json-parser/json.c"
- $7 = ((($settings)) + 12|0); //@line 992 "json-parser/json.c"
- $8 = ((($settings)) + 16|0); //@line 992 "json-parser/json.c"
+ HEAP32[$value>>2] = 0; //@line 962 "c_src/json.c"
+ $1 = ((($settings)) + 12|0); //@line 1001 "c_src/json.c"
+ $2 = ((($settings)) + 16|0); //@line 1001 "c_src/json.c"
+ $3 = ((($settings)) + 12|0); //@line 972 "c_src/json.c"
+ $4 = ((($settings)) + 16|0); //@line 972 "c_src/json.c"
+ $5 = ((($settings)) + 12|0); //@line 983 "c_src/json.c"
+ $6 = ((($settings)) + 16|0); //@line 983 "c_src/json.c"
+ $7 = ((($settings)) + 12|0); //@line 992 "c_src/json.c"
+ $8 = ((($settings)) + 16|0); //@line 992 "c_src/json.c"
  $$01 = $value;
  while(1) {
-  $9 = ((($$01)) + 4|0); //@line 966 "json-parser/json.c"
-  $10 = HEAP32[$9>>2]|0; //@line 966 "json-parser/json.c"
+  $9 = ((($$01)) + 4|0); //@line 966 "c_src/json.c"
+  $10 = HEAP32[$9>>2]|0; //@line 966 "c_src/json.c"
   do {
-   if ((($10|0) == 1)) {
-    $24 = ((($$01)) + 8|0); //@line 981 "json-parser/json.c"
-    $25 = HEAP32[$24>>2]|0; //@line 981 "json-parser/json.c"
-    $26 = ($25|0)==(0); //@line 981 "json-parser/json.c"
-    if ($26) {
-     $27 = HEAP32[$5>>2]|0; //@line 983 "json-parser/json.c"
-     $28 = ((($24)) + 4|0); //@line 983 "json-parser/json.c"
-     $29 = HEAP32[$28>>2]|0; //@line 983 "json-parser/json.c"
-     $30 = HEAP32[$6>>2]|0; //@line 983 "json-parser/json.c"
-     FUNCTION_TABLE_vii[$27 & 3]($29,$30); //@line 983 "json-parser/json.c"
-     label = 12;
-     break;
-    } else {
-     $31 = (($25) + -1)|0; //@line 987 "json-parser/json.c"
-     HEAP32[$24>>2] = $31; //@line 987 "json-parser/json.c"
-     $32 = ((($24)) + 4|0); //@line 987 "json-parser/json.c"
-     $33 = HEAP32[$32>>2]|0; //@line 987 "json-parser/json.c"
-     $34 = (((($33) + (($31*12)|0)|0)) + 8|0); //@line 987 "json-parser/json.c"
-     $35 = HEAP32[$34>>2]|0; //@line 987 "json-parser/json.c"
-     $$0$be = $35;
-     break;
-    }
-   } else if ((($10|0) == 2)) {
-    $11 = ((($$01)) + 8|0); //@line 970 "json-parser/json.c"
-    $12 = HEAP32[$11>>2]|0; //@line 970 "json-parser/json.c"
-    $13 = ($12|0)==(0); //@line 970 "json-parser/json.c"
+   if ((($10|0) == 2)) {
+    $11 = ((($$01)) + 8|0); //@line 970 "c_src/json.c"
+    $12 = HEAP32[$11>>2]|0; //@line 970 "c_src/json.c"
+    $13 = ($12|0)==(0); //@line 970 "c_src/json.c"
     if ($13) {
-     $14 = HEAP32[$3>>2]|0; //@line 972 "json-parser/json.c"
-     $15 = ((($11)) + 4|0); //@line 972 "json-parser/json.c"
-     $16 = HEAP32[$15>>2]|0; //@line 972 "json-parser/json.c"
-     $17 = HEAP32[$4>>2]|0; //@line 972 "json-parser/json.c"
-     FUNCTION_TABLE_vii[$14 & 3]($16,$17); //@line 972 "json-parser/json.c"
+     $14 = HEAP32[$3>>2]|0; //@line 972 "c_src/json.c"
+     $15 = ((($11)) + 4|0); //@line 972 "c_src/json.c"
+     $16 = HEAP32[$15>>2]|0; //@line 972 "c_src/json.c"
+     $17 = HEAP32[$4>>2]|0; //@line 972 "c_src/json.c"
+     FUNCTION_TABLE_vii[$14 & 3]($16,$17); //@line 972 "c_src/json.c"
      label = 12;
      break;
     } else {
-     $18 = (($12) + -1)|0; //@line 976 "json-parser/json.c"
-     HEAP32[$11>>2] = $18; //@line 976 "json-parser/json.c"
-     $19 = ((($11)) + 4|0); //@line 976 "json-parser/json.c"
-     $20 = HEAP32[$19>>2]|0; //@line 976 "json-parser/json.c"
-     $21 = (($20) + ($18<<2)|0); //@line 976 "json-parser/json.c"
-     $22 = HEAP32[$21>>2]|0; //@line 976 "json-parser/json.c"
+     $18 = (($12) + -1)|0; //@line 976 "c_src/json.c"
+     HEAP32[$11>>2] = $18; //@line 976 "c_src/json.c"
+     $19 = ((($11)) + 4|0); //@line 976 "c_src/json.c"
+     $20 = HEAP32[$19>>2]|0; //@line 976 "c_src/json.c"
+     $21 = (($20) + ($18<<2)|0); //@line 976 "c_src/json.c"
+     $22 = HEAP32[$21>>2]|0; //@line 976 "c_src/json.c"
      $$0$be = $22;
      break;
     }
    } else if ((($10|0) == 5)) {
-    $36 = HEAP32[$7>>2]|0; //@line 992 "json-parser/json.c"
-    $37 = ((($$01)) + 8|0); //@line 992 "json-parser/json.c"
-    $38 = ((($37)) + 4|0); //@line 992 "json-parser/json.c"
-    $39 = HEAP32[$38>>2]|0; //@line 992 "json-parser/json.c"
-    $40 = HEAP32[$8>>2]|0; //@line 992 "json-parser/json.c"
-    FUNCTION_TABLE_vii[$36 & 3]($39,$40); //@line 992 "json-parser/json.c"
+    $36 = HEAP32[$7>>2]|0; //@line 992 "c_src/json.c"
+    $37 = ((($$01)) + 8|0); //@line 992 "c_src/json.c"
+    $38 = ((($37)) + 4|0); //@line 992 "c_src/json.c"
+    $39 = HEAP32[$38>>2]|0; //@line 992 "c_src/json.c"
+    $40 = HEAP32[$8>>2]|0; //@line 992 "c_src/json.c"
+    FUNCTION_TABLE_vii[$36 & 3]($39,$40); //@line 992 "c_src/json.c"
     label = 12;
+   } else if ((($10|0) == 1)) {
+    $24 = ((($$01)) + 8|0); //@line 981 "c_src/json.c"
+    $25 = HEAP32[$24>>2]|0; //@line 981 "c_src/json.c"
+    $26 = ($25|0)==(0); //@line 981 "c_src/json.c"
+    if ($26) {
+     $27 = HEAP32[$5>>2]|0; //@line 983 "c_src/json.c"
+     $28 = ((($24)) + 4|0); //@line 983 "c_src/json.c"
+     $29 = HEAP32[$28>>2]|0; //@line 983 "c_src/json.c"
+     $30 = HEAP32[$6>>2]|0; //@line 983 "c_src/json.c"
+     FUNCTION_TABLE_vii[$27 & 3]($29,$30); //@line 983 "c_src/json.c"
+     label = 12;
+     break;
+    } else {
+     $31 = (($25) + -1)|0; //@line 987 "c_src/json.c"
+     HEAP32[$24>>2] = $31; //@line 987 "c_src/json.c"
+     $32 = ((($24)) + 4|0); //@line 987 "c_src/json.c"
+     $33 = HEAP32[$32>>2]|0; //@line 987 "c_src/json.c"
+     $34 = (((($33) + (($31*12)|0)|0)) + 8|0); //@line 987 "c_src/json.c"
+     $35 = HEAP32[$34>>2]|0; //@line 987 "c_src/json.c"
+     $$0$be = $35;
+     break;
+    }
    } else {
     label = 12;
    }
   } while(0);
   if ((label|0) == 12) {
    label = 0;
-   $41 = HEAP32[$$01>>2]|0; //@line 1000 "json-parser/json.c"
-   $42 = HEAP32[$1>>2]|0; //@line 1001 "json-parser/json.c"
-   $43 = HEAP32[$2>>2]|0; //@line 1001 "json-parser/json.c"
-   FUNCTION_TABLE_vii[$42 & 3]($$01,$43); //@line 1001 "json-parser/json.c"
+   $41 = HEAP32[$$01>>2]|0; //@line 1000 "c_src/json.c"
+   $42 = HEAP32[$1>>2]|0; //@line 1001 "c_src/json.c"
+   $43 = HEAP32[$2>>2]|0; //@line 1001 "c_src/json.c"
+   FUNCTION_TABLE_vii[$42 & 3]($$01,$43); //@line 1001 "c_src/json.c"
    $$0$be = $41;
   }
-  $23 = ($$0$be|0)==(0|0); //@line 964 "json-parser/json.c"
+  $23 = ($$0$be|0)==(0|0); //@line 964 "c_src/json.c"
   if ($23) {
    break;
   } else {
    $$01 = $$0$be;
   }
  }
- return; //@line 1003 "json-parser/json.c"
+ return; //@line 1003 "c_src/json.c"
 }
 function _json_parse($json,$length) {
  $json = $json|0;
@@ -10230,9 +10090,9 @@ function _json_parse($json,$length) {
  sp = STACKTOP;
  STACKTOP = STACKTOP + 32|0;
  $settings = sp;
- ;HEAP32[$settings>>2]=0|0;HEAP32[$settings+4>>2]=0|0;HEAP32[$settings+8>>2]=0|0;HEAP32[$settings+12>>2]=0|0;HEAP32[$settings+16>>2]=0|0;HEAP32[$settings+20>>2]=0|0; //@line 951 "json-parser/json.c"
- $0 = (_json_parse_ex($settings,$json,$length,0)|0); //@line 952 "json-parser/json.c"
- STACKTOP = sp;return ($0|0); //@line 952 "json-parser/json.c"
+ ;HEAP32[$settings>>2]=0|0;HEAP32[$settings+4>>2]=0|0;HEAP32[$settings+8>>2]=0|0;HEAP32[$settings+12>>2]=0|0;HEAP32[$settings+16>>2]=0|0;HEAP32[$settings+20>>2]=0|0; //@line 951 "c_src/json.c"
+ $0 = (_json_parse_ex($settings,$json,$length,0)|0); //@line 952 "c_src/json.c"
+ STACKTOP = sp;return ($0|0); //@line 952 "c_src/json.c"
 }
 function _json_value_free($value) {
  $value = $value|0;
@@ -10240,11 +10100,11 @@ function _json_value_free($value) {
  sp = STACKTOP;
  STACKTOP = STACKTOP + 32|0;
  $settings = sp;
- ;HEAP32[$settings>>2]=0|0;HEAP32[$settings+4>>2]=0|0;HEAP32[$settings+8>>2]=0|0;HEAP32[$settings+12>>2]=0|0;HEAP32[$settings+16>>2]=0|0;HEAP32[$settings+20>>2]=0|0; //@line 1007 "json-parser/json.c"
- $0 = ((($settings)) + 12|0); //@line 1008 "json-parser/json.c"
- HEAP32[$0>>2] = 2; //@line 1008 "json-parser/json.c"
- _json_value_free_ex($settings,$value); //@line 1009 "json-parser/json.c"
- STACKTOP = sp;return; //@line 1010 "json-parser/json.c"
+ ;HEAP32[$settings>>2]=0|0;HEAP32[$settings+4>>2]=0|0;HEAP32[$settings+8>>2]=0|0;HEAP32[$settings+12>>2]=0|0;HEAP32[$settings+16>>2]=0|0;HEAP32[$settings+20>>2]=0|0; //@line 1007 "c_src/json.c"
+ $0 = ((($settings)) + 12|0); //@line 1008 "c_src/json.c"
+ HEAP32[$0>>2] = 2; //@line 1008 "c_src/json.c"
+ _json_value_free_ex($settings,$value); //@line 1009 "c_src/json.c"
+ STACKTOP = sp;return; //@line 1010 "c_src/json.c"
 }
 function _default_alloc($size,$zero,$user_data) {
  $size = $size|0;
@@ -10252,35 +10112,35 @@ function _default_alloc($size,$zero,$user_data) {
  $user_data = $user_data|0;
  var $0 = 0, $1 = 0, $2 = 0, $3 = 0, label = 0, sp = 0;
  sp = STACKTOP;
- $0 = ($zero|0)==(0); //@line 80 "json-parser/json.c"
+ $0 = ($zero|0)==(0); //@line 80 "c_src/json.c"
  if ($0) {
-  $2 = (_malloc($size)|0); //@line 80 "json-parser/json.c"
+  $2 = (_malloc($size)|0); //@line 80 "c_src/json.c"
   $3 = $2;
  } else {
-  $1 = (_calloc(1,$size)|0); //@line 80 "json-parser/json.c"
+  $1 = (_calloc(1,$size)|0); //@line 80 "c_src/json.c"
   $3 = $1;
  }
- return ($3|0); //@line 80 "json-parser/json.c"
+ return ($3|0); //@line 80 "c_src/json.c"
 }
 function _default_free($ptr,$user_data) {
  $ptr = $ptr|0;
  $user_data = $user_data|0;
  var label = 0, sp = 0;
  sp = STACKTOP;
- _free($ptr); //@line 85 "json-parser/json.c"
- return; //@line 86 "json-parser/json.c"
+ _free($ptr); //@line 85 "c_src/json.c"
+ return; //@line 86 "c_src/json.c"
 }
 function _hex_value($c) {
  $c = $c|0;
  var $$0 = 0, $0 = 0, $1 = 0, $2 = 0, $isdigit = 0, $isdigittmp = 0, label = 0, sp = 0;
  sp = STACKTOP;
- $0 = $c << 24 >> 24; //@line 49 "json-parser/json.c"
- $isdigittmp = (($0) + -48)|0; //@line 49 "json-parser/json.c"
- $isdigit = ($isdigittmp>>>0)<(10); //@line 49 "json-parser/json.c"
+ $0 = $c << 24 >> 24; //@line 49 "c_src/json.c"
+ $isdigittmp = (($0) + -48)|0; //@line 49 "c_src/json.c"
+ $isdigit = ($isdigittmp>>>0)<(10); //@line 49 "c_src/json.c"
  L1: do {
   if ($isdigit) {
-   $1 = (($0) + 208)|0; //@line 50 "json-parser/json.c"
-   $2 = $1&255; //@line 50 "json-parser/json.c"
+   $1 = (($0) + 208)|0; //@line 50 "c_src/json.c"
+   $2 = $1&255; //@line 50 "c_src/json.c"
    $$0 = $2;
   } else {
    switch ($0|0) {
@@ -10294,23 +10154,23 @@ function _hex_value($c) {
     break L1;
     break;
    }
-   case 67: case 99:  {
-    $$0 = 12;
-    break L1;
-    break;
-   }
-   case 69: case 101:  {
-    $$0 = 14;
-    break L1;
-    break;
-   }
    case 68: case 100:  {
     $$0 = 13;
     break L1;
     break;
    }
+   case 67: case 99:  {
+    $$0 = 12;
+    break L1;
+    break;
+   }
    case 70: case 102:  {
     $$0 = 15;
+    break L1;
+    break;
+   }
+   case 69: case 101:  {
+    $$0 = 14;
     break L1;
     break;
    }
@@ -10321,7 +10181,7 @@ function _hex_value($c) {
    }
   }
  } while(0);
- return ($$0|0); //@line 61 "json-parser/json.c"
+ return ($$0|0); //@line 61 "c_src/json.c"
 }
 function _new_value($state,$top,$root,$alloc,$type) {
  $state = $state|0;
@@ -10333,116 +10193,116 @@ function _new_value($state,$top,$root,$alloc,$type) {
  var $26 = 0, $27 = 0, $28 = 0, $29 = 0, $3 = 0, $30 = 0, $31 = 0, $32 = 0, $33 = 0, $34 = 0, $35 = 0, $36 = 0, $37 = 0, $38 = 0, $39 = 0, $4 = 0, $40 = 0, $41 = 0, $42 = 0, $43 = 0;
  var $44 = 0, $45 = 0, $46 = 0, $47 = 0, $5 = 0, $6 = 0, $7 = 0, $8 = 0, $9 = 0, label = 0, sp = 0;
  sp = STACKTOP;
- $0 = ((($state)) + 36|0); //@line 109 "json-parser/json.c"
- $1 = HEAP32[$0>>2]|0; //@line 109 "json-parser/json.c"
- $2 = ($1|0)==(0); //@line 109 "json-parser/json.c"
+ $0 = ((($state)) + 36|0); //@line 109 "c_src/json.c"
+ $1 = HEAP32[$0>>2]|0; //@line 109 "c_src/json.c"
+ $2 = ($1|0)==(0); //@line 109 "c_src/json.c"
  if (!($2)) {
-  $36 = ((($state)) + 32|0); //@line 170 "json-parser/json.c"
-  $37 = HEAP32[$36>>2]|0; //@line 170 "json-parser/json.c"
-  $38 = (($37) + 24)|0; //@line 170 "json-parser/json.c"
-  $39 = (_json_alloc($state,$38,1)|0); //@line 169 "json-parser/json.c"
-  $40 = ($39|0)==(0|0); //@line 169 "json-parser/json.c"
+  $36 = ((($state)) + 32|0); //@line 170 "c_src/json.c"
+  $37 = HEAP32[$36>>2]|0; //@line 170 "c_src/json.c"
+  $38 = (($37) + 24)|0; //@line 170 "c_src/json.c"
+  $39 = (_json_alloc($state,$38,1)|0); //@line 169 "c_src/json.c"
+  $40 = ($39|0)==(0|0); //@line 169 "c_src/json.c"
   if ($40) {
    $$0 = 0;
-   return ($$0|0); //@line 192 "json-parser/json.c"
+   return ($$0|0); //@line 192 "c_src/json.c"
   }
-  $41 = HEAP32[$root>>2]|0; //@line 175 "json-parser/json.c"
-  $42 = ($41|0)==(0|0); //@line 175 "json-parser/json.c"
+  $41 = HEAP32[$root>>2]|0; //@line 175 "c_src/json.c"
+  $42 = ($41|0)==(0|0); //@line 175 "c_src/json.c"
   if ($42) {
-   HEAP32[$root>>2] = $39; //@line 176 "json-parser/json.c"
+   HEAP32[$root>>2] = $39; //@line 176 "c_src/json.c"
   }
-  $43 = ((($39)) + 4|0); //@line 178 "json-parser/json.c"
-  HEAP32[$43>>2] = $type; //@line 178 "json-parser/json.c"
-  $44 = HEAP32[$top>>2]|0; //@line 179 "json-parser/json.c"
-  HEAP32[$39>>2] = $44; //@line 179 "json-parser/json.c"
-  $45 = HEAP32[$alloc>>2]|0; //@line 186 "json-parser/json.c"
-  $46 = ($45|0)==(0|0); //@line 186 "json-parser/json.c"
+  $43 = ((($39)) + 4|0); //@line 178 "c_src/json.c"
+  HEAP32[$43>>2] = $type; //@line 178 "c_src/json.c"
+  $44 = HEAP32[$top>>2]|0; //@line 179 "c_src/json.c"
+  HEAP32[$39>>2] = $44; //@line 179 "c_src/json.c"
+  $45 = HEAP32[$alloc>>2]|0; //@line 186 "c_src/json.c"
+  $46 = ($45|0)==(0|0); //@line 186 "c_src/json.c"
   if (!($46)) {
-   $47 = ((($45)) + 16|0); //@line 187 "json-parser/json.c"
-   HEAP32[$47>>2] = $39; //@line 187 "json-parser/json.c"
+   $47 = ((($45)) + 16|0); //@line 187 "c_src/json.c"
+   HEAP32[$47>>2] = $39; //@line 187 "c_src/json.c"
   }
-  HEAP32[$top>>2] = $39; //@line 189 "json-parser/json.c"
-  HEAP32[$alloc>>2] = $39; //@line 189 "json-parser/json.c"
+  HEAP32[$top>>2] = $39; //@line 189 "c_src/json.c"
+  HEAP32[$alloc>>2] = $39; //@line 189 "c_src/json.c"
   $$0 = 1;
-  return ($$0|0); //@line 192 "json-parser/json.c"
+  return ($$0|0); //@line 192 "c_src/json.c"
  }
- $3 = HEAP32[$alloc>>2]|0; //@line 111 "json-parser/json.c"
- HEAP32[$top>>2] = $3; //@line 111 "json-parser/json.c"
- $4 = HEAP32[$alloc>>2]|0; //@line 112 "json-parser/json.c"
- $5 = ((($4)) + 16|0); //@line 112 "json-parser/json.c"
- $6 = HEAP32[$5>>2]|0; //@line 112 "json-parser/json.c"
- HEAP32[$alloc>>2] = $6; //@line 112 "json-parser/json.c"
- $7 = HEAP32[$root>>2]|0; //@line 114 "json-parser/json.c"
- $8 = ($7|0)==(0|0); //@line 114 "json-parser/json.c"
+ $3 = HEAP32[$alloc>>2]|0; //@line 111 "c_src/json.c"
+ HEAP32[$top>>2] = $3; //@line 111 "c_src/json.c"
+ $4 = HEAP32[$alloc>>2]|0; //@line 112 "c_src/json.c"
+ $5 = ((($4)) + 16|0); //@line 112 "c_src/json.c"
+ $6 = HEAP32[$5>>2]|0; //@line 112 "c_src/json.c"
+ HEAP32[$alloc>>2] = $6; //@line 112 "c_src/json.c"
+ $7 = HEAP32[$root>>2]|0; //@line 114 "c_src/json.c"
+ $8 = ($7|0)==(0|0); //@line 114 "c_src/json.c"
  if ($8) {
-  HEAP32[$root>>2] = $3; //@line 115 "json-parser/json.c"
+  HEAP32[$root>>2] = $3; //@line 115 "c_src/json.c"
  }
- $9 = ((($3)) + 4|0); //@line 117 "json-parser/json.c"
- $10 = HEAP32[$9>>2]|0; //@line 117 "json-parser/json.c"
- if ((($10|0) == 1)) {
-  $18 = ((($3)) + 8|0); //@line 135 "json-parser/json.c"
-  $19 = HEAP32[$18>>2]|0; //@line 135 "json-parser/json.c"
-  $20 = ($19|0)==(0); //@line 135 "json-parser/json.c"
-  if ($20) {
-   $$0 = 1;
-   return ($$0|0); //@line 192 "json-parser/json.c"
-  }
-  $21 = ($19*12)|0; //@line 138 "json-parser/json.c"
-  $22 = ((($18)) + 4|0); //@line 141 "json-parser/json.c"
-  $23 = HEAP32[$22>>2]|0; //@line 141 "json-parser/json.c"
-  $24 = $23; //@line 141 "json-parser/json.c"
-  $25 = (($24) + ($21))|0; //@line 141 "json-parser/json.c"
-  $26 = (_json_alloc($state,$25,0)|0); //@line 140 "json-parser/json.c"
-  HEAP32[$22>>2] = $26; //@line 140 "json-parser/json.c"
-  $27 = ($26|0)==(0|0); //@line 140 "json-parser/json.c"
-  if ($27) {
-   $$0 = 0;
-   return ($$0|0); //@line 192 "json-parser/json.c"
-  }
-  $28 = (($26) + ($21)|0); //@line 146 "json-parser/json.c"
-  $29 = ((($3)) + 16|0); //@line 146 "json-parser/json.c"
-  HEAP32[$29>>2] = $28; //@line 146 "json-parser/json.c"
-  HEAP32[$18>>2] = 0; //@line 148 "json-parser/json.c"
-  $$0 = 1;
-  return ($$0|0); //@line 192 "json-parser/json.c"
- } else if ((($10|0) == 5)) {
-  $30 = ((($3)) + 8|0); //@line 154 "json-parser/json.c"
-  $31 = HEAP32[$30>>2]|0; //@line 154 "json-parser/json.c"
-  $32 = (($31) + 1)|0; //@line 154 "json-parser/json.c"
-  $33 = (_json_alloc($state,$32,0)|0); //@line 153 "json-parser/json.c"
-  $34 = ((($30)) + 4|0); //@line 153 "json-parser/json.c"
-  HEAP32[$34>>2] = $33; //@line 153 "json-parser/json.c"
-  $35 = ($33|0)==(0|0); //@line 153 "json-parser/json.c"
-  if ($35) {
-   $$0 = 0;
-   return ($$0|0); //@line 192 "json-parser/json.c"
-  }
-  HEAP32[$30>>2] = 0; //@line 159 "json-parser/json.c"
-  $$0 = 1;
-  return ($$0|0); //@line 192 "json-parser/json.c"
- } else if ((($10|0) == 2)) {
-  $11 = ((($3)) + 8|0); //@line 121 "json-parser/json.c"
-  $12 = HEAP32[$11>>2]|0; //@line 121 "json-parser/json.c"
-  $13 = ($12|0)==(0); //@line 121 "json-parser/json.c"
+ $9 = ((($3)) + 4|0); //@line 117 "c_src/json.c"
+ $10 = HEAP32[$9>>2]|0; //@line 117 "c_src/json.c"
+ if ((($10|0) == 2)) {
+  $11 = ((($3)) + 8|0); //@line 121 "c_src/json.c"
+  $12 = HEAP32[$11>>2]|0; //@line 121 "c_src/json.c"
+  $13 = ($12|0)==(0); //@line 121 "c_src/json.c"
   if ($13) {
    $$0 = 1;
-   return ($$0|0); //@line 192 "json-parser/json.c"
+   return ($$0|0); //@line 192 "c_src/json.c"
   }
-  $14 = $12 << 2; //@line 125 "json-parser/json.c"
-  $15 = (_json_alloc($state,$14,0)|0); //@line 124 "json-parser/json.c"
-  $16 = ((($11)) + 4|0); //@line 124 "json-parser/json.c"
-  HEAP32[$16>>2] = $15; //@line 124 "json-parser/json.c"
-  $17 = ($15|0)==(0|0); //@line 124 "json-parser/json.c"
+  $14 = $12 << 2; //@line 125 "c_src/json.c"
+  $15 = (_json_alloc($state,$14,0)|0); //@line 124 "c_src/json.c"
+  $16 = ((($11)) + 4|0); //@line 124 "c_src/json.c"
+  HEAP32[$16>>2] = $15; //@line 124 "c_src/json.c"
+  $17 = ($15|0)==(0|0); //@line 124 "c_src/json.c"
   if ($17) {
    $$0 = 0;
-   return ($$0|0); //@line 192 "json-parser/json.c"
+   return ($$0|0); //@line 192 "c_src/json.c"
   }
-  HEAP32[$11>>2] = 0; //@line 130 "json-parser/json.c"
+  HEAP32[$11>>2] = 0; //@line 130 "c_src/json.c"
   $$0 = 1;
-  return ($$0|0); //@line 192 "json-parser/json.c"
+  return ($$0|0); //@line 192 "c_src/json.c"
+ } else if ((($10|0) == 1)) {
+  $18 = ((($3)) + 8|0); //@line 135 "c_src/json.c"
+  $19 = HEAP32[$18>>2]|0; //@line 135 "c_src/json.c"
+  $20 = ($19|0)==(0); //@line 135 "c_src/json.c"
+  if ($20) {
+   $$0 = 1;
+   return ($$0|0); //@line 192 "c_src/json.c"
+  }
+  $21 = ($19*12)|0; //@line 138 "c_src/json.c"
+  $22 = ((($18)) + 4|0); //@line 141 "c_src/json.c"
+  $23 = HEAP32[$22>>2]|0; //@line 141 "c_src/json.c"
+  $24 = $23; //@line 141 "c_src/json.c"
+  $25 = (($24) + ($21))|0; //@line 141 "c_src/json.c"
+  $26 = (_json_alloc($state,$25,0)|0); //@line 140 "c_src/json.c"
+  HEAP32[$22>>2] = $26; //@line 140 "c_src/json.c"
+  $27 = ($26|0)==(0|0); //@line 140 "c_src/json.c"
+  if ($27) {
+   $$0 = 0;
+   return ($$0|0); //@line 192 "c_src/json.c"
+  }
+  $28 = (($26) + ($21)|0); //@line 146 "c_src/json.c"
+  $29 = ((($3)) + 16|0); //@line 146 "c_src/json.c"
+  HEAP32[$29>>2] = $28; //@line 146 "c_src/json.c"
+  HEAP32[$18>>2] = 0; //@line 148 "c_src/json.c"
+  $$0 = 1;
+  return ($$0|0); //@line 192 "c_src/json.c"
+ } else if ((($10|0) == 5)) {
+  $30 = ((($3)) + 8|0); //@line 154 "c_src/json.c"
+  $31 = HEAP32[$30>>2]|0; //@line 154 "c_src/json.c"
+  $32 = (($31) + 1)|0; //@line 154 "c_src/json.c"
+  $33 = (_json_alloc($state,$32,0)|0); //@line 153 "c_src/json.c"
+  $34 = ((($30)) + 4|0); //@line 153 "c_src/json.c"
+  HEAP32[$34>>2] = $33; //@line 153 "c_src/json.c"
+  $35 = ($33|0)==(0|0); //@line 153 "c_src/json.c"
+  if ($35) {
+   $$0 = 0;
+   return ($$0|0); //@line 192 "c_src/json.c"
+  }
+  HEAP32[$30>>2] = 0; //@line 159 "c_src/json.c"
+  $$0 = 1;
+  return ($$0|0); //@line 192 "c_src/json.c"
  } else {
   $$0 = 1;
-  return ($$0|0); //@line 192 "json-parser/json.c"
+  return ($$0|0); //@line 192 "c_src/json.c"
  }
  return (0)|0;
 }
@@ -10452,35 +10312,35 @@ function _json_alloc($state,$size,$zero) {
  $zero = $zero|0;
  var $$0 = 0, $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0, $15 = 0, $2 = 0, $3 = 0, $4 = 0, $5 = 0, $6 = 0, $7 = 0, $8 = 0, $9 = 0, label = 0, sp = 0;
  sp = STACKTOP;
- $0 = ((($state)) + 8|0); //@line 90 "json-parser/json.c"
- $1 = HEAP32[$0>>2]|0; //@line 90 "json-parser/json.c"
- $2 = HEAP32[$state>>2]|0; //@line 90 "json-parser/json.c"
- $3 = (($1) - ($2))|0; //@line 90 "json-parser/json.c"
- $4 = ($3>>>0)<($size>>>0); //@line 90 "json-parser/json.c"
+ $0 = ((($state)) + 8|0); //@line 90 "c_src/json.c"
+ $1 = HEAP32[$0>>2]|0; //@line 90 "c_src/json.c"
+ $2 = HEAP32[$state>>2]|0; //@line 90 "c_src/json.c"
+ $3 = (($1) - ($2))|0; //@line 90 "c_src/json.c"
+ $4 = ($3>>>0)<($size>>>0); //@line 90 "c_src/json.c"
  if ($4) {
   $$0 = 0;
-  return ($$0|0); //@line 100 "json-parser/json.c"
+  return ($$0|0); //@line 100 "c_src/json.c"
  }
- $5 = ((($state)) + 12|0); //@line 93 "json-parser/json.c"
- $6 = HEAP32[$5>>2]|0; //@line 93 "json-parser/json.c"
- $7 = ($6|0)==(0); //@line 93 "json-parser/json.c"
+ $5 = ((($state)) + 12|0); //@line 93 "c_src/json.c"
+ $6 = HEAP32[$5>>2]|0; //@line 93 "c_src/json.c"
+ $7 = ($6|0)==(0); //@line 93 "c_src/json.c"
  if (!($7)) {
-  $8 = (($2) + ($size))|0; //@line 94 "json-parser/json.c"
-  HEAP32[$state>>2] = $8; //@line 94 "json-parser/json.c"
-  $9 = HEAP32[$5>>2]|0; //@line 94 "json-parser/json.c"
-  $10 = ($8>>>0)>($9>>>0); //@line 94 "json-parser/json.c"
+  $8 = (($2) + ($size))|0; //@line 94 "c_src/json.c"
+  HEAP32[$state>>2] = $8; //@line 94 "c_src/json.c"
+  $9 = HEAP32[$5>>2]|0; //@line 94 "c_src/json.c"
+  $10 = ($8>>>0)>($9>>>0); //@line 94 "c_src/json.c"
   if ($10) {
    $$0 = 0;
-   return ($$0|0); //@line 100 "json-parser/json.c"
+   return ($$0|0); //@line 100 "c_src/json.c"
   }
  }
- $11 = ((($state)) + 20|0); //@line 99 "json-parser/json.c"
- $12 = HEAP32[$11>>2]|0; //@line 99 "json-parser/json.c"
- $13 = ((($state)) + 28|0); //@line 99 "json-parser/json.c"
- $14 = HEAP32[$13>>2]|0; //@line 99 "json-parser/json.c"
- $15 = (FUNCTION_TABLE_iiii[$12 & 3]($size,$zero,$14)|0); //@line 99 "json-parser/json.c"
+ $11 = ((($state)) + 20|0); //@line 99 "c_src/json.c"
+ $12 = HEAP32[$11>>2]|0; //@line 99 "c_src/json.c"
+ $13 = ((($state)) + 28|0); //@line 99 "c_src/json.c"
+ $14 = HEAP32[$13>>2]|0; //@line 99 "c_src/json.c"
+ $15 = (FUNCTION_TABLE_iiii[$12 & 3]($size,$zero,$14)|0); //@line 99 "c_src/json.c"
  $$0 = $15;
- return ($$0|0); //@line 100 "json-parser/json.c"
+ return ($$0|0); //@line 100 "c_src/json.c"
 }
 function _isspace($c) {
  $c = $c|0;
@@ -10552,9 +10412,9 @@ function ___floatscan($f,$prec,$pok) {
  $x$i = sp;
  if ((($prec|0) == 0)) {
   $bits$0$ph = 24;$emin$0$ph = -149;
- } else if ((($prec|0) == 2)) {
-  $bits$0$ph = 53;$emin$0$ph = -1074;
  } else if ((($prec|0) == 1)) {
+  $bits$0$ph = 53;$emin$0$ph = -1074;
+ } else if ((($prec|0) == 2)) {
   $bits$0$ph = 53;$emin$0$ph = -1074;
  } else {
   $$0 = 0.0;
@@ -14038,49 +13898,6 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     } else {
      do {
       switch ($$lcssa459|0) {
-      case 18:  {
-       $arglist_current32 = HEAP32[$ap>>2]|0;
-       $246 = $arglist_current32;
-       $247 = ((0) + 8|0);
-       $expanded141 = $247;
-       $expanded140 = (($expanded141) - 1)|0;
-       $248 = (($246) + ($expanded140))|0;
-       $249 = ((0) + 8|0);
-       $expanded145 = $249;
-       $expanded144 = (($expanded145) - 1)|0;
-       $expanded143 = $expanded144 ^ -1;
-       $250 = $248 & $expanded143;
-       $251 = $250;
-       $252 = +HEAPF64[$251>>3];
-       $arglist_next33 = ((($251)) + 8|0);
-       HEAP32[$ap>>2] = $arglist_next33;
-       HEAPF64[tempDoublePtr>>3] = $252;$253 = HEAP32[tempDoublePtr>>2]|0;
-       $254 = HEAP32[tempDoublePtr+4>>2]|0;
-       $264 = $253;$291 = $254;
-       break L64;
-       break;
-      }
-      case 9:  {
-       $arglist_current5 = HEAP32[$ap>>2]|0;
-       $163 = $arglist_current5;
-       $164 = ((0) + 4|0);
-       $expanded78 = $164;
-       $expanded77 = (($expanded78) - 1)|0;
-       $165 = (($163) + ($expanded77))|0;
-       $166 = ((0) + 4|0);
-       $expanded82 = $166;
-       $expanded81 = (($expanded82) - 1)|0;
-       $expanded80 = $expanded81 ^ -1;
-       $167 = $165 & $expanded80;
-       $168 = $167;
-       $169 = HEAP32[$168>>2]|0;
-       $arglist_next6 = ((($168)) + 4|0);
-       HEAP32[$ap>>2] = $arglist_next6;
-       $170 = $169;
-       $264 = $170;$291 = $1169;
-       break L64;
-       break;
-      }
       case 10:  {
        $arglist_current8 = HEAP32[$ap>>2]|0;
        $171 = $arglist_current8;
@@ -14264,6 +14081,49 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
        break L64;
        break;
       }
+      case 18:  {
+       $arglist_current32 = HEAP32[$ap>>2]|0;
+       $246 = $arglist_current32;
+       $247 = ((0) + 8|0);
+       $expanded141 = $247;
+       $expanded140 = (($expanded141) - 1)|0;
+       $248 = (($246) + ($expanded140))|0;
+       $249 = ((0) + 8|0);
+       $expanded145 = $249;
+       $expanded144 = (($expanded145) - 1)|0;
+       $expanded143 = $expanded144 ^ -1;
+       $250 = $248 & $expanded143;
+       $251 = $250;
+       $252 = +HEAPF64[$251>>3];
+       $arglist_next33 = ((($251)) + 8|0);
+       HEAP32[$ap>>2] = $arglist_next33;
+       HEAPF64[tempDoublePtr>>3] = $252;$253 = HEAP32[tempDoublePtr>>2]|0;
+       $254 = HEAP32[tempDoublePtr+4>>2]|0;
+       $264 = $253;$291 = $254;
+       break L64;
+       break;
+      }
+      case 9:  {
+       $arglist_current5 = HEAP32[$ap>>2]|0;
+       $163 = $arglist_current5;
+       $164 = ((0) + 4|0);
+       $expanded78 = $164;
+       $expanded77 = (($expanded78) - 1)|0;
+       $165 = (($163) + ($expanded77))|0;
+       $166 = ((0) + 4|0);
+       $expanded82 = $166;
+       $expanded81 = (($expanded82) - 1)|0;
+       $expanded80 = $expanded81 ^ -1;
+       $167 = $165 & $expanded80;
+       $168 = $167;
+       $169 = HEAP32[$168>>2]|0;
+       $arglist_next6 = ((($168)) + 4|0);
+       HEAP32[$ap>>2] = $arglist_next6;
+       $170 = $169;
+       $264 = $170;$291 = $1169;
+       break L64;
+       break;
+      }
       default: {
        $264 = $1170;$291 = $1169;
        break L64;
@@ -14296,160 +14156,6 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
   $fl$1$ = $262 ? $fl$1 : $263;
   L86: do {
    switch ($t$0|0) {
-   case 112:  {
-    $286 = ($p$0>>>0)>(8);
-    $287 = $286 ? $p$0 : 8;
-    $288 = $fl$1$ | 8;
-    $fl$3 = $288;$p$1 = $287;$t$1 = 120;
-    label = 73;
-    break;
-   }
-   case 111:  {
-    $312 = ($264|0)==(0);
-    $313 = ($291|0)==(0);
-    $314 = $312 & $313;
-    if ($314) {
-     $$0$lcssa$i51 = $2;
-    } else {
-     $$03$i48 = $2;$316 = $264;$320 = $291;
-     while(1) {
-      $315 = $316 & 7;
-      $317 = $315 | 48;
-      $318 = $317&255;
-      $319 = ((($$03$i48)) + -1|0);
-      HEAP8[$319>>0] = $318;
-      $321 = (_bitshift64Lshr(($316|0),($320|0),3)|0);
-      $322 = tempRet0;
-      $323 = ($321|0)==(0);
-      $324 = ($322|0)==(0);
-      $325 = $323 & $324;
-      if ($325) {
-       $$0$lcssa$i51 = $319;
-       break;
-      } else {
-       $$03$i48 = $319;$316 = $321;$320 = $322;
-      }
-     }
-    }
-    $326 = $fl$1$ & 8;
-    $327 = ($326|0)==(0);
-    $or$cond19 = $327 | $314;
-    $$24 = $or$cond19 ? 1992 : (1997);
-    $328 = $or$cond19&1;
-    $$25 = $328 ^ 1;
-    $366 = $264;$368 = $291;$a$0 = $$0$lcssa$i51;$fl$4 = $fl$1$;$p$2 = $p$0;$pl$1 = $$25;$prefix$1 = $$24;
-    label = 89;
-    break;
-   }
-   case 110:  {
-    switch ($st$0$lcssa456|0) {
-    case 2:  {
-     $267 = ($cnt$1|0)<(0);
-     $268 = $267 << 31 >> 31;
-     $269 = $264;
-     $270 = $269;
-     $271 = $270;
-     HEAP32[$271>>2] = $cnt$1;
-     $272 = (($270) + 4)|0;
-     $273 = $272;
-     HEAP32[$273>>2] = $268;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    case 3:  {
-     $274 = $cnt$1&65535;
-     $275 = $264;
-     HEAP16[$275>>1] = $274;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    case 4:  {
-     $276 = $cnt$1&255;
-     $277 = $264;
-     HEAP8[$277>>0] = $276;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    case 6:  {
-     $278 = $264;
-     HEAP32[$278>>2] = $cnt$1;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    case 7:  {
-     $279 = ($cnt$1|0)<(0);
-     $280 = $279 << 31 >> 31;
-     $281 = $264;
-     $282 = $281;
-     $283 = $282;
-     HEAP32[$283>>2] = $cnt$1;
-     $284 = (($282) + 4)|0;
-     $285 = $284;
-     HEAP32[$285>>2] = $280;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    case 0:  {
-     $265 = $264;
-     HEAP32[$265>>2] = $cnt$1;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    case 1:  {
-     $266 = $264;
-     HEAP32[$266>>2] = $cnt$1;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
-    default: {
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-    }
-    }
-    break;
-   }
-   case 67:  {
-    HEAP32[$wc>>2] = $264;
-    HEAP32[$5>>2] = 0;
-    $1179 = $wc;$1180 = $6;$p$4272 = -1;
-    label = 97;
-    break;
-   }
-   case 83:  {
-    $391 = $264;
-    $392 = ($p$0|0)==(0);
-    if ($392) {
-     $1181 = $264;$1182 = $391;$i$0$lcssa273 = 0;
-     label = 102;
-    } else {
-     $1179 = $391;$1180 = $264;$p$4272 = $p$0;
-     label = 97;
-    }
-    break;
-   }
-   case 109:  {
-    $379 = (___errno_location()|0);
-    $380 = HEAP32[$379>>2]|0;
-    $381 = (_strerror(($380|0))|0);
-    $a$1 = $381;
-    label = 94;
-    break;
-   }
-   case 115:  {
-    $382 = $264;
-    $383 = ($264|0)!=(0);
-    $384 = $383 ? $382 : 2008;
-    $a$1 = $384;
-    label = 94;
-    break;
-   }
    case 65: case 71: case 70: case 69: case 97: case 103: case 102: case 101:  {
     HEAP32[tempDoublePtr>>2] = $264;HEAP32[tempDoublePtr+4>>2] = $291;$430 = +HEAPF64[tempDoublePtr>>3];
     HEAP32[$e2$i>>2] = 0;
@@ -14949,7 +14655,7 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
        $$pr146$i = $$pr$i;$a$1$lcssa$i = $$31$i;$z$1$lcssa$i = $$lcssa460;
       }
       $667 = ($$pr146$i|0)<(0);
-      L231: do {
+      L195: do {
        if ($667) {
         $668 = (($$p$i) + 25)|0;
         $669 = (($668|0) / 9)&-1;
@@ -15019,7 +14725,7 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
            $704 = $733;$a$3240$i = $$a$3306$i;$z$3239$i = $$z$4$i;
           } else {
            $a$3$lcssa$i = $$a$3306$i;$z$3$lcssa$i = $$z$4$i;
-           break L231;
+           break L195;
           }
          }
         }
@@ -15947,15 +15653,163 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     continue L1;
     break;
    }
+   case 109:  {
+    $379 = (___errno_location()|0);
+    $380 = HEAP32[$379>>2]|0;
+    $381 = (_strerror(($380|0))|0);
+    $a$1 = $381;
+    label = 94;
+    break;
+   }
+   case 115:  {
+    $382 = $264;
+    $383 = ($264|0)!=(0);
+    $384 = $383 ? $382 : 2008;
+    $a$1 = $384;
+    label = 94;
+    break;
+   }
+   case 67:  {
+    HEAP32[$wc>>2] = $264;
+    HEAP32[$5>>2] = 0;
+    $1179 = $wc;$1180 = $6;$p$4272 = -1;
+    label = 97;
+    break;
+   }
+   case 83:  {
+    $391 = $264;
+    $392 = ($p$0|0)==(0);
+    if ($392) {
+     $1181 = $264;$1182 = $391;$i$0$lcssa273 = 0;
+     label = 102;
+    } else {
+     $1179 = $391;$1180 = $264;$p$4272 = $p$0;
+     label = 97;
+    }
+    break;
+   }
+   case 112:  {
+    $286 = ($p$0>>>0)>(8);
+    $287 = $286 ? $p$0 : 8;
+    $288 = $fl$1$ | 8;
+    $fl$3 = $288;$p$1 = $287;$t$1 = 120;
+    label = 73;
+    break;
+   }
    case 88: case 120:  {
     $fl$3 = $fl$1$;$p$1 = $p$0;$t$1 = $t$0;
     label = 73;
     break;
    }
-   case 99:  {
-    $378 = $264&255;
-    HEAP8[$4>>0] = $378;
-    $1175 = $291;$1176 = $264;$a$2 = $4;$fl$6 = $263;$p$5 = 1;$pl$2 = 0;$prefix$2 = 1992;$z$2 = $2;
+   case 110:  {
+    switch ($st$0$lcssa456|0) {
+    case 7:  {
+     $279 = ($cnt$1|0)<(0);
+     $280 = $279 << 31 >> 31;
+     $281 = $264;
+     $282 = $281;
+     $283 = $282;
+     HEAP32[$283>>2] = $cnt$1;
+     $284 = (($282) + 4)|0;
+     $285 = $284;
+     HEAP32[$285>>2] = $280;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 0:  {
+     $265 = $264;
+     HEAP32[$265>>2] = $cnt$1;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 1:  {
+     $266 = $264;
+     HEAP32[$266>>2] = $cnt$1;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 2:  {
+     $267 = ($cnt$1|0)<(0);
+     $268 = $267 << 31 >> 31;
+     $269 = $264;
+     $270 = $269;
+     $271 = $270;
+     HEAP32[$271>>2] = $cnt$1;
+     $272 = (($270) + 4)|0;
+     $273 = $272;
+     HEAP32[$273>>2] = $268;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 3:  {
+     $274 = $cnt$1&65535;
+     $275 = $264;
+     HEAP16[$275>>1] = $274;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 4:  {
+     $276 = $cnt$1&255;
+     $277 = $264;
+     HEAP8[$277>>0] = $276;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 6:  {
+     $278 = $264;
+     HEAP32[$278>>2] = $cnt$1;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    default: {
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+    }
+    }
+    break;
+   }
+   case 111:  {
+    $312 = ($264|0)==(0);
+    $313 = ($291|0)==(0);
+    $314 = $312 & $313;
+    if ($314) {
+     $$0$lcssa$i51 = $2;
+    } else {
+     $$03$i48 = $2;$316 = $264;$320 = $291;
+     while(1) {
+      $315 = $316 & 7;
+      $317 = $315 | 48;
+      $318 = $317&255;
+      $319 = ((($$03$i48)) + -1|0);
+      HEAP8[$319>>0] = $318;
+      $321 = (_bitshift64Lshr(($316|0),($320|0),3)|0);
+      $322 = tempRet0;
+      $323 = ($321|0)==(0);
+      $324 = ($322|0)==(0);
+      $325 = $323 & $324;
+      if ($325) {
+       $$0$lcssa$i51 = $319;
+       break;
+      } else {
+       $$03$i48 = $319;$316 = $321;$320 = $322;
+      }
+     }
+    }
+    $326 = $fl$1$ & 8;
+    $327 = ($326|0)==(0);
+    $or$cond19 = $327 | $314;
+    $$24 = $or$cond19 ? 1992 : (1997);
+    $328 = $or$cond19&1;
+    $$25 = $328 ^ 1;
+    $366 = $264;$368 = $291;$a$0 = $$0$lcssa$i51;$fl$4 = $fl$1$;$p$2 = $p$0;$pl$1 = $$25;$prefix$1 = $$24;
+    label = 89;
     break;
    }
    case 105: case 100:  {
@@ -15979,6 +15833,12 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
      $336 = $291;$338 = $264;$pl$0 = 1;$prefix$0 = (1993);
      label = 84;
     }
+    break;
+   }
+   case 99:  {
+    $378 = $264&255;
+    HEAP8[$4>>0] = $378;
+    $1175 = $291;$1176 = $264;$a$2 = $4;$fl$6 = $263;$p$5 = 1;$pl$2 = 0;$prefix$2 = 1992;$z$2 = $2;
     break;
    }
    case 117:  {
@@ -19892,7 +19752,7 @@ function _free($mem) {
    $286 = HEAP32[$285>>2]|0;
    $287 = $286 & -8;
    $288 = ($287|0)==($psize$1|0);
-   L202: do {
+   L201: do {
     if ($288) {
      $T$0$lcssa = $284;
     } else {
@@ -19918,7 +19778,7 @@ function _free($mem) {
       $299 = ($298|0)==($psize$1|0);
       if ($299) {
        $T$0$lcssa = $296;
-       break L202;
+       break L201;
       } else {
        $K19$052 = $294;$T$051 = $296;
       }

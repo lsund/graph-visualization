@@ -3,13 +3,16 @@ Graph visualization tool in JS.
 
 ### Tests:
 
-`git clone https://github.com/lsund/graph-visualization`
+* `git clone https://github.com/lsund/graph-visualization`
 
-`cd graph-visualization`
+* `cd graph-visualization`
 
-For this to work you need a web-server ex:
-`python3 -m http.server` or `python -m SimpleHTTPServer` (for python 2)
+Views are in mocha.html
 
-`http://localhost:8000/mocha.html`
+For Chrome and IE  you need to serve the files with a web server:
+
+* `python3 -m http.server` or `python -m SimpleHTTPServer` (python 2)
+
+* `http://localhost:8000/mocha.html`
 
 

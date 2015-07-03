@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <sys/stat.h>
-#include "json-parser/json.h"
+#include "c_src/json.h"
 
 void norm(float *arr, int length) {
   int i;
