@@ -14,15 +14,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 #include "c_src/util.h"
 #include "c_src/frprmn.h"
+
+#include "get_sizes.h"
 
 #define FTOL 0.00001
 #define MIN_DIST 0.1
 #define PRECISION_DIGITS 8
 
-static float *fdm;
+static float *fdm, *fss;
 
 static int dim, nv, stiffness, elen, spanx, spany, pox, poy;
 
@@ -41,7 +44,8 @@ void initDMT(char *fname)
     rt_error("error in getDMT while allocating memory");
   }
   if (fp == NULL) {
-    rt_error("error while opening file for reading");
+    printf("Error while opening file: %s for reading", fname);
+    rt_error("Error...");
   }
 
   for (i = 0; i < nv; i++) {
@@ -120,6 +124,7 @@ float calcFunction (float p[])
   rtn = 0;
   for (i = 0; i < dim - 1; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
+      /*d = fdm[(i / 2) * nv + (j / 2)] + fss[i / 2] + fss[j / 2];*/
       d = fdm[(i / 2) * nv + (j / 2)];
       wij = stiffness;
       dij = d * elen;
@@ -135,6 +140,7 @@ void calcGradient (float p[], float df[])
   float d, wij, dij;
   for (i = 0; i < dim; i += 2) {
     for (j = i + 2; j < dim; j += 2) {
+      /*d = fdm[(i / 2) * nv + (j / 2)] + fss[i / 2] + fss[j / 2];*/
       d = fdm[(i / 2) * nv + (j / 2)];
       wij = stiffness;
       dij = d * elen;
@@ -149,13 +155,15 @@ void calcGradient (float p[], float df[])
 float (*func)(float []) = calcFunction;
 void (*dfunc)(float [], float []) = calcGradient;
 
-int minimize (char *dmtFilename, float *flatpos, int len,
+int minimize (char *dmtFilename, char *ssFilename, float *flatpos, int len,
   int edgelen, int panelx, int panely, int panelOffsetX, int panelOffsetY, 
   float fact) 
 {
   int *iter;
   float *fret;
 
+  int sizes = strcmp(ssFilename, "noClusterSize") != 0;
+  
   pox = panelOffsetX;
   poy = panelOffsetY;
   spanx = panelx * fact;
@@ -165,24 +173,33 @@ int minimize (char *dmtFilename, float *flatpos, int len,
   dim = len;
   nv = len / 2;
   stiffness = panelx * panely /  1000;
-
+  
   fdm = malloc(sizeof(float) * (nv * nv));
   iter = malloc(sizeof(int));
   fret = malloc(sizeof(float));
 
-  initDMT(dmtFilename);
-  initFPS(flatpos);
+  if (sizes) {
+    fss = malloc(sizeof(float) * nv); 
+    get_sizes(fss, ssFilename, nv);
+  }
 
   if (iter == NULL || fret == NULL || fdm == NULL) {
     rt_error("Error in minimize when allocating memory");
   }
+
+  initDMT(dmtFilename);
+  initFPS(flatpos);
 
   frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
 
   free(fdm);
   free(fret);
   free(iter);
+  if (sizes) {
+    free(fss);
+  }
 
   return 0;
 }
+
 

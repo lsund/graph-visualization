@@ -21,12 +21,15 @@
 
     window.COMPONENT.vertex = function (options) {
       
-      var maxSize = 110;
+      var maxSize = 99;
+
 
       var obj = window.COMPONENT.graphObject(options);
 
       obj.children = options.children || [];
       obj.edges = options.edges || [];
+
+      obj.dmtsizes = options.dmtsizes;
 
       obj.lookupPosition = function (k) {
         var i, vs;
@@ -53,8 +56,9 @@
         sumpos = window.COMPONENT.vector2D(0, 0);
         for (i = 0; i < vec.length; i += 2) {
           if (sizes) {
-            csize = lookupSize(id, options.dmtsizes);
-            color = '#0000' + csize + '' + csize;
+            csize = lookupSize(id, obj.dmtsizes);
+            csize *= 0.5;
+            color = '#00' + csize + '' + csize;
           } else {
             csize = 3;
             color = '#003366';
@@ -66,7 +70,7 @@
                 id: id,
                 position: window.COMPONENT.vector2D(vec[i], vec[i + 1]), 
                 shape: 'circle', 
-                dimension: csize * 0.8,
+                dimension: csize,
                 color: color
               }
             )); 

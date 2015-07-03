@@ -30,22 +30,21 @@
       dimx = obj.dimension.x;
       dimy = obj.dimension.y;
 
+      obj.initialize = function () {
+        obj.children = [];
+      };
+
       obj.addVertices = function (vec, useCustomSizes) {
-        if (useCustomSizes) {
-          obj.createChildren(vec, options.dmtsizes);
-        } else {
-          obj.createChildren(vec, undefined);
-        }
+        obj.createChildren(vec, useCustomSizes);
       };
       
-      // TBI
-      //obj.moveVertices = function (vec) {
-        //var i;
-        //for (i = 0; i < obj.vertices.length; i += 1) {
-          //var cv = obj.vertices[i];
-          //cv.setPosition(cv.position.add(vec));
-        //}
-      //};
+      obj.moveVertices = function (vec) {
+        var i;
+        for (i = 0; i < obj.children.length; i += 1) {
+          var cv = obj.children[i];
+          cv.setPosition(cv.position.add(vec));
+        }
+      };
 
       return obj;
     };

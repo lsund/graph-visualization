@@ -15,8 +15,13 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function () {
+    
+    var canvas, stime, etime, time, 
+      statusParagraph, variableParagraph, clusterParagraph;
 
-    var canvas, stime, etime, time;
+    var initialize, minimize, sayDone, calc, draw, minimizeSet, minimizeL0,
+      minimizeL1, minimizeL2, minimizeL3, minimizeSet0, minimizeSet1,
+      minimizeSet2, minimizeSet3, minimizeSet4;
 
     window.COMPONENT = window.COMPONENT || {};
     window.EXPORTS = window.EXPORTS || {};
@@ -27,47 +32,44 @@
     window.GLOBALS.SPRING_LENGTH = 600;
     window.GLOBALS.GRAVITY = 0.01;
 
-    var initialize = function () {
+    statusParagraph = document.getElementById('status');
+    variableParagraph = document.getElementById('variables');
+    clusterParagraph = document.getElementById('cluster');
+
+    variableParagraph.innerHTML += ' Max distance (px): ' + 
+      window.GLOBALS.SPRING_LENGTH;
+
+    initialize = function () {
+      
+      var panelx, panely;
 
       canvas = document.getElementById('canvas');
+      panelx = canvas.width;
+      panely = canvas.height;
 
-      var panelx = canvas.width;
-      var panely = canvas.height;
       window.OBJECT.head = window.COMPONENT.head({});
       window.OBJECT.body = window.COMPONENT.body(
         { 
-          dimension: window.COMPONENT.vector2D(panelx, panely),
-          dmtsizes: window.DATA.dmtsizes          
+          dimension: window.COMPONENT.vector2D(panelx, panely)
         }
       );
 
-      var variableParagraph = document.getElementById('variables');
-
-      variableParagraph.innerHTML += ' Max distance (px): ' + 
-        window.GLOBALS.SPRING_LENGTH;
-
       window.EXPORTS.draw();
-
     };
-    
-    var statusParagraph = document.getElementById('status');
 
-
-    var minimize = function (opts) {
-
-      var fopts = opts.fopts;
-      var offset = opts.offset;
-      var callback = opts.callback;
-
-      var clusterParagraph = document.getElementById('cluster');
-      clusterParagraph.innerHTML = 'N: ' + fopts.nv;
-
+    minimize = function (opts) {
+      
       var cMinimize, arr32, nbytes, dptr, dh, result;
+
+      opts.ssfopts = opts.ssfopts || { name: 'noClusterSize' };
+
+      clusterParagraph.innerHTML = 'N: ' + opts.fopts.nv;
 
       cMinimize = Module.cwrap(
         'minimize', 'number', 
         [
           'string', 
+          'string',
           'number', 
           'number', 
           'number', 
@@ -79,21 +81,22 @@
         ]
       );
 
-      arr32= new Float32Array(fopts.nv * 2);
+      arr32= new Float32Array(opts.fopts.nv * 2);
       nbytes= arr32.length * arr32.BYTES_PER_ELEMENT;
       dptr= Module._malloc(nbytes);
       dh= new Uint8Array(Module.HEAPU8.buffer, dptr, nbytes);
       dh.set(new Uint8Array(arr32.buffer));
 
       cMinimize(
-        fopts.name,
+        opts.fopts.name,
+        opts.ssfopts.name,
         dh.byteOffset, 
         arr32.length,
         window.GLOBALS.SPRING_LENGTH,
         window.OBJECT.body.dimension.x,
         window.OBJECT.body.dimension.y,
-        offset.x, 
-        offset.y,
+        opts.offset.x, 
+        opts.offset.y,
         opts.fact 
       );
 
@@ -104,16 +107,16 @@
       );
 
       Module._free(dh.byteOffset);
-
-      callback(result, { par: opts.par, sizes : opts.sizes });
+      opts.callback(result, { par: opts.par, sizes : opts.sizes });
     };
 
+    sayDone = function (result, opts) {
 
-    var sayDone = function (result, opts) {
       etime = new Date().getTime(); 
       time = (etime - stime) / 1000;
+
       statusParagraph.innerHTML = 'Done: ' + time + ' s';
-      
+
       if (opts.par !== window.OBJECT.body) {
         window.OBJECT.body.children[opts.par - 1].createChildren(result);
       } else {
@@ -121,14 +124,24 @@
       }
     };
 
-    var calc = function (opts) {
-      var offset = opts.offset || window.COMPONENT.vector2D(0, 0);
+    calc = function (opts) {
+      var ssfopts;
+
+      window.OBJECT.body.initialize();
+      opts.offset = opts.offset || window.COMPONENT.vector2D(0, 0);
+       
+      if (opts.ssfn !== undefined) {
+        ssfopts = window.DATA.ssfopts[opts.ssfn];
+      } else {
+        ssfopts = undefined;
+      }
       setTimeout(function () {
         minimize(
           {
             fopts: window.DATA.fopts[opts.fn], 
+            ssfopts: ssfopts,
             fact: opts.fact,
-            offset: offset, 
+            offset: opts.offset, 
             callback: sayDone,
             par: opts.par,
             sizes: opts.sizes
@@ -136,77 +149,136 @@
         );
         opts.callback();
       }, 20);
+
       stime = new Date().getTime(); 
       statusParagraph.innerHTML = 'Loading...';
     };
 
-    var drawL0 = function () {
+    draw = function () {
       window.EXPORTS.draw(false);
     };
-    var drawL1 = function () {
-      window.EXPORTS.drawVertices(false);
-    };
 
-    var minimizeSet = function (opts) {
+    minimizeSet = function (opts) {
       calc(
         {
           fn: opts.fn,
           fact: opts.fact,
           par: opts.par,
           offset: window.OBJECT.body.lookupPosition(opts.par),
-          callback: drawL1 
+          callback: draw
         }     
       );
     };
     
-    initialize();
-
-    var minimizeL0 = function (callback) {
-      calc(
-        { 
-          fn: 0, 
-          par: window.OBJECT.body,
-          fact: 1,
-          sizes: true,
-          callback: function () {
-            drawL0();
-            if (callback) {
-              callback();
-            }
-          }
-        }
-      );
+    minimizeSet0 = function () {
+      minimizeSet({ fn: 0, par: window.OBJECT.body, fact: 1, sizes: false });
     };
-
-    var minimizeL1 = function () {
-      minimizeL0(function () {
-        window.EXPORTS.redraw();
-        minimizeSet({ fn: 1, par: 2, fact: 0.2, sizes: false });
-        minimizeSet({ fn: 2, par: 3, fact: 0.2, sizes: false });
-        minimizeSet({ fn: 3, par: 10, fact: 0.2, sizes: false });
-        minimizeSet({ fn: 4, par: 11, fact: 0.2, sizes: false });
-        minimizeSet({ fn: 5, par: 56, fact: 0.2, sizes: false });
-      });
-    };
-    
-    window.EXPORTS.minimizeL0 = minimizeL0; 
-    window.EXPORTS.minimizeL1 = minimizeL1; 
-
-    window.EXPORTS.minimizeSet0 = function () {
+    minimizeSet1 = function () {
       minimizeSet({ fn: 1, par: window.OBJECT.body, fact: 1, sizes: false });
     };
-    window.EXPORTS.minimizeSet1 = function () {
+    minimizeSet2 = function () {
       minimizeSet({ fn: 2, par: window.OBJECT.body, fact: 1, sizes: false });
     };
-    window.EXPORTS.minimizeSet2 = function () {
+    minimizeSet3 = function () {
       minimizeSet({ fn: 3, par: window.OBJECT.body, fact: 1, sizes: false });
     };
-    window.EXPORTS.minimizeSet3 = function () {
+    minimizeSet4 = function () {
       minimizeSet({ fn: 4, par: window.OBJECT.body, fact: 1, sizes: false });
     };
-    window.EXPORTS.minimizeSet4 = function () {
-      minimizeSet({ fn: 5, par: window.OBJECT.body, fact: 1, sizes: false });
+    minimizeL0 = function () {
+      readSizes('data/c_32/dmt_sizes.json', function () {
+        calc(
+          { 
+            fn: 5, 
+            ssfn: 0,
+            par: window.OBJECT.body,
+            fact: 1,
+            sizes: true,
+            callback: function () {
+              draw();
+            }
+          }
+        );
+      });
     };
+    minimizeL1 = function () {
+      readSizes('data/c_64/dmt_sizes.json', function () {
+        calc(
+          { 
+            fn: 6, 
+            ssfn: 1,
+            par: window.OBJECT.body,
+            fact: 1,
+            sizes: true,
+            callback: function () {
+              draw();
+            }
+          }
+        );
+      });
+    };
+    minimizeL2 = function () {
+      readSizes('data/c_128/dmt_sizes.json', function () {
+        calc(
+          { 
+            fn: 7, 
+            ssfn: 2,
+            par: window.OBJECT.body,
+            fact: 1,
+            sizes: true,
+            callback: function () {
+              draw();
+            }
+          }
+        );
+      });
+    };
+    minimizeL3 = function () {
+      readSizes('data/c_256/dmt_sizes.json', function () {
+        calc(
+          { 
+            fn: 8, 
+            ssfn: 3,
+            par: window.OBJECT.body,
+            fact: 1,
+            sizes: true,
+            callback: function () {
+              draw();
+            }
+          }
+        );
+      });
+    };
+
+    window.EXPORTS.minimizeL0 = minimizeL0; 
+    window.EXPORTS.minimizeL1 = minimizeL1; 
+    window.EXPORTS.minimizeL2 = minimizeL2; 
+    window.EXPORTS.minimizeL3 = minimizeL3; 
+
+    window.EXPORTS.minimizeSet0 = minimizeSet0; 
+    window.EXPORTS.minimizeSet1 = minimizeSet1; 
+    window.EXPORTS.minimizeSet2 = minimizeSet2; 
+    window.EXPORTS.minimizeSet3 = minimizeSet3; 
+    window.EXPORTS.minimizeSet4 = minimizeSet4; 
+    
+    function readSizes(file, callback) {
+      var rawFile = new XMLHttpRequest();
+      rawFile.open('GET', file, true);
+      rawFile.setRequestHeader('Content-type', 'application/json');
+      rawFile.overrideMimeType('application/json');
+      rawFile.onreadystatechange = function () {
+        if(rawFile.readyState === 4) {
+          if(rawFile.status === 200 || rawFile.status === 0) {
+            var ret = rawFile.responseText;
+            window.OBJECT.body.dmtsizes = JSON.parse(ret); 
+            callback();
+          }
+        }
+      };
+      rawFile.send(null);
+    }
+
+    initialize();
 
 
   });

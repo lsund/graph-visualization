@@ -41,7 +41,6 @@
     c.addEventListener('mousedown', function (e) {
       c.style.cursor = 'grabbing';
       var vec = getMouse(e);
-      console.log('x: ' + vec.x + ', y: ' + vec.y);
       mouseDownPos = vec;
     });
 
@@ -52,7 +51,7 @@
       c.style.cursor = 'grab';
       var change = getMouse(e).sub(mouseDownPos);
       window.OBJECT.body.moveVertices(change);
-      draw(true);
+      draw(false);
     });
 
     var drawVertex = function (v, id) {
@@ -77,17 +76,16 @@
     };
 
     var drawEdge = function (b) {
-      var fstCenter = b.first.getCenter();
-      var sndCenter = b.second.getCenter();
-      ctx.moveTo(fstCenter.x, fstCenter.y);
-      ctx.lineTo(sndCenter.x, sndCenter.y);
+      ctx.moveTo(b.first.position.x, b.first.position.y);
+      ctx.lineTo(b.second.position.x, b.second.position.y);
       ctx.strokeStyle = b.color;
       ctx.stroke();
     };
 
     var draw = function (drawEdges) {
+      ctx.clearRect(0, 0, c.width, c.height);
       if (drawEdges) {
-        window.OBJECT.body.edge.forEach(function (b) {
+        window.OBJECT.body.edges.forEach(function (b) {
           if (b.type === 'r') {
             drawEdge(b);
           }
@@ -98,26 +96,7 @@
       });
     };
 
-    var drawVertices = function (drawEdges) {
-      if (drawEdges) {
-        window.OBJECT.body.edge.forEach(function (b) {
-          if (b.type === 'r') {
-            drawEdge(b);
-          }
-        });
-      }
-      window.OBJECT.body.children.forEach(function (v) {
-        v.children.forEach(function (v) {
-          drawVertex(v);
-        });
-      });
-    };
-
-    window.EXPORTS.redraw = function () {
-        ctx.clearRect(0, 0, c.width, c.height);
-    };
     window.EXPORTS.draw = draw;
-    window.EXPORTS.drawVertices = drawVertices;
 
   }); 
 

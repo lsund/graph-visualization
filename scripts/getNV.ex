@@ -28,23 +28,35 @@ defmodule GetNV do
     end
   end
   
+  def write_file(tpls, path) do
 
-  def writeFile([], _), do: :done
-  def writeFile([x | xs], file) do
-    nline = "{n:" <> to_string(elem(x, 0))
-    vsline = ", v:" <> to_string(elem(x, 1)) <> "},\n"
-    IO.binwrite(file, nline <> vsline)
-    writeFile(xs, file)
+    {:ok, file} = File.open(path, [:write])
+    IO.binwrite(file, "[")
+    GetNV.write_tpls(tpls, file)
+    IO.binwrite(file, "]")
+    File.close(file)
+
   end
+
+  def write_tpls([], _), do: :done
+  def write_tpls([x | xs], file) do
+    nline = "{\"n\":" <> to_string(elem(x, 0))
+    vsline = ",\"v\":" <> to_string(elem(x, 1))
+    case xs do 
+      []        -> suffix = "}"
+      _         -> suffix = "},"
+    end
+    IO.binwrite(file, nline <> vsline <> suffix)
+    write_tpls(xs, file)
+  end
+
 end
 
 readpath = hd(System.argv())
 writepath = System.argv() |> tl |> hd
 
-{:ok, file} = File.open(writepath, [:write])
-
 tpls = GetNV.parse_ints(GetNV.read(readpath))
-GetNV.writeFile(tpls, file)
 
-File.close(file)
+GetNV.write_file(tpls, writepath)
+
 
