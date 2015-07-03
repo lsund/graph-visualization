@@ -30,8 +30,8 @@ Module.expectedDataFileDownloads++;
                               Module['locateFile'](REMOTE_PACKAGE_BASE) :
                               ((Module['filePackagePrefixURL'] || '') + REMOTE_PACKAGE_BASE);
   
-      var REMOTE_PACKAGE_SIZE = 484;
-      var PACKAGE_UUID = '8f370015-722b-4672-8ac6-ad9b5d713daa';
+      var REMOTE_PACKAGE_SIZE = 1307764;
+      var PACKAGE_UUID = '69fb1346-94b2-41eb-a371-4ab5ec05b27e';
     
     function fetchRemotePackage(packageName, packageSize, callback, errback) {
       var xhr = new XMLHttpRequest();
@@ -95,6 +95,11 @@ Module.expectedDataFileDownloads++;
     }
 Module['FS_createPath']('/', 'data', true, true);
 Module['FS_createPath']('/data', 'c_32', true, true);
+Module['FS_createPath']('/data', 'c_64', true, true);
+Module['FS_createPath']('/data', 'c_128', true, true);
+Module['FS_createPath']('/data', 'c_256', true, true);
+Module['FS_createPath']('/data/c_64', 'subsets', true, true);
+Module['FS_createPath']('/data/c_64/subsets', 'dmt_clusters_subset1', true, true);
 
     function DataRequest(start, end, crunched, audio) {
       this.start = start;
@@ -132,6 +137,73 @@ Module['FS_createPath']('/data', 'c_32', true, true);
     };
 
       new DataRequest(0, 484, 0, 0).open('GET', '/data/c_32/dmt_sizes.json');
+    new DataRequest(484, 35888, 0, 0).open('GET', '/data/c_64/dmt_cluster.csv');
+    new DataRequest(35888, 36866, 0, 0).open('GET', '/data/c_64/dmt_sizes.json');
+    new DataRequest(36866, 179158, 0, 0).open('GET', '/data/c_128/dmt_cluster.csv');
+    new DataRequest(179158, 181150, 0, 0).open('GET', '/data/c_128/dmt_sizes.json');
+    new DataRequest(181150, 753870, 0, 0).open('GET', '/data/c_256/dmt_cluster.csv');
+    new DataRequest(753870, 757957, 0, 0).open('GET', '/data/c_256/dmt_sizes.json');
+    new DataRequest(757957, 757979, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_27_2.csv');
+    new DataRequest(757979, 757982, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_52_1.csv');
+    new DataRequest(757982, 758010, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_7_2.csv');
+    new DataRequest(758010, 758407, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_59_7.csv');
+    new DataRequest(758407, 758527, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_40_4.csv');
+    new DataRequest(758527, 758590, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_26_3.csv');
+    new DataRequest(758590, 758771, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_23_5.csv');
+    new DataRequest(758771, 758936, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_58_5.csv');
+    new DataRequest(758936, 759760, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_14_10.csv');
+    new DataRequest(759760, 759784, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_28_2.csv');
+    new DataRequest(759784, 759892, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_16_4.csv');
+    new DataRequest(759892, 759916, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_25_2.csv');
+    new DataRequest(759916, 759919, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_63_1.csv');
+    new DataRequest(759919, 772099, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_38_38.csv');
+    new DataRequest(772099, 775437, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_18_20.csv');
+    new DataRequest(775437, 775547, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_51_4.csv');
+    new DataRequest(775547, 775606, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_44_3.csv');
+    new DataRequest(775606, 776593, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_4_11.csv');
+    new DataRequest(776593, 777399, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_22_10.csv');
+    new DataRequest(777399, 781938, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_19_23.csv');
+    new DataRequest(781938, 784226, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_62_18.csv');
+    new DataRequest(784226, 784289, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_54_3.csv');
+    new DataRequest(784289, 784352, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_37_3.csv');
+    new DataRequest(784352, 784417, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_45_3.csv');
+    new DataRequest(784417, 785086, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_17_9.csv');
+    new DataRequest(785086, 826751, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_56_71.csv');
+    new DataRequest(826751, 827033, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_24_6.csv');
+    new DataRequest(827033, 842858, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_11_43.csv');
+    new DataRequest(842858, 923248, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_3_96.csv');
+    new DataRequest(923248, 1168250, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_31_168.csv');
+    new DataRequest(1168250, 1179973, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_20_37.csv');
+    new DataRequest(1179973, 1179997, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_32_2.csv');
+    new DataRequest(1179997, 1180060, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_41_3.csv');
+    new DataRequest(1180060, 1180894, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_sizes.txt');
+    new DataRequest(1180894, 1180897, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_50_1.csv');
+    new DataRequest(1180897, 1180900, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_64_1.csv');
+    new DataRequest(1180900, 1180924, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_15_2.csv');
+    new DataRequest(1180924, 1181204, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_8_6.csv');
+    new DataRequest(1181204, 1181853, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_6_9.csv');
+    new DataRequest(1181853, 1181916, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_39_3.csv');
+    new DataRequest(1181916, 1181940, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_55_2.csv');
+    new DataRequest(1181940, 1181964, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_21_2.csv');
+    new DataRequest(1181964, 1181967, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_46_1.csv');
+    new DataRequest(1181967, 1181970, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_60_1.csv');
+    new DataRequest(1181970, 1184644, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_34_18.csv');
+    new DataRequest(1184644, 1282598, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_10_106.csv');
+    new DataRequest(1282598, 1282622, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_36_2.csv');
+    new DataRequest(1282622, 1283259, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_13_9.csv');
+    new DataRequest(1283259, 1283320, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_43_3.csv');
+    new DataRequest(1283320, 1283323, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_35_1.csv');
+    new DataRequest(1283323, 1306891, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_2_52.csv');
+    new DataRequest(1306891, 1306894, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_48_1.csv');
+    new DataRequest(1306894, 1306897, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_47_1.csv');
+    new DataRequest(1306897, 1306900, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_29_1.csv');
+    new DataRequest(1306900, 1306924, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_5_2.csv');
+    new DataRequest(1306924, 1306940, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_53_2.csv');
+    new DataRequest(1306940, 1307121, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_61_5.csv');
+    new DataRequest(1307121, 1307241, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_42_4.csv');
+    new DataRequest(1307241, 1307630, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_12_7.csv');
+    new DataRequest(1307630, 1307740, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_49_4.csv');
+    new DataRequest(1307740, 1307764, 0, 0).open('GET', '/data/c_64/subsets/dmt_clusters_subset1/dmt_57_2.csv');
 
     function processPackageData(arrayBuffer) {
       Module.finishedDataFileDownloads++;
@@ -145,6 +217,73 @@ Module['FS_createPath']('/data', 'c_32', true, true);
       Module['HEAPU8'].set(byteArray, ptr);
       DataRequest.prototype.byteArray = Module['HEAPU8'].subarray(ptr, ptr+byteArray.length);
           DataRequest.prototype.requests["/data/c_32/dmt_sizes.json"].onload();
+          DataRequest.prototype.requests["/data/c_64/dmt_cluster.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/dmt_sizes.json"].onload();
+          DataRequest.prototype.requests["/data/c_128/dmt_cluster.csv"].onload();
+          DataRequest.prototype.requests["/data/c_128/dmt_sizes.json"].onload();
+          DataRequest.prototype.requests["/data/c_256/dmt_cluster.csv"].onload();
+          DataRequest.prototype.requests["/data/c_256/dmt_sizes.json"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_27_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_52_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_7_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_59_7.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_40_4.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_26_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_23_5.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_58_5.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_14_10.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_28_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_16_4.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_25_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_63_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_38_38.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_18_20.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_51_4.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_44_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_4_11.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_22_10.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_19_23.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_62_18.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_54_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_37_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_45_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_17_9.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_56_71.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_24_6.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_11_43.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_3_96.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_31_168.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_20_37.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_32_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_41_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_sizes.txt"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_50_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_64_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_15_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_8_6.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_6_9.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_39_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_55_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_21_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_46_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_60_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_34_18.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_10_106.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_36_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_13_9.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_43_3.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_35_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_2_52.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_48_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_47_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_29_1.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_5_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_53_2.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_61_5.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_42_4.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_12_7.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_49_4.csv"].onload();
+          DataRequest.prototype.requests["/data/c_64/subsets/dmt_clusters_subset1/dmt_57_2.csv"].onload();
           Module['removeRunDependency']('datafile_c_assets.data');
 
     };
@@ -1636,7 +1775,6 @@ function getUniqueRunDependency(id) {
 }
 
 function addRunDependency(id) {
-  console.log('hello');
   runDependencies++;
   if (Module['monitorRunDependencies']) {
     Module['monitorRunDependencies'](runDependencies);
@@ -8593,6 +8731,18 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
       break L20;
       break;
      }
+     case 102:  {
+      $57 = HEAP32[$25>>2]|0; //@line 294 "c_src/json.c"
+      $58 = ($57|0)==(0); //@line 294 "c_src/json.c"
+      if ($58) {
+       $59 = (($string$0) + ($string_length$0)|0); //@line 294 "c_src/json.c"
+       HEAP8[$59>>0] = 12; //@line 294 "c_src/json.c"
+      }
+      $60 = (($string_length$0) + 1)|0; //@line 294 "c_src/json.c"
+      $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $60;
+      break L20;
+      break;
+     }
      case 110:  {
       $61 = HEAP32[$25>>2]|0; //@line 295 "c_src/json.c"
       $62 = ($61|0)==(0); //@line 295 "c_src/json.c"
@@ -8626,18 +8776,6 @@ function _json_parse_ex($settings,$json,$length,$error_buf) {
       }
       $72 = (($string_length$0) + 1)|0; //@line 297 "c_src/json.c"
       $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $72;
-      break L20;
-      break;
-     }
-     case 102:  {
-      $57 = HEAP32[$25>>2]|0; //@line 294 "c_src/json.c"
-      $58 = ($57|0)==(0); //@line 294 "c_src/json.c"
-      if ($58) {
-       $59 = (($string$0) + ($string_length$0)|0); //@line 294 "c_src/json.c"
-       HEAP8[$59>>0] = 12; //@line 294 "c_src/json.c"
-      }
-      $60 = (($string_length$0) + 1)|0; //@line 294 "c_src/json.c"
-      $643 = $475;$644 = $476;$flags$6 = $52;$num_digits$3 = $num_digits$1;$num_e$3 = $num_e$1;$string$3 = $string$0;$string_length$2 = $60;
       break L20;
       break;
      }
@@ -10010,37 +10148,7 @@ function _json_value_free_ex($settings,$value) {
   $9 = ((($$01)) + 4|0); //@line 966 "c_src/json.c"
   $10 = HEAP32[$9>>2]|0; //@line 966 "c_src/json.c"
   do {
-   if ((($10|0) == 2)) {
-    $11 = ((($$01)) + 8|0); //@line 970 "c_src/json.c"
-    $12 = HEAP32[$11>>2]|0; //@line 970 "c_src/json.c"
-    $13 = ($12|0)==(0); //@line 970 "c_src/json.c"
-    if ($13) {
-     $14 = HEAP32[$3>>2]|0; //@line 972 "c_src/json.c"
-     $15 = ((($11)) + 4|0); //@line 972 "c_src/json.c"
-     $16 = HEAP32[$15>>2]|0; //@line 972 "c_src/json.c"
-     $17 = HEAP32[$4>>2]|0; //@line 972 "c_src/json.c"
-     FUNCTION_TABLE_vii[$14 & 3]($16,$17); //@line 972 "c_src/json.c"
-     label = 12;
-     break;
-    } else {
-     $18 = (($12) + -1)|0; //@line 976 "c_src/json.c"
-     HEAP32[$11>>2] = $18; //@line 976 "c_src/json.c"
-     $19 = ((($11)) + 4|0); //@line 976 "c_src/json.c"
-     $20 = HEAP32[$19>>2]|0; //@line 976 "c_src/json.c"
-     $21 = (($20) + ($18<<2)|0); //@line 976 "c_src/json.c"
-     $22 = HEAP32[$21>>2]|0; //@line 976 "c_src/json.c"
-     $$0$be = $22;
-     break;
-    }
-   } else if ((($10|0) == 5)) {
-    $36 = HEAP32[$7>>2]|0; //@line 992 "c_src/json.c"
-    $37 = ((($$01)) + 8|0); //@line 992 "c_src/json.c"
-    $38 = ((($37)) + 4|0); //@line 992 "c_src/json.c"
-    $39 = HEAP32[$38>>2]|0; //@line 992 "c_src/json.c"
-    $40 = HEAP32[$8>>2]|0; //@line 992 "c_src/json.c"
-    FUNCTION_TABLE_vii[$36 & 3]($39,$40); //@line 992 "c_src/json.c"
-    label = 12;
-   } else if ((($10|0) == 1)) {
+   if ((($10|0) == 1)) {
     $24 = ((($$01)) + 8|0); //@line 981 "c_src/json.c"
     $25 = HEAP32[$24>>2]|0; //@line 981 "c_src/json.c"
     $26 = ($25|0)==(0); //@line 981 "c_src/json.c"
@@ -10060,6 +10168,36 @@ function _json_value_free_ex($settings,$value) {
      $34 = (((($33) + (($31*12)|0)|0)) + 8|0); //@line 987 "c_src/json.c"
      $35 = HEAP32[$34>>2]|0; //@line 987 "c_src/json.c"
      $$0$be = $35;
+     break;
+    }
+   } else if ((($10|0) == 5)) {
+    $36 = HEAP32[$7>>2]|0; //@line 992 "c_src/json.c"
+    $37 = ((($$01)) + 8|0); //@line 992 "c_src/json.c"
+    $38 = ((($37)) + 4|0); //@line 992 "c_src/json.c"
+    $39 = HEAP32[$38>>2]|0; //@line 992 "c_src/json.c"
+    $40 = HEAP32[$8>>2]|0; //@line 992 "c_src/json.c"
+    FUNCTION_TABLE_vii[$36 & 3]($39,$40); //@line 992 "c_src/json.c"
+    label = 12;
+   } else if ((($10|0) == 2)) {
+    $11 = ((($$01)) + 8|0); //@line 970 "c_src/json.c"
+    $12 = HEAP32[$11>>2]|0; //@line 970 "c_src/json.c"
+    $13 = ($12|0)==(0); //@line 970 "c_src/json.c"
+    if ($13) {
+     $14 = HEAP32[$3>>2]|0; //@line 972 "c_src/json.c"
+     $15 = ((($11)) + 4|0); //@line 972 "c_src/json.c"
+     $16 = HEAP32[$15>>2]|0; //@line 972 "c_src/json.c"
+     $17 = HEAP32[$4>>2]|0; //@line 972 "c_src/json.c"
+     FUNCTION_TABLE_vii[$14 & 3]($16,$17); //@line 972 "c_src/json.c"
+     label = 12;
+     break;
+    } else {
+     $18 = (($12) + -1)|0; //@line 976 "c_src/json.c"
+     HEAP32[$11>>2] = $18; //@line 976 "c_src/json.c"
+     $19 = ((($11)) + 4|0); //@line 976 "c_src/json.c"
+     $20 = HEAP32[$19>>2]|0; //@line 976 "c_src/json.c"
+     $21 = (($20) + ($18<<2)|0); //@line 976 "c_src/json.c"
+     $22 = HEAP32[$21>>2]|0; //@line 976 "c_src/json.c"
+     $$0$be = $22;
      break;
     }
    } else {
@@ -10149,6 +10287,11 @@ function _hex_value($c) {
     break L1;
     break;
    }
+   case 69: case 101:  {
+    $$0 = 14;
+    break L1;
+    break;
+   }
    case 66: case 98:  {
     $$0 = 11;
     break L1;
@@ -10166,11 +10309,6 @@ function _hex_value($c) {
    }
    case 70: case 102:  {
     $$0 = 15;
-    break L1;
-    break;
-   }
-   case 69: case 101:  {
-    $$0 = 14;
     break L1;
     break;
    }
@@ -10239,27 +10377,7 @@ function _new_value($state,$top,$root,$alloc,$type) {
  }
  $9 = ((($3)) + 4|0); //@line 117 "c_src/json.c"
  $10 = HEAP32[$9>>2]|0; //@line 117 "c_src/json.c"
- if ((($10|0) == 2)) {
-  $11 = ((($3)) + 8|0); //@line 121 "c_src/json.c"
-  $12 = HEAP32[$11>>2]|0; //@line 121 "c_src/json.c"
-  $13 = ($12|0)==(0); //@line 121 "c_src/json.c"
-  if ($13) {
-   $$0 = 1;
-   return ($$0|0); //@line 192 "c_src/json.c"
-  }
-  $14 = $12 << 2; //@line 125 "c_src/json.c"
-  $15 = (_json_alloc($state,$14,0)|0); //@line 124 "c_src/json.c"
-  $16 = ((($11)) + 4|0); //@line 124 "c_src/json.c"
-  HEAP32[$16>>2] = $15; //@line 124 "c_src/json.c"
-  $17 = ($15|0)==(0|0); //@line 124 "c_src/json.c"
-  if ($17) {
-   $$0 = 0;
-   return ($$0|0); //@line 192 "c_src/json.c"
-  }
-  HEAP32[$11>>2] = 0; //@line 130 "c_src/json.c"
-  $$0 = 1;
-  return ($$0|0); //@line 192 "c_src/json.c"
- } else if ((($10|0) == 1)) {
+ if ((($10|0) == 1)) {
   $18 = ((($3)) + 8|0); //@line 135 "c_src/json.c"
   $19 = HEAP32[$18>>2]|0; //@line 135 "c_src/json.c"
   $20 = ($19|0)==(0); //@line 135 "c_src/json.c"
@@ -10298,6 +10416,26 @@ function _new_value($state,$top,$root,$alloc,$type) {
    return ($$0|0); //@line 192 "c_src/json.c"
   }
   HEAP32[$30>>2] = 0; //@line 159 "c_src/json.c"
+  $$0 = 1;
+  return ($$0|0); //@line 192 "c_src/json.c"
+ } else if ((($10|0) == 2)) {
+  $11 = ((($3)) + 8|0); //@line 121 "c_src/json.c"
+  $12 = HEAP32[$11>>2]|0; //@line 121 "c_src/json.c"
+  $13 = ($12|0)==(0); //@line 121 "c_src/json.c"
+  if ($13) {
+   $$0 = 1;
+   return ($$0|0); //@line 192 "c_src/json.c"
+  }
+  $14 = $12 << 2; //@line 125 "c_src/json.c"
+  $15 = (_json_alloc($state,$14,0)|0); //@line 124 "c_src/json.c"
+  $16 = ((($11)) + 4|0); //@line 124 "c_src/json.c"
+  HEAP32[$16>>2] = $15; //@line 124 "c_src/json.c"
+  $17 = ($15|0)==(0|0); //@line 124 "c_src/json.c"
+  if ($17) {
+   $$0 = 0;
+   return ($$0|0); //@line 192 "c_src/json.c"
+  }
+  HEAP32[$11>>2] = 0; //@line 130 "c_src/json.c"
   $$0 = 1;
   return ($$0|0); //@line 192 "c_src/json.c"
  } else {
@@ -10412,9 +10550,9 @@ function ___floatscan($f,$prec,$pok) {
  $x$i = sp;
  if ((($prec|0) == 0)) {
   $bits$0$ph = 24;$emin$0$ph = -149;
- } else if ((($prec|0) == 1)) {
-  $bits$0$ph = 53;$emin$0$ph = -1074;
  } else if ((($prec|0) == 2)) {
+  $bits$0$ph = 53;$emin$0$ph = -1074;
+ } else if ((($prec|0) == 1)) {
   $bits$0$ph = 53;$emin$0$ph = -1074;
  } else {
   $$0 = 0.0;
@@ -12440,10 +12578,7 @@ function _frexp($x,$e) {
  $2 = (_bitshift64Lshr(($0|0),($1|0),52)|0);
  $3 = tempRet0;
  $4 = $2 & 2047;
- if ((($4|0) == 2047)) {
-  $$0 = $x;
-  return (+$$0);
- } else if ((($4|0) == 0)) {
+ if ((($4|0) == 0)) {
   $5 = $x != 0.0;
   if ($5) {
    $6 = $x * 1.8446744073709552E+19;
@@ -12456,6 +12591,9 @@ function _frexp($x,$e) {
   }
   HEAP32[$e>>2] = $storemerge;
   $$0 = $$01;
+  return (+$$0);
+ } else if ((($4|0) == 2047)) {
+  $$0 = $x;
   return (+$$0);
  } else {
   $10 = (($4) + -1022)|0;
@@ -13898,28 +14036,6 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     } else {
      do {
       switch ($$lcssa459|0) {
-      case 10:  {
-       $arglist_current8 = HEAP32[$ap>>2]|0;
-       $171 = $arglist_current8;
-       $172 = ((0) + 4|0);
-       $expanded85 = $172;
-       $expanded84 = (($expanded85) - 1)|0;
-       $173 = (($171) + ($expanded84))|0;
-       $174 = ((0) + 4|0);
-       $expanded89 = $174;
-       $expanded88 = (($expanded89) - 1)|0;
-       $expanded87 = $expanded88 ^ -1;
-       $175 = $173 & $expanded87;
-       $176 = $175;
-       $177 = HEAP32[$176>>2]|0;
-       $arglist_next9 = ((($176)) + 4|0);
-       HEAP32[$ap>>2] = $arglist_next9;
-       $178 = ($177|0)<(0);
-       $179 = $178 << 31 >> 31;
-       $264 = $177;$291 = $179;
-       break L64;
-       break;
-      }
       case 11:  {
        $arglist_current11 = HEAP32[$ap>>2]|0;
        $180 = $arglist_current11;
@@ -13965,50 +14081,47 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
        break L64;
        break;
       }
-      case 13:  {
-       $arglist_current17 = HEAP32[$ap>>2]|0;
-       $199 = $arglist_current17;
-       $200 = ((0) + 4|0);
-       $expanded106 = $200;
-       $expanded105 = (($expanded106) - 1)|0;
-       $201 = (($199) + ($expanded105))|0;
-       $202 = ((0) + 4|0);
-       $expanded110 = $202;
-       $expanded109 = (($expanded110) - 1)|0;
-       $expanded108 = $expanded109 ^ -1;
-       $203 = $201 & $expanded108;
-       $204 = $203;
-       $205 = HEAP32[$204>>2]|0;
-       $arglist_next18 = ((($204)) + 4|0);
-       HEAP32[$ap>>2] = $arglist_next18;
-       $206 = $205&65535;
-       $207 = $206 << 16 >> 16;
-       $208 = ($207|0)<(0);
-       $209 = $208 << 31 >> 31;
-       $sext93 = $205 << 16;
-       $210 = $sext93 >> 16;
-       $264 = $210;$291 = $209;
+      case 17:  {
+       $arglist_current29 = HEAP32[$ap>>2]|0;
+       $237 = $arglist_current29;
+       $238 = ((0) + 8|0);
+       $expanded134 = $238;
+       $expanded133 = (($expanded134) - 1)|0;
+       $239 = (($237) + ($expanded133))|0;
+       $240 = ((0) + 8|0);
+       $expanded138 = $240;
+       $expanded137 = (($expanded138) - 1)|0;
+       $expanded136 = $expanded137 ^ -1;
+       $241 = $239 & $expanded136;
+       $242 = $241;
+       $243 = +HEAPF64[$242>>3];
+       $arglist_next30 = ((($242)) + 8|0);
+       HEAP32[$ap>>2] = $arglist_next30;
+       HEAPF64[tempDoublePtr>>3] = $243;$244 = HEAP32[tempDoublePtr>>2]|0;
+       $245 = HEAP32[tempDoublePtr+4>>2]|0;
+       $264 = $244;$291 = $245;
        break L64;
        break;
       }
-      case 14:  {
-       $arglist_current20 = HEAP32[$ap>>2]|0;
-       $211 = $arglist_current20;
-       $212 = ((0) + 4|0);
-       $expanded113 = $212;
-       $expanded112 = (($expanded113) - 1)|0;
-       $213 = (($211) + ($expanded112))|0;
-       $214 = ((0) + 4|0);
-       $expanded117 = $214;
-       $expanded116 = (($expanded117) - 1)|0;
-       $expanded115 = $expanded116 ^ -1;
-       $215 = $213 & $expanded115;
-       $216 = $215;
-       $217 = HEAP32[$216>>2]|0;
-       $arglist_next21 = ((($216)) + 4|0);
-       HEAP32[$ap>>2] = $arglist_next21;
-       $$mask1$i37 = $217 & 65535;
-       $264 = $$mask1$i37;$291 = 0;
+      case 18:  {
+       $arglist_current32 = HEAP32[$ap>>2]|0;
+       $246 = $arglist_current32;
+       $247 = ((0) + 8|0);
+       $expanded141 = $247;
+       $expanded140 = (($expanded141) - 1)|0;
+       $248 = (($246) + ($expanded140))|0;
+       $249 = ((0) + 8|0);
+       $expanded145 = $249;
+       $expanded144 = (($expanded145) - 1)|0;
+       $expanded143 = $expanded144 ^ -1;
+       $250 = $248 & $expanded143;
+       $251 = $250;
+       $252 = +HEAPF64[$251>>3];
+       $arglist_next33 = ((($251)) + 8|0);
+       HEAP32[$ap>>2] = $arglist_next33;
+       HEAPF64[tempDoublePtr>>3] = $252;$253 = HEAP32[tempDoublePtr>>2]|0;
+       $254 = HEAP32[tempDoublePtr+4>>2]|0;
+       $264 = $253;$291 = $254;
        break L64;
        break;
       }
@@ -14059,47 +14172,50 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
        break L64;
        break;
       }
-      case 17:  {
-       $arglist_current29 = HEAP32[$ap>>2]|0;
-       $237 = $arglist_current29;
-       $238 = ((0) + 8|0);
-       $expanded134 = $238;
-       $expanded133 = (($expanded134) - 1)|0;
-       $239 = (($237) + ($expanded133))|0;
-       $240 = ((0) + 8|0);
-       $expanded138 = $240;
-       $expanded137 = (($expanded138) - 1)|0;
-       $expanded136 = $expanded137 ^ -1;
-       $241 = $239 & $expanded136;
-       $242 = $241;
-       $243 = +HEAPF64[$242>>3];
-       $arglist_next30 = ((($242)) + 8|0);
-       HEAP32[$ap>>2] = $arglist_next30;
-       HEAPF64[tempDoublePtr>>3] = $243;$244 = HEAP32[tempDoublePtr>>2]|0;
-       $245 = HEAP32[tempDoublePtr+4>>2]|0;
-       $264 = $244;$291 = $245;
+      case 13:  {
+       $arglist_current17 = HEAP32[$ap>>2]|0;
+       $199 = $arglist_current17;
+       $200 = ((0) + 4|0);
+       $expanded106 = $200;
+       $expanded105 = (($expanded106) - 1)|0;
+       $201 = (($199) + ($expanded105))|0;
+       $202 = ((0) + 4|0);
+       $expanded110 = $202;
+       $expanded109 = (($expanded110) - 1)|0;
+       $expanded108 = $expanded109 ^ -1;
+       $203 = $201 & $expanded108;
+       $204 = $203;
+       $205 = HEAP32[$204>>2]|0;
+       $arglist_next18 = ((($204)) + 4|0);
+       HEAP32[$ap>>2] = $arglist_next18;
+       $206 = $205&65535;
+       $207 = $206 << 16 >> 16;
+       $208 = ($207|0)<(0);
+       $209 = $208 << 31 >> 31;
+       $sext93 = $205 << 16;
+       $210 = $sext93 >> 16;
+       $264 = $210;$291 = $209;
        break L64;
        break;
       }
-      case 18:  {
-       $arglist_current32 = HEAP32[$ap>>2]|0;
-       $246 = $arglist_current32;
-       $247 = ((0) + 8|0);
-       $expanded141 = $247;
-       $expanded140 = (($expanded141) - 1)|0;
-       $248 = (($246) + ($expanded140))|0;
-       $249 = ((0) + 8|0);
-       $expanded145 = $249;
-       $expanded144 = (($expanded145) - 1)|0;
-       $expanded143 = $expanded144 ^ -1;
-       $250 = $248 & $expanded143;
-       $251 = $250;
-       $252 = +HEAPF64[$251>>3];
-       $arglist_next33 = ((($251)) + 8|0);
-       HEAP32[$ap>>2] = $arglist_next33;
-       HEAPF64[tempDoublePtr>>3] = $252;$253 = HEAP32[tempDoublePtr>>2]|0;
-       $254 = HEAP32[tempDoublePtr+4>>2]|0;
-       $264 = $253;$291 = $254;
+      case 14:  {
+       $arglist_current20 = HEAP32[$ap>>2]|0;
+       $211 = $arglist_current20;
+       $212 = ((0) + 4|0);
+       $expanded113 = $212;
+       $expanded112 = (($expanded113) - 1)|0;
+       $213 = (($211) + ($expanded112))|0;
+       $214 = ((0) + 4|0);
+       $expanded117 = $214;
+       $expanded116 = (($expanded117) - 1)|0;
+       $expanded115 = $expanded116 ^ -1;
+       $215 = $213 & $expanded115;
+       $216 = $215;
+       $217 = HEAP32[$216>>2]|0;
+       $arglist_next21 = ((($216)) + 4|0);
+       HEAP32[$ap>>2] = $arglist_next21;
+       $$mask1$i37 = $217 & 65535;
+       $264 = $$mask1$i37;$291 = 0;
        break L64;
        break;
       }
@@ -14121,6 +14237,28 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
        HEAP32[$ap>>2] = $arglist_next6;
        $170 = $169;
        $264 = $170;$291 = $1169;
+       break L64;
+       break;
+      }
+      case 10:  {
+       $arglist_current8 = HEAP32[$ap>>2]|0;
+       $171 = $arglist_current8;
+       $172 = ((0) + 4|0);
+       $expanded85 = $172;
+       $expanded84 = (($expanded85) - 1)|0;
+       $173 = (($171) + ($expanded84))|0;
+       $174 = ((0) + 4|0);
+       $expanded89 = $174;
+       $expanded88 = (($expanded89) - 1)|0;
+       $expanded87 = $expanded88 ^ -1;
+       $175 = $173 & $expanded87;
+       $176 = $175;
+       $177 = HEAP32[$176>>2]|0;
+       $arglist_next9 = ((($176)) + 4|0);
+       HEAP32[$ap>>2] = $arglist_next9;
+       $178 = ($177|0)<(0);
+       $179 = $178 << 31 >> 31;
+       $264 = $177;$291 = $179;
        break L64;
        break;
       }
@@ -14156,6 +14294,13 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
   $fl$1$ = $262 ? $fl$1 : $263;
   L86: do {
    switch ($t$0|0) {
+   case 67:  {
+    HEAP32[$wc>>2] = $264;
+    HEAP32[$5>>2] = 0;
+    $1179 = $wc;$1180 = $6;$p$4272 = -1;
+    label = 97;
+    break;
+   }
    case 65: case 71: case 70: case 69: case 97: case 103: case 102: case 101:  {
     HEAP32[tempDoublePtr>>2] = $264;HEAP32[tempDoublePtr+4>>2] = $291;$430 = +HEAPF64[tempDoublePtr>>3];
     HEAP32[$e2$i>>2] = 0;
@@ -14655,7 +14800,7 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
        $$pr146$i = $$pr$i;$a$1$lcssa$i = $$31$i;$z$1$lcssa$i = $$lcssa460;
       }
       $667 = ($$pr146$i|0)<(0);
-      L195: do {
+      L213: do {
        if ($667) {
         $668 = (($$p$i) + 25)|0;
         $669 = (($668|0) / 9)&-1;
@@ -14725,7 +14870,7 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
            $704 = $733;$a$3240$i = $$a$3306$i;$z$3239$i = $$z$4$i;
           } else {
            $a$3$lcssa$i = $$a$3306$i;$z$3$lcssa$i = $$z$4$i;
-           break L195;
+           break L213;
           }
          }
         }
@@ -15653,70 +15798,8 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     continue L1;
     break;
    }
-   case 109:  {
-    $379 = (___errno_location()|0);
-    $380 = HEAP32[$379>>2]|0;
-    $381 = (_strerror(($380|0))|0);
-    $a$1 = $381;
-    label = 94;
-    break;
-   }
-   case 115:  {
-    $382 = $264;
-    $383 = ($264|0)!=(0);
-    $384 = $383 ? $382 : 2008;
-    $a$1 = $384;
-    label = 94;
-    break;
-   }
-   case 67:  {
-    HEAP32[$wc>>2] = $264;
-    HEAP32[$5>>2] = 0;
-    $1179 = $wc;$1180 = $6;$p$4272 = -1;
-    label = 97;
-    break;
-   }
-   case 83:  {
-    $391 = $264;
-    $392 = ($p$0|0)==(0);
-    if ($392) {
-     $1181 = $264;$1182 = $391;$i$0$lcssa273 = 0;
-     label = 102;
-    } else {
-     $1179 = $391;$1180 = $264;$p$4272 = $p$0;
-     label = 97;
-    }
-    break;
-   }
-   case 112:  {
-    $286 = ($p$0>>>0)>(8);
-    $287 = $286 ? $p$0 : 8;
-    $288 = $fl$1$ | 8;
-    $fl$3 = $288;$p$1 = $287;$t$1 = 120;
-    label = 73;
-    break;
-   }
-   case 88: case 120:  {
-    $fl$3 = $fl$1$;$p$1 = $p$0;$t$1 = $t$0;
-    label = 73;
-    break;
-   }
    case 110:  {
     switch ($st$0$lcssa456|0) {
-    case 7:  {
-     $279 = ($cnt$1|0)<(0);
-     $280 = $279 << 31 >> 31;
-     $281 = $264;
-     $282 = $281;
-     $283 = $282;
-     HEAP32[$283>>2] = $cnt$1;
-     $284 = (($282) + 4)|0;
-     $285 = $284;
-     HEAP32[$285>>2] = $280;
-     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
-     continue L1;
-     break;
-    }
     case 0:  {
      $265 = $264;
      HEAP32[$265>>2] = $cnt$1;
@@ -15764,6 +15847,20 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     case 6:  {
      $278 = $264;
      HEAP32[$278>>2] = $cnt$1;
+     $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
+     continue L1;
+     break;
+    }
+    case 7:  {
+     $279 = ($cnt$1|0)<(0);
+     $280 = $279 << 31 >> 31;
+     $281 = $264;
+     $282 = $281;
+     $283 = $282;
+     HEAP32[$283>>2] = $cnt$1;
+     $284 = (($282) + 4)|0;
+     $285 = $284;
+     HEAP32[$285>>2] = $280;
      $1169 = $291;$1170 = $264;$23 = $$lcssa457;$cnt$0 = $cnt$1;$l$0 = $37;$l10n$0 = $l10n$3;
      continue L1;
      break;
@@ -15835,15 +15932,56 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     }
     break;
    }
+   case 112:  {
+    $286 = ($p$0>>>0)>(8);
+    $287 = $286 ? $p$0 : 8;
+    $288 = $fl$1$ | 8;
+    $fl$3 = $288;$p$1 = $287;$t$1 = 120;
+    label = 73;
+    break;
+   }
+   case 117:  {
+    $336 = $291;$338 = $264;$pl$0 = 0;$prefix$0 = 1992;
+    label = 84;
+    break;
+   }
+   case 88: case 120:  {
+    $fl$3 = $fl$1$;$p$1 = $p$0;$t$1 = $t$0;
+    label = 73;
+    break;
+   }
    case 99:  {
     $378 = $264&255;
     HEAP8[$4>>0] = $378;
     $1175 = $291;$1176 = $264;$a$2 = $4;$fl$6 = $263;$p$5 = 1;$pl$2 = 0;$prefix$2 = 1992;$z$2 = $2;
     break;
    }
-   case 117:  {
-    $336 = $291;$338 = $264;$pl$0 = 0;$prefix$0 = 1992;
-    label = 84;
+   case 109:  {
+    $379 = (___errno_location()|0);
+    $380 = HEAP32[$379>>2]|0;
+    $381 = (_strerror(($380|0))|0);
+    $a$1 = $381;
+    label = 94;
+    break;
+   }
+   case 115:  {
+    $382 = $264;
+    $383 = ($264|0)!=(0);
+    $384 = $383 ? $382 : 2008;
+    $a$1 = $384;
+    label = 94;
+    break;
+   }
+   case 83:  {
+    $391 = $264;
+    $392 = ($p$0|0)==(0);
+    if ($392) {
+     $1181 = $264;$1182 = $391;$i$0$lcssa273 = 0;
+     label = 102;
+    } else {
+     $1179 = $391;$1180 = $264;$p$4272 = $p$0;
+     label = 97;
+    }
     break;
    }
    default: {
@@ -16060,20 +16198,20 @@ function _printf_core($f,$fmt,$ap,$nl_arg,$nl_type) {
     (___fwritex($pad$i,$$0$lcssa$i68,$f)|0);
    }
    $413 = ($i$0$lcssa273|0)==(0);
-   L463: do {
+   L465: do {
     if (!($413)) {
      $i$1186 = 0;$ws$1187 = $1182;
      while(1) {
       $414 = HEAP32[$ws$1187>>2]|0;
       $415 = ($414|0)==(0);
       if ($415) {
-       break L463;
+       break L465;
       }
       $416 = (_wctomb($mb,$414)|0);
       $417 = (($416) + ($i$1186))|0;
       $418 = ($417|0)>($i$0$lcssa273|0);
       if ($418) {
-       break L463;
+       break L465;
       }
       $419 = ((($ws$1187)) + 4|0);
       (___fwritex($mb,$416,$f)|0);
@@ -17649,7 +17787,7 @@ function _malloc($bytes) {
          $477 = HEAP32[$476>>2]|0;
          $478 = $477 & -8;
          $479 = ($478|0)==($rsize$3$lcssa$i|0);
-         L217: do {
+         L216: do {
           if ($479) {
            $T$0$lcssa$i = $475;
           } else {
@@ -17675,7 +17813,7 @@ function _malloc($bytes) {
             $490 = ($489|0)==($rsize$3$lcssa$i|0);
             if ($490) {
              $T$0$lcssa$i = $487;
-             break L217;
+             break L216;
             } else {
              $K12$029$i = $485;$T$028$i = $487;
             }
@@ -18233,7 +18371,7 @@ function _malloc($bytes) {
       $727 = (($tbase$255$i) + ($$sum1$i20$i)|0);
       HEAP32[$727>>2] = $726;
       $728 = ($720|0)==($635|0);
-      L317: do {
+      L324: do {
        if ($728) {
         $729 = HEAP32[(2092)>>2]|0;
         $730 = (($729) + ($725))|0;
@@ -18270,7 +18408,7 @@ function _malloc($bytes) {
          $744 = $741 & -8;
          $745 = $741 >>> 3;
          $746 = ($741>>>0)<(256);
-         L325: do {
+         L331: do {
           if ($746) {
            $$sum3738$i$i = $719 | 8;
            $$sum124$i = (($$sum3738$i$i) + ($tsize$254$i))|0;
@@ -18446,7 +18584,7 @@ function _malloc($bytes) {
              $805 = HEAP32[(2084)>>2]|0;
              $806 = $805 & $804;
              HEAP32[(2084)>>2] = $806;
-             break L325;
+             break L331;
             } else {
              $807 = HEAP32[(2096)>>2]|0;
              $808 = ($771>>>0)<($807>>>0);
@@ -18465,7 +18603,7 @@ function _malloc($bytes) {
              }
              $813 = ($R$1$i$i|0)==(0|0);
              if ($813) {
-              break L325;
+              break L331;
              }
             }
            } while(0);
@@ -18648,7 +18786,7 @@ function _malloc($bytes) {
         $893 = HEAP32[$892>>2]|0;
         $894 = $893 & -8;
         $895 = ($894|0)==($qsize$0$i$i|0);
-        L411: do {
+        L417: do {
          if ($895) {
           $T$0$lcssa$i25$i = $891;
          } else {
@@ -18674,7 +18812,7 @@ function _malloc($bytes) {
            $906 = ($905|0)==($qsize$0$i$i|0);
            if ($906) {
             $T$0$lcssa$i25$i = $903;
-            break L411;
+            break L417;
            } else {
             $K8$051$i$i = $901;$T$050$i$i = $903;
            }
@@ -18695,7 +18833,7 @@ function _malloc($bytes) {
            $$sum25$i$i = (($$sum$i19$i) + 8)|0;
            $914 = (($tbase$255$i) + ($$sum25$i$i)|0);
            HEAP32[$914>>2] = $724;
-           break L317;
+           break L324;
           }
          }
         } while(0);
@@ -18921,7 +19059,7 @@ function _malloc($bytes) {
      $1029 = HEAP32[$1028>>2]|0;
      $1030 = $1029 & -8;
      $1031 = ($1030|0)==($970|0);
-     L452: do {
+     L459: do {
       if ($1031) {
        $T$0$lcssa$i$i = $1027;
       } else {
@@ -18947,7 +19085,7 @@ function _malloc($bytes) {
         $1042 = ($1041|0)==($970|0);
         if ($1042) {
          $T$0$lcssa$i$i = $1039;
-         break L452;
+         break L459;
         } else {
          $K2$07$i$i = $1037;$T$06$i$i = $1039;
         }
@@ -19752,7 +19890,7 @@ function _free($mem) {
    $286 = HEAP32[$285>>2]|0;
    $287 = $286 & -8;
    $288 = ($287|0)==($psize$1|0);
-   L201: do {
+   L202: do {
     if ($288) {
      $T$0$lcssa = $284;
     } else {
@@ -19778,7 +19916,7 @@ function _free($mem) {
       $299 = ($298|0)==($psize$1|0);
       if ($299) {
        $T$0$lcssa = $296;
-       break L201;
+       break L202;
       } else {
        $K19$052 = $294;$T$051 = $296;
       }
