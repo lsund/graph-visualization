@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "math2D.h"
+
 void rt_error(char error_text[])
 {
     fprintf(stderr,"Run-time error...\n");
@@ -32,3 +34,20 @@ float *vector(long n)
     }
     return v;
 }
+
+struct point *arrtop(float arr[], int n) 
+{   
+    int i;
+    struct point *ps = malloc(sizeof(struct point) * n);
+    if (ps == NULL) {
+        rt_error("Error while allocating memory");
+    }
+    for (i = 0; i < n * 2; i += 2) {
+        struct point p;
+        p.x = arr[i]; 
+        p.y = arr[i + 1];
+        *(ps + (i / 2)) = p;
+    }
+    return ps;
+}
+

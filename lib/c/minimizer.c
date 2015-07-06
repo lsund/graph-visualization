@@ -1,5 +1,4 @@
-/*****************************************************************************
-
+/***************************************************************************** 
  * Author: Ludvig Sundström
 
  * File Name: minimizer.c
@@ -18,41 +17,31 @@
 
 #include "util.h"
 #include "frprmn.h"
+#include "constants.h"
 #include "objective.h"
+#include "gradient.h"
 #include "get_clustersizes.h"
 
-#define STIFFNESS 100
-#define SPRING_LENGTH 500
-#define FTOL 0.00001
-#define MIN_DIST 0.1
-#define PRECISION_DIGITS 8
-#define DEFAULT_MASS 1.0
-#define DEFAULT_RADIUS 1.0
-
-// fdm the distance matrix - len nv * nv
-// w0 the bond weight matrix - len nv * nv
-// ml the mass list - len nv
-// rl the radius list - len nv
-
 float *fdm, *w0, *ml, *rl;
+int dim, nv, elen, sx, sy, pox, poy;
 
-int dim, nv, elen, spanx, spany, pox, poy;
-
-void initW0() 
+static void initW0() 
 { 
     int i;
     for (i = 0; i < nv * nv; i++) {
         w0[i] = STIFFNESS;
     }
 }
-void initML() 
+
+static void initML() 
 { 
     int i;
     for (i = 0; i < nv; i++) {
         ml[i] = DEFAULT_MASS;
     }
 }
-void initRL(int customSizes, const char *ssFilename) 
+
+static void initRL(int customSizes, const char *ssFilename) 
 { 
     if (customSizes) {
         get_sizes(rl, ssFilename, nv);
@@ -64,7 +53,7 @@ void initRL(int customSizes, const char *ssFilename)
     }
 }
 
-void initDMT(const char *fname) 
+static void initDMT(const char *fname) 
 {
     FILE *fp;
     char *pend, *p, *buf;
@@ -100,7 +89,7 @@ void initDMT(const char *fname)
     free(buf);
 }
 
-void initFPS(float *ps) 
+static void initFPS(float *ps) 
 {
     int i, n, vdim;
     float gapx, gapy, offsetx, offsety;
@@ -109,8 +98,8 @@ void initFPS(float *ps)
         n++;
     }
     vdim = sqrt(n);
-    gapx = spanx / vdim;
-    gapy = spany / vdim;
+    gapx = sx / vdim;
+    gapy = sy / vdim;
     offsetx = gapx / 2;
     offsety = gapy / 2;
     int rows = 0;
@@ -126,9 +115,6 @@ void initFPS(float *ps)
     }
 }
 
-float (*func)(float []) = f;
-void (*dfunc)(float [], float []) = df;
-
 int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
         const int len, const int panelx, const int panely,
         const int panelOffsetX, const int panelOffsetY, const float fact) {
@@ -139,8 +125,8 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
 
     pox = panelOffsetX;
     poy = panelOffsetY;
-    spanx = panelx * fact;
-    spany = panely * fact;
+    sx = panelx * fact;
+    sy = panely * fact;
     elen = SPRING_LENGTH * fact;
 
     dim = len;
@@ -163,10 +149,12 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
     initW0();
     initML();
     initRL(customSizes, ssFilename);
-    setGlobals(fdm, ml, rl, w0, dim, nv, elen);
 
-    frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
+    float (*func)(float []) = f;
+    void (*dfunc)(float [], float []) = df;
     
+    frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
+
     free(fret);
     free(iter);
     free(rl);

@@ -69,7 +69,7 @@ void frprmn(float p[], int n, float ftol, int *iter, float *fret,
         }
     }
     FREEALL
-        rt_error("Too many iterations in frprmn()");
+    rt_error("Too many iterations in frprmn()");
 }
 
 #undef ITMAX

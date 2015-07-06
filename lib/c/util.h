@@ -6,3 +6,6 @@
 void rt_error(char []);
 
 float *vector(long n);
+
+struct point *arrtop(float arr[], int n);
+
