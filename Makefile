@@ -5,6 +5,7 @@ emscript: c_src/util.c \
 	  c_src/linmin.c \
   	  c_src/frprmn.c \
 	  c_src/json.c \
+	  c_src/objective.c \
 	  c_src/get_clustersizes.c\
 	  minimizer.c
 	emcc -O1 -Wall -g -std=c99 \
@@ -14,6 +15,7 @@ emscript: c_src/util.c \
 	c_src/linmin.c \
 	c_src/frprmn.c \
 	c_src/json.c \
+	c_src/objective.c \
 	c_src/get_clustersizes.c \
 	minimizer.c \
 	-o c_assets.js -s \

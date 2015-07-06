@@ -4,8 +4,8 @@
 
  * File Name: minimizer.c
 
- * Description: Defines an energy function and its derivatives aswell as working
- * as minimize() which is the exported function by emscripten.
+ * Description: Defines an energy function and its derivatives aswell as
+ * working as minimize() which is the exported function by emscripten.
 
  * Creation Date: 24-06-2015
 
@@ -18,25 +18,61 @@
 
 #include "c_src/util.h"
 #include "c_src/frprmn.h"
+#include "c_src/objective.h"
 
 #include "c_src/get_clustersizes.h"
 
+#define STIFFNESS 100
+#define SPRING_LENGTH 500
 #define FTOL 0.00001
 #define MIN_DIST 0.1
 #define PRECISION_DIGITS 8
+#define DEFAULT_MASS 1.0
+#define DEFAULT_RADIUS 1.0
 
-static float *fdm, *fss;
+// fdm the distance matrix - len nv * nv
+// w0 the bond weight matrix - len nv * nv
+// ml the mass list - len nv
+// rl the radius list - len nv
 
-static int dim, nv, stiffness, elen, spanx, spany, pox, poy;
+float *fdm, *w0, *ml, *rl;
 
-void initDMT(char *fname) 
+int dim, nv, elen, spanx, spany, pox, poy;
+
+void initW0() 
+{ 
+    int i;
+    for (i = 0; i < nv * nv; i++) {
+        w0[i] = STIFFNESS;
+    }
+}
+void initML() 
+{ 
+    int i;
+    for (i = 0; i < nv; i++) {
+        ml[i] = DEFAULT_MASS;
+    }
+}
+void initRL(int customSizes, const char *ssFilename) 
+{ 
+    if (customSizes) {
+        get_sizes(rl, ssFilename, nv);
+    } else {
+        int i;
+        for (i = 0; i < nv; i++) {
+            rl[i] = DEFAULT_RADIUS;
+        }
+    }
+}
+
+void initDMT(const char *fname) 
 {
-
     FILE *fp;
     char *pend, *p, *buf;
     int i, j, ij;
 
-    long rowMaxLen = (PRECISION_DIGITS + 3) * nv;
+    const long rowMaxLen = (PRECISION_DIGITS + 3) * nv;
+
     buf = malloc(sizeof(char) * rowMaxLen);
     fp = fopen(fname, "r"); 
 
@@ -91,113 +127,57 @@ void initFPS(float *ps)
     }
 }
 
-float energy (float xi, float yi, float xj, float yj, float wij, float dij)
-{
-    float dx = xi - xj;
-    float dy = yi - yj;
-    float dist = (float) sqrt(dx * dx + dy * dy);
-    if (fabs(dist) <  0.1) {
-        dist = 1;
-    } 
-    return wij * (float) pow(dist - dij, 2);
-}
+float (*func)(float []) = f;
+void (*dfunc)(float [], float []) = df;
 
-float force (float xi, float yi, float xj, float yj, 
-        float wij, float dij, char dir)
-{
-    float dx = xi - xj;
-    float dy = yi - yj; 
-    float dist = (float) sqrt(dx * dx + dy * dy);
-    if (fabs(dist) <  0.1) {
-        dist = 1;
-    } 
-    if (dir == 'x')
-        return -2 * wij * dx * (dist - dij) / dist;
-    else 
-        return -2 * wij * dy * (dist - dij) / dist;
-} 
-
-float calcFunction (float p[]) 
-{
-    int i, j;
-    float rtn, d, wij, dij;
-    rtn = 0;
-    for (i = 0; i < dim - 1; i += 2) {
-        for (j = i + 2; j < dim; j += 2) {
-            /*d = fdm[(i / 2) * nv + (j / 2)] + fss[i / 2] + fss[j / 2];*/
-            d = fdm[(i / 2) * nv + (j / 2)];
-            wij = stiffness;
-            dij = d * elen;
-            rtn += energy(p[i], p[i + 1], p[j], p[j + 1], wij, dij);
-        }
-    }
-    return rtn;
-}
-
-void calcGradient (float p[], float df[]) 
-{
-    int i, j;
-    float d, wij, dij;
-    for (i = 0; i < dim; i += 2) {
-        for (j = i + 2; j < dim; j += 2) {
-            /*d = fdm[(i / 2) * nv + (j / 2)] + fss[i / 2] + fss[j / 2];*/
-            d = fdm[(i / 2) * nv + (j / 2)];
-            wij = stiffness;
-            dij = d * elen;
-            df[i] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
-            df[i + 1] += force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'y');
-            df[j] += -force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'x');
-            df[j + 1] += -force(p[i], p[i + 1], p[j], p[j + 1], wij, dij, 'y');
-        }
-    }
-}
-
-float (*func)(float []) = calcFunction;
-void (*dfunc)(float [], float []) = calcGradient;
-
-int minimize (char *dmtFilename, char *ssFilename, float *flatpos, int len,
-        int edgelen, int panelx, int panely, int panelOffsetX, 
-        int panelOffsetY, float fact) 
-{
+int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
+        const int len, const int panelx, const int panely,
+        const int panelOffsetX, const int panelOffsetY, const float fact) {
     int *iter;
     float *fret;
 
-    int useSizes = strcmp(ssFilename, "noClusterSize") != 0;
+    int customSizes = strcmp(ssFilename, "noCustomSizes") != 0;
 
     pox = panelOffsetX;
     poy = panelOffsetY;
     spanx = panelx * fact;
     spany = panely * fact;
-    elen = edgelen * fact;
+    elen = SPRING_LENGTH * fact;
 
     dim = len;
     nv = len / 2;
-    stiffness = panelx * panely /  1000;
 
     fdm = malloc(sizeof(float) * (nv * nv));
+    w0 = malloc(sizeof(float) * (nv * nv));
+    ml = malloc(sizeof(float) * nv);
+    rl = malloc(sizeof(float) * nv);
+
     iter = malloc(sizeof(int));
     fret = malloc(sizeof(float));
-
-    if (useSizes) {
-        fss = malloc(sizeof(float) * nv); 
-        get_sizes(fss, ssFilename, nv);
-    }
 
     if (iter == NULL || fret == NULL || fdm == NULL) {
         rt_error("Error in minimize when allocating memory");
     }
-
+    
     initDMT(dmtFilename);
     initFPS(flatpos);
+    initW0();
+    initML();
+    initRL(customSizes, ssFilename);
+    setGlobals(fdm, ml, rl, w0, dim, nv, elen);
+
+    for (int i = 0; i < nv; i++) {
+        printf("%f\n", rl[i]);
+    }
 
     frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
-
-    free(fdm);
+    
     free(fret);
     free(iter);
-    if (useSizes) {
-        free(fss);
-    }
+    free(rl);
+    free(ml);
+    free(w0);
+    free(fdm);
 
     return 0;
 }

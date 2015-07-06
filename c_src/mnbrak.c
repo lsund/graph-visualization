@@ -6,9 +6,8 @@
 #define GLIMIT 100.0
 #define TINY 1.0e-20
 
-void mnbrak(ax,bx,cx,fa,fb,fc,func)
-    float *ax,*bx,*cx,*fa,*fb,*fc;
-    float (*func)();
+void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb, 
+        float *fc, float (*func)())
 {
     float ulim,u,r,q,fu,dum;
 
@@ -54,7 +53,7 @@ void mnbrak(ax,bx,cx,fa,fb,fc,func)
             fu=(*func)(u);
         }
         SHFT(*ax,*bx,*cx,u)
-            SHFT(*fa,*fb,*fc,fu)
+        SHFT(*fa,*fb,*fc,fu)
     }
 }
 

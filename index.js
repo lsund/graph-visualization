@@ -30,7 +30,6 @@
     window.GLOBALS = window.GLOBALS || {};
 
     window.GLOBALS.SPRING_LENGTH = 500;
-    window.GLOBALS.GRAVITY = 0.01;
 
     statusParagraph = document.getElementById('status');
     variableParagraph = document.getElementById('variables');
@@ -61,7 +60,7 @@
       
       var cMinimize, arr32, nbytes, dptr, dh, result;
 
-      opts.ssfopts = opts.ssfopts || { name: 'noClusterSize' };
+      opts.ssfopts = opts.ssfopts || { name: 'noCustomSizes' };
 
       clusterParagraph.innerHTML = 'N: ' + opts.fopts.nv;
 
@@ -70,7 +69,6 @@
         [
           'string', 
           'string',
-          'number', 
           'number', 
           'number', 
           'number', 
@@ -92,7 +90,6 @@
         opts.ssfopts.name,
         dh.byteOffset, 
         arr32.length,
-        window.GLOBALS.SPRING_LENGTH + arr32.length,
         window.OBJECT.body.dimension.x,
         window.OBJECT.body.dimension.y,
         opts.offset.x, 

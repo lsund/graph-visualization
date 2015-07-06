@@ -65,7 +65,7 @@ static void fill_arr(float *sizes, json_value* value, int ntotal, int depth)
     }
 }
 
-int get_sizes(float *fss, char *filename, int nv) {
+int get_sizes(float *fss, const char *filename, int nv) {
 
     FILE *fp;
     struct stat filestatus;
@@ -82,7 +82,8 @@ int get_sizes(float *fss, char *filename, int nv) {
     file_size = filestatus.st_size;
     file_contents = (char*)malloc(filestatus.st_size);
     if ( file_contents == NULL) {
-        fprintf(stderr, "Memory error: unable to allocate %d bytes\n", file_size);
+        fprintf(stderr, "Memory error: unable to allocate %d bytes\n", 
+                file_size);
         return 1;
     }
 
@@ -115,7 +116,7 @@ int get_sizes(float *fss, char *filename, int nv) {
     fill_arr(sizes, value, nv, 0);
 
     sort(fss, sizes, nv);
-    norm(fss, nv);
+    /*norm(fss, nv);*/
 
     json_value_free(value);
 

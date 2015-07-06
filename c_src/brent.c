@@ -26,20 +26,20 @@ float brent(float ax, float bx, float cx, float (*f)(float), float tol,
 
     a=(ax < cx ? ax : cx);
     b=(ax > cx ? ax : cx);
-    x=w=v=bx;
+    x = w = v = bx;
     fw=fv=fx=(*f)(x);
-    for (iter=1;iter<=ITMAX;iter++) {
-        xm=0.5*(a+b);
-        tol2=2.0*(tol1=tol*fabs(x)+ZEPS);
+    for (iter = 1;iter <= ITMAX; iter++) {
+        xm = 0.5 * (a + b);
+        tol2 = 2.0 * (tol1 = tol * fabs(x) + ZEPS);
         if (fabs(x-xm) <= (tol2-0.5*(b-a))) {
             *xmin=x;
             return fx;
         }
         if (fabs(e) > tol1) {
-            r=(x-w)*(fx-fv);
-            q=(x-v)*(fx-fw);
-            p=(x-v)*q-(x-w)*r;
-            q=2.0*(q-r);
+            r = (x - w) * (fx - fv);
+            q =(x - v) * (fx - fw);
+            p = (x - v) * q - (x - w) * r;
+            q = 2.0 * (q - r);
             if (q > 0.0) p = -p;
             q=fabs(q);
             etemp=e;
