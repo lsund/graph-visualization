@@ -16,11 +16,10 @@
 #include <math.h>
 #include <string.h>
 
-#include "c_src/util.h"
-#include "c_src/frprmn.h"
-#include "c_src/objective.h"
-
-#include "c_src/get_clustersizes.h"
+#include "util.h"
+#include "frprmn.h"
+#include "objective.h"
+#include "get_clustersizes.h"
 
 #define STIFFNESS 100
 #define SPRING_LENGTH 500
@@ -165,10 +164,6 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
     initML();
     initRL(customSizes, ssFilename);
     setGlobals(fdm, ml, rl, w0, dim, nv, elen);
-
-    for (int i = 0; i < nv; i++) {
-        printf("%f\n", rl[i]);
-    }
 
     frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
     

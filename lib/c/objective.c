@@ -15,7 +15,7 @@
 #include <stdlib.h>
 
 #define PADDING 10.0f
-#define WR 5.0f
+#define WR 1.0f
 
 static int dim, nv, elen;
 static float *fdm, *ml, *rl, *w0;

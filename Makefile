@@ -1,33 +1,30 @@
 
-emscript: c_src/util.c \
-	  c_src/brent.c \
-	  c_src/mnbrak.c \
-	  c_src/linmin.c \
-  	  c_src/frprmn.c \
-	  c_src/json.c \
-	  c_src/objective.c \
-	  c_src/get_clustersizes.c\
-	  minimizer.c
-	emcc -O1 -Wall -g -std=c99 \
-	c_src/util.c \
-	c_src/brent.c \
-	c_src/mnbrak.c \
-	c_src/linmin.c \
-	c_src/frprmn.c \
-	c_src/json.c \
-	c_src/objective.c \
-	c_src/get_clustersizes.c \
-	minimizer.c \
-	-o c_assets.js -s \
+EMFLAGS=-O1
+CFLAGS=-std=c99 -Wall -g
+
+SRC_DIR=lib/c
+DATA_DIR=data
+
+SRCS := $(shell find $(SRC_DIR) -name '*.c')
+
+DATAS= $(DATA_DIR)/c_32/dmt_cluster.csv\
+ $(DATA_DIR)/c_32/dmt_sizes.json\
+ $(DATA_DIR)/c_64/dmt_cluster.csv\
+ $(DATA_DIR)/c_64/dmt_sizes.json\
+ $(DATA_DIR)/c_128/dmt_cluster.csv\
+ $(DATA_DIR)/c_128/dmt_sizes.json\
+ $(DATA_DIR)/c_256/dmt_cluster.csv\
+ $(DATA_DIR)/c_256/dmt_sizes.json\
+ $(DATA_DIR)/c_64/subsets/dmt_clusters_subset1/ 
+
+emscript: $(SRCS)
+	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
+	-o lib/c_assets.js -s \
 	EXPORTED_FUNCTIONS="['_minimize']" \
-	--preload-file data/c_32/dmt_cluster.csv \
-	--preload-file data/c_32/dmt_sizes.json \
-	--preload-file data/c_64/dmt_cluster.csv \
-	--preload-file data/c_64/dmt_sizes.json \
-	--preload-file data/c_128/dmt_cluster.csv \
-	--preload-file data/c_128/dmt_sizes.json \
-	--preload-file data/c_256/dmt_cluster.csv \
-	--preload-file data/c_256/dmt_sizes.json \
-	--preload-file data/c_64/subsets/dmt_clusters_subset1/ \
+	$(foreach var,$(DATAS),--preload-file $(var))
 
+test: test.c
+	gcc $(CFLAGS) test.c -o test/ctest 
 
+runtest: test
+	./test/ctest
