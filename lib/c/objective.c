@@ -1,7 +1,6 @@
 /*****************************************************************************
 
-* File Name: objective.c
-
+* File Name: objective.c 
 * Author: Ludvig Sundström
 
 * Description: The objective function F = F1 + F2 + F3 + F4 where FN considers
@@ -15,60 +14,84 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "math2D.h"
+#include "minimizer.h"
+#include "graph.h"
+#include "gradient.h"
 #include "constants.h"
 #include "util.h"
 
-extern const int dim, nv, elen, sx, sy;
-extern const float *fdm, *ml, *rl, *w0;
+struct vertex **vs;
+struct bond *bs;
+int dim, nv, elen, sx, sy, nb;
 
-static float f1(struct point *ps) {
+static float f1() {
     // Should we add repulsion from walls here? TODO
     int i, cx, cy;
     float dxc, dyc, rtn;
-    struct point pi;
+    struct vertex *vi;
     cx = sx / 2;
     cy = sy / 2;
     rtn = 0;
     for (i = 0; i < nv; i++) {
-        pi = *(ps + i);
-        dxc =  pi.x - (float) cx;    
-        dyc =  pi.y - (float) cy;
+        vi = *(vs + i);
+        dxc =  (vi->pos)->x - (float) cx;    
+        dyc =  (vi->pos)->y - (float) cy;
         rtn += WG * (powf(dxc, 2) + powf(dyc, 2));
     }
     return rtn;
 }
 
-static float f2(struct point *ps) 
+static float f2attr() 
 {
-    int i, j, ij;
-    float rtn, ri, rj, d0ij, wij, dx, dy, dij, critlen;
-    struct point pi, pj;
+    int i;
+    float rtn, d0i, di, wi, dx, dy;
+    struct bond bi;
+    rtn = 0;
+    for (i = 0; i < nb; i++) {
+        bi = *(bs + i);
+        d0i = bi.dist0 * elen;
+        wi = bi.fst->mass * bi.snd->mass * DEFAULT_STIFFNESS;
+        dx = bi.fst->pos->x - bi.snd->pos->x;
+        dy = bi.fst->pos->y - bi.snd->pos->y;
+        di = sqrtf(dx * dx + dy * dy);
+        if (fabs(di) <  MIN_DIST) {
+            di = MIN_DIST;
+        } 
+        rtn += wi * powf(di - d0i, 2);
+    }
+    return rtn;
+}
+
+static float f2rep() 
+{
+    int i, j;
+    float rtn, ri, rj, dx, dy, dij, critlen;
+    struct vertex *vi, *vj;
     rtn = 0;
     for (i = 0; i < nv - 1; i++) {
         for (j = i + 1; j < nv; j++) {
-            pi = *(ps + i);
-            pj = *(ps + j);
-            ij = i * nv + j;
-            ri = rl[i];
-            rj = rl[j];
-            wij = ml[i] * ml[j] * w0[ij];
-            d0ij = fdm[ij] * elen;
-            dx = pi.x - pj.x;
-            dy = pi.y - pj.y;
+            vi = *(vs + i);
+            vj = *(vs + j);
+            ri = vi->radius;
+            rj = vj->radius;
+            dx = vi->pos->x - vj->pos->x;
+            dy = vi->pos->y - vj->pos->y;
             dij = sqrtf(dx * dx + dy * dy);
-            if (fabs(dij) <  0.01) {
-                dij = 0.01;
+            if (fabs(dij) <  MIN_DIST) {
+                dij = MIN_DIST;
             } 
             critlen = ri + rj + PADDING;
-            if (ri + rj + PADDING > dij) {
+            if (critlen > dij) {
                 rtn += WR * powf(critlen - dij, 2);
             }
-            // Need to filter out only connected vertices here TODO
-            rtn += wij * powf(dij - d0ij, 2);
         }
     }
     return rtn;
+}
+
+static float f2() 
+{
+    return f2attr() + f2rep();
 }
 
 static float f3(struct point *ps) 
@@ -107,10 +130,15 @@ static float f4()
 
 float f(float arr[]) 
 {
-    struct point* ps = arrtop(arr, nv);
+    int i;
+    for (i = 0; i < nv * 2; i += 2) {
+        struct vertex *vptr = *(vs + i / 2);
+        vptr->pos->x = arr[i];
+        vptr->pos->y = arr[i + 1];
+    }
     /*float rtn = f1(ps) + f2(ps) + f3(ps) + f4();*/
-    float rtn = f1(ps) + f2(ps);
-    free(ps);
+    float rtn = f1() + f2();
     return rtn;
 }
+
 

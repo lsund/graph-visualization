@@ -15,6 +15,7 @@
 #include <math.h>
 #include <string.h>
 
+#include "graph.h"
 #include "util.h"
 #include "frprmn.h"
 #include "constants.h"
@@ -22,36 +23,10 @@
 #include "gradient.h"
 #include "get_clustersizes.h"
 
-float *fdm, *w0, *ml, *rl;
-int dim, nv, elen, sx, sy, pox, poy;
+#include "minimizer.h"
 
-static void initW0() 
-{ 
-    int i;
-    for (i = 0; i < nv * nv; i++) {
-        w0[i] = STIFFNESS;
-    }
-}
-
-static void initML() 
-{ 
-    int i;
-    for (i = 0; i < nv; i++) {
-        ml[i] = DEFAULT_MASS;
-    }
-}
-
-static void initRL(int customSizes, const char *ssFilename) 
-{ 
-    if (customSizes) {
-        get_sizes(rl, ssFilename, nv);
-    } else {
-        int i;
-        for (i = 0; i < nv; i++) {
-            rl[i] = DEFAULT_RADIUS;
-        }
-    }
-}
+int pox, poy;
+float *fdm;
 
 static void initDMT(const char *fname) 
 {
@@ -89,7 +64,7 @@ static void initDMT(const char *fname)
     free(buf);
 }
 
-static void initFPS(float *ps) 
+static void create_vertices(int customSizes) 
 {
     int i, n, vdim;
     float gapx, gapy, offsetx, offsety;
@@ -104,24 +79,68 @@ static void initFPS(float *ps)
     offsety = gapy / 2;
     int rows = 0;
     int cols = -1;
-    for (i = 0; i < dim; i += 2) {
-        if (i % (vdim * 2) == 0) {
+    float x, y;
+    struct vertex *vi;
+    struct point *pi;
+    for (i = 0; i < nv; i++) {
+        if (i % vdim == 0) {
             rows++;
             cols = 0;
         }
-        ps[i] = cols * gapx + offsetx + pox;
-        ps[i + 1] = rows * gapy + offsety + poy; 
+        x = cols * gapx + offsetx + pox;
+        y = rows * gapy + offsety + poy; 
+        pi = mk_point(x, y);
+        vi = mk_vertex(i, pi, DEFAULT_RADIUS, DEFAULT_MASS, DEFAULT_TYPE);
+        *(vs + i) = vi;
         cols++;
     }
 }
 
+static void create_bonds() 
+{
+    int i, j, ij;
+
+    struct vertex *vi, *vj;
+    struct bond bij;
+    float d0ij;
+    for (i = 0; i < nv - 1; i++) {
+        for (j = i + 1; j < nv; j++) {
+            vi = *(vs + i);
+            vj = *(vs + j);
+            ij = i * nv + j;
+            d0ij = fdm[ij];
+            if (d0ij > MIN_DIST && d0ij < DISTANCE_DELIMITER) {
+                bij = mk_bond(vi, vj, d0ij, DEFAULT_STIFFNESS);
+                *(bs + nb) = bij;
+                nb++;
+            }
+        }
+    }
+}
+
+static void set_positions(float *ps) {
+    int i;
+    for (i = 0; i < nv; i++) {
+        *(ps + i * 2) = (*(vs + i))->pos->x ; 
+        *(ps + i * 2 + 1) = (*(vs + i))->pos->y ; 
+    }
+}
+
+
 int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
         const int len, const int panelx, const int panely,
         const int panelOffsetX, const int panelOffsetY, const float fact) {
+    int i, customSizes;
     int *iter;
     float *fret;
 
-    int customSizes = strcmp(ssFilename, "noCustomSizes") != 0;
+    float (*func)(float []);
+    void (*dfunc)(float [], float []);
+
+    func = f;
+    dfunc = df;
+
+    customSizes = strcmp(ssFilename, "noCustomSizes") != 0;
 
     pox = panelOffsetX;
     poy = panelOffsetY;
@@ -131,11 +150,11 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
 
     dim = len;
     nv = len / 2;
+    nb = 0;
 
+    vs = malloc(sizeof(struct vertex) * nv);
+    bs = malloc(sizeof(struct bond) * nv * nv);
     fdm = malloc(sizeof(float) * (nv * nv));
-    w0 = malloc(sizeof(float) * (nv * nv));
-    ml = malloc(sizeof(float) * nv);
-    rl = malloc(sizeof(float) * nv);
 
     iter = malloc(sizeof(int));
     fret = malloc(sizeof(float));
@@ -145,24 +164,23 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
     }
     
     initDMT(dmtFilename);
-    initFPS(flatpos);
-    initW0();
-    initML();
-    initRL(customSizes, ssFilename);
 
-    float (*func)(float []) = f;
-    void (*dfunc)(float [], float []) = df;
-    
+    create_vertices(customSizes);    
+    create_bonds();
+    set_positions(flatpos); 
+
     frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
 
     free(fret);
     free(iter);
-    free(rl);
-    free(ml);
-    free(w0);
     free(fdm);
+    for (i = 0; i < nv; i++) {
+        free((*(vs + i))->pos);
+        free(*(vs + i));
+    }
+    free(vs);
+    free(bs);
 
     return 0;
 }
-
 

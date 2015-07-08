@@ -1,14 +1,16 @@
 
-#define STIFFNESS 1000.0f
 #define SPRING_LENGTH 400.0f
-#define FTOL 0.00001
+#define FTOL 0.0000001
 #define MIN_DIST 0.1
 #define PRECISION_DIGITS 8
+#define PADDING 50.0f
+#define WR 1.0f
+#define WG 1000.0f
+#define M_PI 3.14159265358979323846
 #define DEFAULT_MASS 1.0
 #define DEFAULT_RADIUS 1.0
-#define PADDING 50.0f
-#define WR 10.0f
-#define WG 100.0f
-#define M_PI 3.14159265358979323846
+#define DEFAULT_TYPE 'v' 
+#define DISTANCE_DELIMITER 0.8
+#define DEFAULT_STIFFNESS 1000.0f
 
 

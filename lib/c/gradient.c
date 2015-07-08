@@ -13,12 +13,14 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "math2D.h"
+#include "minimizer.h"
+#include "graph.h"
 #include "constants.h"
 #include "util.h"
 
-extern const int dim, nv, elen, sx, sy;
-extern const float *fdm, *ml, *rl, *w0;
+struct vertex **vs;
+struct bond *bs;
+int dim, nv, elen, sx, sy, nb;
 
 static void addForce(struct point f, int i, float df[])
 {
@@ -26,61 +28,83 @@ static void addForce(struct point f, int i, float df[])
     df[i * 2 + 1] += f.y;
 }
 
-static void df1(struct point *ps, float df[])
+static void df1(float df[])
 {
     int i, cx, cy;
     float dx, dy;
-    struct point pi, frc;
+    struct vertex *vi;
+    struct point frc;
     cx = sx / 2;
     cy = sy / 2;
     for (i = 0; i < nv; i++) {
-        pi = *(ps + i);
-        dx = pi.x - (float) cx;    
-        dy = pi.y - (float) cy;
-        frc.x = 2 * WG * dx;
-        frc.y = 2 * WG * dy;
+        vi = *(vs + i);
+        dx = vi->pos->x - (float) cx;    
+        dy = vi->pos->y - (float) cy;
+        frc.x = -2 * WG * dx;
+        frc.y = -2 * WG * dy;
         addForce(frc, i, df);
     }
 }
 
-static void df2(struct point *ps, float df[]) 
+static void df2rep(float df[])
 {
-    int i, j, ij; 
-    float wij, d0ij, dij, dx, dy, ri, rj, critlen;
-    struct point pi, pj, frca, frcr, frc;
+    int i, j;
+    float dij, dx, dy, critlen;
+    struct point frci;
+    struct vertex *vi, *vj;
     for (i = 0; i < nv - 1; i++) {
         for (j = i + 1; j < nv; j++) {
-            pi = *(ps + i);
-            pj = *(ps + j);
-            ij = i * nv + j;
-            wij = ml[i] * ml[j] * w0[ij];
-            d0ij = fdm[ij] * elen;
-            dx = pi.x - pj.x;
-            dy = pi.y - pj.y; 
-            ri = rl[i];
-            rj = rl[j];
+            vi = *(vs + i);
+            vj = *(vs + j);
+            dx = vi->pos->x - vj->pos->x;
+            dy = vi->pos->y - vj->pos->y; 
             dij = sqrtf(dx * dx + dy * dy);
             if (fabs(dij) <  0.01) {
                 dij = 0.01;
             } 
-            critlen = ri + rj + PADDING;
-            // Need to filter out the actual connected nodes here TODO
-            frca.x = -2 * wij * dx * (dij - d0ij) / dij;
-            frca.y = -2 * wij * dy * (dij - d0ij) / dij;
-
-            if (ri + rj + PADDING > dij) {
-                frcr.x = -2 * WR * dx * (critlen - dij) / dij;
-                frcr.y = -2 * WR * dy * (critlen - dij) / dij;
+            critlen = vi->radius + vj->radius + PADDING;
+            if (critlen > dij) {
+                frci.x = -2 * WR * dx * (critlen - dij) / dij;
+                frci.y = -2 * WR * dy * (critlen - dij) / dij;
             } else {
-                frcr.x = 0;
-                frcr.y = 0;
+                frci.x = 0;
+                frci.y = 0;
             }
-            frc = add(frca, frcr);
-            addForce(frc, i, df);
-            addForce(negate(frc), j, df);
+            addForce(frci, i, df);
+            addForce(negate(frci), j, df);
         }
     }
 }
+
+static void df2attr(float df[])
+{
+    int i;
+    float d0i, dx, dy, di, wi;
+    struct bond bi;
+    struct point frci;
+    for (i = 0; i < nb; i++) {
+        bi = *(bs + i);  
+        wi = bi.fst->mass * bi.snd->mass * DEFAULT_STIFFNESS;
+        d0i = bi.dist0 * elen;
+        dx = bi.fst->pos->x - bi.snd->pos->x;
+        dy = bi.fst->pos->y - bi.snd->pos->y; 
+        di = sqrtf(dx * dx + dy * dy);
+        if (fabs(di) <  0.01) {
+            di = 0.01;
+        } 
+        frci.x = -2 * wi * dx * (di - d0i) / di;
+        frci.y = -2 * wi * dy * (di - d0i) / di;
+        addForce(frci, bi.fst->id, df);
+        addForce(negate(frci), bi.snd->id, df);
+    }
+}
+
+static void df2(float df[]) 
+{
+    df2attr(df);
+    df2rep(df);
+}
+
 
 void df3(struct point *ps, float df[])
 {
@@ -89,10 +113,14 @@ void df3(struct point *ps, float df[])
 
 void df(float arr[], float df[]) 
 {
-    struct point* ps = arrtop(arr, nv);
-    df1(ps, df);
-    df2(ps, df);
+    int i;
+    for (i = 0; i < nv * 2; i += 2) {
+        struct vertex *vptr = *(vs + i / 2);
+        vptr->pos->x = arr[i];
+        vptr->pos->y = arr[i + 1];
+    }
+    df1(df);
+    df2(df);
     /*df3(ps, df);*/
-    free(ps);
 }
 

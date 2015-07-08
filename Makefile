@@ -15,7 +15,9 @@ DATAS= $(DATA_DIR)/c_32/dmt_cluster.csv\
  $(DATA_DIR)/c_128/dmt_sizes.json\
  $(DATA_DIR)/c_256/dmt_cluster.csv\
  $(DATA_DIR)/c_256/dmt_sizes.json\
- $(DATA_DIR)/c_64/subsets/dmt_clusters_subset1/ 
+ $(DATA_DIR)/c_64/subsets/dmt_clusters_subset1/\
+ $(DATA_DIR)/test.csv\
+ $(DATA_DIR)/testsizes.json 
 
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
