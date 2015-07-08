@@ -54,6 +54,7 @@ static float f2attr()
         dx = bi.fst->pos->x - bi.snd->pos->x;
         dy = bi.fst->pos->y - bi.snd->pos->y;
         di = sqrtf(dx * dx + dy * dy);
+        /*printf("%f %f %f\n", di, d0i, bi.dist0);*/
         if (fabs(di) <  MIN_DIST) {
             di = MIN_DIST;
         } 
@@ -82,7 +83,7 @@ static float f2rep()
             } 
             critlen = ri + rj + PADDING;
             if (critlen > dij) {
-                rtn += WR * powf(critlen - dij, 2);
+                rtn += WR * powf(dij - critlen, 2);
             }
         }
     }

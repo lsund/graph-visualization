@@ -59,13 +59,13 @@ static void df2rep(float df[])
             dx = vi->pos->x - vj->pos->x;
             dy = vi->pos->y - vj->pos->y; 
             dij = sqrtf(dx * dx + dy * dy);
-            if (fabs(dij) <  0.01) {
-                dij = 0.01;
+            if (fabs(dij) < MIN_DIST) {
+                dij = MIN_DIST;
             } 
             critlen = vi->radius + vj->radius + PADDING;
             if (critlen > dij) {
-                frci.x = -2 * WR * dx * (critlen - dij) / dij;
-                frci.y = -2 * WR * dy * (critlen - dij) / dij;
+                frci.x = 2 * WR * dx * (dij - critlen) / dij;
+                frci.y = 2 * WR * dy * (dij - critlen) / dij;
             } else {
                 frci.x = 0;
                 frci.y = 0;

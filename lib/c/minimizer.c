@@ -126,9 +126,18 @@ static void set_positions(float *ps) {
     }
 }
 
+static void btonumarr(int *bsarr) {
+    int i;
+    *bsarr = nb;
+    for (i = 2; i < nb + 2; i++) {
+        *(bsarr + i * 2) = (bs + i)->fst->id;
+        *(bsarr + i * 2 + 1) = (bs + i)->snd->id;
+    }
+}
+
 
 int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
-        const int len, const int panelx, const int panely,
+        int *bsarr, const int len, const int panelx, const int panely,
         const int panelOffsetX, const int panelOffsetY, const float fact) {
     int i, customSizes;
     int *iter;
@@ -170,6 +179,8 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
     set_positions(flatpos); 
 
     frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
+        
+    btonumarr(bsarr);
 
     free(fret);
     free(iter);
