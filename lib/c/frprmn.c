@@ -4,7 +4,12 @@
 
  * File Name : frprmn.c
 
- * Purpose : Performs Fletcher-Reeves-Polak-Ribiere minimization
+ * Purpose : Performs Fletcher-Reeves-Polak-Ribiere minimization Given a
+ * Set of vertices vs and a set of bonds bs, performs minimization on a
+ * function func using its gradient calculated by dfunc. The convergence
+ * tolerance of func is ftol.  Returned quatities are p - the location of the
+ * minimum, iter - the number of iterations performed and fret - the minimum
+ * value of value.  Calls routine linmin to perform line minimizations.
 
  * Creation Date : 25-06-2015
 
@@ -14,65 +19,64 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "constants.h"
 #include "util.h"
-#include "linmin.h"
 
-#define ITMAX 200
-#define EPS 1.0e-10
 #define FREEALL free(xi);free(h);free(g);
 
-/** 
- * Given a starting point p, performs minimization on a function func using its
- * gradient calculated by dfunc. The convergence tolerance of func is ftol.
- * Returned quatities are p - the location of the minimum, iter - the number of
- * iterations performed and fret - the minimum value of value. 
- * Calls routine linmin to perform line minimizations.
- */
-void frprmn(float p[], int n, float ftol, int *iter, float *fret, 
-        float (*func)(), void (*dfunc)(float [], float []))
+void linmin(struct vertex **vs, struct bond *bs, float xi[], int n,
+        float *fret, float (*func)());
+
+void vstoarr(struct vertex **vs, float *arr, int n) {
+    int i;
+    for (i = 0; i < n / 2; i++) {
+        *(arr + i * 2) = (*(vs + i))->pos->x;
+        *(arr + i * 2 + 1) = (*(vs + i))->pos->y;
+    }
+}
+void frprmn(struct vertex **vs, struct bond *bs, int n, float ftol,
+        int *iter, float *fret, float (*func)(), void (*dfunc)())
 {
-    int j, its;
+    int i, its;
     float gg, gam, fp, dgg;
     float *g, *h, *xi;
-
+    
     g = vector(n);
     h = vector(n);
     xi = vector(n);
-    fp = (*func)(p);
-    (*dfunc)(p, xi);
-    for (j = 0; j < n; j++) {
-        g[j] = -xi[j];
-        xi[j] = h[j] = g[j];
+
+    fp = (*func)(vs, bs);
+    (*dfunc)(vs, bs, xi);
+        
+    for (i = 0; i < n; i++) {
+        g[i] = -xi[i];
+        xi[i] = h[i] = g[i];
     }
     for (its = 0; its < ITMAX; its++) {
         *iter = its;
-        linmin(p, xi, n, fret, func);
+        linmin(vs, bs, xi, n, fret, func);
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
-            FREEALL
-                return;
+            FREEALL;
+            return;
         }
-        fp = (*func)(p);
-        (*dfunc)(p, xi);
+        fp = (*func)(vs, bs);
+        (*dfunc)(vs, bs, xi);
         dgg = gg = 0.0;
-        for (j = 0; j < n; j++) {
-            gg += g[j] * g[j];
-            dgg += (xi[j] + g[j]) * xi[j];
+        for (i = 0; i < n; i++) {
+            gg += g[i] * g[i];
+            dgg += (xi[i] + g[i]) * xi[i];
         }
         if (fabs(gg) < EPS) {
-            FREEALL
-                return;
+            FREEALL;
+            return;
         }
         gam = dgg / gg;
-        for (j = 0; j < n; j++) {
-            g[j] = -xi[j];
-            xi[j] = h[j] = g[j] + gam * h[j];
+        for (i = 0; i < n; i++) {
+            g[i] = -xi[i];
+            xi[i] = h[i] = g[i] + gam * h[i];
         }
     }
     FREEALL
     rt_error("Too many iterations in frprmn()");
 }
-
-#undef ITMAX
-#undef EPS
-#undef FREEALL
 

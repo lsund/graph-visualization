@@ -14,21 +14,16 @@
 #include <math.h>
 
 #include "minimizer.h"
-#include "graph.h"
 #include "constants.h"
 #include "util.h"
 
-struct vertex **vs;
-struct bond *bs;
-int dim, nv, elen, sx, sy, nb;
-
-static void addForce(struct point f, int i, float df[])
+static void addForce(struct point f, int i, float *df)
 {
-    df[i * 2] += f.x;
-    df[i * 2 + 1] += f.y;
+    *(df + i * 2) += f.x;
+    *(df + i * 2 + 1) += f.y;
 }
 
-static void df1(float df[])
+static void df1(struct vertex **vs, float *df)
 {
     int i, cx, cy;
     float dx, dy;
@@ -46,7 +41,7 @@ static void df1(float df[])
     }
 }
 
-static void df2rep(float df[])
+static void df2rep(struct vertex **vs, float *df)
 {
     int i, j;
     float dij, dx, dy, critlen;
@@ -76,7 +71,7 @@ static void df2rep(float df[])
     }
 }
 
-static void df2attr(float df[])
+static void df2attr(struct bond *bs, float *df)
 {
     int i;
     float d0i, dx, dy, di, wi;
@@ -99,28 +94,46 @@ static void df2attr(float df[])
     }
 }
 
-static void df2(float df[]) 
+static void df2(struct vertex **vs, struct bond *bs, float *df) 
 {
-    df2attr(df);
-    df2rep(df);
+    df2attr(bs, df);
+    df2rep(vs, df);
 }
 
 
-void df3(struct point *ps, float df[])
+void df3(struct point *ps, struct bond *bs, float *df)
 {
     //TBI TODO
 }
 
-void df(float arr[], float df[]) 
+void df(struct vertex **vs, struct bond *bs, float *df) 
 {
-    int i;
-    for (i = 0; i < nv * 2; i += 2) {
-        struct vertex *vptr = *(vs + i / 2);
-        vptr->pos->x = arr[i];
-        vptr->pos->y = arr[i + 1];
-    }
-    df1(df);
-    df2(df);
-    /*df3(ps, df);*/
+    df1(vs, df);
+    df2(vs, bs, df);
 }
+
+
+//////// TESTS 
+
+#include "../../tests/minunit.h"
+
+char *test_gradient() {
+
+    struct vertex **vs_test;
+    struct bond *bs_test;
+
+    float gap = 100; 
+    int nv = 8; 
+    float dist = 1;
+    float stiffness = 1;
+    float mass = 1;
+    float radius = 1;
+    char type = 'r';
+    int sx = 300;
+    int sy = 300;
+
+    return 0;
+}
+
+
 

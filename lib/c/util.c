@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "math2D.h"
+#include "util.h"
 
 void rt_error(char error_text[])
 {

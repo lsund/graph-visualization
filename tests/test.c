@@ -11,19 +11,19 @@
 *****************************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "minunit.h"
+#include "../lib/c/graph.h"
 
 int tests_run = 0;
-int foo = 7; 
 
-static char *test_foo() {
-    mu_assert("foo != 7", foo == 7);
-    return 0;
-}
+char *test_objective();
+/*char *test_gradient();*/
 
 static char *all_tests() {
-    mu_run_test(test_foo);
+    mu_run_test(test_objective);
+    /*mu_run_test(test_gradient);*/
     return 0;
 }
 

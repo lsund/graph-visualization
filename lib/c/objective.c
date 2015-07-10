@@ -15,16 +15,12 @@
 #include <stdlib.h>
 
 #include "minimizer.h"
-#include "graph.h"
-#include "gradient.h"
 #include "constants.h"
 #include "util.h"
 
-struct vertex **vs;
-struct bond *bs;
-int dim, nv, elen, sx, sy, nb;
+#include "../../tests/minunit.h"
 
-static float f1() {
+static float f1(struct vertex **vs) {
     // Should we add repulsion from walls here? TODO
     int i, cx, cy;
     float dxc, dyc, rtn;
@@ -41,20 +37,18 @@ static float f1() {
     return rtn;
 }
 
-static float f2attr() 
+static float f2attr(struct bond *bs) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
     struct bond bi;
-    rtn = 0;
-    for (i = 0; i < nb; i++) {
+    rtn = 0; for (i = 0; i < nb; i++) {
         bi = *(bs + i);
         d0i = bi.dist0 * elen;
-        wi = bi.fst->mass * bi.snd->mass * DEFAULT_STIFFNESS;
+        wi = bi.fst->mass * bi.snd->mass * bi.k;
         dx = bi.fst->pos->x - bi.snd->pos->x;
         dy = bi.fst->pos->y - bi.snd->pos->y;
         di = sqrtf(dx * dx + dy * dy);
-        /*printf("%f %f %f\n", di, d0i, bi.dist0);*/
         if (fabs(di) <  MIN_DIST) {
             di = MIN_DIST;
         } 
@@ -63,7 +57,7 @@ static float f2attr()
     return rtn;
 }
 
-static float f2rep() 
+static float f2rep(struct vertex **vs) 
 {
     int i, j;
     float rtn, ri, rj, dx, dy, dij, critlen;
@@ -90,9 +84,9 @@ static float f2rep()
     return rtn;
 }
 
-static float f2() 
+static float f2(struct vertex **vs, struct bond *bs) 
 {
-    return f2attr() + f2rep();
+    return f2attr(bs) + f2rep(vs);
 }
 
 static float f3(struct point *ps) 
@@ -129,17 +123,61 @@ static float f4()
 }
 
 
-float f(float arr[]) 
+float f(struct vertex **vs, struct bond *bs) 
 {
-    int i;
-    for (i = 0; i < nv * 2; i += 2) {
-        struct vertex *vptr = *(vs + i / 2);
-        vptr->pos->x = arr[i];
-        vptr->pos->y = arr[i + 1];
-    }
-    /*float rtn = f1(ps) + f2(ps) + f3(ps) + f4();*/
-    float rtn = f1() + f2();
+    float rtn = f1(vs) + f2(vs, bs);
     return rtn;
 }
+///////////////////////////////////////
 
+#include "../../tests/test.h"
+
+char *test_objective() {
+
+    struct vertex **vs_test;
+    struct bond *bs_test;
+
+    float gap = 100; 
+    int nv = 8; 
+    float dist = 1;
+    float stiffness = 1;
+    float mass = 1;
+    float radius = 1;
+    char type = 'r';
+    /*int sx = 300;*/
+    /*int sy = 300;*/
+
+    nb = 0;
+    vs_test = malloc(sizeof(struct vertex) * nv);
+    bs_test = malloc(sizeof(struct bond) * nv * nv);
+
+    mu_assert("Need to be able to allocate", vs_test != NULL);
+    mu_assert("Need to be able to allocate ", bs_test != NULL);
+    for (int i = 0; i < nv; i++) {
+        struct point *pos = mk_point(0, i * gap);
+        *(vs_test + i) = mk_vertex(i, pos, mass, radius, type);
+        mu_assert("mk_vertex should not give NULL", *(vs_test + i) != NULL);
+    }
+    for (int i = 0; i < nv - 1; i++) {
+        for (int j = i + 1; j < nv; j++) {
+            struct vertex *vi = *(vs_test + i);
+            struct vertex *vj = *(vs_test + j);
+            *(bs_test + nb) = mk_bond(vi, vj, dist, stiffness);
+            nb++;
+        }
+    }
+
+    float e = f(vs_test, bs_test);
+    float e1 = f1(vs_test);
+    float e2a = f2attr(bs_test);
+    float e2r = f2rep(vs_test);
+    printf("%f\n", e1);
+    mu_assert("total energy should be bigger than 0", e > 0 );
+    mu_assert("energy of f1 should be bigger than 0", e1 > 0 );
+    mu_assert("energy of attraction 2 should be bigger than 0", e2a > 0 );
+    mu_assert("energy of repuslsino 2 should be bigger than 0", e2r > 0 );
+
+
+    return 0;
+}
 

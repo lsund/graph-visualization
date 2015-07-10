@@ -30,8 +30,8 @@ smallemscript: $(SRCS)
 	--preload-file test.csv
 	
 
-test: test.c
-	gcc $(CFLAGS) test.c -o test/ctest 
+test: tests/test.c
+	gcc -D TEST=1 $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm
 
 runtest: test
-	./test/ctest
+	./tests/ctest

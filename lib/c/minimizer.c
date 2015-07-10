@@ -2,8 +2,7 @@
  * Author: Ludvig Sundström
 
  * File Name: minimizer.c
-
- * Description: Defines an energy function and its derivatives aswell as
+* Description: Defines an energy function and its derivatives aswell as
  * working as minimize() which is the exported function by emscripten.
 
  * Creation Date: 24-06-2015
@@ -15,18 +14,24 @@
 #include <math.h>
 #include <string.h>
 
-#include "graph.h"
 #include "util.h"
 #include "frprmn.h"
 #include "constants.h"
-#include "objective.h"
-#include "gradient.h"
 #include "get_clustersizes.h"
 
 #include "minimizer.h"
 
-int pox, poy;
+int dim, pox, poy;
 float *fdm;
+
+struct vertex **vs;
+struct bond *bs;
+
+float f(struct vertex **vs, struct bond *bs);
+void df(struct vertex **vs, struct bond *bs, float *df);
+
+void frprmn(struct vertex **vs, struct bond *bs, int n, float ftol,
+        int *iter, float *fret, float (*func)(), void (*dfunc)());
 
 static void initDMT(const char *fname) 
 {
@@ -59,15 +64,16 @@ static void initDMT(const char *fname)
             p = pend + 1;
         }
     }
-
     fclose(fp);
     free(buf);
 }
 
 static void create_vertices(int customSizes) 
 {
-    int i, n, vdim;
-    float gapx, gapy, offsetx, offsety;
+    int i, n, vdim, rows, cols;
+    float gapx, gapy, offsetx, offsety, x, y;
+    struct vertex *vi;
+    struct point *pi;
     n = nv; 
     while (fabs(sqrt(n) - (int) sqrt(n)) > 0.01) {
         n++;
@@ -77,11 +83,8 @@ static void create_vertices(int customSizes)
     gapy = sy / vdim;
     offsetx = gapx / 2;
     offsety = gapy / 2;
-    int rows = 0;
-    int cols = -1;
-    float x, y;
-    struct vertex *vi;
-    struct point *pi;
+    rows = 0;
+    cols = -1;
     for (i = 0; i < nv; i++) {
         if (i % vdim == 0) {
             rows++;
@@ -135,7 +138,6 @@ static void btonumarr(int *bsarr) {
     }
 }
 
-
 int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
         int *bsarr, const int len, const int panelx, const int panely,
         const int panelOffsetX, const int panelOffsetY, const float fact) {
@@ -143,8 +145,8 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
     int *iter;
     float *fret;
 
-    float (*func)(float []);
-    void (*dfunc)(float [], float []);
+    float (*func)(struct vertex **vs, struct bond *bs);
+    void (*dfunc)(struct vertex **vs, struct bond *bs, float *df);
 
     func = f;
     dfunc = df;
@@ -178,8 +180,15 @@ int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
     create_bonds();
     set_positions(flatpos); 
 
-    frprmn(flatpos, dim, FTOL, iter, fret, func, dfunc);
-        
+    frprmn(vs, bs, dim, FTOL, iter, fret, func, dfunc);
+
+    printf("%d iterations\n", *iter);
+
+    for (i = 0; i < nv; i++) {
+        *(flatpos + i * 2) = (*(vs + i))->pos->x;
+        *(flatpos + i * 2 + 1) = (*(vs + i))->pos->y;
+    }
+
     btonumarr(bsarr);
 
     free(fret);

@@ -1,9 +1,15 @@
 /*****************************************************************************
- * Author : Ludvig Sundström
+ * Author: Numerical Recipies in C, Ludvig Sundström
  *
- * File Name : brent.c
+ * File Name: brent.c
  *
- * Purpose : 
+ * Description: 
+ * Given a function func, and given a bracketing triplet of abcissas ax, bx, cx
+ * (such that bx is between ax and cx, and func(bx) is less than both f(ax) and
+ * f(cx)), this routine isolates the minimum to a ffractional precition of
+ * about tol using Brent's method.The abcissa of the minimum is returned as
+ * xmin, and the minimum function value is returned as brent, the returned
+ * function value.
  *
  * Creation Date : 25-06-2015
  *
@@ -11,13 +17,10 @@
 
 #include <math.h>
 #include "util.h"
+#include "constants.h"
 
-#define ITMAX 100
-#define CGOLD 0.3819660
-#define ZEPS 1.0e-10
-
-float brent(float ax, float bx, float cx, float (*f)(float), float tol,
-        float *xmin)
+float brent(float ax, float bx, float cx, float
+        (*func)(float), float tol, float *xmin)
 {
     int iter;
     float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
@@ -27,7 +30,7 @@ float brent(float ax, float bx, float cx, float (*f)(float), float tol,
     a=(ax < cx ? ax : cx);
     b=(ax > cx ? ax : cx);
     x = w = v = bx;
-    fw=fv=fx=(*f)(x);
+    fw = fv = fx = (*func)(x);
     for (iter = 1;iter <= ITMAX; iter++) {
         xm = 0.5 * (a + b);
         tol2 = 2.0 * (tol1 = tol * fabs(x) + ZEPS);
@@ -56,7 +59,7 @@ float brent(float ax, float bx, float cx, float (*f)(float), float tol,
             d=CGOLD*(e=(x >= xm ? a-x : b-x));
         }
         u=(fabs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
-        fu=(*f)(u);
+        fu = (*func)(u);
         if (fu <= fx) {
             if (u >= x) a=x; else b=x;
             SHFT(v,w,x,u)

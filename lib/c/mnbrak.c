@@ -1,21 +1,33 @@
+/*****************************************************************************
+ * Author: Numerical Recipies in C, Ludvig Sundström
+ *
+ * File Name: mnbrak.c
+ *
+ * Description: 
+ * Given a function func, and given distinct initial points ax, bx, this
+ * routine searches in the downhill direction (defined by the function as
+ * evaluated at the initial points) and returns new points ax, bx, cx that
+ * bracket a minimum of the function. Also returned are the function values at
+ * the three points fa, fb, fc
+ *
+ * Creation Date : 09-07-2015
+ *
+ *****************************************************************************/
 
 #include <math.h>
 #include "util.h"
+#include "constants.h"
 
-#define GOLD 1.618034
-#define GLIMIT 100.0
-#define TINY 1.0e-20
-
-void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb, 
-        float *fc, float (*func)())
+void mnbrak(float *ax, float *bx, float *cx, float *fa,
+        float *fb, float *fc, float (*func)())
 {
-    float ulim,u,r,q,fu,dum;
+    float ulim, u, r, q, fu, dum;
 
     *fa=(*func)(*ax);
     *fb=(*func)(*bx);
     if (*fb > *fa) {
-        SHFT(dum,*ax,*bx,dum)
-            SHFT(dum,*fb,*fa,dum)
+        SHFT(dum,*ax,*bx,dum);
+        SHFT(dum,*fb,*fa,dum);
     }
     *cx=(*bx)+GOLD*(*bx-*ax);
     *fc=(*func)(*cx);
@@ -42,8 +54,8 @@ void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb,
         } else if ((*cx-u)*(u-ulim) > 0.0) {
             fu=(*func)(u);
             if (fu < *fc) {
-                SHFT(*bx,*cx,u,*cx+GOLD*(*cx-*bx))
-                    SHFT(*fb,*fc,fu,(*func)(u))
+                SHFT(*bx,*cx,u,*cx+GOLD*(*cx-*bx));
+                SHFT(*fb,*fc,fu,(*func)(u));
             }
         } else if ((u-ulim)*(ulim-*cx) >= 0.0) {
             u=ulim;
@@ -57,9 +69,3 @@ void mnbrak(float *ax, float *bx, float *cx, float *fa, float *fb,
     }
 }
 
-#undef GOLD
-#undef GLIMIT
-#undef TINY
-#undef MAX
-#undef SIGN
-#undef SHFT
