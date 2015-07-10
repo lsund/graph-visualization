@@ -2,7 +2,7 @@
  * Author: Ludvig Sundström
 
  * File Name: minimizer.c
-* Description: Defines an energy function and its derivatives aswell as
+ * Description: Defines an energy function and its derivatives aswell as
  * working as minimize() which is the exported function by emscripten.
 
  * Creation Date: 24-06-2015
@@ -19,21 +19,14 @@
 #include "constants.h"
 #include "get_clustersizes.h"
 
-#include "minimizer.h"
+float func(struct vertex **, struct bond *, int, int);
 
-int dim, pox, poy;
-float *fdm;
+void dfunc(struct vertex **, struct bond *, int, int, float *);
 
-struct vertex **vs;
-struct bond *bs;
-
-float f(struct vertex **vs, struct bond *bs);
-void df(struct vertex **vs, struct bond *bs, float *df);
-
-void frprmn(struct vertex **vs, struct bond *bs, int n, float ftol,
+void frprmn(struct vertex **vs, struct bond *bs, int nv, int nb, float ftol,
         int *iter, float *fret, float (*func)(), void (*dfunc)());
 
-static void initDMT(const char *fname) 
+static void init_dmt(const char *fname, float *fdm, int nv) 
 {
     FILE *fp;
     char *pend, *p, *buf;
@@ -68,7 +61,7 @@ static void initDMT(const char *fname)
     free(buf);
 }
 
-static void create_vertices(int customSizes) 
+static void create_vertices(struct vertex **vs, int customSizes, int nv) 
 {
     int i, n, vdim, rows, cols;
     float gapx, gapy, offsetx, offsety, x, y;
@@ -79,8 +72,8 @@ static void create_vertices(int customSizes)
         n++;
     }
     vdim = sqrt(n);
-    gapx = sx / vdim;
-    gapy = sy / vdim;
+    gapx = PANEL_X / vdim;
+    gapy = PANEL_Y / vdim;
     offsetx = gapx / 2;
     offsety = gapy / 2;
     rows = 0;
@@ -90,8 +83,8 @@ static void create_vertices(int customSizes)
             rows++;
             cols = 0;
         }
-        x = cols * gapx + offsetx + pox;
-        y = rows * gapy + offsety + poy; 
+        x = cols * gapx + offsetx;
+        y = rows * gapy + offsety; 
         pi = mk_point(x, y);
         vi = mk_vertex(i, pi, DEFAULT_RADIUS, DEFAULT_MASS, DEFAULT_TYPE);
         *(vs + i) = vi;
@@ -99,13 +92,15 @@ static void create_vertices(int customSizes)
     }
 }
 
-static void create_bonds() 
+static int create_bonds(struct vertex **vs, struct bond *bs, float *fdm,
+        int nv) 
 {
-    int i, j, ij;
-
+    int i, j, ij, nb;
+    
     struct vertex *vi, *vj;
     struct bond bij;
     float d0ij;
+    nb = 0;
     for (i = 0; i < nv - 1; i++) {
         for (j = i + 1; j < nv; j++) {
             vi = *(vs + i);
@@ -119,9 +114,10 @@ static void create_bonds()
             }
         }
     }
+    return nb;
 }
 
-static void set_positions(float *ps) {
+static void set_positions(struct vertex **vs, float *ps, int nv) {
     int i;
     for (i = 0; i < nv; i++) {
         *(ps + i * 2) = (*(vs + i))->pos->x ; 
@@ -129,7 +125,7 @@ static void set_positions(float *ps) {
     }
 }
 
-static void btonumarr(int *bsarr) {
+static void btonumarr(int *bsarr, struct bond *bs, int nb) {
     int i;
     *bsarr = nb;
     for (i = 2; i < nb + 2; i++) {
@@ -138,58 +134,49 @@ static void btonumarr(int *bsarr) {
     }
 }
 
-int minimize (const char *dmtFilename, const char *ssFilename, float *flatpos,
-        int *bsarr, const int len, const int panelx, const int panely,
-        const int panelOffsetX, const int panelOffsetY, const float fact) {
-    int i, customSizes;
+int minimize (const char *dmtFilename, const char *ssFilename, float *vsarr,
+        int *bsarr, const int len) 
+{
+    float (*objective)(struct vertex **, struct bond *, int, int);
+    void (*gradient)(struct vertex **, struct bond *, int, int, float *);
+
+    int i, customSizes, nv, nb;
+    struct vertex **vs;
+    struct bond *bs;
+    float *fdm, *fret;
     int *iter;
-    float *fret;
 
-    float (*func)(struct vertex **vs, struct bond *bs);
-    void (*dfunc)(struct vertex **vs, struct bond *bs, float *df);
-
-    func = f;
-    dfunc = df;
-
+    objective = func;
+    gradient = dfunc;
     customSizes = strcmp(ssFilename, "noCustomSizes") != 0;
-
-    pox = panelOffsetX;
-    poy = panelOffsetY;
-    sx = panelx * fact;
-    sy = panely * fact;
-    elen = SPRING_LENGTH * fact;
-
-    dim = len;
     nv = len / 2;
-    nb = 0;
-
     vs = malloc(sizeof(struct vertex) * nv);
     bs = malloc(sizeof(struct bond) * nv * nv);
     fdm = malloc(sizeof(float) * (nv * nv));
-
     iter = malloc(sizeof(int));
     fret = malloc(sizeof(float));
 
-    if (iter == NULL || fret == NULL || fdm == NULL) {
+    if (vs == NULL || bs == NULL || iter == NULL 
+            || fret == NULL || fdm == NULL) 
+    {
         rt_error("Error in minimize when allocating memory");
     }
     
-    initDMT(dmtFilename);
+    init_dmt(dmtFilename, fdm, nv);
+    create_vertices(vs, customSizes, nv);    
+    set_positions(vs, vsarr, nv); 
+    nb = create_bonds(vs, bs, fdm, nv);
 
-    create_vertices(customSizes);    
-    create_bonds();
-    set_positions(flatpos); 
-
-    frprmn(vs, bs, dim, FTOL, iter, fret, func, dfunc);
-
-    printf("%d iterations\n", *iter);
+    frprmn(vs, bs, nv, nb, FTOL, iter, fret, objective, gradient);
 
     for (i = 0; i < nv; i++) {
-        *(flatpos + i * 2) = (*(vs + i))->pos->x;
-        *(flatpos + i * 2 + 1) = (*(vs + i))->pos->y;
+        *(vsarr + i * 2) = (*(vs + i))->pos->x;
+        *(vsarr + i * 2 + 1) = (*(vs + i))->pos->y;
     }
 
-    btonumarr(bsarr);
+    btonumarr(bsarr, bs, nb);
+
+    printf("%d iterations\n", *iter);
 
     free(fret);
     free(iter);

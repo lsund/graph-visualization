@@ -14,19 +14,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "minimizer.h"
 #include "constants.h"
 #include "util.h"
 
 #include "../../tests/minunit.h"
 
-static float f1(struct vertex **vs) {
+static float func1(struct vertex **vs, int nv) {
     // Should we add repulsion from walls here? TODO
     int i, cx, cy;
     float dxc, dyc, rtn;
     struct vertex *vi;
-    cx = sx / 2;
-    cy = sy / 2;
+    cx = PANEL_X / 2; cy = PANEL_Y / 2;
     rtn = 0;
     for (i = 0; i < nv; i++) {
         vi = *(vs + i);
@@ -37,14 +35,14 @@ static float f1(struct vertex **vs) {
     return rtn;
 }
 
-static float f2attr(struct bond *bs) 
+static float func2attr(struct bond *bs, int nb) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
     struct bond bi;
     rtn = 0; for (i = 0; i < nb; i++) {
         bi = *(bs + i);
-        d0i = bi.dist0 * elen;
+        d0i = bi.dist0 * SPRING_LENGTH;
         wi = bi.fst->mass * bi.snd->mass * bi.k;
         dx = bi.fst->pos->x - bi.snd->pos->x;
         dy = bi.fst->pos->y - bi.snd->pos->y;
@@ -57,7 +55,7 @@ static float f2attr(struct bond *bs)
     return rtn;
 }
 
-static float f2rep(struct vertex **vs) 
+static float func2rep(struct vertex **vs, int nv) 
 {
     int i, j;
     float rtn, ri, rj, dx, dy, dij, critlen;
@@ -84,12 +82,12 @@ static float f2rep(struct vertex **vs)
     return rtn;
 }
 
-static float f2(struct vertex **vs, struct bond *bs) 
+static float func2(struct vertex **vs, struct bond *bs, int nv, int nb) 
 {
-    return f2attr(bs) + f2rep(vs);
+    return func2attr(bs, nb) + func2rep(vs, nv);
 }
 
-static float f3(struct point *ps) 
+static float func3(struct point *ps, int nv) 
 {
     int i, j, k; 
     float rtn, s, costheta, theta;
@@ -116,16 +114,16 @@ static float f3(struct point *ps)
     return 0.0;
 }
 
-static float f4() 
+static float func4() 
 {
     // Edge crossings TODO
     return 0.0;
 }
 
 
-float f(struct vertex **vs, struct bond *bs) 
+float func(struct vertex **vs, struct bond *bs, int nv, int nb) 
 {
-    float rtn = f1(vs) + f2(vs, bs);
+    float rtn = func1(vs, nv) + func2(vs, bs, nv, nb);
     return rtn;
 }
 ///////////////////////////////////////
@@ -144,10 +142,8 @@ char *test_objective() {
     float mass = 1;
     float radius = 1;
     char type = 'r';
-    /*int sx = 300;*/
-    /*int sy = 300;*/
 
-    nb = 0;
+    int nb = 0;
     vs_test = malloc(sizeof(struct vertex) * nv);
     bs_test = malloc(sizeof(struct bond) * nv * nv);
 
@@ -167,10 +163,10 @@ char *test_objective() {
         }
     }
 
-    float e = f(vs_test, bs_test);
-    float e1 = f1(vs_test);
-    float e2a = f2attr(bs_test);
-    float e2r = f2rep(vs_test);
+    float e = func(vs_test, bs_test, nv, nb);
+    float e1 = func1(vs_test, nv);
+    float e2a = func2attr(bs_test, nb);
+    float e2r = func2rep(vs_test, nv);
     printf("%f\n", e1);
     mu_assert("total energy should be bigger than 0", e > 0 );
     mu_assert("energy of f1 should be bigger than 0", e1 > 0 );

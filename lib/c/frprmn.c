@@ -24,8 +24,8 @@
 
 #define FREEALL free(xi);free(h);free(g);
 
-void linmin(struct vertex **vs, struct bond *bs, float xi[], int n,
-        float *fret, float (*func)());
+void linmin(struct vertex **vs, struct bond *bs, int nv, int nb, float xi[],
+        int n, float *fret, float (*func)());
 
 void vstoarr(struct vertex **vs, float *arr, int n) {
     int i;
@@ -34,19 +34,21 @@ void vstoarr(struct vertex **vs, float *arr, int n) {
         *(arr + i * 2 + 1) = (*(vs + i))->pos->y;
     }
 }
-void frprmn(struct vertex **vs, struct bond *bs, int n, float ftol,
+void frprmn(struct vertex **vs, struct bond *bs, int nv, int nb, float ftol,
         int *iter, float *fret, float (*func)(), void (*dfunc)())
 {
-    int i, its;
+    int i, its, n;
     float gg, gam, fp, dgg;
     float *g, *h, *xi;
+    
+    n = nv * 2;
     
     g = vector(n);
     h = vector(n);
     xi = vector(n);
 
-    fp = (*func)(vs, bs);
-    (*dfunc)(vs, bs, xi);
+    fp = (*func)(vs, bs, nv, nb);
+    (*dfunc)(vs, bs, nv, nb, xi);
         
     for (i = 0; i < n; i++) {
         g[i] = -xi[i];
@@ -54,13 +56,13 @@ void frprmn(struct vertex **vs, struct bond *bs, int n, float ftol,
     }
     for (its = 0; its < ITMAX; its++) {
         *iter = its;
-        linmin(vs, bs, xi, n, fret, func);
+        linmin(vs, bs, nv, nb, xi, n, fret, func);
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
             FREEALL;
             return;
         }
-        fp = (*func)(vs, bs);
-        (*dfunc)(vs, bs, xi);
+        fp = (*func)(vs, bs, nv, nb);
+        (*dfunc)(vs, bs, nv, nb, xi);
         dgg = gg = 0.0;
         for (i = 0; i < n; i++) {
             gg += g[i] * g[i];

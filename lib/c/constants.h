@@ -1,4 +1,7 @@
 
+#define PANEL_X 1000 
+#define PANEL_Y 1000
+
 #define PADDING 200.0f
 #define SPRING_LENGTH 50.0f
 

@@ -23,7 +23,9 @@
 #include "util.h"
 
 int ncom; 
-float *pcom, *xicom, (*nrfunc)();   
+float *pcom, *xicom, (*nrfunc)();
+
+int numv, numb;
 
 struct vertex **vertices;
 struct bond *bonds;
@@ -36,11 +38,14 @@ void mnbrak(float *ax, float *bx, float *cx, float *fa,
 
 float f1dim(float x);   
 
-void linmin(struct vertex **vs, struct bond *bs, float *xi, int n,
-        float *fret, float (*func)())   
+void linmin(struct vertex **vs, struct bond *bs, int nv, int nb,
+        float *xi, int n, float *fret, float (*func)())   
 {   
     int i;   
     float xx, xmin, fx, fb, fa, bx, ax;   
+
+    numv = nv;
+    numb = nb;
     vertices = vs;
     bonds = bs;
     ncom = n; 
@@ -76,7 +81,7 @@ float f1dim(float x)
         vptr->pos->x = pcom[i] + x * xicom[i];
         vptr->pos->y = pcom[i + 1] + x * xicom[i + 1];
     }
-    f = (*nrfunc)(vertices, bonds);
+    f = (*nrfunc)(vertices, bonds, numv, numb);
     return f;
 } 
 
