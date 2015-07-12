@@ -29,13 +29,11 @@ defmodule GetNV do
   end
   
   def write_file(tpls, path) do
-
     {:ok, file} = File.open(path, [:write])
     IO.binwrite(file, "[")
     GetNV.write_tpls(tpls, file)
     IO.binwrite(file, "]")
     File.close(file)
-
   end
 
   def write_tpls([], _), do: :done
@@ -58,5 +56,4 @@ writepath = System.argv() |> tl |> hd
 tpls = GetNV.parse_ints(GetNV.read(readpath))
 
 GetNV.write_file(tpls, writepath)
-
 

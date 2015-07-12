@@ -10,3 +10,11 @@ void rt_error(char []);
 float *vector(long n);
 
 struct point *arrtop(float arr[], int n);
+
+
+void free_vertices(struct vertex **vs, int nv);
+
+void free_bonds(struct bond **bs, int nb);
+
+void print_vertex(struct vertex);
+void print_bond(struct bond);

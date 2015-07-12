@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include "math2D.h"
+#include "math2d.h"
 
 struct point *mk_point(float x, float y) 
 {

@@ -19,8 +19,9 @@
 #include "util.h"
 #include "constants.h"
 
-float brent(float ax, float bx, float cx, float
-        (*func)(float), float tol, float *xmin)
+float brent(struct vertex **vs, struct bond **bs, float ax, float bx, float cx,
+        float (*func)(float, struct vertex **, struct bond **), float tol,
+        float *xmin)
 {
     int iter;
     float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
@@ -30,7 +31,7 @@ float brent(float ax, float bx, float cx, float
     a=(ax < cx ? ax : cx);
     b=(ax > cx ? ax : cx);
     x = w = v = bx;
-    fw = fv = fx = (*func)(x);
+    fw = fv = fx = (*func)(x, vs, bs);
     for (iter = 1;iter <= ITMAX; iter++) {
         xm = 0.5 * (a + b);
         tol2 = 2.0 * (tol1 = tol * fabs(x) + ZEPS);
@@ -59,7 +60,7 @@ float brent(float ax, float bx, float cx, float
             d=CGOLD*(e=(x >= xm ? a-x : b-x));
         }
         u=(fabs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
-        fu = (*func)(u);
+        fu = (*func)(u, vs, bs);
         if (fu <= fx) {
             if (u >= x) a=x; else b=x;
             SHFT(v,w,x,u)

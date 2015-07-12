@@ -1,0 +1,3 @@
+%{"csv": {:hex, :csv, "1.0.0"},
+  "csvlixir": {:hex, :csvlixir, "1.0.0"},
+  "ex_csv": {:hex, :ex_csv, "0.1.3"}}

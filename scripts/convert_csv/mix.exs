@@ -1,8 +1,8 @@
-defmodule Convert.Mixfile do
+defmodule ConvertCsv.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :convert,
+    [app: :convert_csv,
      version: "0.0.1",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
@@ -27,6 +27,6 @@ defmodule Convert.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:csv, "~> 1.0.0"}]
+    [{:ex_csv, "~> 0.1.0"}]
   end
 end

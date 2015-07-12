@@ -24,17 +24,10 @@
 
 #define FREEALL free(xi);free(h);free(g);
 
-void linmin(struct vertex **vs, struct bond *bs, int nv, int nb, float xi[],
+void linmin(struct vertex **vs, struct bond **bs, int nv, int nb, float xi[],
         int n, float *fret, float (*func)());
 
-void vstoarr(struct vertex **vs, float *arr, int n) {
-    int i;
-    for (i = 0; i < n / 2; i++) {
-        *(arr + i * 2) = (*(vs + i))->pos->x;
-        *(arr + i * 2 + 1) = (*(vs + i))->pos->y;
-    }
-}
-void frprmn(struct vertex **vs, struct bond *bs, int nv, int nb, float ftol,
+void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
         int *iter, float *fret, float (*func)(), void (*dfunc)())
 {
     int i, its, n;

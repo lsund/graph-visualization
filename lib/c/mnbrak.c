@@ -14,30 +14,32 @@
  *
  *****************************************************************************/
 
+#include <stdio.h>
 #include <math.h>
 #include "util.h"
 #include "constants.h"
 
-void mnbrak(float *ax, float *bx, float *cx, float *fa,
-        float *fb, float *fc, float (*func)())
+void mnbrak(struct vertex **vs, struct bond **bs, float *ax, float *bx, 
+        float *cx, float *fa, float *fb, float *fc, 
+        float (*func)(float, struct vertex **, struct bond **))
 {
     float ulim, u, r, q, fu, dum;
 
-    *fa=(*func)(*ax);
-    *fb=(*func)(*bx);
+    *fa=(*func)(*ax, vs, bs);
+    *fb=(*func)(*bx, vs, bs);
     if (*fb > *fa) {
         SHFT(dum,*ax,*bx,dum);
         SHFT(dum,*fb,*fa,dum);
     }
     *cx=(*bx)+GOLD*(*bx-*ax);
-    *fc=(*func)(*cx);
+    *fc=(*func)(*cx, vs, bs);
     while (*fb > *fc) {
         r=(*bx-*ax)*(*fb-*fc);
         q=(*bx-*cx)*(*fb-*fa);
         u=(*bx)-((*bx-*cx)*q-(*bx-*ax)*r)/ (2.0*SIGN(MAX(fabs(q-r),TINY),q-r));
         ulim=(*bx)+GLIMIT*(*cx-*bx);
         if ((*bx-u)*(u-*cx) > 0.0) {
-            fu=(*func)(u);
+            fu=(*func)(u, vs, bs);
             if (fu < *fc) {
                 *ax=(*bx);
                 *bx=u;
@@ -50,19 +52,19 @@ void mnbrak(float *ax, float *bx, float *cx, float *fa,
                 return;
             }
             u=(*cx)+GOLD*(*cx-*bx);
-            fu=(*func)(u);
+            fu=(*func)(u, vs, bs);
         } else if ((*cx-u)*(u-ulim) > 0.0) {
-            fu=(*func)(u);
+            fu=(*func)(u, vs, bs);
             if (fu < *fc) {
                 SHFT(*bx,*cx,u,*cx+GOLD*(*cx-*bx));
-                SHFT(*fb,*fc,fu,(*func)(u));
+                SHFT(*fb,*fc,fu,(*func)(u, vs, bs));
             }
         } else if ((u-ulim)*(ulim-*cx) >= 0.0) {
             u=ulim;
-            fu=(*func)(u);
+            fu=(*func)(u, vs, bs);
         } else {
             u=(*cx)+GOLD*(*cx-*bx);
-            fu=(*func)(u);
+            fu=(*func)(u, vs, bs);
         }
         SHFT(*ax,*bx,*cx,u)
         SHFT(*fa,*fb,*fc,fu)

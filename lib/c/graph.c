@@ -27,14 +27,14 @@ struct vertex *mk_vertex(int id, struct point *pos, float mass, float radius,
     return rtn;
 }
 
-struct bond mk_bond(struct vertex *fst, struct vertex *snd, float dist0, 
+struct bond *mk_bond(struct vertex *fst, struct vertex *snd, float dist0, 
         float k)
 {
-    struct bond rtn;
-    rtn.fst = fst;
-    rtn.snd = snd;
-    rtn.dist0 = dist0;
-    rtn.k = k;
+    struct bond *rtn = malloc(sizeof(struct bond));
+    rtn->fst = fst;
+    rtn->snd = snd;
+    rtn->dist0 = dist0;
+    rtn->k = k;
     return rtn;
 }
 

@@ -27,10 +27,11 @@ void rt_error(char error_text[])
 
 float *vector(long n) 
 {
-    float *v;
-    v = (float *) malloc((size_t) (n * sizeof(float)));
+    float *v = NULL;
+    v = (float *) calloc(n, (size_t)(n * sizeof(float)));
     if (v == NULL) {
         rt_error("error while allocating memory");
+        return NULL;
     }
     return v;
 }
@@ -49,5 +50,34 @@ struct point *arrtop(float arr[], int n)
         *(ps + (i / 2)) = p;
     }
     return ps;
+}
+
+void free_vertices(struct vertex **vs, int nv) 
+{
+    int i;
+    for (i = 0; i < nv; i++) {
+        free((*(vs + i))->pos);
+        free(*(vs + i));
+    }
+    free(vs);
+}
+
+void free_bonds(struct bond **bs, int nb) 
+{
+    int i;
+    for (i = 0; i < nb; i++) {
+        free(*(bs + i));
+    }
+    free(bs);
+}
+
+void print_vertex(struct vertex v) {
+    printf("vertex {id: %d, position: [%f, %f], mass: %f, radius: %f, \n\
+            type: %c}\n", v.id, v.pos->x, v.pos->y, v.mass, v.radius, v.type);
+}
+
+void print_bond(struct bond b) {
+    printf("bond {fst: %d, snd: %d, len: %f, stiffness: %f}\n", b.fst->id, 
+            b.snd->id, b.dist0, b.k);
 }
 

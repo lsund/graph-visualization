@@ -1,21 +1,15 @@
 
-EMFLAGS=-O1
+EMFLAGS=-O1 -s ALLOW_MEMORY_GROWTH=1
 CFLAGS=-std=c99 -Wall -g
 
 SRC_DIR=lib/c
 DATA_DIR=data
 
-SRCS := $(shell find $(SRC_DIR) -name '*.c')
+SRCS := $(shell find $(SRC_DIR)/* -maxdepth 0 -name '*.c')
 
-DATAS= $(DATA_DIR)/c_32/dmt_cluster.csv\
- $(DATA_DIR)/c_32/dmt_sizes.json\
- $(DATA_DIR)/c_64/dmt_cluster.csv\
- $(DATA_DIR)/c_64/dmt_sizes.json\
- $(DATA_DIR)/c_128/dmt_cluster.csv\
- $(DATA_DIR)/c_128/dmt_sizes.json\
- $(DATA_DIR)/c_256/dmt_cluster.csv\
- $(DATA_DIR)/c_256/dmt_sizes.json\
- $(DATA_DIR)/c_64/subsets/dmt_clusters_subset1/\
+DATAS=$(DATA_DIR)/52.json\
+ $(DATA_DIR)/23.json\
+ $(DATA_DIR)/43.json\
 
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
@@ -28,10 +22,12 @@ smallemscript: $(SRCS)
 	-o lib/c_assets.js -s \
 	EXPORTED_FUNCTIONS="['_minimize']" \
 	--preload-file test.csv
-	
+
+normal: $(SRCS)
+	gcc $(CFLAGS) $(SRCS) -o minimize -lm
 
 test: tests/test.c
-	gcc -D TEST=1 $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm
+	gcc -D $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm
 
 runtest: test
 	./tests/ctest
