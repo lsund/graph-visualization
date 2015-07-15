@@ -10,7 +10,7 @@
 struct vertex {
     int id;
     int conn;
-    struct vector2d *pos;
+    struct vector2d pos;
     float mass;
     float radius;
     char type;
@@ -23,7 +23,7 @@ struct bond {
     float k;
 };
 
-struct vertex *mk_vertex(int id, int conn, struct vector2d *pos, float mass, 
+struct vertex *mk_vertex(int id, int conn, struct vector2d pos, float mass, 
     float radius, char type);
 
 struct bond *mk_bond(struct vertex *fst, struct vertex *snd, float dist0, 

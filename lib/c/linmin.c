@@ -52,8 +52,8 @@ void linmin(struct vertex **vs, struct bond **bs, int nv, int nb,
     nrfunc = func;   
     for (i = 0; i < ncom; i += 2) {
         struct vertex *vptr = *(vs + i / 2);
-        pcom[i] = vptr->pos->x;
-        pcom[i + 1] = vptr->pos->y;
+        pcom[i] = vptr->pos.x;
+        pcom[i + 1] = vptr->pos.y;
         xicom[i] = xi[i];   
         xicom[i + 1] = xi[i + 1];   
     }
@@ -74,8 +74,8 @@ float f1dim(float x, struct vertex **vs, struct bond **bs)
     float f;
     for (i = 0; i < ncom; i += 2) {
         struct vertex *vptr = *(vs + i / 2);
-        vptr->pos->x = pcom[i] + x * xicom[i];
-        vptr->pos->y = pcom[i + 1] + x * xicom[i + 1];
+        vptr->pos.x = pcom[i] + x * xicom[i];
+        vptr->pos.y = pcom[i + 1] + x * xicom[i + 1];
     }
     f = (*nrfunc)(vs, bs, numv, numb);
     return f;

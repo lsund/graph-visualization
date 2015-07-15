@@ -70,7 +70,6 @@ void free_vertices(struct vertex **vs, int nv)
 {
     int i;
     for (i = 0; i < nv; i++) {
-        free((*(vs + i))->pos);
         free(*(vs + i));
     }
     free(vs);
@@ -87,7 +86,7 @@ void free_bonds(struct bond **bs, int nb)
 
 void print_vertex(struct vertex v) {
     printf("vertex {id: %d, position: [%f, %f], mass: %f, radius: %f, \n\
-            type: %c}\n", v.id, v.pos->x, v.pos->y, v.mass, v.radius, v.type);
+            type: %c}\n", v.id, v.pos.x, v.pos.y, v.mass, v.radius, v.type);
 }
 
 void print_bond(struct bond b) {

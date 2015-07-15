@@ -16,10 +16,10 @@
 #include "constants.h"
 #include "util.h"
 
-static void add_force(struct vector2d *f, int i, float *df)
+static void add_force(struct vector2d f, int i, float *df)
 {
-    *(df + i * 2) += f->x;
-    *(df + i * 2 + 1) += f->y;
+    *(df + i * 2) += f.x;
+    *(df + i * 2 + 1) += f.y;
 }
 
 static void dfunc1(struct vertex **vs, int nv, float *df)
@@ -27,26 +27,25 @@ static void dfunc1(struct vertex **vs, int nv, float *df)
     int i, cx, cy;
     float dx, dy;
     struct vertex *vi;
-    struct vector2d *frc;
+    struct vector2d frc;
     cx = PANEL_X / 2;
     cy = PANEL_Y / 2;
     frc = mk_vector2d(0, 0);
     for (i = 0; i < nv; i++) {
         vi = *(vs + i);
-        dx = vi->pos->x - (float) cx;    
-        dy = vi->pos->y - (float) cy;
-        frc->x = -2 * WG * dx;
-        frc->y = -2 * WG * dy;
+        dx = vi->pos.x - (float) cx;    
+        dy = vi->pos.y - (float) cy;
+        frc.x = -2 * WG * dx;
+        frc.y = -2 * WG * dy;
         add_force(frc, i, df);
     }
-    free(frc);
 }
 
 static void dfunc2rep(struct vertex **vs, int nv, float *df)
 {
     int i, j;
     float dij, dx, dy, critlen;
-    struct vector2d *frc, *negfrc;
+    struct vector2d frc, negfrc;
     struct vertex *vi, *vj;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
@@ -54,28 +53,26 @@ static void dfunc2rep(struct vertex **vs, int nv, float *df)
         for (j = i + 1; j < nv; j++) {
             vi = *(vs + i);
             vj = *(vs + j);
-            dx = vi->pos->x - vj->pos->x;
-            dy = vi->pos->y - vj->pos->y; 
+            dx = vi->pos.x - vj->pos.x;
+            dy = vi->pos.y - vj->pos.y; 
             dij = sqrtf(dx * dx + dy * dy);
             if (fabs(dij) < MIN_DIST) {
                 dij = MIN_DIST;
             } 
             critlen = vi->radius + vj->radius + PADDING;
             if (critlen > dij) {
-                frc->x = 2 * WR * dx * (dij - critlen) / dij;
-                frc->y = 2 * WR * dy * (dij - critlen) / dij;
+                frc.x = 2 * WR * dx * (dij - critlen) / dij;
+                frc.y = 2 * WR * dy * (dij - critlen) / dij;
             } else {
-                frc->x = 0;
-                frc->y = 0;
+                frc.x = 0;
+                frc.y = 0;
             }
-            negfrc->x = -frc->x;
-            negfrc->y = -frc->y;
+            negfrc.x = -frc.x;
+            negfrc.y = -frc.y;
             add_force(frc, i, df);
             add_force(negfrc, j, df);
         }
     }
-    free(frc);
-    free(negfrc);
 }
 
 static void dfunc2attr(struct bond **bs, int nb, float *df)
@@ -83,28 +80,26 @@ static void dfunc2attr(struct bond **bs, int nb, float *df)
     int i;
     float d0i, dx, dy, di, wi;
     struct bond *bptr;
-    struct vector2d *frc, *negfrc;
+    struct vector2d frc, negfrc;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
     for (i = 0; i < nb; i++) {
         bptr = *(bs + i);  
         wi = bptr->fst->mass * bptr->snd->mass * DEFAULT_STIFFNESS;
         d0i = bptr->dist0 * SPRING_LENGTH;
-        dx = bptr->fst->pos->x - bptr->snd->pos->x;
-        dy = bptr->fst->pos->y - bptr->snd->pos->y; 
+        dx = bptr->fst->pos.x - bptr->snd->pos.x;
+        dy = bptr->fst->pos.y - bptr->snd->pos.y; 
         di = sqrtf(dx * dx + dy * dy);
         if (fabs(di) <  0.01) {
             di = 0.01;
         } 
-        frc->x = -2 * wi * dx * (di - d0i) / di;
-        frc->y = -2 * wi * dy * (di - d0i) / di;
-        negfrc->x = -frc->x;
-        negfrc->y = -frc->y;
+        frc.x = -2 * wi * dx * (di - d0i) / di;
+        frc.y = -2 * wi * dy * (di - d0i) / di;
+        negfrc.x = -frc.x;
+        negfrc.y = -frc.y;
         add_force(frc, bptr->fst->id, df);
         add_force(negfrc, bptr->snd->id, df);
     }
-    free(frc);
-    free(negfrc);
 }
 
 static void dfunc2(struct vertex **vs, struct bond **bs, int nv, int nb, 
@@ -119,7 +114,7 @@ void dfunc3(struct vertex **vs, int nv, float *df)
 {
     int i, j, k; 
     float xji, yji, xjk, yjk;
-    struct vector2d *vecji, *vecjk, *frcji, *frcjk;
+    struct vector2d vecji, vecjk, frcji, frcjk;
     struct vertex *vi, *vj, *vk;
     frcji = mk_vector2d(0, 0);
     frcjk = mk_vector2d(0, 0);
@@ -128,7 +123,7 @@ void dfunc3(struct vertex **vs, int nv, float *df)
     for (i = 0; i < nv - 2; i++) {
         for (j = i + 1; j < nv - 1; j++) {
             for (k = j + 1; k < nv; k++) {
-                printf("%f %f %f\n", arr[i], arr[j], arr[k]);
+                /*printf("%f %f %f\n", arr[i], arr[j], arr[k]);*/
                 exit(0);
                 /*vi = *(vs + i);*/
                 /*vj = *(vs + j);  */
@@ -218,8 +213,6 @@ void dfunc3(struct vertex **vs, int nv, float *df)
             }
         }
     }
-    free(frcji);
-    free(frcjk);
 }
 
 void dfunc(struct vertex **vs, struct bond **bs, int nv, int nb, float *df) 

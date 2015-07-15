@@ -38,22 +38,27 @@ int minimize (const char *fname)
     float (*objective)(struct vertex **, struct bond **, int, int);
     void (*gradient)(struct vertex **, struct bond **, int, int, float *);
     int nv, nb;
+    int *nvptr, *nbptr;
     struct vertex **vs;
     struct bond **bs;
-    float *varr, *fret;
-    int *barr, *iter;
+    float *fret;
+    int *iter;
 
     objective = func;
     gradient = dfunc;
     vs = NULL;
     bs = NULL;
-    
-    if (iter == NULL || fret == NULL || varr == NULL || barr == NULL)
-    {
-        rt_error("Error when allocating memory: minimize()");
-    }
 
-    process_json(fname, &vs, &bs, &nv, &nb);
+    nvptr = malloc(sizeof(int));
+    nbptr = malloc(sizeof(int));
+
+    process_json(fname, &vs, &bs, nvptr, nbptr);
+
+    nv = *nvptr;
+    nb = *nbptr;
+    free(nvptr);
+    free(nbptr);
+
     set_spiral(vs, nv);
 
     if ((float)nb > (float)nv * logf((float)nv)) {
@@ -63,12 +68,18 @@ int minimize (const char *fname)
     iter = calloc(1, sizeof(int));
     fret = calloc(1, sizeof(float));
 
+    if (iter == NULL || fret == NULL)
+    {
+        rt_error("Error when allocating memory: minimize()");
+    }
+
     frprmn(vs, bs, nv, nb, FTOL, iter, fret, objective, gradient);
 
     printf("%d iterations\n", *iter);
 
     free_vertices(vs, nv);
     free_bonds(bs, nb);
+
     free(fret);
     free(iter);
     
@@ -109,10 +120,6 @@ char *test_minimizer()
         printf("%d %d\n", (*(vs + i))->id, (*(vs + i))->conn);
     }
     printf("%d %d\n", sum, nb);
-    for (i = 0; i < nv; i++) {
-        mu_assert("None of the vertex positions are null", 
-                (*(vs + i))->pos != NULL);
-    }
 
     return 0;    
 }

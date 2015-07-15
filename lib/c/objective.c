@@ -28,8 +28,8 @@ static float func1(struct vertex **vs, int nv) {
     rtn = 0;
     for (i = 0; i < nv; i++) {
         vi = *(vs + i);
-        dxc = vi->pos->x - (float) cx;    
-        dyc = vi->pos->y - (float) cy;
+        dxc = vi->pos.x - (float) cx;    
+        dyc = vi->pos.y - (float) cy;
         rtn += WG * (powf(dxc, 2) + powf(dyc, 2));
     }
     return rtn;
@@ -44,8 +44,8 @@ static float func2attr(struct bond **bs, int nb)
         bptr = *(bs + i);
         d0i = bptr->dist0 * SPRING_LENGTH;
         wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
-        dx = bptr->fst->pos->x - bptr->snd->pos->x;
-        dy = bptr->fst->pos->y - bptr->snd->pos->y;
+        dx = bptr->fst->pos.x - bptr->snd->pos.x;
+        dy = bptr->fst->pos.y - bptr->snd->pos.y;
         di = sqrtf(dx * dx + dy * dy);
         if (fabs(di) <  MIN_DIST) {
             di = MIN_DIST;
@@ -65,13 +65,11 @@ static float func2rep(struct vertex **vs, int nv)
         for (j = i + 1; j < nv; j++) {
             vi = *(vs + i);
             vj = *(vs + j);
-            if (vj != NULL  && vi != NULL && 
-                    vi->pos != NULL && vj->pos != NULL) 
-            {
+            if (vj != NULL  && vi != NULL) {
                 ri = vi->radius;
                 rj = vj->radius;
-                dx = vi->pos->x - vj->pos->x;
-                dy = vi->pos->y - vj->pos->y;
+                dx = vi->pos.x - vj->pos.x;
+                dy = vi->pos.y - vj->pos.y;
                 dij = sqrtf(dx * dx + dy * dy);
                 if (fabs(dij) < MIN_DIST) {
                     dij = MIN_DIST;
@@ -97,7 +95,7 @@ static float func3(struct vertex **vs, int nv)
 {
     int i, j, k; 
     float rtn, xji, yji, xjk, yjk, theta;
-    struct vector2d *vecji, *vecjk;
+    struct vector2d vecji, vecjk;
     struct vertex *vi, *vj, *vk;
     rtn = 0; 
     for (i = 0; i < nv - 2; i++) {
@@ -106,21 +104,19 @@ static float func3(struct vertex **vs, int nv)
                 vi = *(vs + i);
                 vj = *(vs + j);  
                 vk = *(vs + k);
-                xji = vj->pos->x - vi->pos->x;
-                yji = vj->pos->y - vi->pos->y;
-                xjk = vj->pos->x - vk->pos->x;
-                yjk = vj->pos->y - vk->pos->y;
+                xji = vj->pos.x - vi->pos.x;
+                yji = vj->pos.y - vi->pos.y;
+                xjk = vj->pos.x - vk->pos.x;
+                yjk = vj->pos.y - vk->pos.y;
                 vecji = mk_vector2d(xji, yji);
                 vecjk = mk_vector2d(xjk, yjk);
                 float scalp = dot(vecji, vecjk);
-                float lenp = (vecji->len * vecjk->len);
+                float lenp = (vecji.len * vecjk.len);
                 if (equal(0, lenp)) {
                     lenp = MIN_DIST;
                 }
                 theta = acosf(scalp / lenp);
                 rtn += WANG * powf((theta - THETA0), 2);
-                free(vecji);
-                free(vecjk);
             }
         }
     }

@@ -1,5 +1,5 @@
 
-EMFLAGS=-O1 -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 
+EMFLAGS=-O1 -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 -D EMSCRIPT=1
 CFLAGS=-std=c99 -Wall -g
 
 SRC_DIR=lib/c
@@ -12,7 +12,7 @@ DATAS=$(DATA_DIR)/52.json\
  $(DATA_DIR)/43.json\
 
 emscript: $(SRCS)
-	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
+	emcc $(EMFLAGS) $(CFLAGS) -D TEST=1 $(SRCS) \
 	-o lib/c_assets.js -s \
 	EXPORTED_FUNCTIONS="['_minimize']" \
 	$(foreach var,$(DATAS),--preload-file $(var))
@@ -27,7 +27,7 @@ normal: $(SRCS)
 	gcc $(CFLAGS) $(SRCS) -o bin/minimize -lm
 
 test: tests/test.c
-	gcc -D $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm
+	gcc $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm
 
 runtest: test
 	./tests/ctest

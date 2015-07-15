@@ -18,11 +18,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
 
 #include "constants.h"
 #include "util.h"
 
 #include "emscripten.h"
+
+#ifndef EMSCRIPT
+#define EMSCRIPT 0
+#endif
 
 #define FREEALL free(xi);free(h);free(g);
 
@@ -37,8 +42,8 @@ static void graph_toarrays(struct vertex **vs, struct bond **bs, float *vsarr,
 {
     int i;
     for (i = 0; i < nv; i++) {
-        *(vsarr + i * 2) = (*(vs + i))->pos->x;
-        *(vsarr + i * 2 + 1) = (*(vs + i))->pos->y;
+        *(vsarr + i * 2) = (*(vs + i))->pos.x;
+        *(vsarr + i * 2 + 1) = (*(vs + i))->pos.y;
     }
     for (i = 0; i < nb; i++) {
         *(bsarr + i * 2) = (*(bs + i))->fst->id;
@@ -77,10 +82,18 @@ void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
     for (its = 0; its < ITMAX; its++) {
         
         graph_toarrays(vs, bs, varr, barr, nv, nb);
-        EM_ASM_({
-            window.EXPORTS.processCdata($0, $1, $2, $3);
-        }, varr, barr, nv * 2, nb * 2);
-        emscripten_sleep(500);
+
+        if (EMSCRIPT) {
+            EM_ASM_({
+                window.EXPORTS.processCdata($0, $1, $2, $3);
+            }, varr, barr, nv * 2, nb * 2);
+            emscripten_sleep(500);
+        } else {
+            sleep(0.5);
+            for (i = 0; i < nv; i++) {
+                printf("%f %f\n", (*(vs + i))->pos.x, (*(vs + i))->pos.y);
+            }
+        }
 
         *iter = its;
         linmin(vs, bs, nv, nb, xi, n, fret, func);

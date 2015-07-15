@@ -15,7 +15,7 @@
 
 #include "graph.h"
 
-struct vertex *mk_vertex(int id, int conn, struct vector2d *pos, float mass, 
+struct vertex *mk_vertex(int id, int conn, struct vector2d pos, float mass, 
         float radius, char type) 
 {
     struct vertex *rtn = calloc(1, sizeof(struct vertex));
