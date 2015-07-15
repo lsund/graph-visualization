@@ -15,10 +15,10 @@
 
 #include "graph.h"
 
-struct vertex *mk_vertex(int id, struct point *pos, float mass, float radius, 
-        char type) 
+struct vertex *mk_vertex(int id, int conn, struct vector2d *pos, float mass, 
+        float radius, char type) 
 {
-    struct vertex *rtn = malloc(sizeof(struct vertex));
+    struct vertex *rtn = calloc(1, sizeof(struct vertex));
     rtn->id = id;
     rtn->pos = pos;
     rtn->mass = mass;
@@ -30,6 +30,9 @@ struct vertex *mk_vertex(int id, struct point *pos, float mass, float radius,
 struct bond *mk_bond(struct vertex *fst, struct vertex *snd, float dist0, 
         float k)
 {
+    fst->conn += 1;
+    snd->conn += 1;
+
     struct bond *rtn = malloc(sizeof(struct bond));
     rtn->fst = fst;
     rtn->snd = snd;

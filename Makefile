@@ -1,5 +1,5 @@
 
-EMFLAGS=-O1 -s ALLOW_MEMORY_GROWTH=1
+EMFLAGS=-O1 -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 
 CFLAGS=-std=c99 -Wall -g
 
 SRC_DIR=lib/c
@@ -24,7 +24,7 @@ smallemscript: $(SRCS)
 	--preload-file test.csv
 
 normal: $(SRCS)
-	gcc $(CFLAGS) $(SRCS) -o minimize -lm
+	gcc $(CFLAGS) $(SRCS) -o bin/minimize -lm
 
 test: tests/test.c
 	gcc -D $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm

@@ -81,7 +81,7 @@ static float func2rep(struct vertex **vs, int nv)
                     rtn += WR * powf(dij - critlen, 2);
                 }
             } else {
-                rt_error("NULL-pointer");
+                rt_error("NULL-pointer: func2rep()");
             }
         }
     }
@@ -93,29 +93,37 @@ static float func2(struct vertex **vs, struct bond **bs, int nv, int nb)
     return func2attr(bs, nb) + func2rep(vs, nv);
 }
 
-static float func3(struct point *ps, int nv) 
+static float func3(struct vertex **vs, int nv) 
 {
     int i, j, k; 
-    float rtn, s, costheta, theta;
-    struct point pi, pj, pk;
-    struct vector2D vji, vjk;
+    float rtn, xji, yji, xjk, yjk, theta;
+    struct vector2d *vecji, *vecjk;
+    struct vertex *vi, *vj, *vk;
     rtn = 0; 
     for (i = 0; i < nv - 2; i++) {
-        for (j = i + 2; j < nv - 1; j++) {
-            for (k = j + 2; k < nv; k++) {
-                pi = *(ps + i);  
-                pj = *(ps + j);  
-                pk = *(ps + k);
-                vji = mk_vector(pi, pj);
-                vjk = mk_vector(pi, pk);
-                s = dot(vji, vjk);
-                costheta = s / (vji.len * vjk.len);
-                theta = fabs(acosf(costheta) - (M_PI / 2));
-                rtn += (1 / powf(theta, 2));
+        for (j = i + 1; j < nv - 1; j++) {
+            for (k = j + 1; k < nv; k++) {
+                vi = *(vs + i);
+                vj = *(vs + j);  
+                vk = *(vs + k);
+                xji = vj->pos->x - vi->pos->x;
+                yji = vj->pos->y - vi->pos->y;
+                xjk = vj->pos->x - vk->pos->x;
+                yjk = vj->pos->y - vk->pos->y;
+                vecji = mk_vector2d(xji, yji);
+                vecjk = mk_vector2d(xjk, yjk);
+                float scalp = dot(vecji, vecjk);
+                float lenp = (vecji->len * vecjk->len);
+                if (equal(0, lenp)) {
+                    lenp = MIN_DIST;
+                }
+                theta = acosf(scalp / lenp);
+                rtn += WANG * powf((theta - THETA0), 2);
+                free(vecji);
+                free(vecjk);
             }
         }
     }
-    //TODO
     /*return rtn;*/
     return 0.0;
 }
@@ -131,7 +139,9 @@ float func(struct vertex **vs, struct bond **bs, int nv, int nb)
 {
     float f1 = func1(vs, nv);
     float f2 = func2(vs, bs, nv, nb);
-    float rtn = f1 + f2; 
+    float f3 = func3(vs, nv);
+    float rtn = f1 + f2;
+    /*float rtn = f1 + f2 + f3; */
     return rtn;
 }
 ///////////////////////////////////////

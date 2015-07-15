@@ -1,19 +1,26 @@
 
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
 #define PANEL_X 1000 
 #define PANEL_Y 1000
 
-#define PADDING 200.0f
-#define SPRING_LENGTH 50.0f
+#define PADDING 100.0f
+#define SPRING_LENGTH 400.0f
+#define THETA0 M_PI / 2
 
-#define DEFAULT_STIFFNESS 200.0f
-#define WR 100.0f
-#define WG 200.0f
+#define DEFAULT_STIFFNESS 2.0f
+#define WR 15.0f
+#define WG 1.0f
+#define WANG 1.0f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 
 #define ZEPS 1.0e-10
 #define EPS 1.0e-10
 #define TINY 1.0e-20
+
+#define COMP_EPS 1.0e-4
 
 #define DEFAULT_MASS 1.0
 #define DEFAULT_RADIUS 1.0
@@ -30,3 +37,4 @@
 
 #define ITMAX 200
 
+#endif

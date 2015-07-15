@@ -1,0 +1,43 @@
+#!/usr/bin/icm -R
+HELP = """
+
+  Usage> $P [-t] [-f] <f1> [<f2> ]
+    Prerequisites: an input file
+    Output: an output file or a stdout
+    Options:  -t : test the files
+              -f : force, - overwrite the output <file.molt> if it already exists
+"""
+
+if (Getarg(help)|Getarg()=="") quit HELP
+files = Getarg(list,delete)
+if(Nof(files)==0) quit " Error> no input file " HELP
+if(Nof(files)> 2) quit " Error> too many input files " HELP
+infi = files[1]
+oufi = (Nof(files)==2)?files[2]:"-"
+outdir = Path(oufi); if(Path(oufi)==""&oufi!="-") outdir = "./"; 
+if(!Exist(infi read)) quit " Error> source file "+infi+" not found "+HELP
+l_test  = Getarg("-t",no,delete)
+l_force = Getarg("-f",no,delete)
+s_out = Getarg(); if s_out !=""  quit " Error> $P: wrong argument(s)= " s_out HELP
+
+if(oufi!="-") then
+  if(Index(File(outdir) "d r w") == 0) quit " Error> $P: output directory '"+outdir+"' not found or not writable.\n" + HELP
+  if(File(oufi)[1]=="d") quit " Error> $P:  output file is a DIRECTORY" + HELP
+  if(Exist(oufi)) then
+     if(!l_force) quit " Error> $P: file "+oufi+" already exists. Use: -f to overwrite" + HELP
+     if(File(oufi)[5]=="-") quit " Error> $P: file "+oufi+" already exists and you do not have permissions to overwrite it." + HELP
+  endif
+endif
+
+if( l_test ) then
+   printf "\n  Input: %s   Output: %s \n", infi , oufi 
+   quit
+endif
+ 
+#example
+ read table header infi name='t' # or just to try: add column t {1 2 3} 
+ if( oufi!="-" ) write table t separator="|" oufi
+ if( oufi=="-" ) show  table t separator="|" stdout
+
+quit 
+

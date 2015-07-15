@@ -22,7 +22,29 @@
 #include "constants.h"
 #include "util.h"
 
+#include "emscripten.h"
+
 #define FREEALL free(xi);free(h);free(g);
+
+/**
+ * 1. Projects the positions of the vertices vs of length nv on to the array
+ * vsarr of length nv * 2
+ * 2. Projects the id's of the connecting vertices of the bonds bs of length bn
+ * to the array bsarr of length nb * 2
+ */
+static void graph_toarrays(struct vertex **vs, struct bond **bs, float *vsarr, 
+        int *bsarr, const int nv, const int nb)
+{
+    int i;
+    for (i = 0; i < nv; i++) {
+        *(vsarr + i * 2) = (*(vs + i))->pos->x;
+        *(vsarr + i * 2 + 1) = (*(vs + i))->pos->y;
+    }
+    for (i = 0; i < nb; i++) {
+        *(bsarr + i * 2) = (*(bs + i))->fst->id;
+        *(bsarr + i * 2 + 1) = (*(bs + i))->snd->id;
+    }
+}
 
 void linmin(struct vertex **vs, struct bond **bs, int nv, int nb, float xi[],
         int n, float *fret, float (*func)());
@@ -33,6 +55,11 @@ void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
     int i, its, n;
     float gg, gam, fp, dgg;
     float *g, *h, *xi;
+
+    float *varr;
+    int *barr;
+    varr = malloc(sizeof(float) * nv * 2);
+    barr = malloc(sizeof(int) * nb * 2);
     
     n = nv * 2;
     
@@ -48,9 +75,18 @@ void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
         xi[i] = h[i] = g[i];
     }
     for (its = 0; its < ITMAX; its++) {
+        
+        graph_toarrays(vs, bs, varr, barr, nv, nb);
+        EM_ASM_({
+            window.EXPORTS.processCdata($0, $1, $2, $3);
+        }, varr, barr, nv * 2, nb * 2);
+        emscripten_sleep(500);
+
         *iter = its;
         linmin(vs, bs, nv, nb, xi, n, fret, func);
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
+            free(varr);
+            free(barr);
             FREEALL;
             return;
         }
@@ -62,6 +98,8 @@ void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
             dgg += (xi[i] + g[i]) * xi[i];
         }
         if (fabs(gg) < EPS) {
+            free(varr);
+            free(barr);
             FREEALL;
             return;
         }
@@ -71,7 +109,10 @@ void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
             xi[i] = h[i] = g[i] + gam * h[i];
         }
     }
-    FREEALL
-    rt_error("Too many iterations in frprmn()");
+    free(varr);
+    free(barr);
+    FREEALL;
+    return;
+    /*rt_error("Too many iterations in frprmn()");*/
 }
 

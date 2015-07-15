@@ -7,57 +7,18 @@
 #include "util.h"
 #include "json.h"
 
-void process_json(const char *filename, struct vertex **vs, struct bond **bs,
-        struct point **ps, int *nv, int *nb)
+static void create_vertices(struct vertex ***vs, json_value *contents, int *nv)
 {
-    FILE *fp;
-    struct stat filestatus;
-    int file_size;
-    char* file_contents;
-    json_char* json;
-    json_value* value;
-
-    int i, id, fstid, sndid;
-    float m, r, len;
+    int i, id;
+    float m, r;
     char t;
-    struct vertex *fst, *snd;
-    struct bond *bptr;
-
-    if ( stat(filename, &filestatus) != 0) {
-        rt_error("process_json(): File not found");
-    }
-    file_size = filestatus.st_size;
-    file_contents = (char *) malloc(filestatus.st_size);
-    if ( file_contents == NULL) {
-        rt_error("process_json(): Unable to allocate memory");
-    }
-
-    fp = fopen(filename, "rt");
-
-    if (fp == NULL) {
-        fclose(fp);
-        free(file_contents);
-        rt_error("process_json(): Unable to open file");
-    }
-    if ( fread(file_contents, file_size, 1, fp) != 1 ) {
-        fclose(fp);
-        free(file_contents);
-        rt_error("process_json(): Unable to read file");
-    }
-
-    fclose(fp);
-
-    json = (json_char*)file_contents;
-
-    value = json_parse(json,file_size);
-
-    if (value == NULL) {
-        free(file_contents);
-        rt_error("process_json(): Unable to parse data");
-    }
-
-    json_value *vsarr = value->u.object.values[0].value;
+    json_value *vsarr = contents->u.object.values[0].value;
     *nv = vsarr->u.array.length;
+    *vs = malloc(sizeof(void *) * *nv);
+
+    if (vs == NULL) {
+        rt_error("Error while allocating memory: create_vertices()");
+    }
 
     for (i = 0; i < *nv; i++) {
         
@@ -96,12 +57,25 @@ void process_json(const char *filename, struct vertex **vs, struct bond **bs,
             fprintf(stderr, "Bad JSON data\n");
         }
 
-        *(vs + i) = mk_vertex(id, *(ps + i), m, r, t);
+        *(*vs + i) = mk_vertex(id, 0, NULL, m, r, t);
     }
+}
 
-    json_value *bsarr = value->u.object.values[1].value;
+static void create_bonds(struct vertex ***vs, struct bond ***bs, 
+        json_value *contents, int *nb)
+{
+    int i, fstid, sndid;
+    float len;
+    struct vertex *fst, *snd;
+    struct bond *bptr;
 
+    json_value *bsarr = contents->u.object.values[1].value;
     *nb = bsarr->u.array.length;
+    *bs = malloc(sizeof(void *) * *nb);
+
+    if (bs == NULL) {
+        rt_error("Error while allocating memory: create_bonds()");
+    }
 
     for (i = 0; i < *nb; i++) {
         
@@ -126,12 +100,60 @@ void process_json(const char *filename, struct vertex **vs, struct bond **bs,
             fprintf(stderr, "Bad JSON data\n");
         }
 
-        fst = *(vs + fstid);
-        snd = *(vs + sndid);
+        fst = *(*vs + fstid);
+        snd = *(*vs + sndid);
 
         bptr = mk_bond(fst, snd, len, DEFAULT_STIFFNESS);
-        *(bs + i) = bptr;
+        *(*bs + i) = bptr;
     }
+}
+
+void process_json(const char *filename, struct vertex ***vs, struct bond ***bs,
+        int *nv, int *nb)
+{
+    FILE *fp;
+    struct stat filestatus;
+    int file_size;
+    char* file_contents;
+    json_char* json;
+    json_value* value;
+
+    if ( stat(filename, &filestatus) != 0) {
+        rt_error("process_json(): File not found");
+    }
+    file_size = filestatus.st_size;
+    file_contents = (char *) malloc(filestatus.st_size);
+    if ( file_contents == NULL) {
+        rt_error("process_json(): Unable to allocate memory");
+    }
+
+    fp = fopen(filename, "rt");
+
+    if (fp == NULL) {
+        fclose(fp);
+        free(file_contents);
+        rt_error("process_json(): Unable to open file");
+    }
+    if ( fread(file_contents, file_size, 1, fp) != 1 ) {
+        fclose(fp);
+        free(file_contents);
+        rt_error("process_json(): Unable to read file");
+    }
+
+    fclose(fp);
+
+    json = (json_char*)file_contents;
+
+    value = json_parse(json,file_size);
+
+    if (value == NULL) {
+        free(file_contents);
+        rt_error("process_json(): Unable to parse data");
+    }
+    
+    create_vertices(vs, value, nv);
+    create_bonds(vs, bs, value, nb);
+
     json_value_free(value);
     free(file_contents);
 }

@@ -14,43 +14,25 @@
 #include <math.h>
 #include "math2d.h"
 
-struct point *mk_point(float x, float y) 
+struct vector2d *mk_vector2d(float x, float y)
 {
-    struct point *rtn = malloc(sizeof(struct point));
+    struct vector2d *rtn = malloc(sizeof(struct vector2d));
     rtn->x = x;
     rtn->y = y;
+    rtn->len = sqrtf(rtn->x * rtn->x + rtn->y * rtn->y);
     return rtn;
 }
 
-struct vector2D mk_vector(struct point src, struct point tar)
+struct vector2d add(struct vector2d vec1, struct vector2d vec2) 
 {
-    struct vector2D rtn;
-    rtn.src = src;
-    rtn.tar = tar;
-    rtn.x = src.x - tar.x;
-    rtn.y = src.y - tar.y;
-    rtn.len = sqrtf(rtn.x * rtn.x + rtn.y * rtn.y);
+    struct vector2d rtn;
+    rtn.x = vec1.x + vec2.x;
+    rtn.y = vec1.y + vec2.y;
     return rtn;
 }
 
-struct point negate(struct point p) 
-{
-    struct point rtn;
-    rtn.x = -p.x;
-    rtn.y = -p.y;
-    return rtn;
-}
-
-struct point add(struct point p1, struct point p2) 
-{
-    struct point rtn;
-    rtn.x = p1.x + p2.x;
-    rtn.y = p1.y + p2.y;
-    return rtn;
-}
-
-float dot(struct vector2D v1, struct vector2D v2)
+float dot(struct vector2d *v1, struct vector2d *v2)
 {   
-    return v1.x * v2.x + v1.y * v1.y;
+    return v1->x * v2->x + v1->y * v2->y;
 }
 

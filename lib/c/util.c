@@ -14,8 +14,22 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
+#include <limits.h>
 
 #include "util.h"
+#include "constants.h"
+
+int equal(float tar, float x) {
+    return fabs(x - tar) < COMP_EPS;
+}
+
+int in_range(float lower, float upper, float x)
+{
+    int lowcond = x > lower + COMP_EPS;
+    int upcond = x < upper - COMP_EPS;
+    return lowcond && upcond;
+}
 
 void rt_error(char error_text[])
 {
@@ -36,20 +50,20 @@ float *vector(long n)
     return v;
 }
 
-struct point *arrtop(float arr[], int n) 
+struct vector2d *arrtop(float arr[], int n) 
 {   
     int i;
-    struct point *ps = malloc(sizeof(struct point) * n);
-    if (ps == NULL) {
+    struct vector2d *vecs = malloc(sizeof(struct vector2d) * n);
+    if (vecs == NULL) {
         rt_error("Error while allocating memory");
     }
     for (i = 0; i < n * 2; i += 2) {
-        struct point p;
-        p.x = arr[i]; 
-        p.y = arr[i + 1];
-        *(ps + (i / 2)) = p;
+        struct vector2d vec;
+        vec.x = arr[i]; 
+        vec.y = arr[i + 1];
+        *(vecs + (i / 2)) = vec;
     }
-    return ps;
+    return vecs;
 }
 
 void free_vertices(struct vertex **vs, int nv) 
