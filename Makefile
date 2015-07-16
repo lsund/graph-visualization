@@ -5,11 +5,15 @@ CFLAGS=-std=c99 -Wall -g
 SRC_DIR=lib/c
 DATA_DIR=data
 
-SRCS := $(shell find $(SRC_DIR)/* -maxdepth 0 -name '*.c')
+ALL_SRCS := $(shell find $(SRC_DIR)/* -maxdepth 0 -name '*.c')
+SRCS := $(filter-out test.c, $(ALL_SRCS))
+
 
 DATAS=$(DATA_DIR)/52.json\
  $(DATA_DIR)/23.json\
  $(DATA_DIR)/43.json\
+ $(DATA_DIR)/8.json\
+ $(DATA_DIR)/6.json\
 
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) -D TEST=1 $(SRCS) \
@@ -26,8 +30,8 @@ smallemscript: $(SRCS)
 normal: $(SRCS)
 	gcc $(CFLAGS) $(SRCS) -o bin/minimize -lm
 
-test: tests/test.c
-	gcc $(CFLAGS) tests/test.c $(SRCS) -o tests/ctest -lm
+test: $(ALL_SRCS) 
+	gcc $(CFLAGS) $(ALL_SRCS) -o bin/test -lm
 
 runtest: test
 	./tests/ctest

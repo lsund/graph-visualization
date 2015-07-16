@@ -12,7 +12,7 @@
 #define DEFAULT_STIFFNESS 2.0f
 #define WR 15.0f
 #define WG 1.0f
-#define WANG 1.0f
+#define WANG 20.0f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 

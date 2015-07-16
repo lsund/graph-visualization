@@ -102,109 +102,114 @@ static void dfunc2(Vptr *vs, Bptr *bs, int nv, int nb)
     dfunc2rep(vs, nv);
 }
 
-
-void dfunc3(Vptr *vs, int nv)
+static void check_divzero (const float a, const float b, 
+                           const float c, const float d)
 {
-    int i, j, k; 
-    float xji, yji, xjk, yjk;
+    if (equal(0, a) || equal(0, b) || 
+        equal(0, c) || equal(0, d)) 
+    {
+        rt_error("Division by zero");
+    }
+}
+
+static void get_coords(Vptr vi, Vptr vj, Vptr vk,
+        float *xji, float *yji, float *xjk, float *yjk)
+{
+    *xji = vj->pos.x - vi->pos.x;
+    *yji = vj->pos.y - vi->pos.y;
+    *xjk = vj->pos.x - vk->pos.x;
+    *yjk = vj->pos.y - vk->pos.y;
+}
+
+static void mk_vectors(float xji, float yji, float xjk, float yjk, 
+        Vector2d *vecji, Vector2d *vecjk, Vector2d *frcji, Vector2d *frcjk)
+{
+    *vecji = mk_vector2d(xji, yji);
+    *vecjk = mk_vector2d(xjk, yjk);
+    *frcji = mk_vector2d(0, 0);
+    *frcjk = mk_vector2d(0, 0);
+}
+
+static void prepare_d3(Vector2d vecji, Vector2d vecjk, float xji, float yji, 
+        float xjk, float yjk, float *scalp, float *lenp, float *bsqji, float
+        *bsqjk, float *dsq, float *dsub, float *div, float *bj, float *bk)
+{
+    *scalp = dot(vecji, vecjk);
+    *lenp = vecji.len * vecjk.len;
+    *bsqji = powf((powf(xji, 2) + powf(yji, 2)), (3/2)) * vecjk.len;
+    *bsqjk = powf((powf(xjk, 2) + powf(yjk, 2)), (3/2)) * vecji.len;
+    *dsq = (powf(xji, 2) + powf(yji, 2)) * (powf(xjk, 2) + powf(yjk, 2));
+    check_divzero(*lenp, *bsqji, *bsqjk, *dsq);
+    *dsub = pow(*scalp, 2) / *dsq;
+    *div = *scalp / *lenp;
+    *bj = *scalp / *bsqji;
+    *bk = *scalp / *bsqjk;
+    check_range(div, -1.0, 1.0);
+}
+
+static void calc_gradient(float xji, float yji, float xjk, float yjk, float a,
+        float bj, float bk, float c, float d, float *dxji, float *dyji, float
+        *dxjk, float *dyjk) 
+{
+        float aver[4], bver[4];
+
+        aver[0] = xjk * a;
+        bver[0] = xji * bj;
+        aver[1] = yjk * a;
+        bver[1] = yji * bj;
+        aver[2] = xji * a;
+        bver[2] = xjk * bk;
+        aver[3] = yji * a;
+        bver[3] = yjk * bk;
+        
+        *dxji = -2 * WANG * (aver[0] - bver[0]) * c / d;
+        *dyji = -2 * WANG * (aver[1] - bver[1]) * c / d;
+        *dxjk = -2 * WANG * (aver[2] - bver[2]) * c / d;
+        *dyjk = -2 * WANG * (aver[3] - bver[3]) * c / d;
+}
+
+static void dfunc3(const BpairPtr bpairs)
+{
+    float xji, yji, xjk, yjk, scalp, lenp, bsqji, bsqjk, dsq, dsub, div, a, bj,
+          bk, c, d, dxji, dyji, dxjk, dyjk;
     Vector2d vecji, vecjk, frcji, frcjk;
     Vptr vi, vj, vk;
-    frcji = mk_vector2d(0, 0);
-    frcjk = mk_vector2d(0, 0);
-    int arr[5] = {1, 2, 3, 4, 5};
-    nv = 5;
-    for (i = 0; i < nv - 2; i++) {
-        for (j = i + 1; j < nv - 1; j++) {
-            for (k = j + 1; k < nv; k++) {
-                /*printf("%f %f %f\n", arr[i], arr[j], arr[k]);*/
-                exit(0);
-                /*vi = *(vs + i);*/
-                /*vj = *(vs + j);  */
-                /*vk = *(vs + k);*/
-                /*if (vj->pos == NULL || vj->pos == NULL || vk->pos == NULL) {*/
-                    /*rt_error("NULL-pointer: dfunc3()");*/
-                /*}*/
-                /*xji = vj->pos->x - vi->pos->x;*/
-                /*yji = vj->pos->y - vi->pos->y;*/
-                /*xjk = vj->pos->x - vk->pos->x;*/
-                /*yjk = vj->pos->y - vk->pos->y;*/
-                /*vecji = mk_vector2d(xji, yji);*/
-                /*vecjk = mk_vector2d(xjk, yjk);*/
-                /*float scalp = dot(vecji, vecjk);*/
-                /*float lenp = vecji->len * vecjk->len;*/
-                /*float bsqji = powf((powf(xji, 2) + powf(yji, 2)), (3/2)) */
-                    /** vecjk->len;*/
-                /*float bsqjk = powf((powf(xjk, 2) + powf(yjk, 2)), (3/2)) */
-                    /** vecji->len;*/
-                /*float dsq = (powf(xji, 2) + powf(yji, 2)) * */
-                    /*(powf(xjk, 2) + powf(yjk, 2));*/
-                /*float dsub = pow(scalp, 2) / dsq;*/
-                /*float div = scalp / lenp;*/
-                
-                /*// lenp, bsqji, bsqjk dsq not 0*/
-                /*if (equal(0, lenp) || equal(0, bsqji) || */
-                    /*equal(0, bsqjk) || equal(0, dsq)) */
-                /*{*/
-                    /*rt_error("Division by zero");*/
-                /*}*/
-                /*// (scalp / lenp) [-1, 1]*/
-                /*if (!in_range(-1.0, 1.0, div)) {*/
-                    /*if (equal(-1.0, div)) {*/
-                        /*div += MIN_DIST;*/
-                    /*} else if (equal(1.0, div)) {*/
-                        /*div -= MIN_DIST;*/
-                    /*} else {*/
-                        /*printf("%f\n", div);*/
-                        /*rt_error("Wrong acos range");*/
-                    /*}*/
-                /*}*/
-                /*// dsub < 1 not 1 */
-                /*if (dsub >= 1.0) {*/
-                    /*if (equal(1.0, dsub)) {*/
-                        /*dsub -= MIN_DIST;*/
-                    /*} else {*/
-                        /*rt_error("Negative square root argument");*/
-                    /*}*/
-                /*}*/
-
-                /*float a = 1 / lenp;*/
-
-                /*float bj = scalp / bsqji;*/
-                /*float bk = scalp / bsqjk;*/
-                
-                /*float c = acosf(scalp / lenp) - THETA0;*/
-
-                /*float d = sqrtf(1 - dsub);  */
-                
-                /*float a1 = xjk * a;*/
-                /*float b1 = xji * bj;*/
-
-                /*float a2 = yjk * a;*/
-                /*float b2 = yji * bj;*/
-
-                /*float a3 = xji * a;*/
-                /*float b3 = xjk * bk;*/
-
-                /*float a4 = yji * a;*/
-                /*float b4 = yjk * bk;*/
-                
-                /*float dxji = -2 * WANG * (a1 - b1) * c / d;*/
-                /*float dyji = -2 * WANG * (a2 - b2) * c / d;*/
-                /*float dxjk = -2 * WANG * (a3 - b3) * c / d;*/
-                /*float dyjk = -2 * WANG * (a4 - b4) * c / d;*/
-
-                /*frcji->x = dxji; */
-                /*frcji->y = dyji; */
-
-                /*frcjk->x = dxjk; */
-                /*frcjk->y = dyjk; */
-
-                /*add_force(frcji, i, df);*/
-                /*add_force(frcjk, k, df);*/
-                /*free(vecji);*/
-                /*free(vecjk);*/
+    BpairPtr cur = bpairs;
+    while (cur->next) {
+        vi = cur->fst->fst;
+        vj = cur->fst->snd; 
+        vk = cur->snd->snd;
+        
+        get_coords(vi, vj, vk, &xji, &yji, &xjk, &yjk);
+        mk_vectors(xji, yji, xjk, yjk, &vecji, &vecjk, &frcji, &frcjk);
+        prepare_d3(vecji, vecjk, xji, yji, xjk, yjk, &scalp, &lenp, &bsqji, 
+                &bsqjk, &dsq, &dsub, &div, &bj, &bk);
+        
+        if (dsub >= 1.0) {
+            if (equal(1.0, dsub)) {
+                dsub -= MIN_DIST;
+            } else {
+                rt_error("Negative square root argument");
             }
         }
+
+        a = 1 / lenp;
+        c = acosf(div) - THETA0;
+        d = sqrtf(1 - dsub);  
+        
+        calc_gradient(xji, yji, xjk, yjk, a, bj, bk, c, d, 
+                &dxji, &dyji, &dxjk, &dyjk);
+
+        frcji.x = dxji; 
+        frcji.y = dyji; 
+
+        frcjk.x = dxjk; 
+        frcjk.y = dyjk; 
+
+        vi->vel = add(vi->vel, frcji);
+        vk->vel = add(vk->vel, frcjk);
+
+        cur = cur->next;
     }
 }
 
@@ -212,11 +217,12 @@ void dfunc(Gptr graph)
 {
     Vptr *vs = graph->vs;
     Bptr *bs = graph->bs;
+    BpairPtr bpairs = graph->bpairs;
     int nv = graph->nv;
     int nb = graph->nb;
     dfunc1(vs, nv);
     dfunc2(vs, bs, nv, nb);
-    /*dfunc3(vs, nv, df);*/
+    dfunc3(bpairs);
 }
 
 

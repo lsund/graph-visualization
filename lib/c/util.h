@@ -12,6 +12,8 @@ int equal(float tar, float x);
 
 int in_range(float lower, float upper, float x);
 
+void check_range(float *x, float lower, float upper);
+
 void rt_error(char []);
 
 float *vector(long n);

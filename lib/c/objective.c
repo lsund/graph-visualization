@@ -19,27 +19,27 @@
 
 #include "../../tests/minunit.h"
 
-static float func1(Vptr *vs, int nv) {
+static float func1(const Vptr *vs, const int nv) {
     // Should we add repulsion from walls here? TODO
     int i, cx, cy;
     float dxc, dyc, rtn;
-    struct vertex *vi;
+    Vptr vptr;
     cx = PANEL_X / 2; cy = PANEL_Y / 2;
     rtn = 0;
     for (i = 0; i < nv; i++) {
-        vi = *(vs + i);
-        dxc = vi->pos.x - (float) cx;    
-        dyc = vi->pos.y - (float) cy;
+        vptr = *(vs + i);
+        dxc = vptr->pos.x - (float) cx;    
+        dyc = vptr->pos.y - (float) cy;
         rtn += WG * (powf(dxc, 2) + powf(dyc, 2));
     }
     return rtn;
 }
 
-static float func2attr(Bptr *bs, int nb) 
+static float func2attr(const Bptr *bs, const int nb) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
-    struct bond *bptr;
+    Bptr bptr;
     rtn = 0; for (i = 0; i < nb; i++) {
         bptr = *(bs + i);
         d0i = bptr->dist0 * SPRING_LENGTH;
@@ -55,11 +55,11 @@ static float func2attr(Bptr *bs, int nb)
     return rtn;
 }
 
-static float func2rep(Vptr *vs, int nv) 
+static float func2rep(const Vptr *vs, const int nv) 
 {
     int i, j;
     float rtn, ri, rj, dx, dy, dij, critlen;
-    struct vertex *vi, *vj;
+    Vptr vi, vj;
     rtn = ri = rj = dx = dy = dij = critlen = 0.0;
     for (i = 0; i < nv - 1; i++) {
         for (j = i + 1; j < nv; j++) {
@@ -86,49 +86,50 @@ static float func2rep(Vptr *vs, int nv)
     return rtn;
 }
 
-static float func2(Vptr *vs, Bptr *bs, int nv, int nb) 
+static float func2(const Vptr *vs, const Bptr *bs, const int nv, const int nb) 
 {
     return func2attr(bs, nb) + func2rep(vs, nv);
 }
 
-static float func3(BpairPtr bpairs) 
+static float func3(const BpairPtr bpairs) 
 {
-    int i, j, k; 
     float rtn, xji, yji, xjk, yjk, theta;
-    struct vector2d vecji, vecjk;
-    struct vertex *vi, *vj, *vk;
-    rtn = 0; 
+    Vector2d vecji, vecjk;
+    Vptr vi, vj, vk;
     BpairPtr cur = bpairs;
-    /*while(cur->next) {*/
-        /*printf("%d %d %d %d\n", cur->fst->fst->id, cur->fst->snd->id, */
-                /*cur->snd->fst->id, cur->snd->snd->id);*/
-        /*cur = cur->next;*/
-    /*}*/
-
-    /*for (i = 0; i < nv - 2; i++) {*/
-        /*for (j = i + 1; j < nv - 1; j++) {*/
-            /*for (k = j + 1; k < nv; k++) {*/
-                /*vi = *(vs + i);*/
-                /*vj = *(vs + j);  */
-                /*vk = *(vs + k);*/
-                /*xji = vj->pos.x - vi->pos.x;*/
-                /*yji = vj->pos.y - vi->pos.y;*/
-                /*xjk = vj->pos.x - vk->pos.x;*/
-                /*yjk = vj->pos.y - vk->pos.y;*/
-                /*vecji = mk_vector2d(xji, yji);*/
-                /*vecjk = mk_vector2d(xjk, yjk);*/
-                /*float scalp = dot(vecji, vecjk);*/
-                /*float lenp = (vecji.len * vecjk.len);*/
-                /*if (equal(0, lenp)) {*/
-                    /*lenp = MIN_DIST;*/
-                /*}*/
-                /*theta = acosf(scalp / lenp);*/
-                /*rtn += WANG * powf((theta - THETA0), 2);*/
-            /*}*/
-        /*}*/
-    /*}*/
-    /*return rtn;*/
-    return 0.0;
+    rtn = 0; 
+    while (cur->next) {
+        vi = cur->fst->fst;
+        vj = cur->fst->snd; 
+        vk = cur->snd->snd;
+        xji = vj->pos.x - vi->pos.x;
+        yji = vj->pos.y - vi->pos.y;
+        xjk = vj->pos.x - vk->pos.x;
+        yjk = vj->pos.y - vk->pos.y;
+        vecji = mk_vector2d(xji, yji);
+        vecjk = mk_vector2d(xjk, yjk);
+        float scalp = dot(vecji, vecjk);
+        float lenp = (vecji.len * vecjk.len);
+        if (equal(0, lenp)) {
+            lenp = MIN_DIST;
+        }
+        float div = scalp / lenp;
+        /*// (div) [-1, 1]*/
+        if (!in_range(-1.0, 1.0, div)) {
+            if (equal(-1.0, div)) {
+                div += MIN_DIST;
+            } else if (equal(1.0, div)) {
+                div -= MIN_DIST;
+            } else {
+                printf("%f\n", div);
+                rt_error("Wrong acos range");
+            }
+        }
+        theta = acosf(div);
+        rtn += WANG * powf((theta - THETA0), 2);
+        cur = cur->next;
+    }
+    return rtn;
 }
 
 static float func4() 
@@ -137,8 +138,7 @@ static float func4()
     return 0.0;
 }
 
-
-float func(Gptr graph) 
+float func(const Gptr graph) 
 {
     Vptr *vs = graph->vs;
     Bptr *bs = graph->bs;
@@ -147,57 +147,8 @@ float func(Gptr graph)
     int nb = graph->nb;
     float f1 = func1(vs, nv);
     float f2 = func2(vs, bs, nv, nb);
-    /*float f3 = func3(bpairs);*/
-    float rtn = f1 + f2;
-    /*float rtn = f1 + f2 + f3; */
+    float f3 = func3(bpairs);
+    float rtn = f1 + f2 + f3; 
     return rtn;
-}
-///////////////////////////////////////
-
-char *test_objective() {
-
-    /*Vptr *vs_test;*/
-    /*struct bond *bs_test;*/
-
-    /*float gap = 100; */
-    /*int nv = 8; */
-    /*float dist = 1;*/
-    /*float stiffness = 1;*/
-    /*float mass = 1;*/
-    /*float radius = 1;*/
-    /*char type = 'r';*/
-
-    /*int nb = 0;*/
-    /*vs_test = malloc(sizeof(struct vertex) * nv);*/
-    /*bs_test = malloc(sizeof(struct bond) * nv * nv);*/
-
-    /*mu_assert("Need to be able to allocate", vs_test != NULL);*/
-    /*mu_assert("Need to be able to allocate ", bs_test != NULL);*/
-    /*for (int i = 0; i < nv; i++) {*/
-        /*struct point *pos = mk_point(0, i * gap);*/
-        /**(vs_test + i) = mk_vertex(i, pos, mass, radius, type);*/
-        /*mu_assert("mk_vertex should not give NULL", *(vs_test + i) != NULL);*/
-    /*}*/
-    /*for (int i = 0; i < nv - 1; i++) {*/
-        /*for (int j = i + 1; j < nv; j++) {*/
-            /*struct vertex *vi = *(vs_test + i);*/
-            /*struct vertex *vj = *(vs_test + j);*/
-            /**(bs_test + nb) = mk_bond(vi, vj, dist, stiffness);*/
-            /*nb++;*/
-        /*}*/
-    /*}*/
-
-    /*float e = func(vs_test, bs_test, nv, nb);*/
-    /*float e1 = func1(vs_test, nv);*/
-    /*float e2a = func2attr(bs_test, nb);*/
-    /*float e2r = func2rep(vs_test, nv);*/
-    /*printf("%f\n", e1);*/
-    /*mu_assert("total energy should be bigger than 0", e > 0 );*/
-    /*mu_assert("energy of f1 should be bigger than 0", e1 > 0 );*/
-    /*mu_assert("energy of attraction 2 should be bigger than 0", e2a > 0 );*/
-    /*mu_assert("energy of repuslsino 2 should be bigger than 0", e2r > 0 );*/
-
-
-    /*return 0;*/
 }
 

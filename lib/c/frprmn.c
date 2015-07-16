@@ -31,6 +31,16 @@
 
 #define FREEALL free(h);free(g);
 
+static void js_interact(float *varr, int *barr, Gptr graph)
+{
+    if (EMSCRIPT) {
+        EM_ASM_({
+            window.EXPORTS.processCdata($0, $1, $2, $3);
+        }, varr, barr, graph->nv * 2, graph->nb * 2);
+        emscripten_sleep(500);
+    }
+}
+
 /**
  * 1. Projects the positions of the vertices vs of length nv on to the array
  * vsarr of length nv * 2
@@ -85,10 +95,7 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         graph_toarrays(graph->vs, graph->bs, varr, barr, graph->nv, graph->nb);
 
         if (EMSCRIPT) {
-            EM_ASM_({
-                window.EXPORTS.processCdata($0, $1, $2, $3);
-            }, varr, barr, graph->nv * 2, graph->nb * 2);
-            emscripten_sleep(500);
+            js_interact(varr, barr, graph);
         } else {
             sleep(0.5);
             for (i = 0; i < graph->nv; i++) {
@@ -102,7 +109,8 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
             free(varr);
             free(barr);
-            FREEALL;
+            free(g);
+            free(h);
             return;
         }
         fp = (*func)(graph);
@@ -121,7 +129,8 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         if (fabs(gg) < EPS) {
             free(varr);
             free(barr);
-            FREEALL;
+            free(g);
+            free(h);
             return;
         }
         gam = dgg / gg;
@@ -136,7 +145,8 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
     }
     free(varr);
     free(barr);
-    FREEALL;
+    free(g);
+    free(h);
     return;
     /*rt_error("Too many iterations in frprmn()");*/
 }

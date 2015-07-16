@@ -1,29 +1,29 @@
-/***************************************************************************** 
- * Author: Ludvig Sundström
+/*****************************************************************************
 
- * File Name: minimizer.c
- * Description: Defines an energy function and its derivatives aswell as
- * working as minimize() which is the exported function by emscripten.
+* File Name: test.c
 
- * Creation Date: 24-06-2015
+* Author: Ludvig Sundström
 
- *****************************************************************************/
+* Description: 
 
-#include <stdlib.h>
+* Creation Date: 16-07-2015
+
+*****************************************************************************/
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
-#include <string.h>
 
 #include "util.h"
-#include "constants.h"
 #include "inits.h"
 #include "funcs.h"
 #include "conjugate_gradient.h"
+#include "constants.h"
+#include "minunit.h"
 
-#include "../../tests/minunit.h"
+char *test_objective() {
 
-int minimize (const char *fname) 
-{
+    const char *fname = "/data/8.json";
+
     float (*objective)(Gptr graph);
     void (*gradient)(Gptr graph);
     int i, j, nv, nb;
@@ -98,44 +98,33 @@ int minimize (const char *fname)
     free(fret);
     free(iter);
     
+    float e = func(graph);
+    mu_assert("total energy should be bigger than 0", e > 0 );
+
     return 0;
 }
 
-int main(int argc, char *argv[]) {
-    const char *filename = "data/52.json";
-    /*const char *filename = "data/8.json";*/
-    minimize(filename);
+int tests_run = 0;
+
+char *test_objective();
+
+static char *all_tests() {
+    mu_run_test(test_objective);
+    return 0;
 }
 
-/////////////////////////////////////////////// TESTING ///////////////////////
-
-char *test_minimizer()
-{
-    const char *fname = "data/52.json";
-    int len = 104;
-    int nv = len / 2;
-    int nb, maxbonds;
-    maxbonds = (nv * (nv - 1)) / 2;
-    Vptr *vs = malloc(sizeof(void *) * nv);
-    Bptr *bs = malloc(sizeof(void *) * maxbonds);
-    float *iter = malloc(sizeof(int));
-    float *fret = malloc(sizeof(float));
-    
-    if (vs == NULL || bs == NULL || iter == NULL || fret == NULL)
-    {
-        rt_error("Error in minimize when allocating memory");
+int main(int argc, char **argv) {
+    char *result = all_tests();
+    if (result != 0) {
+        printf("%s\n", result);
     }
-
-    process_json(fname, &vs, &bs, &nv, &nb);
-    set_spiral(vs, nv);
-    int i;
-    int sum;
-    for (i = 0; i < nv; i++) {
-        sum += (*(vs + i))->conn;
-        printf("%d %d\n", (*(vs + i))->id, (*(vs + i))->conn);
+    else {
+        printf("ALL TESTS PASSED\n");
     }
-    printf("%d %d\n", sum, nb);
+    printf("Tests run: %d\n", tests_run);
 
-    return 0;    
+    return result != 0;
 }
+ 
+
 

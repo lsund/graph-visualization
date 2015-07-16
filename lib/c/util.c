@@ -31,6 +31,20 @@ int in_range(float lower, float upper, float x)
     return lowcond && upcond;
 }
 
+void check_range(float *x, float lower, float upper)
+{
+    if (!in_range(lower, upper, *x)) {
+        if (equal(lower, *x)) {
+            *x += MIN_DIST;
+        } else if (equal(upper, *x)) {
+            *x -= MIN_DIST;
+        } else {
+            fprintf(stderr, "%f\n", *x);
+            rt_error("Wrong acos range");
+        }
+    }
+}
+
 void rt_error(char error_text[])
 {
     fprintf(stderr,"Run-time error...\n");

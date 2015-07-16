@@ -56,7 +56,7 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
         } else {
             fprintf(stderr, "Bad JSON data\n");
         }
-        Vector2d zero_vec = mk_vector2d(0, 0);
+        Vector2d zero_vec = mk_vector2d(0.0, 0.0);
         *(*vs + i) = mk_vertex(id, 0, zero_vec, zero_vec, m, r, t);
     }
 }
