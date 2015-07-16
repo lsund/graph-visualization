@@ -7,26 +7,40 @@
 /// Fixed && not Fixed
 // derivatives
 
-struct vertex {
+typedef struct vertex {
     int id;
     int conn;
-    struct vector2d pos;
+    Vector2d pos;
+    Vector2d vel;
     float mass;
     float radius;
     char type;
-};
+} V, *Vptr;
 
-struct bond {
-    struct vertex *fst;
-    struct vertex *snd;
+typedef struct bond {
+    Vptr fst;
+    Vptr snd;
     float dist0;
     float k;
-};
+} B, *Bptr;
 
-struct vertex *mk_vertex(int id, int conn, struct vector2d pos, float mass, 
+typedef struct bondpair {
+  Bptr fst;
+  Bptr snd; 
+  struct bondpair *next;
+} Bpair, *BpairPtr;
+
+typedef struct graph {
+  Vptr *vs;
+  Bptr *bs;
+  BpairPtr bpairs; 
+  int nv;
+  int nb;
+} G, *Gptr;
+
+Vptr mk_vertex(int id, int conn, Vector2d pos, Vector2d vel, float mass, 
     float radius, char type);
 
-struct bond *mk_bond(struct vertex *fst, struct vertex *snd, float dist0, 
-        float k);
+Bptr mk_bond(Vptr fst, Vptr snd, float dist0, float k);
 
 #endif

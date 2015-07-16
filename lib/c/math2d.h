@@ -2,17 +2,17 @@
 #ifndef MATH2D_H
 #define MATH2D_H
 
-struct vector2d
+typedef struct vector2d
 {
     float x;
     float y;
     float len;
-};
+} Vector2d;
 
-struct vector2d mk_vector2d(float x, float y);
+Vector2d mk_vector2d(float x, float y);
 
-struct vector2d add(struct vector2d vec1, struct vector2d vec2);
+Vector2d add(Vector2d vec1, Vector2d vec2);
 
-float dot(struct vector2d v1, struct vector2d v2);
+float dot(Vector2d v1, Vector2d v2);
 
 #endif

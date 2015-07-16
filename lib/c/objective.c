@@ -19,7 +19,7 @@
 
 #include "../../tests/minunit.h"
 
-static float func1(struct vertex **vs, int nv) {
+static float func1(Vptr *vs, int nv) {
     // Should we add repulsion from walls here? TODO
     int i, cx, cy;
     float dxc, dyc, rtn;
@@ -35,7 +35,7 @@ static float func1(struct vertex **vs, int nv) {
     return rtn;
 }
 
-static float func2attr(struct bond **bs, int nb) 
+static float func2attr(Bptr *bs, int nb) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
@@ -55,7 +55,7 @@ static float func2attr(struct bond **bs, int nb)
     return rtn;
 }
 
-static float func2rep(struct vertex **vs, int nv) 
+static float func2rep(Vptr *vs, int nv) 
 {
     int i, j;
     float rtn, ri, rj, dx, dy, dij, critlen;
@@ -86,40 +86,47 @@ static float func2rep(struct vertex **vs, int nv)
     return rtn;
 }
 
-static float func2(struct vertex **vs, struct bond **bs, int nv, int nb) 
+static float func2(Vptr *vs, Bptr *bs, int nv, int nb) 
 {
     return func2attr(bs, nb) + func2rep(vs, nv);
 }
 
-static float func3(struct vertex **vs, int nv) 
+static float func3(BpairPtr bpairs) 
 {
     int i, j, k; 
     float rtn, xji, yji, xjk, yjk, theta;
     struct vector2d vecji, vecjk;
     struct vertex *vi, *vj, *vk;
     rtn = 0; 
-    for (i = 0; i < nv - 2; i++) {
-        for (j = i + 1; j < nv - 1; j++) {
-            for (k = j + 1; k < nv; k++) {
-                vi = *(vs + i);
-                vj = *(vs + j);  
-                vk = *(vs + k);
-                xji = vj->pos.x - vi->pos.x;
-                yji = vj->pos.y - vi->pos.y;
-                xjk = vj->pos.x - vk->pos.x;
-                yjk = vj->pos.y - vk->pos.y;
-                vecji = mk_vector2d(xji, yji);
-                vecjk = mk_vector2d(xjk, yjk);
-                float scalp = dot(vecji, vecjk);
-                float lenp = (vecji.len * vecjk.len);
-                if (equal(0, lenp)) {
-                    lenp = MIN_DIST;
-                }
-                theta = acosf(scalp / lenp);
-                rtn += WANG * powf((theta - THETA0), 2);
-            }
-        }
-    }
+    BpairPtr cur = bpairs;
+    /*while(cur->next) {*/
+        /*printf("%d %d %d %d\n", cur->fst->fst->id, cur->fst->snd->id, */
+                /*cur->snd->fst->id, cur->snd->snd->id);*/
+        /*cur = cur->next;*/
+    /*}*/
+
+    /*for (i = 0; i < nv - 2; i++) {*/
+        /*for (j = i + 1; j < nv - 1; j++) {*/
+            /*for (k = j + 1; k < nv; k++) {*/
+                /*vi = *(vs + i);*/
+                /*vj = *(vs + j);  */
+                /*vk = *(vs + k);*/
+                /*xji = vj->pos.x - vi->pos.x;*/
+                /*yji = vj->pos.y - vi->pos.y;*/
+                /*xjk = vj->pos.x - vk->pos.x;*/
+                /*yjk = vj->pos.y - vk->pos.y;*/
+                /*vecji = mk_vector2d(xji, yji);*/
+                /*vecjk = mk_vector2d(xjk, yjk);*/
+                /*float scalp = dot(vecji, vecjk);*/
+                /*float lenp = (vecji.len * vecjk.len);*/
+                /*if (equal(0, lenp)) {*/
+                    /*lenp = MIN_DIST;*/
+                /*}*/
+                /*theta = acosf(scalp / lenp);*/
+                /*rtn += WANG * powf((theta - THETA0), 2);*/
+            /*}*/
+        /*}*/
+    /*}*/
     /*return rtn;*/
     return 0.0;
 }
@@ -131,11 +138,16 @@ static float func4()
 }
 
 
-float func(struct vertex **vs, struct bond **bs, int nv, int nb) 
+float func(Gptr graph) 
 {
+    Vptr *vs = graph->vs;
+    Bptr *bs = graph->bs;
+    BpairPtr bpairs = graph->bpairs;
+    int nv = graph->nv;
+    int nb = graph->nb;
     float f1 = func1(vs, nv);
     float f2 = func2(vs, bs, nv, nb);
-    float f3 = func3(vs, nv);
+    /*float f3 = func3(bpairs);*/
     float rtn = f1 + f2;
     /*float rtn = f1 + f2 + f3; */
     return rtn;
@@ -144,7 +156,7 @@ float func(struct vertex **vs, struct bond **bs, int nv, int nb)
 
 char *test_objective() {
 
-    /*struct vertex **vs_test;*/
+    /*Vptr *vs_test;*/
     /*struct bond *bs_test;*/
 
     /*float gap = 100; */

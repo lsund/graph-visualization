@@ -7,7 +7,7 @@
 #include "util.h"
 #include "json.h"
 
-static void create_vertices(struct vertex ***vs, json_value *contents, int *nv)
+static void create_vertices(Vptr **vs, json_value *contents, int *nv)
 {
     int i, id;
     float m, r;
@@ -56,18 +56,18 @@ static void create_vertices(struct vertex ***vs, json_value *contents, int *nv)
         } else {
             fprintf(stderr, "Bad JSON data\n");
         }
-        struct vector2d zero_vec = mk_vector2d(0, 0);
-        *(*vs + i) = mk_vertex(id, 0, zero_vec, m, r, t);
+        Vector2d zero_vec = mk_vector2d(0, 0);
+        *(*vs + i) = mk_vertex(id, 0, zero_vec, zero_vec, m, r, t);
     }
 }
 
-static void create_bonds(struct vertex ***vs, struct bond ***bs, 
+static void create_bonds(Vptr **vs, Bptr **bs, 
         json_value *contents, int *nb)
 {
     int i, fstid, sndid;
     float len;
-    struct vertex *fst, *snd;
-    struct bond *bptr;
+    Vptr fst, snd;
+    Bptr bptr;
 
     json_value *bsarr = contents->u.object.values[1].value;
     *nb = bsarr->u.array.length;
@@ -108,7 +108,7 @@ static void create_bonds(struct vertex ***vs, struct bond ***bs,
     }
 }
 
-void process_json(const char *filename, struct vertex ***vs, struct bond ***bs,
+void process_json(const char *filename, Vptr **vs, Bptr **bs,
         int *nv, int *nb)
 {
     FILE *fp;

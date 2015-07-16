@@ -15,32 +15,30 @@
 #include <string.h>
 
 #include "util.h"
+#include "placement.h"
 #include "constants.h"
 
 #include "../../tests/minunit.h"
 
-void set_spiral(struct vertex **vs, int nv);
-void set_grid(struct vertex **vs, int nv);
-
-void process_json(const char *filename, struct vertex ***vs, struct bond ***bs,
+void process_json(const char *filename, Vptr **vs, Bptr **bs,
         int *nv, int *nb);
 
-float func(struct vertex **, struct bond **, int, int);
+float func(Gptr graph);
 
-void dfunc(struct vertex **, struct bond **, int, int, float *);
+void dfunc(Gptr graph);
 
-void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
-        int *iter, float *fret, float (*func)(), void (*dfunc)());
+void frprmn(Gptr graph, float ftol, int *iter, float *fret, 
+        float (*func)(Gptr), void (*dfunc)(Gptr));
 
 int minimize (const char *fname) 
 {
 
-    float (*objective)(struct vertex **, struct bond **, int, int);
-    void (*gradient)(struct vertex **, struct bond **, int, int, float *);
-    int nv, nb;
+    float (*objective)(Gptr graph);
+    void (*gradient)(Gptr graph);
+    int i, j, nv, nb;
     int *nvptr, *nbptr;
-    struct vertex **vs;
-    struct bond **bs;
+    Vptr *vs;
+    Bptr *bs;
     float *fret;
     int *iter;
 
@@ -58,6 +56,30 @@ int minimize (const char *fname)
     nb = *nbptr;
     free(nvptr);
     free(nbptr);
+    
+    BpairPtr bpairs = NULL;
+    Bptr b1, b2;
+    for (i = 0; i < nb - 1; i++) {
+        for (j = i + 1; j < nb; j++) {
+            b1 = *(bs + i);  
+            b2 = *(bs + j);  
+            if (b1->snd->id == b2->fst->id) {
+                BpairPtr newpair;
+                newpair = malloc(sizeof(Bpair));
+                newpair->fst = b1;
+                newpair->snd = b2;
+                newpair->next = bpairs;
+                bpairs = newpair;
+            }
+        }
+    }
+    
+    Gptr graph = malloc(sizeof(G));
+    graph->vs = vs;
+    graph->bs = bs;
+    graph->bpairs = bpairs;
+    graph->nv = nv;
+    graph->nb = nb;
 
     set_spiral(vs, nv);
 
@@ -72,13 +94,15 @@ int minimize (const char *fname)
     {
         rt_error("Error when allocating memory: minimize()");
     }
-
-    frprmn(vs, bs, nv, nb, FTOL, iter, fret, objective, gradient);
+    
+    frprmn(graph, FTOL, iter, fret, objective, gradient);
 
     printf("%d iterations\n", *iter);
 
-    free_vertices(vs, nv);
-    free_bonds(bs, nb);
+    free_vertices(graph->vs, nv);
+    free_bonds(graph->bs, nb);
+    free_bpairs(graph->bpairs);
+    free(graph);
 
     free(fret);
     free(iter);
@@ -87,7 +111,6 @@ int minimize (const char *fname)
 }
 
 int main(int argc, char *argv[]) {
-
     const char *filename = "data/52.json";
     minimize(filename);
 }
@@ -101,8 +124,8 @@ char *test_minimizer()
     int nv = len / 2;
     int nb, maxbonds;
     maxbonds = (nv * (nv - 1)) / 2;
-    struct vertex **vs = malloc(sizeof(void *) * nv);
-    struct bond **bs = malloc(sizeof(void *) * maxbonds);
+    Vptr *vs = malloc(sizeof(void *) * nv);
+    Bptr *bs = malloc(sizeof(void *) * maxbonds);
     float *iter = malloc(sizeof(int));
     float *fret = malloc(sizeof(float));
     

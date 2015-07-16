@@ -19,8 +19,8 @@
 
 static int comp_by_conn(const void *elem1, const void *elem2) 
 {
-    struct vertex **fst = (struct vertex **) elem1;
-    struct vertex **snd = (struct vertex **) elem2;
+    Vptr *fst = (Vptr *) elem1;
+    Vptr *snd = (Vptr *) elem2;
     if ((*fst)->conn < (*snd)->conn) return 1;
     if ((*fst)->conn > (*snd)->conn) return -1;
     return 0;
@@ -28,8 +28,8 @@ static int comp_by_conn(const void *elem1, const void *elem2)
 
 static int comp_by_id(const void *elem1, const void *elem2) 
 {
-    struct vertex **fst = (struct vertex **) elem1;
-    struct vertex **snd = (struct vertex **) elem2;
+    Vptr *fst = (Vptr *) elem1;
+    Vptr *snd = (Vptr *) elem2;
     if ((*fst)->id > (*snd)->id) return 1;
     if ((*fst)->id < (*snd)->id) return -1;
     return 0;
@@ -41,7 +41,7 @@ static int comp_by_id(const void *elem1, const void *elem2)
  * with the vertex with the most connections, the vertex with the second most
  * connections etc.
  */
-void set_spiral(struct vertex **vs, const int nv)
+void set_spiral(Vptr *vs, const int nv)
 {
     qsort(vs, nv, sizeof(void *), comp_by_conn);
     int n, gapx, gapy, dimx, dimy, i, x, y, 
@@ -85,7 +85,7 @@ void set_spiral(struct vertex **vs, const int nv)
  * are specified by PANEL_X and PANEL_Y, starting in the upper-left corner with
  * the vertex with the lowest id. 
  */
-void set_grid(struct vertex **vs, const int nv) 
+void set_grid(Vptr *vs, const int nv) 
 {
     int i, n, vdim, rows, cols;
     float gapx, gapy, offsetx, offsety, x, y;

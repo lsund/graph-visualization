@@ -4,7 +4,7 @@
 
  * File Name : frprmn.c
 
- * Purpose : Performs Fletcher-Reeves-Polak-Ribiere minimization Given a
+ * Purpose : Performs Fletcher-Reeves-Polak-Ribiere minimization Gptriven a
  * Set of vertices vs and a set of bonds bs, performs minimization on a
  * function func using its gradient calculated by dfunc. The convergence
  * tolerance of func is ftol.  Returned quatities are p - the location of the
@@ -29,7 +29,7 @@
 #define EMSCRIPT 0
 #endif
 
-#define FREEALL free(xi);free(h);free(g);
+#define FREEALL free(h);free(g);
 
 /**
  * 1. Projects the positions of the vertices vs of length nv on to the array
@@ -37,7 +37,7 @@
  * 2. Projects the id's of the connecting vertices of the bonds bs of length bn
  * to the array bsarr of length nb * 2
  */
-static void graph_toarrays(struct vertex **vs, struct bond **bs, float *vsarr, 
+static void graph_toarrays(Vptr *vs, Bptr *bs, float *vsarr, 
         int *bsarr, const int nv, const int nb)
 {
     int i;
@@ -51,64 +51,72 @@ static void graph_toarrays(struct vertex **vs, struct bond **bs, float *vsarr,
     }
 }
 
-void linmin(struct vertex **vs, struct bond **bs, int nv, int nb, float xi[],
-        int n, float *fret, float (*func)());
+void linmin(Gptr graph, int n, float *fret, float (*func)(Gptr));
 
-void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
-        int *iter, float *fret, float (*func)(), void (*dfunc)())
+void frprmn(Gptr graph, float ftol, int *iter, float *fret, 
+        float (*func)(Gptr), void (*dfunc)(Gptr))
 {
     int i, its, n;
     float gg, gam, fp, dgg;
-    float *g, *h, *xi;
+    float *g, *h;
 
     float *varr;
     int *barr;
-    varr = malloc(sizeof(float) * nv * 2);
-    barr = malloc(sizeof(int) * nb * 2);
+    varr = malloc(sizeof(float) * graph->nv * 2);
+    barr = malloc(sizeof(int) * graph->nb * 2);
     
-    n = nv * 2;
+    n = graph->nv * 2;
     
     g = vector(n);
     h = vector(n);
-    xi = vector(n);
-
-    fp = (*func)(vs, bs, nv, nb);
-    (*dfunc)(vs, bs, nv, nb, xi);
+    
+    fp = (*func)(graph);
+    (*dfunc)(graph);
         
-    for (i = 0; i < n; i++) {
-        g[i] = -xi[i];
-        xi[i] = h[i] = g[i];
+    for (i = 0; i < n; i += 2) {
+        Vptr vptr = *(graph->vs + i / 2);
+        g[i] = -vptr->vel.x;
+        g[i + 1] = -vptr->vel.y;
+        vptr->vel.x = h[i] = g[i];
+        vptr->vel.y = h[i + 1] = g[i + 1];
     }
     for (its = 0; its < ITMAX; its++) {
         
-        graph_toarrays(vs, bs, varr, barr, nv, nb);
+        graph_toarrays(graph->vs, graph->bs, varr, barr, graph->nv, graph->nb);
 
         if (EMSCRIPT) {
             EM_ASM_({
                 window.EXPORTS.processCdata($0, $1, $2, $3);
-            }, varr, barr, nv * 2, nb * 2);
+            }, varr, barr, graph->nv * 2, graph->nb * 2);
             emscripten_sleep(500);
         } else {
             sleep(0.5);
-            for (i = 0; i < nv; i++) {
-                printf("%f %f\n", (*(vs + i))->pos.x, (*(vs + i))->pos.y);
+            for (i = 0; i < graph->nv; i++) {
+                /*printf("%f %f\n", (*(graph.vs + i))->pos.x, */
+                        /*(*(graph.vs + i))->pos.y);*/
             }
         }
 
         *iter = its;
-        linmin(vs, bs, nv, nb, xi, n, fret, func);
+        linmin(graph, n, fret, func);
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
             free(varr);
             free(barr);
             FREEALL;
             return;
         }
-        fp = (*func)(vs, bs, nv, nb);
-        (*dfunc)(vs, bs, nv, nb, xi);
+        fp = (*func)(graph);
+        (*dfunc)(graph);
         dgg = gg = 0.0;
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < n; i += 2) {
+
             gg += g[i] * g[i];
-            dgg += (xi[i] + g[i]) * xi[i];
+            gg += g[i + 1] * g[i + 1];
+
+            Vptr vptr = *(graph->vs + i / 2);
+            dgg += (vptr->vel.x + g[i]) * vptr->vel.x;
+            dgg += (vptr->vel.y + g[i + 1]) * vptr->vel.y;
+
         }
         if (fabs(gg) < EPS) {
             free(varr);
@@ -117,9 +125,13 @@ void frprmn(struct vertex **vs, struct bond **bs, int nv, int nb, float ftol,
             return;
         }
         gam = dgg / gg;
-        for (i = 0; i < n; i++) {
-            g[i] = -xi[i];
-            xi[i] = h[i] = g[i] + gam * h[i];
+        for (i = 0; i < n; i += 2) {
+            Vptr vptr = *(graph->vs + i / 2);
+            g[i] = -vptr->vel.x;
+            g[i + 1] = -vptr->vel.y;
+            vptr->vel.x = h[i] = g[i] + gam * h[i];
+            vptr->vel.y = h[i + 1] = g[i + 1] + gam * h[i + 1];
+
         }
     }
     free(varr);

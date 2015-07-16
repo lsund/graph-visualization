@@ -15,25 +15,25 @@
 
 #include "graph.h"
 
-struct vertex *mk_vertex(int id, int conn, struct vector2d pos, float mass, 
-        float radius, char type) 
+Vptr mk_vertex(int id, int conn, Vector2d pos, Vector2d vel, 
+        float mass, float radius, char type) 
 {
-    struct vertex *rtn = calloc(1, sizeof(struct vertex));
+    Vptr rtn = calloc(1, sizeof(V));
     rtn->id = id;
     rtn->pos = pos;
+    rtn->vel = vel;
     rtn->mass = mass;
     rtn->radius = radius;
     rtn->type = type;
     return rtn;
 }
 
-struct bond *mk_bond(struct vertex *fst, struct vertex *snd, float dist0, 
-        float k)
+Bptr mk_bond(Vptr fst, Vptr snd, float dist0, float k)
 {
     fst->conn += 1;
     snd->conn += 1;
 
-    struct bond *rtn = malloc(sizeof(struct bond));
+    Bptr rtn = malloc(sizeof(B));
     rtn->fst = fst;
     rtn->snd = snd;
     rtn->dist0 = dist0;

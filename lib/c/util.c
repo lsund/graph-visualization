@@ -50,23 +50,7 @@ float *vector(long n)
     return v;
 }
 
-struct vector2d *arrtop(float arr[], int n) 
-{   
-    int i;
-    struct vector2d *vecs = malloc(sizeof(struct vector2d) * n);
-    if (vecs == NULL) {
-        rt_error("Error while allocating memory");
-    }
-    for (i = 0; i < n * 2; i += 2) {
-        struct vector2d vec;
-        vec.x = arr[i]; 
-        vec.y = arr[i + 1];
-        *(vecs + (i / 2)) = vec;
-    }
-    return vecs;
-}
-
-void free_vertices(struct vertex **vs, int nv) 
+void free_vertices(Vptr *vs, int nv) 
 {
     int i;
     for (i = 0; i < nv; i++) {
@@ -75,7 +59,7 @@ void free_vertices(struct vertex **vs, int nv)
     free(vs);
 }
 
-void free_bonds(struct bond **bs, int nb) 
+void free_bonds(Bptr *bs, int nb) 
 {
     int i;
     for (i = 0; i < nb; i++) {
@@ -84,12 +68,25 @@ void free_bonds(struct bond **bs, int nb)
     free(bs);
 }
 
-void print_vertex(struct vertex v) {
+void free_bpairs(BpairPtr bpairs)
+{
+    BpairPtr cur = bpairs;
+    while(cur != NULL) {
+        BpairPtr tmp = cur;
+        cur = cur->next;
+        free(tmp);
+    }
+    bpairs = NULL;
+}
+
+void print_vertex(V v) 
+{
     printf("vertex {id: %d, position: [%f, %f], mass: %f, radius: %f, \n\
             type: %c}\n", v.id, v.pos.x, v.pos.y, v.mass, v.radius, v.type);
 }
 
-void print_bond(struct bond b) {
+void print_bond(B b) 
+{
     printf("bond {fst: %d, snd: %d, len: %f, stiffness: %f}\n", b.fst->id, 
             b.snd->id, b.dist0, b.k);
 }

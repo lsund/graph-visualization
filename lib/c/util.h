@@ -16,13 +16,15 @@ void rt_error(char []);
 
 float *vector(long n);
 
-struct vector2d *arrtop(float arr[], int n);
+Vector2d *arrtop(float arr[], int n);
 
-void free_vertices(struct vertex **vs, int nv);
+void free_vertices(Vptr *vs, int nv);
 
-void free_bonds(struct bond **bs, int nb);
+void free_bonds(Bptr *bs, int nb);
 
-void print_vertex(struct vertex);
-void print_bond(struct bond);
+void free_bpairs(BpairPtr bpairs);
+
+void print_vertex(V v);
+void print_bond(B b);
 
 #endif

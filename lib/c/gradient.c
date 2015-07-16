@@ -16,18 +16,12 @@
 #include "constants.h"
 #include "util.h"
 
-static void add_force(struct vector2d f, int i, float *df)
-{
-    *(df + i * 2) += f.x;
-    *(df + i * 2 + 1) += f.y;
-}
-
-static void dfunc1(struct vertex **vs, int nv, float *df)
+static void dfunc1(Vptr *vs, int nv)
 {
     int i, cx, cy;
     float dx, dy;
-    struct vertex *vi;
-    struct vector2d frc;
+    Vptr vi;
+    Vector2d frc;
     cx = PANEL_X / 2;
     cy = PANEL_Y / 2;
     frc = mk_vector2d(0, 0);
@@ -37,16 +31,16 @@ static void dfunc1(struct vertex **vs, int nv, float *df)
         dy = vi->pos.y - (float) cy;
         frc.x = -2 * WG * dx;
         frc.y = -2 * WG * dy;
-        add_force(frc, i, df);
+        vi->vel = add(vi->vel, frc);
     }
 }
 
-static void dfunc2rep(struct vertex **vs, int nv, float *df)
+static void dfunc2rep(Vptr *vs, int nv)
 {
     int i, j;
     float dij, dx, dy, critlen;
-    struct vector2d frc, negfrc;
-    struct vertex *vi, *vj;
+    Vector2d frc, negfrc;
+    Vptr vi, vj;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
     for (i = 0; i < nv - 1; i++) {
@@ -69,18 +63,18 @@ static void dfunc2rep(struct vertex **vs, int nv, float *df)
             }
             negfrc.x = -frc.x;
             negfrc.y = -frc.y;
-            add_force(frc, i, df);
-            add_force(negfrc, j, df);
+            vi->vel = add(vi->vel, frc);
+            vj->vel = add(vj->vel, negfrc);
         }
     }
 }
 
-static void dfunc2attr(struct bond **bs, int nb, float *df)
+static void dfunc2attr(Bptr *bs, int nb)
 {
     int i;
     float d0i, dx, dy, di, wi;
-    struct bond *bptr;
-    struct vector2d frc, negfrc;
+    Bptr bptr;
+    Vector2d frc, negfrc;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
     for (i = 0; i < nb; i++) {
@@ -97,25 +91,24 @@ static void dfunc2attr(struct bond **bs, int nb, float *df)
         frc.y = -2 * wi * dy * (di - d0i) / di;
         negfrc.x = -frc.x;
         negfrc.y = -frc.y;
-        add_force(frc, bptr->fst->id, df);
-        add_force(negfrc, bptr->snd->id, df);
+        bptr->fst->vel = add(bptr->fst->vel, frc);
+        bptr->snd->vel = add(bptr->snd->vel, negfrc);
     }
 }
 
-static void dfunc2(struct vertex **vs, struct bond **bs, int nv, int nb, 
-        float *df) 
+static void dfunc2(Vptr *vs, Bptr *bs, int nv, int nb)
 {
-    dfunc2attr(bs, nb, df);
-    dfunc2rep(vs, nv, df);
+    dfunc2attr(bs, nb);
+    dfunc2rep(vs, nv);
 }
 
 
-void dfunc3(struct vertex **vs, int nv, float *df)
+void dfunc3(Vptr *vs, int nv)
 {
     int i, j, k; 
     float xji, yji, xjk, yjk;
-    struct vector2d vecji, vecjk, frcji, frcjk;
-    struct vertex *vi, *vj, *vk;
+    Vector2d vecji, vecjk, frcji, frcjk;
+    Vptr vi, vj, vk;
     frcji = mk_vector2d(0, 0);
     frcjk = mk_vector2d(0, 0);
     int arr[5] = {1, 2, 3, 4, 5};
@@ -215,10 +208,14 @@ void dfunc3(struct vertex **vs, int nv, float *df)
     }
 }
 
-void dfunc(struct vertex **vs, struct bond **bs, int nv, int nb, float *df) 
+void dfunc(Gptr graph) 
 {
-    dfunc1(vs, nv, df);
-    dfunc2(vs, bs, nv, nb, df);
+    Vptr *vs = graph->vs;
+    Bptr *bs = graph->bs;
+    int nv = graph->nv;
+    int nb = graph->nb;
+    dfunc1(vs, nv);
+    dfunc2(vs, bs, nv, nb);
     /*dfunc3(vs, nv, df);*/
 }
 
@@ -229,8 +226,7 @@ void dfunc(struct vertex **vs, struct bond **bs, int nv, int nb, float *df)
 
 /*char *test_gradient() {*/
 
-    /*struct vertex **vs_test;*/
-    /*struct bond *bs_test;*/
+    /*Vptr *vs_test;*/
 
     /*float gap = 100; */
     /*int nv = 8; */
