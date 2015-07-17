@@ -225,23 +225,3 @@ void dfunc(Gptr graph)
     dfunc3(bpairs);
 }
 
-
-//////// TESTS 
-
-#include "../../tests/minunit.h"
-
-/*char *test_gradient() {*/
-
-    /*Vptr *vs_test;*/
-
-    /*float gap = 100; */
-    /*int nv = 8; */
-    /*float dist = 1;*/
-    /*float stiffness = 1;*/
-    /*float mass = 1;*/
-    /*float radius = 1;*/
-    /*char type = 'r';*/
-
-    /*return 0;*/
-/*}*/
-

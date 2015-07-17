@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <unistd.h>
 
 #include "util.h"
 #include "inits.h"
@@ -20,100 +21,106 @@
 #include "constants.h"
 #include "minunit.h"
 
-char *test_objective() {
+#include <sys/types.h> 
+#include <sys/wait.h> 
 
-    const char *fname = "/data/8.json";
+static void msg(const char *s) 
+{
+    fprintf(stdout, ">>MinUnit>> %s", s); 
+}
+static void msgpass() 
+{
+    fprintf(stdout, "passed\n"); 
+}
 
-    float (*objective)(Gptr graph);
-    void (*gradient)(Gptr graph);
-    int i, j, nv, nb;
-    int *nvptr, *nbptr;
-    Vptr *vs;
-    Bptr *bs;
-    float *fret;
-    int *iter;
+int minimize(const char *fname);
 
-    objective = func;
-    gradient = dfunc;
-    vs = NULL;
-    bs = NULL;
+char *test_minimize() {
 
-    nvptr = malloc(sizeof(int));
-    nbptr = malloc(sizeof(int));
+    const char *valid = "data/test/8.json";
+    const char *invalid0 = "data/test/invalid/8-0.json";
+    const char *invalid1 = "data/test/invalid/8-1.json";
+    const char *invalid2 = "data/test/invalid/8-2.json";
+    int status;
+    pid_t p;
 
-    process_json(fname, &vs, &bs, nvptr, nbptr);
-
-    nv = *nvptr;
-    nb = *nbptr;
-    free(nvptr);
-    free(nbptr);
-    
-    BpairPtr bpairs = NULL;
-    Bptr b1, b2;
-    for (i = 0; i < nb - 1; i++) {
-        for (j = i + 1; j < nb; j++) {
-            b1 = *(bs + i);  
-            b2 = *(bs + j);  
-            if (b1->snd->id == b2->fst->id) {
-                BpairPtr newpair;
-                newpair = malloc(sizeof(Bpair));
-                newpair->fst = b1;
-                newpair->snd = b2;
-                newpair->next = bpairs;
-                bpairs = newpair;
-            }
+    p = fork();
+    if (p < 0) {
+        rt_error("Could not create child");
+    } else if (p == 0) {
+        minimize(valid);
+        exit(0);
+    } else {
+        msg("Valid data...");
+        wait(&status);
+        if (WIFEXITED(status)) {
+            mu_assert("ERROR, should not crash",
+                    WEXITSTATUS(status) == 0);
+        } else {
+            rt_error("1.Child did not terminate with exit");
+        }
+        msgpass();
+    }
+    p = fork();
+    if (p < 0) {
+        rt_error("Could not create child");
+    } else if (p == 0) {
+        minimize(invalid0);
+        exit(0);
+    } else {
+        msg("Invalid data: first bracket...");
+        wait(&status);
+        if (WIFEXITED(status)) {
+            mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
+        } else {
+            rt_error("2.Child did not terminate with exit");
+        }
+        msgpass();
+    }
+    p = fork();
+    if (p < 0) {
+        rt_error("Could not create child");
+    } else if (p == 0) {
+        minimize(invalid1);
+        exit(0);
+    } else {
+        msg("Invalid data: wrong spelled key...");
+        wait(&status);
+        if (WIFEXITED(status)) {
+            mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
+        } else {
+            rt_error("3.Child did not terminate with exit");
+        }
+        msgpass();
+    }
+    p = fork();
+    if (p < 0) {
+        rt_error("Could not create child");
+    } else if (p == 0) {
+        minimize(invalid2);
+        exit(0);
+    } else {
+        msg("Invalid data: only vertices...");
+        wait(&status);
+        if (WIFEXITED(status)) {
+            mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
+        } else {
+            rt_error("4. Child did not terminate with exit");
         }
     }
-
-    Gptr graph = malloc(sizeof(G));
-    graph->vs = vs;
-    graph->bs = bs;
-    graph->bpairs = bpairs;
-    graph->nv = nv;
-    graph->nb = nb;
-
-    set_spiral(vs, nv);
-
-    if ((float)nb > (float)nv * logf((float)nv)) {
-        printf("Warning: B greater than V * log(V)\n");
-    }
-
-    iter = calloc(1, sizeof(int));
-    fret = calloc(1, sizeof(float));
-
-    if (iter == NULL || fret == NULL)
-    {
-        rt_error("Error when allocating memory: minimize()");
-    }
-    
-    frprmn(graph, FTOL, iter, fret, objective, gradient);
-
-    printf("%d iterations\n", *iter);
-
-    free_vertices(graph->vs, nv);
-    free_bonds(graph->bs, nb);
-    free_bpairs(graph->bpairs);
-    free(graph);
-
-    free(fret);
-    free(iter);
-    
-    float e = func(graph);
-    mu_assert("total energy should be bigger than 0", e > 0 );
-
+    msgpass();
     return 0;
 }
 
 int tests_run = 0;
 
-char *test_objective();
-
 static char *all_tests() {
-    mu_run_test(test_objective);
+    mu_run_test(test_minimize);
     return 0;
 }
 
 int main(int argc, char **argv) {
+
     char *result = all_tests();
     if (result != 0) {
         printf("%s\n", result);
@@ -126,5 +133,3 @@ int main(int argc, char **argv) {
     return result != 0;
 }
  
-
-

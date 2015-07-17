@@ -6,8 +6,7 @@ SRC_DIR=lib/c
 DATA_DIR=data
 
 ALL_SRCS := $(shell find $(SRC_DIR)/* -maxdepth 0 -name '*.c')
-SRCS := $(filter-out test.c, $(ALL_SRCS))
-
+SRCS := $(filter-out %test.c, $(ALL_SRCS))
 
 DATAS=$(DATA_DIR)/52.json\
  $(DATA_DIR)/23.json\
@@ -27,11 +26,8 @@ smallemscript: $(SRCS)
 	EXPORTED_FUNCTIONS="['_minimize']" \
 	--preload-file test.csv
 
-normal: $(SRCS)
-	gcc $(CFLAGS) $(SRCS) -o bin/minimize -lm
-
-test: $(ALL_SRCS) 
+test: $(TESTSRC) 
 	gcc $(CFLAGS) $(ALL_SRCS) -o bin/test -lm
 
 runtest: test
-	./tests/ctest
+	./bin/test

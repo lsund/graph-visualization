@@ -47,9 +47,7 @@ void check_range(float *x, float lower, float upper)
 
 void rt_error(char error_text[])
 {
-    fprintf(stderr,"Run-time error...\n");
-    fprintf(stderr,"%s\n",error_text);
-    fprintf(stderr,"...now exiting to system...\n");
+    fprintf(stderr,"Runtime-error: %s\n",error_text);
     exit(1);
 }
 

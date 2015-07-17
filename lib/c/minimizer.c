@@ -13,14 +13,13 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "util.h"
 #include "constants.h"
 #include "inits.h"
 #include "funcs.h"
 #include "conjugate_gradient.h"
-
-#include "../../tests/minunit.h"
 
 int minimize (const char *fname) 
 {
@@ -88,8 +87,6 @@ int minimize (const char *fname)
     
     frprmn(graph, FTOL, iter, fret, objective, gradient);
 
-    printf("%d iterations\n", *iter);
-
     free_vertices(graph->vs, nv);
     free_bonds(graph->bs, nb);
     free_bpairs(graph->bpairs);
@@ -100,42 +97,3 @@ int minimize (const char *fname)
     
     return 0;
 }
-
-int main(int argc, char *argv[]) {
-    const char *filename = "data/52.json";
-    /*const char *filename = "data/8.json";*/
-    minimize(filename);
-}
-
-/////////////////////////////////////////////// TESTING ///////////////////////
-
-char *test_minimizer()
-{
-    const char *fname = "data/52.json";
-    int len = 104;
-    int nv = len / 2;
-    int nb, maxbonds;
-    maxbonds = (nv * (nv - 1)) / 2;
-    Vptr *vs = malloc(sizeof(void *) * nv);
-    Bptr *bs = malloc(sizeof(void *) * maxbonds);
-    float *iter = malloc(sizeof(int));
-    float *fret = malloc(sizeof(float));
-    
-    if (vs == NULL || bs == NULL || iter == NULL || fret == NULL)
-    {
-        rt_error("Error in minimize when allocating memory");
-    }
-
-    process_json(fname, &vs, &bs, &nv, &nb);
-    set_spiral(vs, nv);
-    int i;
-    int sum;
-    for (i = 0; i < nv; i++) {
-        sum += (*(vs + i))->conn;
-        printf("%d %d\n", (*(vs + i))->id, (*(vs + i))->conn);
-    }
-    printf("%d %d\n", sum, nb);
-
-    return 0;    
-}
-

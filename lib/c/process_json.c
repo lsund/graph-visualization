@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <string.h>
 
 #include "constants.h"
 #include "util.h"
@@ -148,9 +149,21 @@ void process_json(const char *filename, Vptr **vs, Bptr **bs,
 
     if (value == NULL) {
         free(file_contents);
+        json_value_free(value);
         rt_error("process_json(): Unable to parse data");
     }
-    
+
+    if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
+        free(file_contents);
+        json_value_free(value);
+        rt_error("process_json(): First key is not vertices");
+    }
+    if (value->u.object.length != 2) {
+        free(file_contents);
+        json_value_free(value);
+        rt_error("process_json(): Wrong number of keys");
+    }
+
     create_vertices(vs, value, nv);
     create_bonds(vs, bs, value, nb);
 

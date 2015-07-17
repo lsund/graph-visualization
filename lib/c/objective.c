@@ -17,8 +17,6 @@
 #include "constants.h"
 #include "util.h"
 
-#include "../../tests/minunit.h"
-
 static float func1(const Vptr *vs, const int nv) {
     // Should we add repulsion from walls here? TODO
     int i, cx, cy;
@@ -114,17 +112,7 @@ static float func3(const BpairPtr bpairs)
             lenp = MIN_DIST;
         }
         float div = scalp / lenp;
-        /*// (div) [-1, 1]*/
-        if (!in_range(-1.0, 1.0, div)) {
-            if (equal(-1.0, div)) {
-                div += MIN_DIST;
-            } else if (equal(1.0, div)) {
-                div -= MIN_DIST;
-            } else {
-                printf("%f\n", div);
-                rt_error("Wrong acos range");
-            }
-        }
+        check_range(&div, -1.0, 1.0);
         theta = acosf(div);
         rtn += WANG * powf((theta - THETA0), 2);
         cur = cur->next;
