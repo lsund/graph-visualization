@@ -5,4 +5,19 @@
 float func(Gptr graph);
 void dfunc(Gptr graph);
 
+
+// For testing 
+float func1(const Gptr graph);
+float func2attr(const Gptr graph);
+float func2rep(const Gptr graph);
+float func2(const Gptr graph);
+float func3(const Gptr graph);
+float func4(const Gptr graph);
+
+void dfunc1(const Gptr graph);
+void dfunc2rep(const Gptr graph);
+void dfunc2attr(const Gptr graph);
+void dfunc2(const Gptr graph);
+void dfunc3(const Gptr graph);
+
 #endif

@@ -4,8 +4,7 @@
 
 void set_spiral(Vptr *vs, int nv);
 void set_grid(Vptr *vs, int nv);
-void process_json(const char *filename, Vptr **vs, Bptr **bs,
-        int *nv, int *nb);
+void create_graph(const char *filename, Gptr graph);
 
 
 #endif

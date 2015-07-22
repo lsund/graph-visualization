@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <math.h>
 
 #include "constants.h"
 #include "util.h"
@@ -20,22 +21,68 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
     if (vs == NULL) {
         rt_error("Error while allocating memory: create_vertices()");
     }
+    if (*nv < 1) {
+        rt_error("No vertices");
+    }
 
     for (i = 0; i < *nv; i++) {
         
         json_value *vertex = vsarr->u.array.values[i];
-        
+
         json_value *ident = vertex->u.object.values[0].value;
-        json_value *mass = vertex->u.object.values[1].value;
-        json_value *radius = vertex->u.object.values[2].value;
-        json_value *vertex_type = vertex->u.object.values[3].value;
+        json_value *position = vertex->u.object.values[1].value;
+        json_value *mass = vertex->u.object.values[2].value;
+        json_value *radius = vertex->u.object.values[3].value;
+        json_value *vertex_type = vertex->u.object.values[4].value;
+
+        if (ident->type == json_integer) {
+            id = ident->u.integer;
+        } else {
+            rt_error("Bad JSON data: ident");
+        }
+
+        Vector2d pos, zv;
+        zv = mk_vector2d(0.0, 0.0);
+        pos = zv;    
+        if (position->type == json_array) {
+            int length;
+            float x, y;
+            x = y = 0;
+            length = position->u.array.length;
+            if (length != 2) {
+                rt_error("Bad JSON data, position dimension not 2");
+            }
+            json_value *j_x = position->u.array.values[0];
+            json_value *j_y = position->u.array.values[1];
+            if (j_x->type == json_integer) {
+                x = (float) j_x->u.integer;
+            } else if (j_x->type == json_double) {
+                x = (float) j_x->u.dbl;
+            } else {
+                rt_error("Bad JSON data: position: x");
+            }
+            if (j_y->type == json_integer) {
+                y = (float) j_y->u.integer;
+            } else if (j_x->type == json_double) {
+                y = (float) j_y->u.dbl;
+            } else {
+                rt_error("Bad JSON data: position: y");
+            }
+            pos = mk_vector2d(x, y);
+            pos.given_coords = 1;
+        } 
+        else {
+            if (position->type != json_null) {
+                rt_error("Bad JSON data: position");
+            }
+        }
 
         if (mass->type == json_integer) {
             m = (float) mass->u.integer;
         } else if (mass->type == json_double) {
             m = (float) mass->u.dbl;
         } else {
-            fprintf(stderr, "Bad JSON data\n");
+            rt_error("Bad JSON data: mass");
         }
 
         if (radius->type == json_integer) {
@@ -43,22 +90,16 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
         } else if (radius->type == json_double) {
             r = (float) radius->u.dbl;
         } else {
-            fprintf(stderr, "Bad JSON data\n");
+            rt_error("Bad JSON data: radius");
         }
 
         if (vertex_type->type == json_string) {
             t = vertex_type ->u.string.ptr[0];
         } else {
-            fprintf(stderr, "Bad JSON data\n");
+            rt_error("Bad JSON data: type");
         }
 
-        if (ident->type == json_integer) {
-            id = ident->u.integer;
-        } else {
-            fprintf(stderr, "Bad JSON data\n");
-        }
-        Vector2d zero_vec = mk_vector2d(0.0, 0.0);
-        *(*vs + i) = mk_vertex(id, 0, zero_vec, zero_vec, m, r, t);
+        *(*vs + i) = mk_vertex(id, 0, pos, zv, zv, zv, m, r, t);
     }
 }
 
@@ -120,7 +161,10 @@ void process_json(const char *filename, Vptr **vs, Bptr **bs,
     json_value* value;
 
     if ( stat(filename, &filestatus) != 0) {
-        rt_error("process_json(): File not found");
+        char  buf[256];
+        strcpy(buf, "process_json(): File not found: ");
+        strcat(buf, filename);
+        rt_error(buf);
     }
     file_size = filestatus.st_size;
     file_contents = (char *) malloc(filestatus.st_size);
@@ -152,22 +196,61 @@ void process_json(const char *filename, Vptr **vs, Bptr **bs,
         json_value_free(value);
         rt_error("process_json(): Unable to parse data");
     }
-
-    if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
-        free(file_contents);
-        json_value_free(value);
-        rt_error("process_json(): First key is not vertices");
-    }
     if (value->u.object.length != 2) {
         free(file_contents);
         json_value_free(value);
         rt_error("process_json(): Wrong number of keys");
     }
-
+    if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
+        free(file_contents);
+        json_value_free(value);
+        rt_error("process_json(): First key is not vertices");
+    }
+    if (strcmp(value->u.object.values[1].name, "bonds") != 0) {
+        free(file_contents);
+        json_value_free(value);
+        rt_error("process_json(): Second key is not 'bonds'");
+    }
     create_vertices(vs, value, nv);
     create_bonds(vs, bs, value, nb);
 
     json_value_free(value);
     free(file_contents);
 }
+
+void create_graph(const char *fname, Gptr graph) 
+{
+
+    Vptr *vs; Bptr *bs;
+    int nv, nb;
+    vs = NULL; bs = NULL;
+    process_json(fname, &vs, &bs, &nv, &nb);
+    if ((float)nb > (float)nv * logf((float)nv)) {
+        printf("Warning: B greater than V * log(V)\n");
+    }
+
+    int i, j;
+    BpairPtr connected;
+    Bptr fst, snd;
+    connected = NULL; 
+    fst = snd = NULL;
+    for (i = 0; i < nb - 1; i++) {
+        for (j = i + 1; j < nb; j++) {
+            fst = *(bs + i);  
+            snd = *(bs + j);  
+            has_common_vertex(fst, snd);
+            if (has_common_vertex(fst, snd)) {
+                BpairPtr newpair;
+                newpair = mk_bondpair(fst, snd, connected);
+                connected = newpair;
+            }
+        }
+    }
+
+    graph->vs = vs; graph->bs = bs;
+    graph->connected = connected;
+    graph->nv = nv; graph->nb = nb;
+
+}
+
 

@@ -17,61 +17,58 @@
 #include "constants.h"
 #include "util.h"
 
-static float func1(const Vptr *vs, const int nv) {
-    // Should we add repulsion from walls here? TODO
-    int i, cx, cy;
-    float dxc, dyc, rtn;
-    Vptr vptr;
+float func1(Gptr graph) {
+
+    int cx, cy;
     cx = PANEL_X / 2; cy = PANEL_Y / 2;
+
+    int i;
+    Vptr vptr;
+    float dxc, dyc, rtn;
     rtn = 0;
-    for (i = 0; i < nv; i++) {
-        vptr = *(vs + i);
-        dxc = vptr->pos.x - (float) cx;    
-        dyc = vptr->pos.y - (float) cy;
-        rtn += WG * (powf(dxc, 2) + powf(dyc, 2));
+    for (i = 0; i < graph->nv; i++) {
+        vptr = *(graph->vs + i);
+        dxc = (float) cx - vptr->pos.x;
+        dyc = (float) cy - vptr->pos.y;
+        rtn += WG * powf(sqrtf(dxc * dxc + dyc * dyc), 2);
     }
     return rtn;
 }
 
-static float func2attr(const Bptr *bs, const int nb) 
+float func2attr(Gptr graph) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
     Bptr bptr;
-    rtn = 0; for (i = 0; i < nb; i++) {
-        bptr = *(bs + i);
+    rtn = 0; 
+    for (i = 0; i < graph->nb; i++) {
+        bptr = *(graph->bs + i);
         d0i = bptr->dist0 * SPRING_LENGTH;
         wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
-        dx = bptr->fst->pos.x - bptr->snd->pos.x;
-        dy = bptr->fst->pos.y - bptr->snd->pos.y;
+        dx = bptr->snd->pos.x - bptr->fst->pos.x;
+        dy = bptr->snd->pos.y - bptr->fst->pos.y;
         di = sqrtf(dx * dx + dy * dy);
-        if (fabs(di) <  MIN_DIST) {
-            di = MIN_DIST;
-        } 
         rtn += wi * powf(di - d0i, 2);
     }
     return rtn;
 }
 
-static float func2rep(const Vptr *vs, const int nv) 
+float func2rep(const Gptr graph) 
 {
+    float rtn;
+    rtn = 0.0;
     int i, j;
-    float rtn, ri, rj, dx, dy, dij, critlen;
-    Vptr vi, vj;
-    rtn = ri = rj = dx = dy = dij = critlen = 0.0;
-    for (i = 0; i < nv - 1; i++) {
-        for (j = i + 1; j < nv; j++) {
-            vi = *(vs + i);
-            vj = *(vs + j);
+    for (i = 0; i < graph->nv - 1; i++) {
+        for (j = i + 1; j < graph->nv; j++) {
+            Vptr vi, vj;
+            vi = *(graph->vs + i); vj = *(graph->vs + j);
             if (vj != NULL  && vi != NULL) {
-                ri = vi->radius;
-                rj = vj->radius;
-                dx = vi->pos.x - vj->pos.x;
-                dy = vi->pos.y - vj->pos.y;
+                float ri, rj, dx, dy, dij, critlen;
+                ri = rj = dx = dy = dij = critlen = 0.0;
+                ri = vi->radius; rj = vj->radius;
+                dx = vj->pos.x - vi->pos.x;
+                dy = vj->pos.y - vi->pos.y;
                 dij = sqrtf(dx * dx + dy * dy);
-                if (fabs(dij) < MIN_DIST) {
-                    dij = MIN_DIST;
-                } 
                 critlen = ri + rj + PADDING;
                 if (critlen > dij) {
                     rtn += WR * powf(dij - critlen, 2);
@@ -84,59 +81,117 @@ static float func2rep(const Vptr *vs, const int nv)
     return rtn;
 }
 
-static float func2(const Vptr *vs, const Bptr *bs, const int nv, const int nb) 
+float func2(const Gptr graph)
 {
-    return func2attr(bs, nb) + func2rep(vs, nv);
+    return func2attr(graph) + func2rep(graph);
 }
 
-static float func3(const BpairPtr bpairs) 
+float func3(const Gptr graph)
 {
-    float rtn, xji, yji, xjk, yjk, theta;
-    Vector2d vecji, vecjk;
-    Vptr vi, vj, vk;
-    BpairPtr cur = bpairs;
+    if (!graph->connected) {
+        return 0;
+    }
+    BpairPtr cur;
+    float rtn;
     rtn = 0; 
-    while (cur->next) {
-        vi = cur->fst->fst;
-        vj = cur->fst->snd; 
-        vk = cur->snd->snd;
-        xji = vj->pos.x - vi->pos.x;
-        yji = vj->pos.y - vi->pos.y;
-        xjk = vj->pos.x - vk->pos.x;
-        yjk = vj->pos.y - vk->pos.y;
+    cur = graph->connected;
+    while (cur) {
+        Vptr vi, vj, vk;
+        
+        vi = cur->other1; 
+        vj = cur->common;
+        vk = cur->other2; 
+
+        float xji, yji, xjk, yjk;
+        xji = vi->pos.x - vj->pos.x; yji = vi->pos.y - vj->pos.y;
+        xjk = vk->pos.x - vj->pos.x; yjk = vk->pos.y - vj->pos.y;
+
+        Vector2d vecji, vecjk;
         vecji = mk_vector2d(xji, yji);
         vecjk = mk_vector2d(xjk, yjk);
-        float scalp = dot(vecji, vecjk);
-        float lenp = (vecji.len * vecjk.len);
-        if (equal(0, lenp)) {
-            lenp = MIN_DIST;
-        }
-        float div = scalp / lenp;
-        check_range(&div, -1.0, 1.0);
-        theta = acosf(div);
-        rtn += WANG * powf((theta - THETA0), 2);
+        
+        float theta; 
+        theta = angle(vecji, vecjk);
+
+        rtn += WANG * powf(theta - THETA0, 2);
         cur = cur->next;
     }
     return rtn;
 }
 
-static float func4() 
+float func4(const Gptr graph)
 {
-    // Edge crossings TODO
+    if (graph->crosses == NULL) {
+        return 0;
+    }
+    BpairPtr cur;
+    float rtn;
+    cur = graph->crosses;
+    rtn = 0;
+    while (cur) {
+
+        Vptr vi, vj, vk, vl;
+        vi = cur->fst->fst; vj = cur->fst->snd; 
+        vk = cur->snd->fst; vl = cur->snd->snd;
+
+        float xij, yij, xil, yil, xkj, ykj, xkl, ykl;
+        xij = vj->pos.x - vi->pos.x; yij = vj->pos.y - vi->pos.y;
+        xil = vl->pos.x - vi->pos.x; yil = vl->pos.y - vi->pos.y;
+        xkj = vj->pos.x - vk->pos.x; ykj = vj->pos.y - vk->pos.y;
+        xkl = vl->pos.x - vk->pos.x; ykl = vl->pos.y - vk->pos.y;
+
+        Vector2d vecij, vecil, veckj, veckl;
+        vecij = mk_vector2d(xij, yij); vecil = mk_vector2d(xil, yil);
+        veckj = mk_vector2d(xkj, ykj); veckl = mk_vector2d(xkl, ykl);
+
+        Vector2d up, down;
+        up = cross(vecij, vecil); down = cross(veckj, veckl);
+
+        rtn += dot(up, down); 
+
+        cur = cur->next;
+    }
     return 0.0;
 }
 
 float func(const Gptr graph) 
 {
-    Vptr *vs = graph->vs;
-    Bptr *bs = graph->bs;
-    BpairPtr bpairs = graph->bpairs;
-    int nv = graph->nv;
-    int nb = graph->nb;
-    float f1 = func1(vs, nv);
-    float f2 = func2(vs, bs, nv, nb);
-    float f3 = func3(bpairs);
-    float rtn = f1 + f2 + f3; 
+    int i, j;
+    BpairPtr crosses; 
+    Bptr fst, snd;
+    crosses = NULL; 
+    fst = snd = NULL;
+    for (i = 0; i < graph->nb - 1; i++) {
+        for (j = i + 1; j < graph->nb; j++) {
+            int crossing;
+            float xi, yi;
+            fst = *(graph->bs + i);  
+            snd = *(graph->bs + j);  
+            crossing = intersection(fst->fst->pos.x, fst->fst->pos.y, 
+                                    fst->snd->pos.x, fst->snd->pos.y,
+                                    snd->fst->pos.x, snd->fst->pos.y,
+                                    snd->snd->pos.x, snd->snd->pos.y, 
+                                    &xi,             &yi);
+            if (crossing) {
+                BpairPtr newpair;
+                newpair = malloc(sizeof(Bpair));
+                newpair->fst = fst;
+                newpair->snd = snd;
+                newpair->next = crosses;
+                crosses = newpair;
+            }
+        }
+    }
+    graph->crosses = crosses;
+
+    float f1, f2, f3, f4, rtn;
+    f1 = func1(graph);
+    f2 = func2(graph);
+    f3 = func3(graph);
+    f4 = func4(graph);
+    free_bpairs(graph->crosses);
+    rtn = f1 + f2 + f3 + f4; 
+
     return rtn;
 }
 

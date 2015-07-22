@@ -40,6 +40,7 @@ defmodule ConvertCsv do
   defp vertex_to_string(v) do
     "{\"id\":" <> 
       to_string(v.id) <> 
+      ",\"position\":null" <> 
       ",\"mass\":" <> 
       to_string(v.mass) <> 
       ",\"radius\":" <> 

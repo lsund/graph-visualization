@@ -58,8 +58,8 @@ void linmin(Gptr graph, int n, float *fret, float (*func)(Gptr))
     xx = 1.0;   
     mnbrak(graph, &ax, &xx, &bx, &fa, &fx, &fb, f1dim);   
     *fret = brent(graph, ax, xx, bx, f1dim, TOL, &xmin);   
-    for (i = 0; i < n; i += 2) { 
-        Vptr vptr = *(graph->vs + i / 2);
+    for (i = 0; i < n / 2; i++) { 
+        Vptr vptr = *(graph->vs + i);
         vptr->vel.x *= xmin;
         vptr->vel.y *= xmin;
     }   

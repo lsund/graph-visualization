@@ -29,7 +29,7 @@
 #define EMSCRIPT 0
 #endif
 
-#define FREEALL free(h);free(g);
+#define FREEALL free(h);
 
 static void js_interact(float *varr, int *barr, Gptr graph)
 {
@@ -37,7 +37,7 @@ static void js_interact(float *varr, int *barr, Gptr graph)
         EM_ASM_({
             window.EXPORTS.processCdata($0, $1, $2, $3);
         }, varr, barr, graph->nv * 2, graph->nb * 2);
-        emscripten_sleep(500);
+        emscripten_sleep(INTERVAL);
     }
 }
 
@@ -68,7 +68,7 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
 {
     int i, its, n;
     float gg, gam, fp, dgg;
-    float *g, *h;
+    float *h;
 
     float *varr;
     int *barr;
@@ -77,7 +77,6 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
     
     n = graph->nv * 2;
     
-    g = vector(n);
     h = vector(n);
     
     fp = (*func)(graph);
@@ -85,11 +84,12 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         
     for (i = 0; i < n; i += 2) {
         Vptr vptr = *(graph->vs + i / 2);
-        g[i] = -vptr->vel.x;
-        g[i + 1] = -vptr->vel.y;
-        vptr->vel.x = h[i] = g[i];
-        vptr->vel.y = h[i + 1] = g[i + 1];
+        vptr->g.x = -vptr->vel.x;
+        vptr->g.y = -vptr->vel.y;
+        vptr->vel.x = vptr->h.x = vptr->g.x;
+        vptr->vel.y = vptr->h.y = vptr->g.y;
     }
+
     for (its = 0; its < ITMAX; its++) {
         
         graph_toarrays(graph->vs, graph->bs, varr, barr, graph->nv, graph->nb);
@@ -97,10 +97,8 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         if (EMSCRIPT) {
             js_interact(varr, barr, graph);
         } else {
-            sleep(0.5);
             for (i = 0; i < graph->nv; i++) {
-                /*printf("%f %f\n", (*(graph.vs + i))->pos.x, */
-                        /*(*(graph.vs + i))->pos.y);*/
+                //NOOP
             }
         }
 
@@ -109,43 +107,36 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
             free(varr);
             free(barr);
-            free(g);
             free(h);
             return;
         }
         fp = (*func)(graph);
         (*dfunc)(graph);
         dgg = gg = 0.0;
-        for (i = 0; i < n; i += 2) {
-
-            gg += g[i] * g[i];
-            gg += g[i + 1] * g[i + 1];
-
-            Vptr vptr = *(graph->vs + i / 2);
-            dgg += (vptr->vel.x + g[i]) * vptr->vel.x;
-            dgg += (vptr->vel.y + g[i + 1]) * vptr->vel.y;
-
+        for (i = 0; i < graph->nv; i++) {
+            Vptr vptr = *(graph->vs + i);
+            gg += vptr->g.x * vptr->g.x;
+            gg += vptr->g.y * vptr->g.y;
+            dgg += (vptr->vel.x + vptr->g.x) * vptr->vel.x;
+            dgg += (vptr->vel.y + vptr->g.y) * vptr->vel.y;
         }
         if (fabs(gg) < EPS) {
             free(varr);
             free(barr);
-            free(g);
             free(h);
             return;
         }
         gam = dgg / gg;
-        for (i = 0; i < n; i += 2) {
-            Vptr vptr = *(graph->vs + i / 2);
-            g[i] = -vptr->vel.x;
-            g[i + 1] = -vptr->vel.y;
-            vptr->vel.x = h[i] = g[i] + gam * h[i];
-            vptr->vel.y = h[i + 1] = g[i + 1] + gam * h[i + 1];
-
+        for (i = 0; i < graph->nv; i++) {
+            Vptr vptr = *(graph->vs + i);
+            vptr->g.x = -vptr->vel.x;
+            vptr->g.y = -vptr->vel.y;
+            vptr->vel.x = vptr->h.x = vptr->g.x + gam * vptr->h.x;
+            vptr->vel.y = vptr->h.y = vptr->g.y + gam * vptr->h.y;
         }
     }
     free(varr);
     free(barr);
-    free(g);
     free(h);
     return;
     /*rt_error("Too many iterations in frprmn()");*/

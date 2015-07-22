@@ -16,26 +16,28 @@
 #include "constants.h"
 #include "util.h"
 
-static void dfunc1(Vptr *vs, int nv)
+void dfunc1(const Gptr graph)
 {
     int i, cx, cy;
-    float dx, dy;
     Vptr vi;
-    Vector2d frc;
     cx = PANEL_X / 2;
     cy = PANEL_Y / 2;
-    frc = mk_vector2d(0, 0);
-    for (i = 0; i < nv; i++) {
-        vi = *(vs + i);
-        dx = vi->pos.x - (float) cx;    
-        dy = vi->pos.y - (float) cy;
-        frc.x = -2 * WG * dx;
-        frc.y = -2 * WG * dy;
+    for (i = 0; i < graph->nv; i++) {
+        vi = *(graph->vs + i);
+
+        float dx, dy;
+        dx = (float) cx - vi->pos.x;
+        dy = (float) cy - vi->pos.y;
+
+        Vector2d frc;
+        frc = mk_vector2d(0, 0);
+        frc.x = 2 * WG * dx;
+        frc.y = 2 * WG * dy;
         vi->vel = add(vi->vel, frc);
     }
 }
 
-static void dfunc2rep(Vptr *vs, int nv)
+void dfunc2rep(const Gptr graph)
 {
     int i, j;
     float dij, dx, dy, critlen;
@@ -43,14 +45,14 @@ static void dfunc2rep(Vptr *vs, int nv)
     Vptr vi, vj;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
-    for (i = 0; i < nv - 1; i++) {
-        for (j = i + 1; j < nv; j++) {
-            vi = *(vs + i);
-            vj = *(vs + j);
-            dx = vi->pos.x - vj->pos.x;
-            dy = vi->pos.y - vj->pos.y; 
+    for (i = 0; i < graph->nv - 1; i++) {
+        for (j = i + 1; j < graph->nv; j++) {
+            vi = *(graph->vs + i);
+            vj = *(graph->vs + j);
+            dx = vj->pos.x - vi->pos.x;
+            dy = vj->pos.y - vi->pos.y; 
             dij = sqrtf(dx * dx + dy * dy);
-            if (fabs(dij) < MIN_DIST) {
+            if (equal(dij, 0)) {
                 dij = MIN_DIST;
             } 
             critlen = vi->radius + vj->radius + PADDING;
@@ -69,7 +71,7 @@ static void dfunc2rep(Vptr *vs, int nv)
     }
 }
 
-static void dfunc2attr(Bptr *bs, int nb)
+void dfunc2attr(const Gptr graph)
 {
     int i;
     float d0i, dx, dy, di, wi;
@@ -77,18 +79,18 @@ static void dfunc2attr(Bptr *bs, int nb)
     Vector2d frc, negfrc;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
-    for (i = 0; i < nb; i++) {
-        bptr = *(bs + i);  
-        wi = bptr->fst->mass * bptr->snd->mass * DEFAULT_STIFFNESS;
+    for (i = 0; i < graph->nb; i++) {
+        bptr = *(graph->bs + i);  
+        wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
         d0i = bptr->dist0 * SPRING_LENGTH;
-        dx = bptr->fst->pos.x - bptr->snd->pos.x;
-        dy = bptr->fst->pos.y - bptr->snd->pos.y; 
+        dx = bptr->snd->pos.x - bptr->fst->pos.x;
+        dy = bptr->snd->pos.y - bptr->fst->pos.y; 
         di = sqrtf(dx * dx + dy * dy);
-        if (fabs(di) <  0.01) {
-            di = 0.01;
+        if (fabs(di) <  MIN_DIST) {
+            di = MIN_DIST;
         } 
-        frc.x = -2 * wi * dx * (di - d0i) / di;
-        frc.y = -2 * wi * dy * (di - d0i) / di;
+        frc.x = 2 * wi * dx * (di - d0i) / di;
+        frc.y = 2 * wi * dy * (di - d0i) / di;
         negfrc.x = -frc.x;
         negfrc.y = -frc.y;
         bptr->fst->vel = add(bptr->fst->vel, frc);
@@ -96,29 +98,19 @@ static void dfunc2attr(Bptr *bs, int nb)
     }
 }
 
-static void dfunc2(Vptr *vs, Bptr *bs, int nv, int nb)
+void dfunc2(const Gptr graph)
 {
-    dfunc2attr(bs, nb);
-    dfunc2rep(vs, nv);
-}
-
-static void check_divzero (const float a, const float b, 
-                           const float c, const float d)
-{
-    if (equal(0, a) || equal(0, b) || 
-        equal(0, c) || equal(0, d)) 
-    {
-        rt_error("Division by zero");
-    }
+    dfunc2attr(graph);
+    dfunc2rep(graph);
 }
 
 static void get_coords(Vptr vi, Vptr vj, Vptr vk,
         float *xji, float *yji, float *xjk, float *yjk)
 {
-    *xji = vj->pos.x - vi->pos.x;
-    *yji = vj->pos.y - vi->pos.y;
-    *xjk = vj->pos.x - vk->pos.x;
-    *yjk = vj->pos.y - vk->pos.y;
+    *xji = vi->pos.x - vj->pos.x;
+    *yji = vi->pos.y - vj->pos.y;
+    *xjk = vk->pos.x - vj->pos.x;
+    *yjk = vk->pos.y - vj->pos.y;
 }
 
 static void mk_vectors(float xji, float yji, float xjk, float yjk, 
@@ -131,73 +123,77 @@ static void mk_vectors(float xji, float yji, float xjk, float yjk,
 }
 
 static void prepare_d3(Vector2d vecji, Vector2d vecjk, float xji, float yji, 
-        float xjk, float yjk, float *scalp, float *lenp, float *bsqji, float
-        *bsqjk, float *dsq, float *dsub, float *div, float *bj, float *bk)
+        float xjk, float yjk, float *a1, float *a2, float *b, float *c1, 
+        float *c2, float *d)
 {
-    *scalp = dot(vecji, vecjk);
-    *lenp = vecji.len * vecjk.len;
-    *bsqji = powf((powf(xji, 2) + powf(yji, 2)), (3/2)) * vecjk.len;
-    *bsqjk = powf((powf(xjk, 2) + powf(yjk, 2)), (3/2)) * vecji.len;
-    *dsq = (powf(xji, 2) + powf(yji, 2)) * (powf(xjk, 2) + powf(yjk, 2));
-    check_divzero(*lenp, *bsqji, *bsqjk, *dsq);
-    *dsub = pow(*scalp, 2) / *dsq;
-    *div = *scalp / *lenp;
-    *bj = *scalp / *bsqji;
-    *bk = *scalp / *bsqjk;
-    check_range(div, -1.0, 1.0);
+
+    *a1 = (xjk * yji - yjk * xji);
+    *a2 = (yjk * xji - xjk * yji);
+    *b = THETA0 - angle(vecji, vecjk);
+    *c1 = vecjk.len * powf((powf(xji, 2) + powf(yji, 2)), (3/2));
+    *c2 = vecji.len * powf((powf(xjk, 2) + powf(yjk, 2)), (3/2));
+    float dn = pow(*a2, 2);
+    float dd = (powf(xji, 2) + powf(yji, 2)) * (powf(xjk, 2) + powf(yjk, 2));
+    if (dd < MIN_DIST) {
+        dd = MIN_DIST;
+    }
+    float dsq = dn / dd;
+    if (dsq < 0) {
+        rt_error("Negative square root argument");
+    }
+    *d = sqrtf(dn / dd);
 }
 
-static void calc_gradient(float xji, float yji, float xjk, float yjk, float a,
-        float bj, float bk, float c, float d, float *dxji, float *dyji, float
-        *dxjk, float *dyjk) 
+static void calc_gradient(float xji, float yji, float xjk, float yjk, float a1,
+        float a2, float b, float c1, float c2, float d, 
+        float *dxji, float *dyji, float *dxjk, float *dyjk) 
 {
-        float aver[4], bver[4];
+        float aver[4];
 
-        aver[0] = xjk * a;
-        bver[0] = xji * bj;
-        aver[1] = yjk * a;
-        bver[1] = yji * bj;
-        aver[2] = xji * a;
-        bver[2] = xjk * bk;
-        aver[3] = yji * a;
-        bver[3] = yjk * bk;
+        aver[0] = 2 * yji * a1;
+        aver[1] = 2 * xji * a2;
+        aver[2] = 2 * yjk * a2;
+        aver[3] = 2 * xjk * a1;
         
-        *dxji = -2 * WANG * (aver[0] - bver[0]) * c / d;
-        *dyji = -2 * WANG * (aver[1] - bver[1]) * c / d;
-        *dxjk = -2 * WANG * (aver[2] - bver[2]) * c / d;
-        *dyjk = -2 * WANG * (aver[3] - bver[3]) * c / d;
-}
+        float c1d = c1 * d;
+        float c2d = c2 * d;
 
-static void dfunc3(const BpairPtr bpairs)
-{
-    float xji, yji, xjk, yjk, scalp, lenp, bsqji, bsqjk, dsq, dsub, div, a, bj,
-          bk, c, d, dxji, dyji, dxjk, dyjk;
-    Vector2d vecji, vecjk, frcji, frcjk;
-    Vptr vi, vj, vk;
-    BpairPtr cur = bpairs;
-    while (cur->next) {
-        vi = cur->fst->fst;
-        vj = cur->fst->snd; 
-        vk = cur->snd->snd;
-        
-        get_coords(vi, vj, vk, &xji, &yji, &xjk, &yjk);
-        mk_vectors(xji, yji, xjk, yjk, &vecji, &vecjk, &frcji, &frcjk);
-        prepare_d3(vecji, vecjk, xji, yji, xjk, yjk, &scalp, &lenp, &bsqji, 
-                &bsqjk, &dsq, &dsub, &div, &bj, &bk);
-        
-        if (dsub >= 1.0) {
-            if (equal(1.0, dsub)) {
-                dsub -= MIN_DIST;
-            } else {
-                rt_error("Negative square root argument");
-            }
+        if (c1d < MIN_DIST) {
+            c1d = MIN_DIST; 
+        } 
+        if (c2d < MIN_DIST) {
+            c2d = MIN_DIST;
         }
 
-        a = 1 / lenp;
-        c = acosf(div) - THETA0;
-        d = sqrtf(1 - dsub);  
+        *dxji = -(aver[0] * b) / c1d;
+        *dyji = -(aver[1] * b) / c1d;
+        *dxjk = -(aver[2] * b) / c2d;
+        *dyjk = -(aver[3] * b) / c2d;
+}
+
+void dfunc3(const Gptr graph)
+{
+    if (graph->connected == NULL) {
+        return;
+    }
+    float xji, yji, xjk, yjk, a1, a2, b, c1, c2, d, dxji, dyji, dxjk, dyjk;
+    Vector2d vecji, vecjk, frcji, frcjk;
+    Vptr vi, vj, vk;
+    BpairPtr cur = graph->connected;
+    while (cur) {
+
+        vi = cur->other1; 
+        vj = cur->common;
+        vk = cur->other2; 
+
+        get_coords(vi, vj, vk, &xji, &yji, &xjk, &yjk);
+
+        mk_vectors(xji, yji, xjk, yjk, &vecji, &vecjk, &frcji, &frcjk);
         
-        calc_gradient(xji, yji, xjk, yjk, a, bj, bk, c, d, 
+        prepare_d3(vecji, vecjk, xji, yji, xjk, yjk, 
+                &a1, &a2, &b, &c1, &c2, &d);
+
+        calc_gradient(xji, yji, xjk, yjk, a1, a2, b, c1, c2, d, 
                 &dxji, &dyji, &dxjk, &dyjk);
 
         frcji.x = dxji; 
@@ -215,13 +211,8 @@ static void dfunc3(const BpairPtr bpairs)
 
 void dfunc(Gptr graph) 
 {
-    Vptr *vs = graph->vs;
-    Bptr *bs = graph->bs;
-    BpairPtr bpairs = graph->bpairs;
-    int nv = graph->nv;
-    int nb = graph->nb;
-    dfunc1(vs, nv);
-    dfunc2(vs, bs, nv, nb);
-    dfunc3(bpairs);
+    dfunc1(graph);
+    dfunc2(graph);
+    dfunc3(graph);
 }
 

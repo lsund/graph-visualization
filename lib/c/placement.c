@@ -60,13 +60,17 @@ void set_spiral(Vptr *vs, const int nv)
     t = fmax(dimx, dimy);
     max_iter = t * t;
     for (i = 0; i < max_iter; i++) {
-        if ((-dimx / 2 <= x && x <= dimx / 2) && 
-            (-dimy / 2 <= y && y <= dimy / 2) && 
-            (count < nv))
-        {
-            placex = x * gapx + PANEL_X / 2;
-            placey = y * gapy + PANEL_Y / 2;
-            (*(vs + i))->pos = mk_vector2d(placex, placey);
+        if (count < nv && !(*(vs + count))->pos.given_coords) {
+            if ((-dimx / 2 <= x && x <= dimx / 2) && 
+                (-dimy / 2 <= y && y <= dimy / 2))
+            {
+                placex = x * gapx + PANEL_X / 2;
+                placey = y * gapy + PANEL_Y / 2;
+                (*(vs + count))->pos.x = placex; 
+                (*(vs + count))->pos.y = placey; 
+                count++;
+            }
+        } else {
             count++;
         }
         if ((x == y) || (x < 0 && x == -y) || (x > 0 && x == 1 - y)) {
