@@ -1,5 +1,4 @@
-/*****************************************************************************
-
+/***************************************************************************** 
 * File Name: gradient.c
 
 * Author: Ludvig Sundström
@@ -209,10 +208,74 @@ void dfunc3(const Gptr graph)
     }
 }
 
-void dfunc(Gptr graph) 
+void dfunc4(const Gptr graph)
+{
+    if (!graph->crosses) 
+        return;
+
+    BpairPtr cur;
+    cur = graph->crosses;
+
+    while (cur) {
+
+        Vptr vi, vj, vk, vl;
+        vi = cur->fst->fst; vj = cur->fst->snd; 
+        vk = cur->snd->fst; vl = cur->snd->snd;
+
+        float xij, yij, xil, yil, xkj, ykj, xkl, ykl;
+        xij = vj->pos.x - vi->pos.x; yij = vj->pos.y - vi->pos.y;
+        xil = vl->pos.x - vi->pos.x; yil = vl->pos.y - vi->pos.y;
+        xkj = vj->pos.x - vk->pos.x; ykj = vj->pos.y - vk->pos.y;
+        xkl = vl->pos.x - vk->pos.x; ykl = vl->pos.y - vk->pos.y;
+
+        Vector2d vecij, vecil, veckj, veckl;
+        vecij = mk_vector2d(xij, yij); vecil = mk_vector2d(xil, yil);
+        veckj = mk_vector2d(xkj, ykj); veckl = mk_vector2d(xkl, ykl);
+
+        float up, down;
+        up = cross(vecij, vecil); down = cross(veckl, veckj);
+
+        Vector2d frci, frcj, frck, frcl;
+
+        frci.x = WCRS * yil * down;
+        frci.y = WCRS * xil * (ykj * xkl - xkj * ykl);
+        frcj.x = WCRS * yij * (ykj * xkl - xkj * ykl);
+        frcj.y = WCRS * xij * down;
+        frck.x = WCRS * ykl * up;
+        frck.y = WCRS * xkl * (yij * xil - xij * yil);
+        frcl.x = WCRS * ykj * (yij * xil - xij * yil);
+        frcl.y = WCRS * xkj * up; 
+     
+        vi->vel = add(vi->vel, frci);
+        vj->vel = add(vj->vel, frcj);
+        vk->vel = add(vk->vel, frck);
+        vl->vel = add(vl->vel, frcl);
+
+        cur = cur->next;
+
+    }
+}
+
+
+void dfglobal(const Gptr graph)
+{
+    int i;
+    for (i = 0; i < graph->nv; i++) {
+        (*(graph->vs + i))->vel.x = 0;
+        (*(graph->vs + i))->vel.y = 0;
+    }
+    create_crosses(graph);
+    create_connected(graph);
+    dfunc3(graph);
+    dfunc4(graph);
+    free_bpairs(graph->connected);
+    free_bpairs(graph->crosses);
+}
+
+void dflocal(const Gptr graph)
 {
     dfunc1(graph);
     dfunc2(graph);
-    dfunc3(graph);
 }
+
 

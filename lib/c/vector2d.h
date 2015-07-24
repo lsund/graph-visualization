@@ -12,7 +12,7 @@ Vector2d mk_vector2d(float x, float y);
 
 Vector2d add(Vector2d vec1, Vector2d vec2);
 
-Vector2d cross(Vector2d vec1, Vector2d vec2);
+float cross(Vector2d vec1, Vector2d vec2);
 
 float dot(Vector2d v1, Vector2d v2);
 

@@ -39,4 +39,8 @@ Bptr mk_bond(Vptr fst, Vptr snd, float dist0, float k);
 
 BpairPtr mk_bondpair(Bptr b1, Bptr b2, BpairPtr next);
 
+void create_connected(Gptr graph);
+
+void create_crosses(Gptr graph);
+
 #endif

@@ -27,10 +27,15 @@ int minimize (const char *fname)
     float *fret;
     int *iter;
 
-    float (*objective)(Gptr graph);
-    void (*gradient)(Gptr graph);
-    objective = func; gradient = dfunc;
-    
+    float (*local_objective)(const Gptr graph);
+    void (*local_gradient)(const Gptr graph);
+    float (*global_objective)(const Gptr graph);
+    void (*global_gradient)(const Gptr graph);
+
+    local_objective = flocal; 
+    local_gradient = dflocal; 
+    global_objective = fglobal; 
+    global_gradient = dfglobal; 
     Gptr graph;
     graph = malloc(sizeof(G));
     create_graph(fname, graph);
@@ -44,7 +49,13 @@ int minimize (const char *fname)
         rt_error("Error when allocating memory: minimize()");
     }
     
-    frprmn(graph, FTOL, iter, fret, objective, gradient);
+    frprmn(graph, FTOL, iter, fret, local_objective, local_gradient);
+
+    printf("Done, local optimization\n");
+    
+    frprmn(graph, FTOL, iter, fret, global_objective, global_gradient);
+
+    printf("Done, global optimization\n");
     
     free_graph(graph);
 

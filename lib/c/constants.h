@@ -10,13 +10,15 @@
 #define PANEL_Y 1000
 
 #define PADDING 100.0f
-#define SPRING_LENGTH 200.0f
+#define SPRING_LENGTH 300.0f
 #define THETA0 M_PI / 4
 
-#define DEFAULT_STIFFNESS 1.0f
-#define WR 10.0f
-#define WG 1.0f
-#define WANG 500.0f
+#define DEFAULT_STIFFNESS 2.0f
+#define WR 3.0f
+#define WG 0.1f
+
+#define WANG 0.0f
+#define WCRS 1e-9f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 
@@ -55,9 +57,12 @@
 #define THETA0 M_PI
 
 #define DEFAULT_STIFFNESS 1.0f
+
 #define WR 1.0f
 #define WG 1.0f
+
 #define WANG 1.0f
+#define WCRS 1e-9f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 

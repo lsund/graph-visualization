@@ -65,7 +65,7 @@ int main(int argc, char **argv) {
         printf("Tests run: %d\n", tests_run);
         return result != 0;
     } else {
-        minimize("data/3.json");
+        minimize("data/test/4-1.json");
         return 0;
     }
 }

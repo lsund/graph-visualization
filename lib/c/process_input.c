@@ -228,27 +228,10 @@ void create_graph(const char *fname, Gptr graph)
     if ((float)nb > (float)nv * logf((float)nv)) {
         printf("Warning: B greater than V * log(V)\n");
     }
-
-    int i, j;
-    BpairPtr connected;
-    Bptr fst, snd;
-    connected = NULL; 
-    fst = snd = NULL;
-    for (i = 0; i < nb - 1; i++) {
-        for (j = i + 1; j < nb; j++) {
-            fst = *(bs + i);  
-            snd = *(bs + j);  
-            has_common_vertex(fst, snd);
-            if (has_common_vertex(fst, snd)) {
-                BpairPtr newpair;
-                newpair = mk_bondpair(fst, snd, connected);
-                connected = newpair;
-            }
-        }
-    }
+    
+    create_connected(graph);
 
     graph->vs = vs; graph->bs = bs;
-    graph->connected = connected;
     graph->nv = nv; graph->nb = nb;
 
 }

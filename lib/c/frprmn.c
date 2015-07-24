@@ -29,8 +29,6 @@
 #define EMSCRIPT 0
 #endif
 
-#define FREEALL free(h);
-
 static void js_interact(float *varr, int *barr, Gptr graph)
 {
     if (EMSCRIPT) {
@@ -68,7 +66,6 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
 {
     int i, its, n;
     float gg, gam, fp, dgg;
-    float *h;
 
     float *varr;
     int *barr;
@@ -76,8 +73,6 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
     barr = malloc(sizeof(int) * graph->nb * 2);
     
     n = graph->nv * 2;
-    
-    h = vector(n);
     
     fp = (*func)(graph);
     (*dfunc)(graph);
@@ -107,7 +102,6 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
             free(varr);
             free(barr);
-            free(h);
             return;
         }
         fp = (*func)(graph);
@@ -123,7 +117,6 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         if (fabs(gg) < EPS) {
             free(varr);
             free(barr);
-            free(h);
             return;
         }
         gam = dgg / gg;
@@ -137,8 +130,6 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
     }
     free(varr);
     free(barr);
-    free(h);
     return;
-    /*rt_error("Too many iterations in frprmn()");*/
 }
 

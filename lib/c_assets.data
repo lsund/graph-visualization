@@ -64,3 +64,17 @@
       {"fst":1,"snd":2,"len":1}
     ]
 }
+{
+  "vertices":
+    [
+      {"id":0,"position":[100, 300],"mass":1,"radius":1,"type":"r"},
+      {"id":1,"position":[200, 300],"mass":1,"radius":1,"type":"r"},
+      {"id":2,"position":[100, 600],"mass":1,"radius":1,"type":"r"},
+      {"id":3,"position":[200, 600],"mass":1,"radius":1,"type":"r"}
+    ],
+  "bonds":
+    [
+      {"fst":0,"snd":3,"len":1},
+      {"fst":1,"snd":2,"len":1}
+    ]
+}

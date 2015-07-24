@@ -88,16 +88,17 @@ float func2(const Gptr graph)
 
 float func3(const Gptr graph)
 {
-    if (!graph->connected) {
+    if (!graph->connected)
         return 0;
-    }
+
     BpairPtr cur;
     float rtn;
     rtn = 0; 
     cur = graph->connected;
+
     while (cur) {
+
         Vptr vi, vj, vk;
-        
         vi = cur->other1; 
         vj = cur->common;
         vk = cur->other2; 
@@ -115,19 +116,20 @@ float func3(const Gptr graph)
 
         rtn += WANG * powf(theta - THETA0, 2);
         cur = cur->next;
+
     }
     return rtn;
 }
 
 float func4(const Gptr graph)
 {
-    if (graph->crosses == NULL) {
+    if (!graph->crosses) 
         return 0;
-    }
     BpairPtr cur;
     float rtn;
     cur = graph->crosses;
     rtn = 0;
+
     while (cur) {
 
         Vptr vi, vj, vk, vl;
@@ -144,54 +146,35 @@ float func4(const Gptr graph)
         vecij = mk_vector2d(xij, yij); vecil = mk_vector2d(xil, yil);
         veckj = mk_vector2d(xkj, ykj); veckl = mk_vector2d(xkl, ykl);
 
-        Vector2d up, down;
+        float up, down;
         up = cross(vecij, vecil); down = cross(veckj, veckl);
 
-        rtn += dot(up, down); 
-
+        rtn += WCRS * up * down;
         cur = cur->next;
+
     }
-    return 0.0;
+    return rtn;
 }
 
-float func(const Gptr graph) 
+float fglobal(const Gptr graph)
 {
-    int i, j;
-    BpairPtr crosses; 
-    Bptr fst, snd;
-    crosses = NULL; 
-    fst = snd = NULL;
-    for (i = 0; i < graph->nb - 1; i++) {
-        for (j = i + 1; j < graph->nb; j++) {
-            int crossing;
-            float xi, yi;
-            fst = *(graph->bs + i);  
-            snd = *(graph->bs + j);  
-            crossing = intersection(fst->fst->pos.x, fst->fst->pos.y, 
-                                    fst->snd->pos.x, fst->snd->pos.y,
-                                    snd->fst->pos.x, snd->fst->pos.y,
-                                    snd->snd->pos.x, snd->snd->pos.y, 
-                                    &xi,             &yi);
-            if (crossing) {
-                BpairPtr newpair;
-                newpair = malloc(sizeof(Bpair));
-                newpair->fst = fst;
-                newpair->snd = snd;
-                newpair->next = crosses;
-                crosses = newpair;
-            }
-        }
-    }
-    graph->crosses = crosses;
 
-    float f1, f2, f3, f4, rtn;
-    f1 = func1(graph);
-    f2 = func2(graph);
+    create_crosses(graph);
+    create_connected(graph);
+    float f3, f4;
     f3 = func3(graph);
     f4 = func4(graph);
+    free_bpairs(graph->connected);
     free_bpairs(graph->crosses);
-    rtn = f1 + f2 + f3 + f4; 
 
-    return rtn;
+    return f3 + f4;
+}
+
+float flocal(const Gptr graph) 
+{
+    float f1, f2;
+    f1 = func1(graph);
+    f2 = func2(graph);
+    return f1 + f2;
 }
 

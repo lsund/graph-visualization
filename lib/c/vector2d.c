@@ -42,6 +42,15 @@ int parallel(Vector2d v1, Vector2d v2)
     return equal(angle(v1, v2), 0);
 }
 
+/**
+ * Magnitude of the vector that would result from a regular 3D space. 
+ */
+
+float cross(Vector2d vec1, Vector2d vec2)
+{
+    return (vec1.x * vec2.y) - (vec2.x * vec1.y);
+}
+
 float angle(Vector2d v1, Vector2d v2)
 {
     float scalp, lenp, div;
@@ -58,10 +67,5 @@ float angle(Vector2d v1, Vector2d v2)
         rt_error("Outside acos range"); 
     }
     return acosf(div);
-}
-
-Vector2d cross(Vector2d vec1, Vector2d vec2)
-{
-    return mk_vector2d(vec1.x * vec2.y, -vec1.y * vec2.x);
 }
 

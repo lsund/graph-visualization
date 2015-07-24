@@ -2,9 +2,11 @@
 #ifndef FUNCS_H
 #define FUNCS_H
 
-float func(Gptr graph);
-void dfunc(Gptr graph);
+float flocal(const Gptr graph);
+float fglobal(const Gptr graph);
 
+void dflocal(const Gptr graph);
+void dfglobal(const Gptr graph);
 
 // For testing 
 float func1(const Gptr graph);

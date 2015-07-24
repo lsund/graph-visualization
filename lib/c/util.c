@@ -22,14 +22,6 @@
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_RESET "\x1b[0m"
     
-int has_common_vertex(Bptr b1, Bptr b2) 
-{
-    return  b1->fst->id == b2->fst->id ||
-            b1->fst->id == b2->snd->id || 
-            b1->snd->id == b2->fst->id ||
-            b1->snd->id == b2->snd->id;
-}
-
 int equal(float tar, float x) {
     return fabs(x - tar) < COMP_EPS;
 }
@@ -130,7 +122,6 @@ void free_graph(Gptr graph)
 {
     free_vertices(graph->vs, graph->nv);
     free_bonds(graph->bs, graph->nb);
-    free_bpairs(graph->connected);
     free(graph);
 }
 
