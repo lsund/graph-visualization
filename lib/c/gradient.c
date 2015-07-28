@@ -15,14 +15,14 @@
 #include "constants.h"
 #include "util.h"
 
-void dfunc1(const Gptr graph)
+void dfunc1(const Gptr g)
 {
     int i, cx, cy;
     Vptr vi;
     cx = PANEL_X / 2;
     cy = PANEL_Y / 2;
-    for (i = 0; i < graph->nv; i++) {
-        vi = *(graph->vs + i);
+    for (i = 0; i < g->nv; i++) {
+        vi = *(g->vs + i);
 
         float dx, dy;
         dx = (float) cx - vi->pos.x;
@@ -36,41 +36,81 @@ void dfunc1(const Gptr graph)
     }
 }
 
-void dfunc2rep(const Gptr graph)
+static void apply_repulsion(const Vptr vi, const Vptr vj)
 {
-    int i, j;
-    float dij, dx, dy, critlen;
     Vector2d frc, negfrc;
-    Vptr vi, vj;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
-    for (i = 0; i < graph->nv - 1; i++) {
-        for (j = i + 1; j < graph->nv; j++) {
-            vi = *(graph->vs + i);
-            vj = *(graph->vs + j);
-            dx = vj->pos.x - vi->pos.x;
-            dy = vj->pos.y - vi->pos.y; 
-            dij = sqrtf(dx * dx + dy * dy);
-            if (equal(dij, 0)) {
-                dij = MIN_DIST;
-            } 
-            critlen = vi->radius + vj->radius + PADDING;
-            if (critlen > dij) {
-                frc.x = 2 * WR * dx * (dij - critlen) / dij;
-                frc.y = 2 * WR * dy * (dij - critlen) / dij;
-            } else {
-                frc.x = 0;
-                frc.y = 0;
+
+    float dx, dy;
+    dx = vj->pos.x - vi->pos.x;
+    dy = vj->pos.y - vi->pos.y; 
+    
+    float dij, critlen;
+    dij = sqrtf(dx * dx + dy * dy);
+    if (equal(dij, 0)) {
+        dij = MIN_DIST;
+    } 
+    critlen = vi->radius + vj->radius + PADDING;
+    
+    float wi, wj;
+    wi = WR;
+    wj = WR;
+    if (critlen > dij) {
+        frc.x = 2 * wi * dx * (dij - critlen) / dij;
+        frc.y = 2 * wj * dy * (dij - critlen) / dij;
+    } else {
+        frc.x = 0;
+        frc.y = 0;
+    }
+    negfrc.x = -frc.x;
+    negfrc.y = -frc.y;
+    vi->vel = add(vi->vel, frc);
+    vj->vel = add(vj->vel, negfrc);
+}
+
+void dfunc2rep(const Gptr g)
+{
+    int i;
+    for (i = 0; i < g->npz; i++) {
+        Zptr z = *(g->populated_zones + i);
+        Vptr vi = z->members;
+        while (vi->next) {
+            Vptr vj;
+            vj = vi->next; 
+            while (vj) {
+                if (vi->id > vj->id) {
+                    apply_repulsion(vj, vi);
+                } else {
+                    apply_repulsion(vi, vj);
+                }
+                vj = vj->next;
             }
-            negfrc.x = -frc.x;
-            negfrc.y = -frc.y;
-            vi->vel = add(vi->vel, frc);
-            vj->vel = add(vj->vel, negfrc);
+            vi = vi->next;
         }
+    }
+    ZpairPtr zpair = g->adjacent_zones;
+    while (zpair) {
+        Vptr vi;
+        vi = zpair->fst->members;
+        while (vi) {
+            Vptr vj;
+            vj = zpair->snd->members;
+            while (vj) {
+                if (vi->id > vj->id) {
+                    apply_repulsion(vj, vi);
+                } else {
+                    apply_repulsion(vi, vj);
+                }
+                vj = vj->next;          
+            }
+            vi = vi->next;
+        }
+        zpair = zpair->next;
     }
 }
 
-void dfunc2attr(const Gptr graph)
+void dfunc2attr(const Gptr g)
 {
     int i;
     float d0i, dx, dy, di, wi;
@@ -78,8 +118,8 @@ void dfunc2attr(const Gptr graph)
     Vector2d frc, negfrc;
     frc = mk_vector2d(0, 0);
     negfrc = mk_vector2d(0, 0);
-    for (i = 0; i < graph->nb; i++) {
-        bptr = *(graph->bs + i);  
+    for (i = 0; i < g->nb; i++) {
+        bptr = *(g->bs + i);  
         wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
         d0i = bptr->dist0 * SPRING_LENGTH;
         dx = bptr->snd->pos.x - bptr->fst->pos.x;
@@ -97,10 +137,10 @@ void dfunc2attr(const Gptr graph)
     }
 }
 
-void dfunc2(const Gptr graph)
+void dfunc2(const Gptr g)
 {
-    dfunc2attr(graph);
-    dfunc2rep(graph);
+    dfunc2attr(g);
+    dfunc2rep(g);
 }
 
 static void get_coords(Vptr vi, Vptr vj, Vptr vk,
@@ -170,15 +210,15 @@ static void calc_gradient(float xji, float yji, float xjk, float yjk, float a1,
         *dyjk = -(aver[3] * b) / c2d;
 }
 
-void dfunc3(const Gptr graph)
+void dfunc3(const Gptr g)
 {
-    if (graph->connected == NULL) {
+    if (g->connected == NULL) {
         return;
     }
     float xji, yji, xjk, yjk, a1, a2, b, c1, c2, d, dxji, dyji, dxjk, dyjk;
     Vector2d vecji, vecjk, frcji, frcjk;
     Vptr vi, vj, vk;
-    BpairPtr cur = graph->connected;
+    BpairPtr cur = g->connected;
     while (cur) {
 
         vi = cur->other1; 
@@ -194,12 +234,16 @@ void dfunc3(const Gptr graph)
 
         calc_gradient(xji, yji, xjk, yjk, a1, a2, b, c1, c2, d, 
                 &dxji, &dyji, &dxjk, &dyjk);
+        
+        float wji, wjk;
 
-        frcji.x = dxji; 
-        frcji.y = dyji; 
+        wji = WANG * vk->mass;
+        wjk = WANG * vj->mass;
+        frcji.x = wji * dxji; 
+        frcji.y = wji * dyji; 
 
-        frcjk.x = dxjk; 
-        frcjk.y = dyjk; 
+        frcjk.x = wjk * dxjk; 
+        frcjk.y = wjk * dyjk; 
 
         vi->vel = add(vi->vel, frcji);
         vk->vel = add(vk->vel, frcjk);
@@ -208,13 +252,13 @@ void dfunc3(const Gptr graph)
     }
 }
 
-void dfunc4(const Gptr graph)
+void dfunc4(const Gptr g)
 {
-    if (!graph->crosses) 
+    if (!g->crosses) 
         return;
 
     BpairPtr cur;
-    cur = graph->crosses;
+    cur = g->crosses;
 
     while (cur) {
 
@@ -257,25 +301,25 @@ void dfunc4(const Gptr graph)
 }
 
 
-void dfglobal(const Gptr graph)
+void dfglobal(const Gptr g)
 {
     int i;
-    for (i = 0; i < graph->nv; i++) {
-        (*(graph->vs + i))->vel.x = 0;
-        (*(graph->vs + i))->vel.y = 0;
+    for (i = 0; i < g->nv; i++) {
+        (*(g->vs + i))->vel.x = 0;
+        (*(g->vs + i))->vel.y = 0;
     }
-    create_crosses(graph);
-    create_connected(graph);
-    dfunc3(graph);
-    dfunc4(graph);
-    free_bpairs(graph->connected);
-    free_bpairs(graph->crosses);
+    create_crosses(g);
+    create_connected(g);
+    dfunc3(g);
+    dfunc4(g);
+    free_bpairs(g->connected);
+    free_bpairs(g->crosses);
 }
 
-void dflocal(const Gptr graph)
+void dflocal(const Gptr g)
 {
-    dfunc1(graph);
-    dfunc2(graph);
+    dfunc1(g);
+    dfunc2(g);
 }
 
 

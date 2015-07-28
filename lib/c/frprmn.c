@@ -29,12 +29,12 @@
 #define EMSCRIPT 0
 #endif
 
-static void js_interact(float *varr, int *barr, Gptr graph)
+static void js_interact(float *varr, int *barr, int *zarr, Gptr graph)
 {
     if (EMSCRIPT) {
         EM_ASM_({
-            window.EXPORTS.processCdata($0, $1, $2, $3);
-        }, varr, barr, graph->nv * 2, graph->nb * 2);
+            window.EXPORTS.processCdata($0, $1, $2, $3, $4, $5);
+        }, varr, barr, zarr, graph->nv * 2, graph->nb * 2, graph->nz * 3);
         emscripten_sleep(INTERVAL);
     }
 }
@@ -45,24 +45,29 @@ static void js_interact(float *varr, int *barr, Gptr graph)
  * 2. Projects the id's of the connecting vertices of the bonds bs of length bn
  * to the array bsarr of length nb * 2
  */
-static void graph_toarrays(Vptr *vs, Bptr *bs, float *vsarr, 
-        int *bsarr, const int nv, const int nb)
+static void graph_toarrays(Gptr graph, float *vsarr, int *bsarr, int *zarr)
 {
     int i;
-    for (i = 0; i < nv; i++) {
-        *(vsarr + i * 2) = (*(vs + i))->pos.x;
-        *(vsarr + i * 2 + 1) = (*(vs + i))->pos.y;
+    for (i = 0; i < graph->nv; i++) {
+        *(vsarr + i * 2) = (*(graph->vs + i))->pos.x;
+        *(vsarr + i * 2 + 1) = (*(graph->vs + i))->pos.y;
     }
-    for (i = 0; i < nb; i++) {
-        *(bsarr + i * 2) = (*(bs + i))->fst->id;
-        *(bsarr + i * 2 + 1) = (*(bs + i))->snd->id;
+    for (i = 0; i < graph->nb; i++) {
+        *(bsarr + i * 2) = (*(graph->bs + i))->fst->id;
+        *(bsarr + i * 2 + 1) = (*(graph->bs + i))->snd->id;
+    }
+    for (i = 0; i < graph->nz; i++) {
+        Zptr z = *(graph->zs + i);
+        *(zarr + i * 3) = z->minx;
+        *(zarr + i * 3 + 1) = z->miny;
+        *(zarr + i * 3 + 2) = z->width;
     }
 }
 
-void linmin(Gptr graph, int n, float *fret, float (*func)(Gptr));
+void linmin(Gptr graph, int n, float *fret, void (*func)(Gptr));
 
 void frprmn(Gptr graph, float ftol, int *iter, float *fret, 
-        float (*func)(Gptr), void (*dfunc)(Gptr))
+        void (*func)(Gptr), void (*dfunc)(Gptr))
 {
     int i, its, n;
     float gg, gam, fp, dgg;
@@ -74,8 +79,9 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
     
     n = graph->nv * 2;
     
-    fp = (*func)(graph);
+    (*func)(graph);
     (*dfunc)(graph);
+    fp = graph->energy;
         
     for (i = 0; i < n; i += 2) {
         Vptr vptr = *(graph->vs + i / 2);
@@ -84,18 +90,19 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         vptr->vel.x = vptr->h.x = vptr->g.x;
         vptr->vel.y = vptr->h.y = vptr->g.y;
     }
-
     for (its = 0; its < ITMAX; its++) {
         
-        graph_toarrays(graph->vs, graph->bs, varr, barr, graph->nv, graph->nb);
+        int *zarr = malloc(sizeof(int) * graph->nz * 3);
+        graph_toarrays(graph, varr, barr, zarr);
 
         if (EMSCRIPT) {
-            js_interact(varr, barr, graph);
+            js_interact(varr, barr, zarr, graph);
         } else {
             for (i = 0; i < graph->nv; i++) {
                 //NOOP
             }
         }
+        free(zarr);
 
         *iter = its;
         linmin(graph, n, fret, func);
@@ -104,8 +111,9 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
             free(barr);
             return;
         }
-        fp = (*func)(graph);
+        (*func)(graph);
         (*dfunc)(graph);
+        fp = graph->energy;
         dgg = gg = 0.0;
         for (i = 0; i < graph->nv; i++) {
             Vptr vptr = *(graph->vs + i);

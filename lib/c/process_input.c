@@ -8,12 +8,11 @@
 #include "constants.h"
 #include "util.h"
 #include "json.h"
+#include "graph.h"
+#include "inits.h"
 
 static void create_vertices(Vptr **vs, json_value *contents, int *nv)
 {
-    int i, id;
-    float m, r;
-    char t;
     json_value *vsarr = contents->u.object.values[0].value;
     *nv = vsarr->u.array.length;
     *vs = malloc(sizeof(void *) * *nv);
@@ -25,16 +24,17 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
         rt_error("No vertices");
     }
 
+    int i;
     for (i = 0; i < *nv; i++) {
         
-        json_value *vertex = vsarr->u.array.values[i];
+        json_value *vertex;  
+        vertex = vsarr->u.array.values[i];
 
-        json_value *ident = vertex->u.object.values[0].value;
-        json_value *position = vertex->u.object.values[1].value;
-        json_value *mass = vertex->u.object.values[2].value;
-        json_value *radius = vertex->u.object.values[3].value;
-        json_value *vertex_type = vertex->u.object.values[4].value;
-
+        
+        json_value *ident;
+        int id;
+        id = -99;
+        ident = vertex->u.object.values[0].value;
         if (ident->type == json_integer) {
             id = ident->u.integer;
         } else {
@@ -44,6 +44,8 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
         Vector2d pos, zv;
         zv = mk_vector2d(0.0, 0.0);
         pos = zv;    
+        json_value *position;
+        position = vertex->u.object.values[1].value;
         if (position->type == json_array) {
             int length;
             float x, y;
@@ -77,14 +79,10 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
             }
         }
 
-        if (mass->type == json_integer) {
-            m = (float) mass->u.integer;
-        } else if (mass->type == json_double) {
-            m = (float) mass->u.dbl;
-        } else {
-            rt_error("Bad JSON data: mass");
-        }
-
+        float r;
+        json_value *radius;
+        r = -99.0;
+        radius = vertex->u.object.values[2].value;
         if (radius->type == json_integer) {
             r = (float) radius->u.integer;
         } else if (radius->type == json_double) {
@@ -92,14 +90,18 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
         } else {
             rt_error("Bad JSON data: radius");
         }
-
+        
+        char t;
+        t = 0;
+        json_value *vertex_type;
+        vertex_type = vertex->u.object.values[3].value;
         if (vertex_type->type == json_string) {
             t = vertex_type ->u.string.ptr[0];
         } else {
             rt_error("Bad JSON data: type");
         }
 
-        *(*vs + i) = mk_vertex(id, 0, pos, zv, zv, zv, m, r, t);
+        *(*vs + i) = mk_vertex(id, pos, zv, zv, zv, r, t);
     }
 }
 
@@ -218,22 +220,26 @@ void process_json(const char *filename, Vptr **vs, Bptr **bs,
     free(file_contents);
 }
 
-void create_graph(const char *fname, Gptr graph) 
+void create_graph(const char *fname, Gptr g) 
 {
+
+    g->nz = 0;
+    create_zones(g);
+    g->npz = 0;
 
     Vptr *vs; Bptr *bs;
     int nv, nb;
     vs = NULL; bs = NULL;
+
     process_json(fname, &vs, &bs, &nv, &nb);
     if ((float)nb > (float)nv * logf((float)nv)) {
         printf("Warning: B greater than V * log(V)\n");
     }
-    
-    create_connected(graph);
 
-    graph->vs = vs; graph->bs = bs;
-    graph->nv = nv; graph->nb = nb;
+    create_connected(g);
+
+    g->vs = vs; g->bs = bs;
+    g->nv = nv; g->nb = nb;
 
 }
-
 

@@ -17,27 +17,28 @@
 
 #include "graph.h"
 #include "util.h"
+#include "constants.h"
+#include "inits.h"
 
-Vptr mk_vertex(int id, int conn, Vector2d pos, Vector2d vel, Vector2d g,
-        Vector2d h, float mass, float radius, char type) 
-{
+Vptr mk_vertex(int id, Vector2d pos, Vector2d vel, Vector2d g, Vector2d h,
+        float radius, char type) {
     Vptr rtn = calloc(1, sizeof(V));
     rtn->id = id;
-    rtn->conn = 0;
+    rtn->mass = 1;
     rtn->pos = pos;
     rtn->vel = vel;
     rtn->g = g;
     rtn->h = h;
-    rtn->mass = mass;
     rtn->radius = radius;
     rtn->type = type;
+    rtn->next = NULL;
     return rtn;
 }
 
-Bptr mk_bond(Vptr fst, Vptr snd, float dist0, float k)
+Bptr mk_bond(Vptr fst, Vptr snd, const float dist0, const float k)
 {
-    fst->conn += 1;
-    snd->conn += 1;
+    fst->mass += 1;
+    snd->mass += 1;
 
     Bptr rtn = malloc(sizeof(B));
     rtn->fst = fst;
@@ -73,27 +74,19 @@ BpairPtr mk_bondpair(Bptr b1, Bptr b2, BpairPtr next)
     return rtn;
 }
 
-int has_common_vertex(Bptr b1, Bptr b2) 
-{
-    return  b1->fst->id == b2->fst->id ||
-            b1->fst->id == b2->snd->id || 
-            b1->snd->id == b2->fst->id ||
-            b1->snd->id == b2->snd->id;
-}
-
-void create_crosses(Gptr graph)
+void create_crosses(Gptr g)
 {
     int i, j;
     BpairPtr crosses; 
     Bptr fst, snd;
     crosses = NULL; 
     fst = snd = NULL;
-    for (i = 0; i < graph->nb - 1; i++) {
-        for (j = i + 1; j < graph->nb; j++) {
+    for (i = 0; i < g->nb - 1; i++) {
+        for (j = i + 1; j < g->nb; j++) {
             int crossing;
             float xi, yi;
-            fst = *(graph->bs + i);  
-            snd = *(graph->bs + j);  
+            fst = *(g->bs + i);  
+            snd = *(g->bs + j);  
             crossing = intersection(fst->fst->pos.x, fst->fst->pos.y, 
                                     fst->snd->pos.x, fst->snd->pos.y,
                                     snd->fst->pos.x, snd->fst->pos.y,
@@ -106,21 +99,20 @@ void create_crosses(Gptr graph)
             }
         }
     }
-    graph->crosses = crosses;
+    g->crosses = crosses;
 }
 
-
-void create_connected(Gptr graph)
+void create_connected(Gptr g)
 {
     int i, j;
     BpairPtr connected;
     Bptr fst, snd;
     connected = NULL; 
     fst = snd = NULL;
-    for (i = 0; i < graph->nb - 1; i++) {
-        for (j = i + 1; j < graph->nb; j++) {
-            fst = *(graph->bs + i);  
-            snd = *(graph->bs + j);  
+    for (i = 0; i < g->nb - 1; i++) {
+        for (j = i + 1; j < g->nb; j++) {
+            fst = *(g->bs + i);  
+            snd = *(g->bs + j);  
             int match = has_common_vertex(fst, snd);
             if (match) {
                 BpairPtr newpair;
@@ -129,6 +121,30 @@ void create_connected(Gptr graph)
             }
         }
     }
-    graph->connected = connected;
+    g->connected = connected;
 }    
+
+/** 
+ * Given a vertex v in a graph g, assign it a zone.
+ */
+void assign_zone(Gptr g, Vptr v)
+{
+    int i, j;
+    if (v->pos.y >= PANEL_Y) {
+        j = PANEL_Y / PADDING - 1;
+    } else if (v->pos.y <= 0) {
+        j = 0;
+    } else {
+        j = ((int) v->pos.y) / PADDING;
+    }
+    if (v->pos.x >= PANEL_X) {
+        i = PANEL_X / PADDING - 1;
+    } else if (v->pos.x <= 0) {
+        i = 0;
+    } else {
+        i = ((int) v->pos.x) / PADDING;
+    }
+    Zptr z = *(g->zs + (j * GRID_DIM_X) + i);
+    append_member(g, z, v);
+}
 

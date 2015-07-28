@@ -17,12 +17,12 @@
 #include "constants.h"
 #include "util.h"
 
-static int comp_by_conn(const void *elem1, const void *elem2) 
+static int comp_by_mass(const void *elem1, const void *elem2) 
 {
     Vptr *fst = (Vptr *) elem1;
     Vptr *snd = (Vptr *) elem2;
-    if ((*fst)->conn < (*snd)->conn) return 1;
-    if ((*fst)->conn > (*snd)->conn) return -1;
+    if ((*fst)->mass < (*snd)->mass) return 1;
+    if ((*fst)->mass > (*snd)->mass) return -1;
     return 0;
 }
 
@@ -43,7 +43,7 @@ static int comp_by_id(const void *elem1, const void *elem2)
  */
 void set_spiral(Vptr *vs, const int nv)
 {
-    qsort(vs, nv, sizeof(void *), comp_by_conn);
+    qsort(vs, nv, sizeof(void *), comp_by_mass);
     int n, gapx, gapy, dimx, dimy, i, x, y, 
         placex, placey, dx, dy, t, max_iter, count;
     n = nv;

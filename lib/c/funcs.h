@@ -2,8 +2,8 @@
 #ifndef FUNCS_H
 #define FUNCS_H
 
-float flocal(const Gptr graph);
-float fglobal(const Gptr graph);
+void flocal(const Gptr graph);
+void fglobal(const Gptr graph);
 
 void dflocal(const Gptr graph);
 void dfglobal(const Gptr graph);

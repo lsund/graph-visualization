@@ -17,32 +17,34 @@
 #include "constants.h"
 #include "util.h"
 
-float func1(Gptr graph) {
+float func1(Gptr g) {
 
     int cx, cy;
     cx = PANEL_X / 2; cy = PANEL_Y / 2;
 
     int i;
-    Vptr vptr;
-    float dxc, dyc, rtn;
+    float rtn;
     rtn = 0;
-    for (i = 0; i < graph->nv; i++) {
-        vptr = *(graph->vs + i);
-        dxc = (float) cx - vptr->pos.x;
-        dyc = (float) cy - vptr->pos.y;
-        rtn += WG * powf(sqrtf(dxc * dxc + dyc * dyc), 2);
+    for (i = 0; i < g->nv; i++) {
+        Vptr vi;
+        vi = *(g->vs + i);
+        float dxc, dyc;
+        dxc = (float) cx - vi->pos.x;
+        dyc = (float) cy - vi->pos.y;
+        float wi = WG * vi->mass;
+        rtn += wi * powf(sqrtf(dxc * dxc + dyc * dyc), 2);
     }
     return rtn;
 }
 
-float func2attr(Gptr graph) 
+float func2attr(Gptr g) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
     Bptr bptr;
     rtn = 0; 
-    for (i = 0; i < graph->nb; i++) {
-        bptr = *(graph->bs + i);
+    for (i = 0; i < g->nb; i++) {
+        bptr = *(g->bs + i);
         d0i = bptr->dist0 * SPRING_LENGTH;
         wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
         dx = bptr->snd->pos.x - bptr->fst->pos.x;
@@ -52,49 +54,87 @@ float func2attr(Gptr graph)
     }
     return rtn;
 }
+static float calc_repulsion(const Vptr vi, const Vptr vj)
+{
+    float ri, rj, dx, dy;
+    ri = vi->radius; rj = vj->radius;
+    dx = vj->pos.x - vi->pos.x;
+    dy = vj->pos.y - vi->pos.y;
 
-float func2rep(const Gptr graph) 
+    float dij, critlen;
+    dij = sqrtf(dx * dx + dy * dy);
+    critlen = ri + rj + PADDING;
+
+    float wrij;
+    wrij = WR;
+
+    if (critlen > dij) {
+        return wrij * powf(dij - critlen, 2);
+    }
+    return 0;
+}
+
+float func2rep(const Gptr g) 
 {
     float rtn;
     rtn = 0.0;
-    int i, j;
-    for (i = 0; i < graph->nv - 1; i++) {
-        for (j = i + 1; j < graph->nv; j++) {
-            Vptr vi, vj;
-            vi = *(graph->vs + i); vj = *(graph->vs + j);
-            if (vj != NULL  && vi != NULL) {
-                float ri, rj, dx, dy, dij, critlen;
-                ri = rj = dx = dy = dij = critlen = 0.0;
-                ri = vi->radius; rj = vj->radius;
-                dx = vj->pos.x - vi->pos.x;
-                dy = vj->pos.y - vi->pos.y;
-                dij = sqrtf(dx * dx + dy * dy);
-                critlen = ri + rj + PADDING;
-                if (critlen > dij) {
-                    rtn += WR * powf(dij - critlen, 2);
+    
+    // Internal 
+    int i;
+    for (i = 0; i < g->npz; i++) {
+        Zptr z = *(g->populated_zones + i);
+        Vptr vi = z->members;
+        while (vi->next) {
+            Vptr vj;
+            vj = vi->next; 
+            while (vj) {
+                if (vi->id > vj->id) {
+                    rtn += calc_repulsion(vj, vi);
+                } else {
+                    rtn += calc_repulsion(vi, vj);
                 }
-            } else {
-                rt_error("NULL-pointer: func2rep()");
+                vj = vj->next;
             }
+            vi = vi->next;
         }
+    }
+    // External
+    ZpairPtr zpair = g->adjacent_zones;
+    while (zpair) {
+        Vptr vi;
+        vi = zpair->fst->members;
+        while (vi) {
+            Vptr vj;
+            vj = zpair->snd->members;
+            while (vj) {
+                if (vi->id > vj->id) {
+                    rtn += calc_repulsion(vj, vi);
+                } else {
+                    rtn += calc_repulsion(vi, vj);
+                }
+                vj = vj->next;          
+            }
+            vi = vi->next;
+        }
+        zpair = zpair->next;
     }
     return rtn;
 }
 
-float func2(const Gptr graph)
+float func2(const Gptr g)
 {
-    return func2attr(graph) + func2rep(graph);
+    return func2attr(g) + func2rep(g);
 }
 
-float func3(const Gptr graph)
+float func3(const Gptr g)
 {
-    if (!graph->connected)
+    if (!g->connected)
         return 0;
 
     BpairPtr cur;
     float rtn;
     rtn = 0; 
-    cur = graph->connected;
+    cur = g->connected;
 
     while (cur) {
 
@@ -114,20 +154,21 @@ float func3(const Gptr graph)
         float theta; 
         theta = angle(vecji, vecjk);
 
-        rtn += WANG * powf(theta - THETA0, 2);
+        float wij = WANG * (vi->mass * vk->mass);
+        rtn += wij * powf(theta - THETA0, 2);
         cur = cur->next;
 
     }
     return rtn;
 }
 
-float func4(const Gptr graph)
+float func4(const Gptr g)
 {
-    if (!graph->crosses) 
+    if (!g->crosses) 
         return 0;
     BpairPtr cur;
     float rtn;
-    cur = graph->crosses;
+    cur = g->crosses;
     rtn = 0;
 
     while (cur) {
@@ -156,25 +197,26 @@ float func4(const Gptr graph)
     return rtn;
 }
 
-float fglobal(const Gptr graph)
+void fglobal(const Gptr g)
 {
 
-    create_crosses(graph);
-    create_connected(graph);
+    create_crosses(g);
+    create_connected(g);
     float f3, f4;
-    f3 = func3(graph);
-    f4 = func4(graph);
-    free_bpairs(graph->connected);
-    free_bpairs(graph->crosses);
+    f3 = func3(g);
+    f4 = func4(g);
+    free_bpairs(g->connected);
+    free_bpairs(g->crosses);
 
-    return f3 + f4;
+    g->energy = f3 + f4;
 }
 
-float flocal(const Gptr graph) 
+void flocal(const Gptr g) 
 {
     float f1, f2;
-    f1 = func1(graph);
-    f2 = func2(graph);
-    return f1 + f2;
+    f1 = func1(g);
+    f2 = func2(g);
+
+    g->energy = f1 + f2;
 }
 

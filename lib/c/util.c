@@ -60,7 +60,8 @@ char intersection(float p0_x, float p0_y, float p1_x, float p1_y,
     t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / 
         (-s2_x * s1_y + s1_x * s2_y);
 
-    if (s >= MIN_DIST && s <= 1 - MIN_DIST && t >= MIN_DIST && t <= 1 - MIN_DIST)
+    if (s >= MIN_DIST && s <= 1 - MIN_DIST && 
+        t >= MIN_DIST && t <= 1 - MIN_DIST)
     {
         if (i_x != NULL)
             *i_x = p0_x + (t * s1_x);
@@ -70,6 +71,15 @@ char intersection(float p0_x, float p0_y, float p1_x, float p1_y,
     }
     return 0; 
 }
+
+int has_common_vertex(Bptr b1, Bptr b2) 
+{
+    return  b1->fst->id == b2->fst->id ||
+            b1->fst->id == b2->snd->id || 
+            b1->snd->id == b2->fst->id ||
+            b1->snd->id == b2->snd->id;
+}
+
 
 void rt_error(char error_text[])
 {
@@ -96,6 +106,7 @@ void free_vertices(Vptr *vs, int nv)
         free(*(vs + i));
     }
     free(vs);
+    vs = NULL;
 }
 
 void free_bonds(Bptr *bs, int nb) 
@@ -105,6 +116,16 @@ void free_bonds(Bptr *bs, int nb)
         free(*(bs + i));
     }
     free(bs);
+    bs = NULL;
+}
+
+void free_zones(Zptr *zs, int nz) 
+{
+    int i;
+    for (i = 0; i < nz; i++) {
+        free(*(zs + i));
+    }
+    zs = NULL;
 }
 
 void free_bpairs(BpairPtr bpairs)
@@ -118,17 +139,33 @@ void free_bpairs(BpairPtr bpairs)
     bpairs = NULL;
 }
 
-void free_graph(Gptr graph)
+void free_zpairs(ZpairPtr zpairs)
 {
-    free_vertices(graph->vs, graph->nv);
-    free_bonds(graph->bs, graph->nb);
-    free(graph);
+    ZpairPtr cur = zpairs;
+    while(cur != NULL) {
+        ZpairPtr tmp = cur;
+        cur = cur->next;
+        free(tmp);
+    }
+    zpairs = NULL;
+}
+
+void free_graph(Gptr g)
+{
+    free_vertices(g->vs, g->nv);
+    free_bonds(g->bs, g->nb);
+    free_zones(g->zs, g->nz);
+    free_zpairs(g->adjacent_zones);
+    free(g->is_populated);
+    free(g->populated_zones);
+    free(g->zs);
+    free(g);
 }
 
 void print_vertex(V v) 
 {
-    printf("vertex {id: %d, position: [%f, %f], mass: %f, radius: %f, \n\
-            type: %c}\n", v.id, v.pos.x, v.pos.y, v.mass, v.radius, v.type);
+    printf("vertex {id: %d, position: [%f, %f], radius: %f, \n\
+            type: %c}\n", v.id, v.pos.x, v.pos.y, v.radius, v.type);
 }
 
 void print_bond(B b) 

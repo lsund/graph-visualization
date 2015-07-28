@@ -5,6 +5,8 @@
 void set_spiral(Vptr *vs, int nv);
 void set_grid(Vptr *vs, int nv);
 void create_graph(const char *filename, Gptr graph);
+void create_zones(Gptr graph);
+void append_member(Gptr g, Zptr z, Vptr v);
 
 #endif
 

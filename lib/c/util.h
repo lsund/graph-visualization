@@ -34,6 +34,8 @@ void free_bonds(Bptr *bs, int nb);
 
 void free_bpairs(BpairPtr bpairs);
 
+void free_zpairs(ZpairPtr zpairs);
+
 void free_graph(Gptr graph);
 
 void print_vertex(V v);
