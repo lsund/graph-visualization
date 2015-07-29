@@ -17,7 +17,7 @@ DATAS=$(DATA_DIR)/52.json\
  $(DATA_DIR)/3.json\
  $(DATA_DIR)/3-1.json\
  $(DATA_DIR)/4-1.json\
- $(DATA_DIR)/5.json\
+ $(DATA_DIR)/3-2.json\
 
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \

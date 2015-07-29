@@ -44,9 +44,9 @@
 {
   "vertices":
     [
-      {"id":0,"position":[500, 500],"mass":1,"radius":1,"type":"r"},
-      {"id":1,"position":[500, 750],"mass":1,"radius":1,"type":"r"},
-      {"id":2,"position":[750, 750],"mass":1,"radius":1,"type":"r"}
+      {"id":0,"position":[500, 500],"radius":1,"type":"r"},
+      {"id":1,"position":[500, 750],"radius":1,"type":"r"},
+      {"id":2,"position":[750, 750],"radius":1,"type":"r"}
     ],
   "bonds":
     [
@@ -57,23 +57,23 @@
 {
   "vertices":
     [
-      {"id":0,"position":[400, 495],"mass":1,"radius":1,"type":"r"},
-      {"id":1,"position":[600, 500],"mass":1,"radius":1,"type":"r"},
-      {"id":2,"position":[500, 510],"mass":1,"radius":1,"type":"r"}
+      {"id":0,"position":[400, 500],"radius":1,"type":"r"},
+      {"id":1,"position":[600, 500],"radius":1,"type":"r"},
+      {"id":2,"position":[500, 500],"radius":1,"type":"r"}
     ],
   "bonds":
     [
-      {"fst":0,"snd":1,"len":1},
-      {"fst":1,"snd":2,"len":1}
+      {"fst":0,"snd":1,"len":0.9},
+      {"fst":1,"snd":2,"len":0.9}
     ]
 }
 {
   "vertices":
     [
-      {"id":0,"position":[100, 300],"mass":1,"radius":1,"type":"r"},
-      {"id":1,"position":[200, 300],"mass":1,"radius":1,"type":"r"},
-      {"id":2,"position":[100, 600],"mass":1,"radius":1,"type":"r"},
-      {"id":3,"position":[200, 600],"mass":1,"radius":1,"type":"r"}
+      {"id":0,"position":[100, 300],"radius":1,"type":"r"},
+      {"id":1,"position":[200, 300],"radius":1,"type":"r"},
+      {"id":2,"position":[100, 600],"radius":1,"type":"r"},
+      {"id":3,"position":[200, 600],"radius":1,"type":"r"}
     ],
   "bonds":
     [
@@ -87,12 +87,12 @@
     [
       {"id":0,"position":[150, 150],"radius":1,"type":"r"},
       {"id":1,"position":[50, 50],"radius":1,"type":"r"},
-      {"id":2,"position":[50, 150],"radius":1,"type":"r"},
-      {"id":3,"position":[150, 50],"radius":1,"type":"r"},
-      {"id":4,"position":[250, 250],"radius":1,"type":"r"},
-      {"id":5,"position":[260, 250],"radius":1,"type":"r"}
+      {"id":2,"position":[50, 150],"radius":1,"type":"r"}
     ],
   "bonds":
     [
+      {"fst":0,"snd":1,"len":0.3},
+      {"fst":1,"snd":2,"len":0.3},
+      {"fst":0,"snd":2,"len":0.3}
     ]
 }

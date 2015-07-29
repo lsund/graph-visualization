@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "vertex.h"
+#include "vector2d.h"
 #include "constants.h"
 #include "util.h"
 

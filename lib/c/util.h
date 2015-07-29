@@ -6,11 +6,8 @@
 #define SIGN(a,b) ((b) > 0.0 ? fabs(a) : -fabs(a))
 #define SHFT(a,b,c,d) (a)=(b);(b)=(c);(c)=(d);
 
-#include "graph.h"
-
-int has_common_vertex(Bptr b1, Bptr b2);
-
 int equal(float tar, float x);
+
 int about(float tar, float x);
 
 int in_range(float lower, float upper, float x);
@@ -26,19 +23,6 @@ void rt_error(char []);
 
 float *vector(long n);
 
-Vector2d *arrtop(float arr[], int n);
-
-void free_vertices(Vptr *vs, int nv);
-
-void free_bonds(Bptr *bs, int nb);
-
-void free_bpairs(BpairPtr bpairs);
-
-void free_zpairs(ZpairPtr zpairs);
-
-void free_graph(Gptr graph);
-
-void print_vertex(V v);
-void print_bond(B b);
+struct vector2d **arrtop(float arr[], int n);
 
 #endif

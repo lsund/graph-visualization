@@ -16,6 +16,8 @@
  *****************************************************************************/
 
 #include <math.h>
+
+#include "graph.h"
 #include "util.h"
 #include "constants.h"
 

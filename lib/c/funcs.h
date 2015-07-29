@@ -2,24 +2,24 @@
 #ifndef FUNCS_H
 #define FUNCS_H
 
-void flocal(const Gptr graph);
-void fglobal(const Gptr graph);
+void flocal(const Gptr g);
+void fglobal(const Gptr g);
 
-void dflocal(const Gptr graph);
-void dfglobal(const Gptr graph);
+void dflocal(const Gptr g);
+void dfglobal(const Gptr g);
 
 // For testing 
-float func1(const Gptr graph);
-float func2attr(const Gptr graph);
-float func2rep(const Gptr graph);
-float func2(const Gptr graph);
-float func3(const Gptr graph);
-float func4(const Gptr graph);
+float first_order(const Gptr g);
+float second_order_attraction(const Gptr g);
+float second_order_repulsion(const Gptr g);
+float second_order(const Gptr g);
+float third_order(const Gptr g);
+float fourth_order(const Gptr g);
 
-void dfunc1(const Gptr graph);
-void dfunc2rep(const Gptr graph);
-void dfunc2attr(const Gptr graph);
-void dfunc2(const Gptr graph);
-void dfunc3(const Gptr graph);
+void dfunc1(const Gptr g);
+void dfunc2rep(const Gptr g);
+void dfunc2attr(const Gptr g);
+void dfunc2(const Gptr g);
+void dfunc3(const Gptr g);
 
 #endif

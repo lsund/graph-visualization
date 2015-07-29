@@ -2,28 +2,42 @@
 #ifndef GRAPH_H 
 #define GRAPH_H
 
-#include "vector2d.h"
-#include "structs.h"
-
 /// Fixed && not Fixed
+//
 
-Vptr mk_vertex(int id, Vector2d pos, Vector2d vel, Vector2d g,
-    Vector2d h, float radius, char type);
+#include "bond.h"
+#include "zone2d.h"
 
-Bptr mk_bond(Vptr fst, Vptr snd, const float dist0, const float k);
+typedef struct graph G, *Gptr;
 
-BpairPtr mk_bondpair(Bptr b1, Bptr b2, BpairPtr next);
+struct graph 
+{
+  int nv, nb, nz, npz;
+  float energy;
+  int *is_populated;
+  Vptr *vs;
+  Bptr *bs;
+  Zptr *zs;
+  Zptr *pzs;
+  BpairPtr connected, crosses; 
+  ZpairPtr azs;
+  Vector2dPtr pc, xc; 
+};
 
-void create_connected(Gptr g);
+void create_graph(const Gptr g, const char *fname);
 
-void create_crosses(Gptr g);
+void append_member(const Gptr g, const Vptr v, const Zptr z);
 
-void assign_zone(Gptr g, Vptr v);
+void create_connected(const Gptr g);
 
-Zptr get_zone(Gptr g, const int i, const int j);
+void create_crosses(const Gptr g);
 
-Vptr *get_neighbours(Gptr g, Vptr v);
+void check_adjacent(const Gptr g);
 
-void check_adjacent(Gptr g);
+void create_zones(const Gptr g);
+
+void vertices_assign_zones(const Gptr g);
+
+void free_graph(const Gptr g);
 
 #endif

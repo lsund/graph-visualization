@@ -4,7 +4,7 @@
 * Author: Ludvig Sundström
 
 * Description: The objective function F = F1 + F2 + F3 + F4 where FN considers
-* N nodes. 
+* N vertices. 
 
 * Creation Date: 05-07-2015
 
@@ -15,9 +15,10 @@
 #include <stdlib.h>
 
 #include "constants.h"
+#include "graph.h"
 #include "util.h"
 
-float func1(Gptr g) {
+float first_order(const Gptr g) {
 
     int cx, cy;
     cx = PANEL_X / 2; cy = PANEL_Y / 2;
@@ -37,7 +38,7 @@ float func1(Gptr g) {
     return rtn;
 }
 
-float func2attr(Gptr g) 
+float second_order_attraction(const Gptr g) 
 {
     int i;
     float rtn, d0i, di, wi, dx, dy;
@@ -46,7 +47,7 @@ float func2attr(Gptr g)
     for (i = 0; i < g->nb; i++) {
         bptr = *(g->bs + i);
         d0i = bptr->dist0 * SPRING_LENGTH;
-        wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
+        wi = bptr->k;
         dx = bptr->snd->pos.x - bptr->fst->pos.x;
         dy = bptr->snd->pos.y - bptr->fst->pos.y;
         di = sqrtf(dx * dx + dy * dy);
@@ -54,27 +55,29 @@ float func2attr(Gptr g)
     }
     return rtn;
 }
-static float calc_repulsion(const Vptr vi, const Vptr vj)
+static float calculate_repulsion(const Vptr vi, const Vptr vj)
 {
     float ri, rj, dx, dy;
-    ri = vi->radius; rj = vj->radius;
+    ri = RADIUS; rj = RADIUS;
     dx = vj->pos.x - vi->pos.x;
     dy = vj->pos.y - vi->pos.y;
+
 
     float dij, critlen;
     dij = sqrtf(dx * dx + dy * dy);
     critlen = ri + rj + PADDING;
 
     float wrij;
-    wrij = WR;
+    wrij = 1 * WR;
 
+    return wrij * intersection_area(vi, vj);
     if (critlen > dij) {
-        return wrij * powf(dij - critlen, 2);
+        /*return wrij * powf(dij - critlen, 2);*/
     }
     return 0;
 }
 
-float func2rep(const Gptr g) 
+float second_order_repulsion(const Gptr g) 
 {
     float rtn;
     rtn = 0.0;
@@ -82,16 +85,16 @@ float func2rep(const Gptr g)
     // Internal 
     int i;
     for (i = 0; i < g->npz; i++) {
-        Zptr z = *(g->populated_zones + i);
+        Zptr z = *(g->pzs + i);
         Vptr vi = z->members;
         while (vi->next) {
             Vptr vj;
             vj = vi->next; 
             while (vj) {
                 if (vi->id > vj->id) {
-                    rtn += calc_repulsion(vj, vi);
+                    rtn += calculate_repulsion(vj, vi);
                 } else {
-                    rtn += calc_repulsion(vi, vj);
+                    rtn += calculate_repulsion(vi, vj);
                 }
                 vj = vj->next;
             }
@@ -99,7 +102,7 @@ float func2rep(const Gptr g)
         }
     }
     // External
-    ZpairPtr zpair = g->adjacent_zones;
+    ZpairPtr zpair = g->azs;
     while (zpair) {
         Vptr vi;
         vi = zpair->fst->members;
@@ -108,9 +111,9 @@ float func2rep(const Gptr g)
             vj = zpair->snd->members;
             while (vj) {
                 if (vi->id > vj->id) {
-                    rtn += calc_repulsion(vj, vi);
+                    rtn += calculate_repulsion(vj, vi);
                 } else {
-                    rtn += calc_repulsion(vi, vj);
+                    rtn += calculate_repulsion(vi, vj);
                 }
                 vj = vj->next;          
             }
@@ -121,12 +124,12 @@ float func2rep(const Gptr g)
     return rtn;
 }
 
-float func2(const Gptr g)
+float second_order(const Gptr g)
 {
-    return func2attr(g) + func2rep(g);
+    return second_order_attraction(g) + second_order_repulsion(g);
 }
 
-float func3(const Gptr g)
+float third_order(const Gptr g)
 {
     if (!g->connected)
         return 0;
@@ -153,16 +156,18 @@ float func3(const Gptr g)
         
         float theta; 
         theta = angle(vecji, vecjk);
-
-        float wij = WANG * (vi->mass * vk->mass);
-        rtn += wij * powf(theta - THETA0, 2);
+        
+        float wij, theta0;
+        wij = WANG / (vi->mass * vi->mass + vk->mass * vk->mass);
+        theta0 = (2 * M_PI) / (vj->mass - 1);
+        rtn += wij * powf(theta - theta0, 2);
         cur = cur->next;
 
     }
     return rtn;
 }
 
-float func4(const Gptr g)
+float fourth_order(const Gptr g)
 {
     if (!g->crosses) 
         return 0;
@@ -201,22 +206,15 @@ void fglobal(const Gptr g)
 {
 
     create_crosses(g);
-    create_connected(g);
-    float f3, f4;
-    f3 = func3(g);
-    f4 = func4(g);
-    free_bpairs(g->connected);
+    g->energy = fourth_order(g);
     free_bpairs(g->crosses);
-
-    g->energy = f3 + f4;
 }
 
 void flocal(const Gptr g) 
 {
-    float f1, f2;
-    f1 = func1(g);
-    f2 = func2(g);
-
-    g->energy = f1 + f2;
+    g->energy = first_order(g) + second_order(g) + third_order(g);
+    printf("cen: %f \nattr: %f \nrep: %f\nang: %f\n-------\n", 
+            first_order(g), second_order_attraction(g),
+            second_order_repulsion(g), third_order(g)); 
 }
 

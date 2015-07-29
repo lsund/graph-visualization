@@ -4,8 +4,11 @@
 
 #if !TEST
 
+//TEMP
+#define RADIUS 1
+
 #define STEP 0
-#define INTERVAL 800
+#define INTERVAL 500
 
 #define PANEL_X 1000 
 #define PANEL_Y 1000
@@ -14,14 +17,12 @@
 #define GRID_DIM_X PANEL_X / (int) PADDING
 #define GRID_DIM_Y PANEL_Y / (int) PADDING
 
-#define SPRING_LENGTH 200.0f
-#define THETA0 M_PI / 4
+#define SPRING_LENGTH 100.0f
 
 #define DEFAULT_STIFFNESS 1.0f
-#define WR 3.0f
-#define WG 0.1f
-
-#define WANG 1.0f
+#define WR 2.0f
+#define WG 1.0f
+#define WANG 500.0f
 #define WCRS 0.0f
 
 #define FTOL 1.0e-5
@@ -50,6 +51,8 @@
 #else 
 
 ////////////////////////////////////////////////////////////////
+
+#define RADIUS 1
 
 #define M_PI 3.14159265358979323846
 #define INTERVAL 800

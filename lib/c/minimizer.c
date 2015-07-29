@@ -15,11 +15,12 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "graph.h"
+#include "placement.h"
 #include "util.h"
 #include "constants.h"
-#include "inits.h"
-#include "funcs.h"
 #include "conjugate_gradient.h"
+#include "funcs.h"
 
 int minimize (const char *fname) 
 {
@@ -38,14 +39,10 @@ int minimize (const char *fname)
     global_gradient = dfglobal; 
     Gptr g;
     g = (Gptr) calloc(1, sizeof(G));
-    create_graph(fname, g);
+    create_graph(g, fname);
     set_spiral(g->vs, g->nv); 
 
-    int i;
-    for (i = 0; i < g->nv; i++) {
-        assign_zone(g, *(g->vs + i));
-    }
-    check_adjacent(g);
+    vertices_assign_zones(g);
 
     iter = calloc(1, sizeof(int));
     fret = calloc(1, sizeof(float));

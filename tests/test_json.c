@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 #include "../lib/c/util.h"
-#include "../lib/c/inits.h"
+#include "../lib/c/graph.h"
 #include "../lib/c/funcs.h"
 #include "../lib/c/conjugate_gradient.h"
 #include "../lib/c/constants.h"

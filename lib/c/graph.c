@@ -16,65 +16,34 @@
 #include <stdio.h>
 
 #include "graph.h"
+
 #include "util.h"
 #include "constants.h"
-#include "inits.h"
 
-Vptr mk_vertex(int id, Vector2d pos, Vector2d vel, Vector2d g, Vector2d h,
-        float radius, char type) {
-    Vptr rtn = calloc(1, sizeof(V));
-    rtn->id = id;
-    rtn->mass = 1;
-    rtn->pos = pos;
-    rtn->vel = vel;
-    rtn->g = g;
-    rtn->h = h;
-    rtn->radius = radius;
-    rtn->type = type;
-    rtn->next = NULL;
-    return rtn;
-}
+#include "process_input.h"
 
-Bptr mk_bond(Vptr fst, Vptr snd, const float dist0, const float k)
+void create_graph(const Gptr g, const char *fname) 
 {
-    fst->mass += 1;
-    snd->mass += 1;
 
-    Bptr rtn = malloc(sizeof(B));
-    rtn->fst = fst;
-    rtn->snd = snd;
-    rtn->dist0 = dist0;
-    rtn->k = k;
-    return rtn;
-}
+    create_zones(g);
 
-BpairPtr mk_bondpair(Bptr b1, Bptr b2, BpairPtr next)
-{
-    BpairPtr rtn = malloc(sizeof(Bpair));
-    rtn->fst = b1;
-    rtn->snd = b2;
-    rtn->next = next;
-    if (b1->fst->id == b2->fst->id) {
-        rtn->common = b1->fst;
-        rtn->other1 = b1->snd;
-        rtn->other2 = b2->snd;
-    } else if (b1->fst->id == b2->snd->id) {
-        rtn->common = b1->fst;
-        rtn->other1 = b1->snd;
-        rtn->other2 = b2->fst;
-    } else if (b1->snd->id == b2->fst->id) {
-        rtn->common = b1->snd;
-        rtn->other1 = b1->fst;
-        rtn->other2 = b2->snd;
-    } else {
-        rtn->common = b1->snd;
-        rtn->other1 = b1->fst;
-        rtn->other2 = b2->fst;
+    Vptr *vs; Bptr *bs;
+    int nv, nb;
+    vs = NULL; bs = NULL;
+
+    process_json(fname, &vs, &bs, &nv, &nb);
+    if ((float)nb > (float)nv * logf((float)nv)) {
+        printf("Warning: B greater than V * log(V)\n");
     }
-    return rtn;
+
+    g->vs = vs; g->bs = bs;
+    g->nv = nv; g->nb = nb;
+
+    create_connected(g);
+
 }
 
-void create_crosses(Gptr g)
+void create_crosses(const Gptr g)
 {
     int i, j;
     BpairPtr crosses; 
@@ -102,7 +71,7 @@ void create_crosses(Gptr g)
     g->crosses = crosses;
 }
 
-void create_connected(Gptr g)
+void create_connected(const Gptr g)
 {
     int i, j;
     BpairPtr connected;
@@ -124,10 +93,71 @@ void create_connected(Gptr g)
     g->connected = connected;
 }    
 
+void create_zones(const Gptr g)
+{
+    g->nz = 0;
+    g->zs = (Zptr *) malloc(sizeof(Z) * GRID_DIM_X * GRID_DIM_Y);
+    int i, j, id;
+    for (j = 0; j < GRID_DIM_Y; j++) {
+        for (i = 0; i < GRID_DIM_X; i++) {
+            id = (j * GRID_DIM_Y) + i;
+            Zptr z = mk_zone2d(id, i, j, i * PADDING, j * PADDING, 
+                    PADDING, PADDING);
+            *(g->zs + id) = z;
+            g->nz++;
+        }
+    }
+    g->is_populated = (int *) malloc(sizeof(int) * g->nz);
+    g->pzs = (Zptr *) malloc(sizeof(void *) * g->nz);
+    g->azs = NULL;
+    g->npz = 0;
+}
+
+void append_member(const Gptr g, const Vptr v, const Zptr z)
+{
+    v->next = z->members;
+    z->members = v;
+    if (!*(g->is_populated + z->id)) {
+        *(g->pzs + g->npz) = z;
+        g->npz++;
+    }
+    *(g->is_populated + z->id) = 1;
+}
+
+
+void check_adjacent(const Gptr g) 
+{
+    int i, j;
+    for (i = 0; i < g->npz - 1; i++) {
+        for (j = i + 1; j < g->npz; j++) {
+            Zptr zi = *(g->pzs + i);
+            Zptr zj = *(g->pzs + j);
+            int diff;
+            diff = zi->id - zj->id;
+            
+            int cond = diff == 1 || 
+                       diff == -1 || 
+                       diff == GRID_DIM_X || 
+                       diff == -GRID_DIM_X ||
+                       diff == GRID_DIM_X - 1 ||
+                       diff == GRID_DIM_X + 1 ||
+                       diff == -GRID_DIM_X - 1 ||
+                       diff == -GRID_DIM_X + 1;
+            if (cond) {
+                ZpairPtr newzpr = malloc(sizeof(Zpair));
+                newzpr->fst = zi;
+                newzpr->snd = zj;
+                newzpr->next = g->azs;
+                g->azs = newzpr;
+            }
+        }
+    }
+}
+
 /** 
  * Given a vertex v in a graph g, assign it a zone.
  */
-void assign_zone(Gptr g, Vptr v)
+static void vertex_assign_zone(const Gptr g, const Vptr v)
 {
     int i, j;
     if (v->pos.y >= PANEL_Y) {
@@ -145,6 +175,39 @@ void assign_zone(Gptr g, Vptr v)
         i = ((int) v->pos.x) / PADDING;
     }
     Zptr z = *(g->zs + (j * GRID_DIM_X) + i);
-    append_member(g, z, v);
+    append_member(g, v, z);
+}
+
+void vertices_assign_zones(const Gptr g)
+{
+    int i;
+    g->npz = 0;
+    for (i = 0; i < g->nz; i++) {
+        *(g->is_populated + i) = 0;
+        Zptr z = *(g->zs + i);
+        z->members = NULL;
+    }
+
+    if (g->azs) free_zpairs(g->azs);
+    g->azs = NULL;
+
+    for (i = 0; i < g->nv; i++) {
+        (*(g->vs + i))->next = NULL;
+        vertex_assign_zone(g, *(g->vs + i));
+    }
+    check_adjacent(g);
+}
+
+void free_graph(Gptr g)
+{
+    free_vertices(g->vs, g->nv);
+    free_bonds(g->bs, g->nb);
+    free_zones(g->zs, g->nz);
+    free_bpairs(g->connected);
+    free_zpairs(g->azs);
+    free(g->is_populated);
+    free(g->pzs);
+    free(g->zs);
+    free(g);
 }
 

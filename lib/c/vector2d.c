@@ -13,8 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "vector2d.h"
 
+#include "vector2d.h"
 #include "util.h"
 
 Vector2d mk_vector2d(float x, float y)
@@ -30,6 +30,21 @@ Vector2d mk_vector2d(float x, float y)
 Vector2d add(Vector2d vec1, Vector2d vec2) 
 {
     return mk_vector2d(vec1.x + vec2.x, vec1.y + vec2.y);
+}
+
+Vector2d sub(Vector2d vec1, Vector2d vec2) 
+{
+    return mk_vector2d(vec1.x - vec2.x, vec1.y - vec2.y);
+}
+
+Vector2d negate(Vector2d vec) 
+{
+    return mk_vector2d(-vec.x, -vec.y);
+}
+
+Vector2d scalar_mult(Vector2d vec, float c)
+{
+    return mk_vector2d(c * vec.x, c * vec.y);
 }
 
 float dot(Vector2d v1, Vector2d v2)

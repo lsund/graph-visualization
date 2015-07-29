@@ -13,6 +13,7 @@
 #include <math.h>
 
 #include "constants.h"
+#include "graph.h"
 #include "util.h"
 
 void dfunc1(const Gptr g)
@@ -38,9 +39,8 @@ void dfunc1(const Gptr g)
 
 static void apply_repulsion(const Vptr vi, const Vptr vj)
 {
-    Vector2d frc, negfrc;
+    Vector2d frc;
     frc = mk_vector2d(0, 0);
-    negfrc = mk_vector2d(0, 0);
 
     float dx, dy;
     dx = vj->pos.x - vi->pos.x;
@@ -51,11 +51,11 @@ static void apply_repulsion(const Vptr vi, const Vptr vj)
     if (equal(dij, 0)) {
         dij = MIN_DIST;
     } 
-    critlen = vi->radius + vj->radius + PADDING;
+    critlen = RADIUS + RADIUS + PADDING;
     
     float wi, wj;
-    wi = WR;
-    wj = WR;
+    wi = 1 * WR;
+    wj = 1 * WR;
     if (critlen > dij) {
         frc.x = 2 * wi * dx * (dij - critlen) / dij;
         frc.y = 2 * wj * dy * (dij - critlen) / dij;
@@ -63,17 +63,16 @@ static void apply_repulsion(const Vptr vi, const Vptr vj)
         frc.x = 0;
         frc.y = 0;
     }
-    negfrc.x = -frc.x;
-    negfrc.y = -frc.y;
+    frc = intersection_gradient(vi, vj);
     vi->vel = add(vi->vel, frc);
-    vj->vel = add(vj->vel, negfrc);
+    vj->vel = add(vj->vel, negate(frc));
 }
 
 void dfunc2rep(const Gptr g)
 {
     int i;
     for (i = 0; i < g->npz; i++) {
-        Zptr z = *(g->populated_zones + i);
+        Zptr z = *(g->pzs + i);
         Vptr vi = z->members;
         while (vi->next) {
             Vptr vj;
@@ -89,7 +88,7 @@ void dfunc2rep(const Gptr g)
             vi = vi->next;
         }
     }
-    ZpairPtr zpair = g->adjacent_zones;
+    ZpairPtr zpair = g->azs;
     while (zpair) {
         Vptr vi;
         vi = zpair->fst->members;
@@ -120,7 +119,7 @@ void dfunc2attr(const Gptr g)
     negfrc = mk_vector2d(0, 0);
     for (i = 0; i < g->nb; i++) {
         bptr = *(g->bs + i);  
-        wi = bptr->fst->mass * bptr->snd->mass * bptr->k;
+        wi = bptr->k;
         d0i = bptr->dist0 * SPRING_LENGTH;
         dx = bptr->snd->pos.x - bptr->fst->pos.x;
         dy = bptr->snd->pos.y - bptr->fst->pos.y; 
@@ -162,13 +161,13 @@ static void mk_vectors(float xji, float yji, float xjk, float yjk,
 }
 
 static void prepare_d3(Vector2d vecji, Vector2d vecjk, float xji, float yji, 
-        float xjk, float yjk, float *a1, float *a2, float *b, float *c1, 
-        float *c2, float *d)
+        float xjk, float yjk, float theta0, float *a1, float *a2, float *b,
+        float *c1, float *c2, float *d)
 {
 
     *a1 = (xjk * yji - yjk * xji);
     *a2 = (yjk * xji - xjk * yji);
-    *b = THETA0 - angle(vecji, vecjk);
+    *b = theta0 - angle(vecji, vecjk);
     *c1 = vecjk.len * powf((powf(xji, 2) + powf(yji, 2)), (3/2));
     *c2 = vecji.len * powf((powf(xjk, 2) + powf(yjk, 2)), (3/2));
     float dn = pow(*a2, 2);
@@ -224,12 +223,24 @@ void dfunc3(const Gptr g)
         vi = cur->other1; 
         vj = cur->common;
         vk = cur->other2; 
-
+        
         get_coords(vi, vj, vk, &xji, &yji, &xjk, &yjk);
 
+        if (about(xji, xjk)) {
+            xji += MIN_DIST;
+            xjk -= MIN_DIST;
+        }
+        if (about(yji, yjk)) {
+            yji += MIN_DIST;
+            yjk -= MIN_DIST;
+        }
+
         mk_vectors(xji, yji, xjk, yjk, &vecji, &vecjk, &frcji, &frcjk);
+
+        float theta0;
+        theta0 = (2 * M_PI) / (vj->mass - 1);
         
-        prepare_d3(vecji, vecjk, xji, yji, xjk, yjk, 
+        prepare_d3(vecji, vecjk, xji, yji, xjk, yjk, theta0,
                 &a1, &a2, &b, &c1, &c2, &d);
 
         calc_gradient(xji, yji, xjk, yjk, a1, a2, b, c1, c2, d, 
@@ -237,8 +248,9 @@ void dfunc3(const Gptr g)
         
         float wji, wjk;
 
-        wji = WANG * vk->mass;
-        wjk = WANG * vj->mass;
+        wji = WANG / (vi->mass * vi->mass);
+        wjk = WANG / (vk->mass * vk->mass);
+
         frcji.x = wji * dxji; 
         frcji.y = wji * dyji; 
 
@@ -303,16 +315,8 @@ void dfunc4(const Gptr g)
 
 void dfglobal(const Gptr g)
 {
-    int i;
-    for (i = 0; i < g->nv; i++) {
-        (*(g->vs + i))->vel.x = 0;
-        (*(g->vs + i))->vel.y = 0;
-    }
     create_crosses(g);
-    create_connected(g);
-    dfunc3(g);
     dfunc4(g);
-    free_bpairs(g->connected);
     free_bpairs(g->crosses);
 }
 
@@ -320,6 +324,7 @@ void dflocal(const Gptr g)
 {
     dfunc1(g);
     dfunc2(g);
+    dfunc3(g);
 }
 
 

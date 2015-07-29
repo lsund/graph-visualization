@@ -9,7 +9,9 @@
 #include "util.h"
 #include "json.h"
 #include "graph.h"
-#include "inits.h"
+#include "vertex.h"
+#include "bond.h"
+#include "vector2d.h"
 
 static void create_vertices(Vptr **vs, json_value *contents, int *nv)
 {
@@ -101,7 +103,7 @@ static void create_vertices(Vptr **vs, json_value *contents, int *nv)
             rt_error("Bad JSON data: type");
         }
 
-        *(*vs + i) = mk_vertex(id, pos, zv, zv, zv, r, t);
+        *(*vs + i) = mk_vertex(id, pos, zv, zv, zv, r, r, t);
     }
 }
 
@@ -152,8 +154,7 @@ static void create_bonds(Vptr **vs, Bptr **bs,
     }
 }
 
-void process_json(const char *filename, Vptr **vs, Bptr **bs,
-        int *nv, int *nb)
+void process_json(const char *filename, Vptr **vs, Bptr **bs, int *nv, int *nb)
 {
     FILE *fp;
     struct stat filestatus;
@@ -218,28 +219,5 @@ void process_json(const char *filename, Vptr **vs, Bptr **bs,
 
     json_value_free(value);
     free(file_contents);
-}
-
-void create_graph(const char *fname, Gptr g) 
-{
-
-    g->nz = 0;
-    create_zones(g);
-    g->npz = 0;
-
-    Vptr *vs; Bptr *bs;
-    int nv, nb;
-    vs = NULL; bs = NULL;
-
-    process_json(fname, &vs, &bs, &nv, &nb);
-    if ((float)nb > (float)nv * logf((float)nv)) {
-        printf("Warning: B greater than V * log(V)\n");
-    }
-
-    create_connected(g);
-
-    g->vs = vs; g->bs = bs;
-    g->nv = nv; g->nb = nb;
-
 }
 

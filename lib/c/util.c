@@ -72,15 +72,6 @@ char intersection(float p0_x, float p0_y, float p1_x, float p1_y,
     return 0; 
 }
 
-int has_common_vertex(Bptr b1, Bptr b2) 
-{
-    return  b1->fst->id == b2->fst->id ||
-            b1->fst->id == b2->snd->id || 
-            b1->snd->id == b2->fst->id ||
-            b1->snd->id == b2->snd->id;
-}
-
-
 void rt_error(char error_text[])
 {
     fprintf(stderr,ANSI_COLOR_RED "Runtime-error:%s\n" ANSI_COLOR_RESET,
@@ -97,80 +88,5 @@ float *vector(long n)
         return NULL;
     }
     return v;
-}
-
-void free_vertices(Vptr *vs, int nv) 
-{
-    int i;
-    for (i = 0; i < nv; i++) {
-        free(*(vs + i));
-    }
-    free(vs);
-    vs = NULL;
-}
-
-void free_bonds(Bptr *bs, int nb) 
-{
-    int i;
-    for (i = 0; i < nb; i++) {
-        free(*(bs + i));
-    }
-    free(bs);
-    bs = NULL;
-}
-
-void free_zones(Zptr *zs, int nz) 
-{
-    int i;
-    for (i = 0; i < nz; i++) {
-        free(*(zs + i));
-    }
-    zs = NULL;
-}
-
-void free_bpairs(BpairPtr bpairs)
-{
-    BpairPtr cur = bpairs;
-    while(cur != NULL) {
-        BpairPtr tmp = cur;
-        cur = cur->next;
-        free(tmp);
-    }
-    bpairs = NULL;
-}
-
-void free_zpairs(ZpairPtr zpairs)
-{
-    ZpairPtr cur = zpairs;
-    while(cur != NULL) {
-        ZpairPtr tmp = cur;
-        cur = cur->next;
-        free(tmp);
-    }
-    zpairs = NULL;
-}
-
-void free_graph(Gptr g)
-{
-    free_vertices(g->vs, g->nv);
-    free_bonds(g->bs, g->nb);
-    free_zones(g->zs, g->nz);
-    free_zpairs(g->adjacent_zones);
-    free(g->is_populated);
-    free(g->populated_zones);
-    free(g->zs);
-    free(g);
-}
-
-void print_vertex(V v) 
-{
-    printf("vertex {id: %d, position: [%f, %f], radius: %f, \n\
-            type: %c}\n", v.id, v.pos.x, v.pos.y, v.radius, v.type);
-}
-
-void print_bond(B b) 
-{
-    printf("bond {fst: %d, snd: %d, len: %f, stiffness: %f}\n", b.fst->id, 
-            b.snd->id, b.dist0, b.k);
 }
 

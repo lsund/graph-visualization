@@ -20,6 +20,9 @@
 #include <math.h>
 #include <unistd.h>
 
+#include "graph.h"
+#include "vertex.h"
+#include "zone2d.h"
 #include "constants.h"
 #include "util.h"
 
@@ -64,7 +67,7 @@ static void graph_toarrays(Gptr graph, float *vsarr, int *bsarr, int *zarr)
     }
 }
 
-void linmin(Gptr graph, int n, float *fret, void (*func)(Gptr));
+void linmin(Gptr graph, float *fret, void (*func)(Gptr));
 
 void frprmn(Gptr graph, float ftol, int *iter, float *fret, 
         void (*func)(Gptr), void (*dfunc)(Gptr))
@@ -105,7 +108,7 @@ void frprmn(Gptr graph, float ftol, int *iter, float *fret,
         free(zarr);
 
         *iter = its;
-        linmin(graph, n, fret, func);
+        linmin(graph, fret, func);
         if (2.0 * fabs(*fret - fp) <= ftol * (fabs(*fret) + fabs(fp) + EPS)) {
             free(varr);
             free(barr);
