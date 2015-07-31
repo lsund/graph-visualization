@@ -4,9 +4,6 @@
 
 #if !TEST
 
-//TEMP
-#define RADIUS 1
-
 #define STEP 0
 #define INTERVAL 500
 
@@ -17,13 +14,17 @@
 #define GRID_DIM_X PANEL_X / (int) PADDING
 #define GRID_DIM_Y PANEL_Y / (int) PADDING
 
-#define SPRING_LENGTH 100.0f
+#define VERTEX_BASE_WIDTH 1
+#define VERTEX_BASE_HEIGHT 1
 
-#define DEFAULT_STIFFNESS 1.0f
-#define WR 2.0f
-#define WG 1.0f
-#define WANG 500.0f
-#define WCRS 0.0f
+#define SPRING_LENGTH 100.0f
+#define REPULSION_REDUCE 0.7
+
+#define WATR 1.0f
+#define WREP 5.0f
+#define WPOT 1.0f
+#define WANG 1.0f
+#define WCRS 1.0f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 
@@ -64,17 +65,20 @@
 #define GRID_DIM_X PANEL_X / (int) PADDING
 #define GRID_DIM_Y PANEL_Y / (int) PADDING
 
+#define VERTEX_BASE_WIDTH 1
+#define VERTEX_BASE_HEIGHT 1
 
 #define SPRING_LENGTH 100.0f
 #define THETA0 M_PI
 
 #define DEFAULT_STIFFNESS 1.0f
+#define REPULSION_REDUCE 0.7
 
-#define WR 1.0f
-#define WG 1.0f
-
-#define WANG 1.0f
-#define WCRS 1e-9f
+#define WATR 1.0f
+#define WREP 1.0f
+#define WPOT 1.0f
+#define WANG 600.0f
+#define WCRS 1.0f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 

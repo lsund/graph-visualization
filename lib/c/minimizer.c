@@ -16,11 +16,13 @@
 #include <unistd.h>
 
 #include "graph.h"
+#include "process_input.h"
 #include "placement.h"
 #include "util.h"
 #include "constants.h"
-#include "conjugate_gradient.h"
-#include "funcs.h"
+#include "frprmn.h"
+#include "energy.h"
+#include "force.h"
 
 int minimize (const char *fname) 
 {
@@ -28,21 +30,15 @@ int minimize (const char *fname)
     float *fret;
     int *iter;
 
-    void (*local_objective)(const Gptr g);
-    void (*local_gradient)(const Gptr g);
-    void (*global_objective)(const Gptr g);
-    void (*global_gradient)(const Gptr g);
 
-    local_objective = flocal; 
-    local_gradient = dflocal; 
-    global_objective = fglobal; 
-    global_gradient = dfglobal; 
-    Gptr g;
-    g = (Gptr) calloc(1, sizeof(G));
-    create_graph(g, fname);
-    set_spiral(g->vs, g->nv); 
+    GP gp;
+    gp = Graph_create(fname);
+    gp->calc_e = Energy_local;
+    gp->calc_f = Force_local;
 
-    vertices_assign_zones(g);
+    set_spiral(gp->vps, gp->nv); 
+
+    Graph_reinitialize(gp);
 
     iter = calloc(1, sizeof(int));
     fret = calloc(1, sizeof(float));
@@ -51,15 +47,15 @@ int minimize (const char *fname)
         rt_error("Error when allocating memory: minimize()");
     }
     
-    frprmn(g, FTOL, iter, fret, local_objective, local_gradient);
+    frprmn(gp, FTOL, iter, fret);
 
     printf("Done, local optimization\n");
     
-    frprmn(g, FTOL, iter, fret, global_objective, global_gradient);
+    /*frprmn(g, FTOL, iter, fret, global_objective, global_gradient);*/
 
-    printf("Done, global optimization\n");
+    /*printf("Done, global optimization\n");*/
     
-    free_graph(g);
+    Graph_free(gp);
 
     free(fret); free(iter);
     

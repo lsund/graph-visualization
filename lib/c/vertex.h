@@ -4,30 +4,35 @@
 
 #include "vector2d.h"
 
-typedef struct vertex V, *Vptr;
+typedef struct vertex V, *VP;
 
 struct vertex 
 {
-    Vector2d pos, tl, br, vel, g, h;
-    float width, height;
+    Vec2D pos, tl, br, vel, g, h;
     int id, mass;
+    int *crs_bof;
     char type;
-    Vptr next;
+    VP next;
 };
 
-Vptr mk_vertex(const int id, const Vector2d pos, const Vector2d vel, const
-        Vector2d g, const Vector2d h, const float wdth, const float hght, 
-        const char type);
+VP Vertex_create(
+        const int id, 
+        const Vec2D pos, 
+        const Vec2D vel, 
+        const Vec2D g, 
+        const Vec2D h, 
+        const float wdth, const
+        float hght, 
+        const char type, 
+        const int nv 
+);
 
-float intersection_area(Vptr v1, Vptr v2);
+void Vertex_move(const VP vp, const Vec2D s);
 
-Vector2d intersection_gradient(Vptr v1, Vptr v2);
+float Vertex_potential_energy(const VP vp);
 
-void move_vertex(const Vptr v, const Vector2d s);
+Vec2D Vertex_potential_force(const VP vp);
 
-void move_vertices(const Vptr *vs, const int nv, const Vector2dPtr pc, 
-        const Vector2dPtr xc, float x);
-
-void free_vertices(Vptr *vs, int nv);
+void Vertex_free(VP vp);
 
 #endif

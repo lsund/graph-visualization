@@ -4,24 +4,24 @@
 
 #include "vertex.h"
 
-typedef struct zone2d Z, *Zptr;
-typedef struct zonepair Zpair, *ZpairPtr;
+typedef struct zone2d Z, *ZP;
+typedef struct zonepr Zpr, *ZprPtr;
 
 struct zone2d {
   int id, i, j, minx, miny, width, height;
-  Vptr members;
+  VP members;
 };
 
-struct zonepair {
-  Zptr fst, snd;
-  ZpairPtr next;
+struct zonepr {
+  ZP fst, snd;
+  ZprPtr next;
 };
 
-Zptr mk_zone2d(const int id, const int i, const int j, const int minx, 
+ZP zone2d_create(const int id, const int i, const int j, const int minx, 
         const int miny, const int width, const int height);
 
-void free_zones(Zptr *zs, int nz);
+void free_zones(ZP *zs, int nz);
 
-void free_zpairs(ZpairPtr zpairs);
+void free_zprs(ZprPtr zprs);
 
 #endif

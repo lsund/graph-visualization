@@ -13,7 +13,8 @@
 #include <stdlib.h>
 #include "../lib/c/util.h"
 #include "../lib/c/graph.h"
-#include "../lib/c/funcs.h"
+#include "../lib/c/energy.h"
+#include "../lib/c/force.h"
 #include "../lib/c/conjugate_gradient.h"
 #include "../lib/c/constants.h"
 #include <unistd.h>
@@ -33,7 +34,6 @@ char *test_minimize() {
     const char *invalid2 = "data/test/invalid/10-2.json";
     const char *invalid3 = "data/test/invalid/10-3.json";
     const char *invalid4 = "data/test/invalid/10-4.json";
-    const char *invalid5 = "data/test/invalid/10-5.json";
 
     int status;
     pid_t p;
@@ -127,22 +127,6 @@ char *test_minimize() {
         exit(0);
     } else {
         msg("Invalid data: No bonds or vertcies...");
-        wait(&status);
-        if (WIFEXITED(status)) {
-            mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
-        } else {
-            rt_error("6. Child did not terminate with exit");
-        }
-        msgpass();
-    }
-    p = fork();
-    if (p < 0) {
-        rt_error("Could not create child");
-    } else if (p == 0) {
-        minimize(invalid5);
-        exit(0);
-    } else {
-        msg("Invalid data: Missing key radius...");
         wait(&status);
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);

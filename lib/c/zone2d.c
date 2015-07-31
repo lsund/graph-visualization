@@ -15,10 +15,10 @@
 
 #include "zone2d.h"
 
-Zptr mk_zone2d(const int id, const int i, const int j, const int minx, 
+ZP zone2d_create(const int id, const int i, const int j, const int minx, 
         const int miny, const int width, const int height) 
 {
-    Zptr rtn = malloc(sizeof(Z));
+    ZP rtn = malloc(sizeof(Z));
     rtn->id = id;
     rtn->i = i;
     rtn->j = j;
@@ -27,7 +27,7 @@ Zptr mk_zone2d(const int id, const int i, const int j, const int minx,
     return rtn;
 }
 
-void free_zones(Zptr *zs, int nz) 
+void free_zones(ZP *zs, int nz) 
 {
     int i;
     for (i = 0; i < nz; i++) {
@@ -36,14 +36,14 @@ void free_zones(Zptr *zs, int nz)
     zs = NULL;
 }
 
-void free_zpairs(ZpairPtr zpairs)
+void free_zprs(ZprPtr zprs)
 {
-    ZpairPtr cur = zpairs;
+    ZprPtr cur = zprs;
     while(cur != NULL) {
-        ZpairPtr tmp = cur;
+        ZprPtr tmp = cur;
         cur = cur->next;
         free(tmp);
     }
-    zpairs = NULL;
+    zprs = NULL;
 }
 

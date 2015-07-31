@@ -33,6 +33,8 @@ char *test_minimize();
 char *test_objective();
 char *test_gradient();
 char *test_vertex();
+char *test_bond();
+char *test_bondpair();
 int minimize(const char *fname);
 
 void msg(const char *s) 
@@ -51,6 +53,8 @@ static char *all_tests() {
     mu_run_test(test_objective);
     mu_run_test(test_gradient);
     mu_run_test(test_vertex);
+    mu_run_test(test_bond);
+    mu_run_test(test_bondpair);
     return 0;
 }
 
@@ -67,7 +71,7 @@ int main(int argc, char **argv) {
         printf("Tests run: %d\n", tests_run);
         return result != 0;
     } else {
-        minimize("data/test/3-2.json");
+        minimize("data/23.json");
         return 0;
     }
 }

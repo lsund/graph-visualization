@@ -4,28 +4,21 @@
 
 #include "vertex.h"
 
-typedef struct bond B, *Bptr;
-typedef struct bondpair Bpair, *BpairPtr;
+typedef struct bond B, *BP;
 
 struct bond {
-    struct vertex *fst, *snd;
-    float dist0, k;
+    VP fst, snd;
+    float dist0;
 };
 
-struct bondpair {
-  Bptr fst, snd;
-  struct vertex *common, *other1, *other2;
-  struct bondpair *next;
-};
+BP bond_create(VP fst, VP snd, const float dist0);
 
-Bptr mk_bond(Vptr fst, Vptr snd, const float dist0, const float k);
+void free_bonds(BP *bps, int nb);
 
-BpairPtr mk_bondpair(Bptr b1, Bptr b2, BpairPtr next);
+int has_common_vertex(BP bpp1, BP bpp2);
 
-int has_common_vertex(Bptr b1, Bptr b2);
+float bond_attraction_energy(const BP bp);
 
-void free_bonds(Bptr *bs, int nb);
-
-void free_bpairs(BpairPtr bpairs);
+Vec2D bond_attraction_force(const BP bp);
 
 #endif

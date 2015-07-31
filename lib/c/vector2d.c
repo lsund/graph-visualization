@@ -17,9 +17,9 @@
 #include "vector2d.h"
 #include "util.h"
 
-Vector2d mk_vector2d(float x, float y)
+Vec2D Vector2d_initialize(float x, float y)
 {
-    Vector2d rtn;
+    Vec2D rtn;
     rtn.x = x;
     rtn.y = y;
     rtn.given_coords = 0;
@@ -27,49 +27,52 @@ Vector2d mk_vector2d(float x, float y)
     return rtn;
 }
 
-Vector2d add(Vector2d vec1, Vector2d vec2) 
+Vec2DP Vector2d_create(float x, float y)
 {
-    return mk_vector2d(vec1.x + vec2.x, vec1.y + vec2.y);
+    Vec2DP rtn = (Vec2DP) malloc(sizeof(Vec2D));
+    *rtn = Vector2d_initialize(x, y);
+    return rtn;
 }
 
-Vector2d sub(Vector2d vec1, Vector2d vec2) 
+Vec2D Vector2d_zero()
 {
-    return mk_vector2d(vec1.x - vec2.x, vec1.y - vec2.y);
+    return Vector2d_initialize(0.0f, 0.0f);
 }
 
-Vector2d negate(Vector2d vec) 
+Vec2D Vector2d_add(Vec2D vec1, Vec2D vec2) 
 {
-    return mk_vector2d(-vec.x, -vec.y);
+    return Vector2d_initialize(vec1.x + vec2.x, vec1.y + vec2.y);
 }
 
-Vector2d scalar_mult(Vector2d vec, float c)
+Vec2D Vector2d_sub(Vec2D vec1, Vec2D vec2) 
 {
-    return mk_vector2d(c * vec.x, c * vec.y);
+    return Vector2d_initialize(vec1.x - vec2.x, vec1.y - vec2.y);
 }
 
-float dot(Vector2d v1, Vector2d v2)
+Vec2D Vector2d_negate(Vec2D vec) 
+{
+    return Vector2d_initialize(-vec.x, -vec.y);
+}
+
+Vec2D Vector2d_scalar_mult(Vec2D vec, float c)
+{
+    return Vector2d_initialize(c * vec.x, c * vec.y);
+}
+
+float Vector2d_dot(Vec2D v1, Vec2D v2)
 {   
     return v1.x * v2.x + v1.y * v2.y;
 }
 
-int parallel(Vector2d v1, Vector2d v2)
+float Vector2d_norm(Vec2D v) 
 {
-    return equal(angle(v1, v2), 0);
+    return sqrt(Vector2d_dot(v, v));
 }
 
-/**
- * Magnitude of the vector that would result from a regular 3D space. 
- */
-
-float cross(Vector2d vec1, Vector2d vec2)
-{
-    return (vec1.x * vec2.y) - (vec2.x * vec1.y);
-}
-
-float angle(Vector2d v1, Vector2d v2)
+float Vector2d_angle(Vec2D v1, Vec2D v2)
 {
     float scalp, lenp, div;
-    scalp = dot(v1, v2);
+    scalp = Vector2d_dot(v1, v2);
     lenp = (v1.len * v2.len);
     if (equal(lenp, 0)) rt_error("Division by zero");
     if (scalp != scalp) rt_error("angle: Nan scalp");
@@ -82,5 +85,24 @@ float angle(Vector2d v1, Vector2d v2)
         rt_error("Outside acos range"); 
     }
     return acosf(div);
+}
+
+int Vector2d_parallel(Vec2D v1, Vec2D v2)
+{
+    return equal(Vector2d_angle(v1, v2), 0);
+}
+
+int Vector2d_equal(Vec2D v1, Vec2D v2)
+{
+    return equal(v1.x, v2.x) && equal(v1.y, v2.y);
+}
+
+/**
+ * Magnitude of the vector that would result from a regular 3D space. 
+ */
+
+float Vector2d_cross(Vec2D vec1, Vec2D vec2)
+{
+    return (vec1.x * vec2.y) - (vec2.x * vec1.y);
 }
 

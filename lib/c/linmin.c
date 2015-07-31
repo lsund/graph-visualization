@@ -5,7 +5,7 @@
  * File Name: linmin.c
 
  * Description: 
- * Gptriven an n-dimensional point p[1..n] and an n-dimensional direction
+ * GPiven an n-dimensional point p[1..n] and an n-dimensional direction
  * xi[1..n], moves and resets p to where the function func(p) takes on a
  * minimum along the direction xi from p, and replaces xi by the actual vector
  * displacement that p was moved. Also returns as fret the value of func at the
@@ -25,57 +25,53 @@
 #include "zone2d.h"
 #include "util.h"
 
-void (*nrfunc)(); 
-
-float brent(Gptr g, float ax, float bx, float cx, float (*f)(float, Gptr),
+float brent(GP gp, float ax, float bx, float cx, float (*f)(float, GP),
         float tol, float *xmin);   
 
-void mnbrak(Gptr g, float *ax, float *bx, float *cx, float *fa, float *fb,
-        float *fc, float (*func)(float, Gptr));
+void mnbrak(GP gp, float *ax, float *bx, float *cx, float *fa, float *fb,
+        float *fc, float (*func)(float, GP));
 
-float f1dim(float x, Gptr g);   
+float step(float x, GP gp);   
 
-void linmin(Gptr g, float *fret, void (*func)(Gptr))   
+void linmin(GP gp, float *fret)   
 {   
     int i, nv;
     float xx, xmin, fx, fb, fa, bx, ax;   
 
-    nv = g->nv;
+    nv = gp->nv;
 
-    g->pc = (Vector2dPtr) malloc(sizeof(Vector2d) * nv);
-    g->xc = (Vector2dPtr) malloc(sizeof(Vector2d) * nv);
+    gp->pc = (Vec2DP) malloc(sizeof(Vec2D) * nv);
+    gp->xc = (Vec2DP) malloc(sizeof(Vec2D) * nv);
     
-    nrfunc = func;   
     for (i = 0; i < nv; i++) {
-        Vptr v;
-        v = *(g->vs + i);
-        *(g->pc + i) = v->pos;
-        *(g->xc + i) = v->vel;
+        VP vp;
+        vp = *(gp->vps + i);
+        *(gp->pc + i) = vp->pos;
+        *(gp->xc + i) = vp->vel;
     }
     ax = 0.0; 
     xx = 1.0;   
-    mnbrak(g, &ax, &xx, &bx, &fa, &fx, &fb, f1dim);   
-    *fret = brent(g, ax, xx, bx, f1dim, TOL, &xmin);   
+    mnbrak(gp, &ax, &xx, &bx, &fa, &fx, &fb, step);   
+    *fret = brent(gp, ax, xx, bx, step, TOL, &xmin);   
     for (i = 0; i < nv; i++) { 
-        Vptr vptr = *(g->vs + i);
-        vptr->vel.x *= xmin;
-        vptr->vel.y *= xmin;
+        VP vp = *(gp->vps + i);
+        vp->vel.x *= xmin;
+        vp->vel.y *= xmin;
     }   
-    free(g->pc);
-    free(g->xc);
+    free(gp->pc);
+    free(gp->xc);
 }   
 
-float f1dim(float x, Gptr g)   
+float step(float x, GP gp)   
 {   
-    
-    move_vertices(g->vs, g->nv, g->pc, g->xc, x);
-    vertices_assign_zones(g);
+    VS_move(gp->vps, gp->nv, gp->pc, gp->xc, x);
 
-    (*nrfunc)(g);
+    Graph_reinitialize(gp);
+    (*gp->calc_e)(gp);
 
     float f;
-    f = g->energy;
+    f = gp->energy;
 
     return f;
-} 
+}
 

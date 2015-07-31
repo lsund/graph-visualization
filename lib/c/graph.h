@@ -5,39 +5,48 @@
 /// Fixed && not Fixed
 //
 
-#include "bond.h"
+#include "bondpair.h"
 #include "zone2d.h"
+#include "vertex_set.h"
+#include "vertex_pair.h"
+#include "bond_set.h"
 
-typedef struct graph G, *Gptr;
+typedef struct G G, *GP;
 
-struct graph 
+struct G 
 {
-  int nv, nb, nz, npz;
-  float energy;
-  int *is_populated;
-  Vptr *vs;
-  Bptr *bs;
-  Zptr *zs;
-  Zptr *pzs;
-  BpairPtr connected, crosses; 
-  ZpairPtr azs;
-  Vector2dPtr pc, xc; 
+    int nv, nb, nz, npz, max_vw, max_vh;
+    float energy;
+    int *is_populated;
+    VP *vps;
+    BP *bps;
+    ZP *zps;
+    ZP *pzps;
+    B2P connected, crosses; 
+    ZprPtr azps;
+    Vec2DP pc, xc; 
+    void (*calc_e)(const GP gp);
+    void (*calc_f)(const GP gp);
 };
 
-void create_graph(const Gptr g, const char *fname);
+GP Graph_create(const char *fname);
 
-void append_member(const Gptr g, const Vptr v, const Zptr z);
+void Graph_create_crosses(const GP gp);
 
-void create_connected(const Gptr g);
+void Graph_create_connected(const GP gp);
 
-void create_crosses(const Gptr g);
+void Graph_append_member(const GP gp, const VP v, const ZP z);
 
-void check_adjacent(const Gptr g);
+void Graph_check_adjacent(const GP gp);
 
-void create_zones(const Gptr g);
+void Graph_create_zones(const GP gp);
 
-void vertices_assign_zones(const Gptr g);
+void Graph_reinitialize(const GP gp);
 
-void free_graph(const Gptr g);
+void Graph_free(const GP gp);
+
+///// Testing
+
+GP graph_create(VP *vs, BP *bs, int nv, int nb);
 
 #endif

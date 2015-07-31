@@ -21,8 +21,8 @@
 
 static int comp_by_mass(const void *elem1, const void *elem2) 
 {
-    Vptr *fst = (Vptr *) elem1;
-    Vptr *snd = (Vptr *) elem2;
+    VP *fst = (VP *) elem1;
+    VP *snd = (VP *) elem2;
     if ((*fst)->mass < (*snd)->mass) return 1;
     if ((*fst)->mass > (*snd)->mass) return -1;
     return 0;
@@ -30,8 +30,8 @@ static int comp_by_mass(const void *elem1, const void *elem2)
 
 static int comp_by_id(const void *elem1, const void *elem2) 
 {
-    Vptr *fst = (Vptr *) elem1;
-    Vptr *snd = (Vptr *) elem2;
+    VP *fst = (VP *) elem1;
+    VP *snd = (VP *) elem2;
     if ((*fst)->id > (*snd)->id) return 1;
     if ((*fst)->id < (*snd)->id) return -1;
     return 0;
@@ -43,7 +43,7 @@ static int comp_by_id(const void *elem1, const void *elem2)
  * with the vertex with the most connections, the vertex with the second most
  * connections etc.
  */
-void set_spiral(Vptr *vs, const int nv)
+void set_spiral(VP *vs, const int nv)
 {
     qsort(vs, nv, sizeof(void *), comp_by_mass);
     int n, gapx, gapy, dimx, dimy, i, x, y, 
@@ -91,7 +91,7 @@ void set_spiral(Vptr *vs, const int nv)
  * are specified by PANEL_X and PANEL_Y, starting in the upper-left corner with
  * the vertex with the lowest id. 
  */
-void set_grid(Vptr *vs, const int nv) 
+void set_grid(VP *vs, const int nv) 
 {
     int i, n, vdim, rows, cols;
     float gapx, gapy, offsetx, offsety, x, y;
@@ -113,7 +113,7 @@ void set_grid(Vptr *vs, const int nv)
         }
         x = cols * gapx + offsetx;
         y = rows * gapy + offsety; 
-        (*(vs + i))->pos = mk_vector2d(x, y);
+        (*(vs + i))->pos = Vector2d_initialize(x, y);
         cols++;
     }
 }

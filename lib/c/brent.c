@@ -21,8 +21,8 @@
 #include "util.h"
 #include "constants.h"
 
-float brent(Gptr graph, float ax, float bx, float cx, 
-        float (*func)(float, Gptr graph), float tol, float *xmin)
+float brent(GP graph, float ax, float bx, float cx, 
+        float (*func)(float, GP graph), float tol, float *xmin)
 {
     int iter;
     float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;

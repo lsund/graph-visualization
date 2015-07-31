@@ -173,3 +173,32 @@ void dfunc3(const Gptr graph)
         cur = cur->next;
     }
 }
+
+        /*float xij, yij, xil, yil, xkj, ykj, xkl, ykl;*/
+        /*xij = vj->pos.x - vi->pos.x; yij = vj->pos.y - vi->pos.y;*/
+        /*xil = vl->pos.x - vi->pos.x; yil = vl->pos.y - vi->pos.y;*/
+        /*xkj = vj->pos.x - vk->pos.x; ykj = vj->pos.y - vk->pos.y;*/
+        /*xkl = vl->pos.x - vk->pos.x; ykl = vl->pos.y - vk->pos.y;*/
+
+        /*Vector2d vecij, vecil, veckj, veckl;*/
+        /*vecij = mk_vector2d(xij, yij); vecil = mk_vector2d(xil, yil);*/
+        /*veckj = mk_vector2d(xkj, ykj); veckl = mk_vector2d(xkl, ykl);*/
+
+        /*float up, down;*/
+        /*up = vector2d_cross(vecij, vecil); down = vector2d_cross(veckl, veckj);*/
+
+        /*Vector2d frci, frcj, frck, frcl;*/
+
+        /*frci.x = WCRS * yil * down;*/
+        /*frci.y = WCRS * xil * (ykj * xkl - xkj * ykl);*/
+        /*frcj.x = WCRS * yij * (ykj * xkl - xkj * ykl);*/
+        /*frcj.y = WCRS * xij * down;*/
+        /*frck.x = WCRS * ykl * up;*/
+        /*frck.y = WCRS * xkl * (yij * xil - xij * yil);*/
+        /*frcl.x = WCRS * ykj * (yij * xil - xij * yil);*/
+        /*frcl.y = WCRS * xkj * up; */
+     
+        /*vi->vel = add(vi->vel, frci);*/
+        /*vj->vel = add(vj->vel, frcj);*/
+        /*vk->vel = add(vk->vel, frck);*/
+        /*vl->vel = add(vl->vel, frcl);*/
