@@ -2,14 +2,13 @@
 #ifndef PAIR_H
 #define PAIR_H
 
-typedef struct pair P, *PP;
+typedef struct Pair Pair, *PairPointer;
 
-struct pair {
+struct Pair {
     void *fst, *snd; 
 };
 
-
-P pair_initialize(void *fst, void *snd);
-PP pair_create(void *fst, void *snd);
+Pair Pair_initialize(void *fst, void *snd);
+PairPointer Pair_create(void *fst, void *snd);
 
 #endif

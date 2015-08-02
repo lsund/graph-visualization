@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-* File Name: bond.c
+* File Name: Bond.c
 
 * Author: Ludvig Sundström
 
@@ -18,65 +18,56 @@
 #include "constants.h"
 #include "bond.h"
 
-BP bond_create(const VP fst, const VP snd, const float dist0)
+BondPointer Bond_create(
+        const VertexPointer fst, 
+        const VertexPointer snd, 
+        const float dist0
+    )
 {
     fst->mass += 1;
     snd->mass += 1;
 
-    BP rtn = malloc(sizeof(B));
+    BondPointer rtn = malloc(sizeof(Bond));
     rtn->fst = fst;
     rtn->snd = snd;
     rtn->dist0 = dist0;
     return rtn;
 }
 
-static float bond_attraction_weight(const BP bp)
+static float Bond_attraction_weight(const BondPointer bp)
 {
     return WATR;
 }
 
-void free_bonds(BP *bps, int nb) 
-{
-    int i;
-    for (i = 0; i < nb; i++) {
-        free(*(bps + i));
-    }
-    free(bps);
-    bps = NULL;
-}
-
-int has_common_vertex(BP bp1, BP bp2) 
-{
-    return  bp1->fst->id == bp2->fst->id ||
-            bp1->fst->id == bp2->snd->id || 
-            bp1->snd->id == bp2->fst->id ||
-            bp1->snd->id == bp2->snd->id;
-}
-
-float bond_attraction_energy(const BP bp)
+float Bond_attraction_energy(const BondPointer bp)
 {
     float d0i, di, wi; 
     d0i = bp->dist0 * SPRING_LENGTH;
-    di = Vector2d_norm(Vector2d_sub(bp->snd->pos, bp->fst->pos)); 
-    wi = bond_attraction_weight(bp);
+    di = Vector_norm(Vector_sub(bp->snd->pos, bp->fst->pos)); 
+    wi = Bond_attraction_weight(bp);
     return wi * powf(di - d0i, 2);
 }
 
-Vec2D bond_attraction_force(const BP bp)
+Vector Bond_attraction_gradient(const BondPointer bp)
 {
     float d0i, wi;
     d0i = bp->dist0 * SPRING_LENGTH;
-    wi = bond_attraction_weight(bp);
+    wi = Bond_attraction_weight(bp);
 
-    Vec2D vecb;
-    vecb = Vector2d_sub(bp->snd->pos, bp->fst->pos);
+    Vector vecb;
+    vecb = Vector_sub(bp->snd->pos, bp->fst->pos);
 
     float di;
-    di = Vector2d_norm(vecb); 
+    di = Vector_norm(vecb); 
     if (fabs(di) <  MIN_DIST) {
         di = MIN_DIST;
     } 
 
-    return Vector2d_scalar_mult(vecb, 2 * wi * (di - d0i) / di);
+    return Vector_scalar_mult(vecb, 2 * wi * (di - d0i) / di);
+}
+
+void Bond_free(BondPointer bp)
+{
+    free(bp);
 }
 

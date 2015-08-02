@@ -15,20 +15,34 @@
 #include <math.h>
 #include <stdio.h>
 
-#include "graph.h"
-
-#include "util.h"
 #include "constants.h"
+#include "graph.h"
+#include "placement.h"
 
 #include "process_input.h"
 
 /* Private ******************************************************************/
 
+GraphPointer create(VertexSet vs, BondSet bs) 
+{
+    
+    GraphPointer rtn; 
+    rtn = (GraphPointer) calloc(1, sizeof(Graph));
+    
+    rtn->grd = Grid_create(); 
+
+    rtn->vs = vs; rtn->bs = bs;
+
+    Graph_detect_connected(rtn);
+    
+    return rtn;
+}
+
 /** 
  * Given a vertex in a graph, assign it a zone.
  */
 
-static void assign_vertex_zone(const GP gp, const VP v)
+void assign_vertex_to_zone(const GrdP grdp, const VertexPointer v)
 {
     int i, j;
     if (v->pos.y >= PANEL_Y) {
@@ -45,195 +59,132 @@ static void assign_vertex_zone(const GP gp, const VP v)
     } else {
         i = ((int) v->pos.x) / PADDING;
     }
-    ZP z = *(gp->zps + (j * GRID_DIM_X) + i);
-    Graph_append_member(gp, v, z);
-}
-
-GP create(VP *vs, BP *bs, int nv, int nb) 
-{
-    
-    GP rtn; 
-    rtn = (GP) calloc(1, sizeof(G));
-
-    Graph_create_zones(rtn);
-
-    rtn->vps = vs; rtn->bps = bs;
-    rtn->nv = nv; rtn->nb = nb;
-
-    Graph_create_connected(rtn);
-    
-    return rtn;
+    ZP z = *(grdp->zps + (j * GRID_DIM_X) + i);
+    Grid_append_member(grdp, v, z);
 }
 
 /* Public ******************************************************************/
 
-GP Graph_create(const char *fname) 
+GraphPointer Graph_create(
+        const char *fname, 
+        void (*e_fun)(GraphPointer), 
+        void (*f_fun)(GraphPointer)
+    ) 
 {
 
     int nv, nb;
-    P pr;
+    Pair pr;
     pr = process_json(fname, &nv, &nb);
 
     if ((float) nb > (float) nv * logf((float) nv)) {
         printf("Warning: B greater than V * log(V)\n");
     }
-    
-    GP rtn;
-    rtn = create((VS) pr.fst, (BS) pr.snd, nv, nb);
+
+    BondSetPointer bs;
+    bs = (BondSetPointer) pr.snd; 
+
+    VertexSetPointer vs;
+    vs = (VertexSetPointer) pr.fst; 
+
+    GraphPointer rtn;
+    rtn = create(*vs, *bs);
+
+    rtn->calc_e = e_fun;
+    rtn->calc_f = f_fun;
+
+    Placement_set_spiral(rtn->vs, nv); 
+    Graph_reset_dynamics(rtn);
 
     return rtn;
 }
 
-void Graph_reinitialize(const GP gp)
+
+void Graph_reset_dynamics(const GraphPointer gph)
 {
-    gp->npz = 0;
-    if (gp->crosses) BondPairs_free(gp->crosses);
-    gp->crosses = NULL;
+    Grid_reset_dynamics(gph->grd);
+
+    if (gph->crs) BondPairs_free(gph->crs);
+    gph->crs = NULL;
+
     int i;
-    for (i = 0; i < gp->nz; i++) {
-        *(gp->is_populated + i) = 0;
-        ZP z = *(gp->zps + i);
-        z->members = NULL;
+    for (i = 0; i < gph->vs.n; i++) {
+        VertexPointer v = *(gph->vs.set + i);
+        Vertex_reset_dynamics(v);
+        assign_vertex_to_zone(gph->grd, v);
     }
 
-    if (gp->azps) free_zprs(gp->azps);
-    gp->azps = NULL;
-
-    for (i = 0; i < gp->nv; i++) {
-        VP v = *(gp->vps + i);
-        v->next = NULL;
-        assign_vertex_zone(gp, v);
-        free(v->crs_bof);
-        v->crs_bof = (int *) calloc(gp->nv, sizeof(int)); 
-    }
-    Graph_check_adjacent(gp);
-    Graph_create_crosses(gp);
+    Grid_check_adjacent(gph->grd);
+    Graph_detect_crosses(gph);
 }
 
-void Graph_create_crosses(const GP gp)
+void Graph_detect_crosses(const GraphPointer gph)
 {
     int i, j;
-    B2P crosses; 
-    crosses = NULL; 
-    for (i = 0; i < gp->nb - 1; i++) {
-        for (j = i + 1; j < gp->nb; j++) {
+    BondPairPointer crs; 
+    crs = NULL; 
+    for (i = 0; i < gph->bs.n - 1; i++) {
+        for (j = i + 1; j < gph->bs.n; j++) {
 
-            BP b1, b2;
-            b1 = *(gp->bps + i);  
-            b2 = *(gp->bps + j);  
+            BondPointer b1, b2;
+            b1 = *(gph->bs.set + i);  
+            b2 = *(gph->bs.set + j);  
 
             float xi, yi;
 
             int crossing;
-            B2P b2p;
-            b2p = BondPair_create(pair_initialize(b1, b2), NULL);
+            BondPairPointer b2p;
+            b2p = BondPair_create(Pair_initialize(b1, b2), NULL);
             crossing = BondPair_intersect(b2p, &xi, &yi);
             if (crossing) {
-                b2p->next = crosses;
-                BondPair_set_cross(b2p, Vector2d_initialize(xi, yi));
-                crosses = b2p;
+                b2p->next = crs;
+                BondPair_set_cross(b2p, Vector_initialize(xi, yi));
+                crs = b2p;
             } else {
                 free(b2p);
                 b2p = NULL;
             }
         }
     }
-    gp->crosses = crosses;
+    gph->crs = crs;
 }
 
-void Graph_create_connected(const GP gp)
+void Graph_detect_connected(const GraphPointer gph)
 {
     int i, j;
-    B2P connected;
-    BP fst, snd;
-    connected = NULL; 
+    BondPairPointer con;
+    BondPointer fst, snd;
+    con = NULL; 
     fst = snd = NULL;
-    for (i = 0; i < gp->nb - 1; i++) {
-        for (j = i + 1; j < gp->nb; j++) {
-            fst = *(gp->bps + i);  
-            snd = *(gp->bps + j);  
-            int match = has_common_vertex(fst, snd);
+    for (i = 0; i < gph->bs.n - 1; i++) {
+        for (j = i + 1; j < gph->bs.n; j++) {
+            fst = *(gph->bs.set + i);  
+            snd = *(gph->bs.set + j);  
+            Pair pr = Pair_initialize(fst, snd);
+            int match = has_common_vertex(BondPair_initialize(pr , NULL));
             if (match) {
-                B2P newpr;
-                newpr = BondPair_create(pair_initialize(fst, snd), connected);
-                connected = newpr;
+                BondPairPointer newpr;
+                newpr = BondPair_create(Pair_initialize(fst, snd), con);
+                con = newpr;
             }
         }
     }
-    gp->connected = connected;
-}    
-
-void Graph_create_zones(const GP gp)
-{
-    gp->nz = 0;
-    gp->zps = (ZP *) malloc(sizeof(Z) * GRID_DIM_X * GRID_DIM_Y);
-    int i, j, id;
-    for (j = 0; j < GRID_DIM_Y; j++) {
-        for (i = 0; i < GRID_DIM_X; i++) {
-            id = (j * GRID_DIM_Y) + i;
-            ZP z = zone2d_create(id, i, j, i * PADDING, j * PADDING, 
-                    PADDING, PADDING);
-            *(gp->zps + id) = z;
-            gp->nz++;
-        }
-    }
-    gp->is_populated = (int *) malloc(sizeof(int) * gp->nz);
-    gp->pzps = (ZP *) malloc(sizeof(void *) * gp->nz);
-    gp->azps = NULL;
-    gp->npz = 0;
+    gph->con = con;
 }
 
-void Graph_append_member(const GP gp, const VP v, const ZP z)
+void Graph_run_objective(const GraphPointer gph)
 {
-    v->next = z->members;
-    z->members = v;
-    if (!*(gp->is_populated + z->id)) {
-        *(gp->pzps + gp->npz) = z;
-        gp->npz++;
-    }
-    *(gp->is_populated + z->id) = 1;
+    (*gph->calc_e)(gph);
+    (*gph->calc_f)(gph);
 }
 
-void Graph_check_adjacent(const GP gp) 
+void Graph_free(GraphPointer gph)
 {
-    int i, j;
-    for (i = 0; i < gp->npz - 1; i++) {
-        for (j = i + 1; j < gp->npz; j++) {
-            ZP zi = *(gp->pzps + i);
-            ZP zj = *(gp->pzps + j);
-            int diff;
-            diff = zi->id - zj->id;
-            
-            int cond = diff == 1 || 
-                       diff == -1 || 
-                       diff == GRID_DIM_X || 
-                       diff == -GRID_DIM_X ||
-                       diff == GRID_DIM_X - 1 ||
-                       diff == GRID_DIM_X + 1 ||
-                       diff == -GRID_DIM_X - 1 ||
-                       diff == -GRID_DIM_X + 1;
-            if (cond) {
-                ZprPtr newzpr = malloc(sizeof(Zpr));
-                newzpr->fst = zi;
-                newzpr->snd = zj;
-                newzpr->next = gp->azps;
-                gp->azps = newzpr;
-            }
-        }
-    }
-}
-
-void Graph_free(GP gp)
-{
-    VS_free(gp->vps, gp->nv);
-    free_bonds(gp->bps, gp->nb);
-    free_zones(gp->zps, gp->nz);
-    if (gp->connected) BondPairs_free(gp->connected);
-    if (gp->crosses) BondPairs_free(gp->crosses);
-    free_zprs(gp->azps);
-    free(gp->is_populated);
-    free(gp->pzps);
-    free(gp->zps);
-    free(gp);
+    VertexSet_free(gph->vs);
+    BondSet_free(gph->bs);
+    if (gph->con) BondPairs_free(gph->con);
+    if (gph->crs) BondPairs_free(gph->crs);
+    Grid_free(gph->grd);
+    free(gph->grd);
+    free(gph);
 }
 

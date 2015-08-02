@@ -10,18 +10,7 @@
 
 *****************************************************************************/
 
-#include <stdlib.h>
-#include "../lib/c/util.h"
-#include "../lib/c/graph.h"
-#include "../lib/c/energy.h"
-#include "../lib/c/force.h"
-#include "../lib/c/conjugate_gradient.h"
-#include "../lib/c/constants.h"
-#include <unistd.h>
-#include <sys/types.h> 
-#include <sys/wait.h> 
 #include "test.h"
-#include "minunit.h"
 
 int minimize(const char *fname);
 
@@ -42,7 +31,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(valid0);
+        Minimizer_run(valid0);
         exit(0);
     } else {
         msg("Valid data...");
@@ -59,7 +48,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(invalid0);
+        Minimizer_run(invalid0);
         exit(0);
     } else {
         msg("Invalid data: first bracket...");
@@ -75,7 +64,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(invalid1);
+        Minimizer_run(invalid1);
         exit(0);
     } else {
         msg("Invalid data: wrong spelled key...");
@@ -91,7 +80,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(invalid2);
+        Minimizer_run(invalid2);
         exit(0);
     } else {
         msg("Invalid data: only vertices...");
@@ -107,7 +96,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(invalid3);
+        Minimizer_run(invalid3);
         exit(0);
     } else {
         msg("Invalid data: wrong spelled key bonds...");
@@ -123,7 +112,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(invalid4);
+        Minimizer_run(invalid4);
         exit(0);
     } else {
         msg("Invalid data: No bonds or vertcies...");
@@ -139,7 +128,7 @@ char *test_minimize() {
     if (p < 0) {
         rt_error("Could not create child");
     } else if (p == 0) {
-        minimize(valid1);
+        Minimizer_run(valid1);
         exit(0);
     } else {
         msg("Valid data: vertices but no bonds...");

@@ -1,0 +1,27 @@
+grep: input file ‘nb’ is also the output
+Binary file .graph.c.swp matches
+graph.c:103:    Grid_reset_dynamics(gph->grd);
+graph.c:105:    if (gph->crs) BondPairs_free(gph->crs);
+graph.c:106:    gph->crs = NULL;
+graph.c:109:    for (i = 0; i < gph->nv; i++) {
+graph.c:110:        VertexPointer v = *(gph->vs + i);
+graph.c:112:        assign_vertex_to_zone(gph->grd, v);
+graph.c:115:    Grid_check_adjacent(gph->grd);
+graph.c:124:    for (i = 0; i < gph->nb - 1; i++) {
+graph.c:125:        for (j = i + 1; j < gph->nb; j++) {
+graph.c:128:            b1 = *(gph->bs.set + i);  
+graph.c:129:            b2 = *(gph->bs.set + j);  
+graph.c:147:    gph->crs = crs;
+graph.c:157:    for (i = 0; i < gph->nb - 1; i++) {
+graph.c:158:        for (j = i + 1; j < gph->nb; j++) {
+graph.c:159:            fst = *(gph->bs.set + i);  
+graph.c:160:            snd = *(gph->bs.set + j);  
+graph.c:170:    gph->con = con;
+graph.c:175:    (*gph->calc_e)(gph);
+graph.c:176:    (*gph->calc_f)(gph);
+graph.c:181:    VertexSet_free(gph->vs, gph->nv);
+graph.c:182:    BondSet_free(gph->bs, gph->nb);
+graph.c:183:    if (gph->con) BondPairs_free(gph->con);
+graph.c:184:    if (gph->crs) BondPairs_free(gph->crs);
+graph.c:185:    Grid_free(gph->grd);
+graph.c:186:    free(gph->grd);

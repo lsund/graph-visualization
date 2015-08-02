@@ -17,24 +17,25 @@
 
 /* Private ******************************************************************/
 
-static float repulsion_weight(const P pr) 
+static float repulsion_weight(const Pair pr) 
 {
     return 2 * WREP;
 }
 
 /* Public *******************************************************************/
 
-float VertexPair_repulsion_energy(const P pr) 
+float VertexPair_repulsion_energy(const Pair pr) 
 {
     float w;
     w = repulsion_weight(pr);
 
-    VP vp0, vp1;
-    vp0 = (VP) pr.fst;
-    vp1 = (VP) pr.snd;
+    VertexPointer vp0, vp1;
+    vp0 = (VertexPointer) pr.fst;
+    vp1 = (VertexPointer) pr.snd;
 
     int cb;
-    cb = *(vp0->crs_bof + vp1->id);
+    /*cb = *(vp0->crs_bof + vp1->id);*/
+    cb = 0;
     if (cb) {
         w *= REPULSION_REDUCE;
     }
@@ -47,15 +48,15 @@ float VertexPair_repulsion_energy(const P pr)
     return w * a_o;
 }
 
-Vec2D VertexPair_repulsion_force(const P pr)
+Vector VertexPair_repulsion_gradient(const Pair pr)
 {
     
     float w;
     w = repulsion_weight(pr);
 
-    VP vp0, vp1;
-    vp0 = (VP) pr.fst;
-    vp1 = (VP) pr.snd;
+    VertexPointer vp0, vp1;
+    vp0 = (VertexPointer) pr.fst;
+    vp1 = (VertexPointer) pr.snd;
 
     int cb;
     cb = *(vp0->crs_bof + vp1->id);
@@ -63,7 +64,7 @@ Vec2D VertexPair_repulsion_force(const P pr)
         w *= 0.5;
     }
 
-    Vec2D frc;
+    Vector frc;
     if (vp1->pos.x < vp0->pos.x + PADDING && vp0->pos.x < vp1->pos.x) {
         frc.x = -(fmax(0.0, fmin(vp0->br.y, vp1->br.y) - 
                 fmax(vp0->tl.y, vp1->tl.y)));
@@ -83,6 +84,6 @@ Vec2D VertexPair_repulsion_force(const P pr)
         frc.y = 0.0;
     }
 
-    return Vector2d_scalar_mult(frc, w);
+    return Vector_scalar_mult(frc, w);
 }
 

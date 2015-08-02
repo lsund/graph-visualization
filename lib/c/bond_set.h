@@ -5,10 +5,17 @@
 #include "bond.h"
 #include "vertex_set.h"
 
-typedef BP *BS, **BSP;
+typedef struct bondset BondSet, *BondSetPointer;
 
-BSP BS_create(VS vs, json_value *contents, int *nb);
+struct bondset {
+    BondPointer *set;
+    int n;
+};
 
-BS BS_initialize(VS vs, json_value *contents, int *nbp);
+BondSetPointer BondSet_create(VertexPointer *vs, json_value *contents, int *nb);
+
+BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp);
+
+void BondSet_free(BondSet bs);
 
 #endif

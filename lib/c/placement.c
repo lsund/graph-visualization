@@ -15,14 +15,16 @@
 #include <stdlib.h>
 
 #include "vertex.h"
-#include "vector2d.h"
+#include "vertex_set.h"
 #include "constants.h"
 #include "util.h"
 
+/* Private *******************************************************************/
+
 static int comp_by_mass(const void *elem1, const void *elem2) 
 {
-    VP *fst = (VP *) elem1;
-    VP *snd = (VP *) elem2;
+    VertexPointer *fst = (VertexPointer *) elem1;
+    VertexPointer *snd = (VertexPointer *) elem2;
     if ((*fst)->mass < (*snd)->mass) return 1;
     if ((*fst)->mass > (*snd)->mass) return -1;
     return 0;
@@ -30,12 +32,14 @@ static int comp_by_mass(const void *elem1, const void *elem2)
 
 static int comp_by_id(const void *elem1, const void *elem2) 
 {
-    VP *fst = (VP *) elem1;
-    VP *snd = (VP *) elem2;
+    VertexPointer *fst = (VertexPointer *) elem1;
+    VertexPointer *snd = (VertexPointer *) elem2;
     if ((*fst)->id > (*snd)->id) return 1;
     if ((*fst)->id < (*snd)->id) return -1;
     return 0;
 }
+
+/* Public ********************************************************************/
 
 /**
  * Assigns the positions of vertices vs as a spiral starting from the middle of
@@ -43,9 +47,9 @@ static int comp_by_id(const void *elem1, const void *elem2)
  * with the vertex with the most connections, the vertex with the second most
  * connections etc.
  */
-void set_spiral(VP *vs, const int nv)
+void Placement_set_spiral(VertexSet vs, const int nv)
 {
-    qsort(vs, nv, sizeof(void *), comp_by_mass);
+    qsort(vs.set, nv, sizeof(void *), comp_by_mass);
     int n, gapx, gapy, dimx, dimy, i, x, y, 
         placex, placey, dx, dy, t, max_iter, count;
     n = nv;
@@ -62,14 +66,14 @@ void set_spiral(VP *vs, const int nv)
     t = fmax(dimx, dimy);
     max_iter = t * t;
     for (i = 0; i < max_iter; i++) {
-        if (count < nv && !(*(vs + count))->pos.given_coords) {
+        if (count < nv && !(*(vs.set + count))->pos.given_coords) {
             if ((-dimx / 2 <= x && x <= dimx / 2) && 
                 (-dimy / 2 <= y && y <= dimy / 2))
             {
                 placex = x * gapx + PANEL_X / 2;
                 placey = y * gapy + PANEL_Y / 2;
-                (*(vs + count))->pos.x = placex; 
-                (*(vs + count))->pos.y = placey; 
+                (*(vs.set + count))->pos.x = placex; 
+                (*(vs.set + count))->pos.y = placey; 
                 count++;
             }
         } else {
@@ -83,15 +87,15 @@ void set_spiral(VP *vs, const int nv)
         x += dx;
         y += dy; 
     }
-    qsort(vs, nv, sizeof(void *), comp_by_id);
+    qsort(vs.set, nv, sizeof(void *), comp_by_id);
 }
 
 /**
- * Assigns the positions of vertices vs as a grid in the panel whose dimension
+ * Assigns the positions of vertices vs.set as a grid in the panel whose dimension
  * are specified by PANEL_X and PANEL_Y, starting in the upper-left corner with
  * the vertex with the lowest id. 
  */
-void set_grid(VP *vs, const int nv) 
+void Placement_set_grid(VertexSet vs, const int nv) 
 {
     int i, n, vdim, rows, cols;
     float gapx, gapy, offsetx, offsety, x, y;
@@ -113,7 +117,7 @@ void set_grid(VP *vs, const int nv)
         }
         x = cols * gapx + offsetx;
         y = rows * gapy + offsety; 
-        (*(vs + i))->pos = Vector2d_initialize(x, y);
+        (*(vs.set + i))->pos = Vector_initialize(x, y);
         cols++;
     }
 }

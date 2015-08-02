@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-* File Name: bond_set.c
+* File Name: Bond_set.c
 
 * Author: Ludvig Sundström
 
@@ -14,30 +14,28 @@
 #include "vertex_set.h"
 #include "bond_set.h"
 
-BS BS_initialize(VS vs, json_value *contents, int *nbp)
+BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
 {
     int i, fstid, sndid;
     float len;
-    VP fst, snd;
+    VertexPointer fst, snd;
 
     json_value *bsarr = contents->u.object.values[1].value;
     *nbp = bsarr->u.array.length;
     int nb;
     nb = *nbp;
 
-    BS rtn = (BS) malloc(sizeof(BP) * nb);
-
-    if (rtn == NULL) {
-        rt_error("Error while allocating memory: create_bonds()");
-    }
+    BondSet rtn;
+    rtn.set = (BondPointer *) Util_allocate(nb, sizeof(BondPointer));
+    rtn.n = nb;
 
     for (i = 0; i < nb; i++) {
         
-        json_value *bond = bsarr->u.array.values[i];
+        json_value *Bond = bsarr->u.array.values[i];
         
-        json_value *first = bond->u.object.values[0].value;
-        json_value *second = bond->u.object.values[1].value;
-        json_value *length = bond->u.object.values[2].value;
+        json_value *first = Bond->u.object.values[0].value;
+        json_value *second = Bond->u.object.values[1].value;
+        json_value *length = Bond->u.object.values[2].value;
 
         if (first->type == json_integer && second->type == json_integer) {
             fstid = first->u.integer;
@@ -57,19 +55,28 @@ BS BS_initialize(VS vs, json_value *contents, int *nbp)
         fst = *(vs + fstid);
         snd = *(vs + sndid);
 
-        BP bp;
-        bp = bond_create(fst, snd, len);
-        *(rtn + i) = bp;
+        BondPointer bp;
+        bp = Bond_create(fst, snd, len);
+        *(rtn.set + i) = bp;
     }
 
     return rtn;
 }
 
-BSP BS_create(VS vs, json_value *contents, int *nbp)
+BondSetPointer BondSet_create(VertexPointer *vs, json_value *contents, int *nbp)
 {
-    BSP rtn;
-    rtn = (BSP) malloc(sizeof(BS));
-    *rtn = BS_initialize(vs, contents, nbp);
+    BondSetPointer rtn;
+    rtn = (BondSetPointer) malloc(sizeof(BondSet));
+    *rtn = BondSet_initialize(vs, contents, nbp);
     return rtn;
+}
+
+void BondSet_free(BondSet bs) 
+{
+    int i;
+    for (i = 0; i < bs.n; i++) {
+        Bond_free(*(bs.set + i));
+    }
+    free(bs.set);
 }
 

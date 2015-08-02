@@ -15,6 +15,7 @@
 #include <math.h>
 #include <unistd.h>
 
+#include "test.h"
 #include "minunit.h"
 
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -71,7 +72,7 @@ int main(int argc, char **argv) {
         printf("Tests run: %d\n", tests_run);
         return result != 0;
     } else {
-        minimize("data/23.json");
+        Minimizer_run("data/23.json");
         return 0;
     }
 }

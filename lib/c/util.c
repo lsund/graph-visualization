@@ -39,6 +39,24 @@ int in_range(const float lower, const float upper, const float x)
     return lowcond && upcond;
 }
 
+void *Util_allocate(int nmemb, int size) {
+    void *rtn = malloc(nmemb * size);
+    if (rtn == NULL)
+    {
+        rt_error("Error when allocating memory");
+    }
+    return rtn;
+}
+
+void *Util_allocate_initialize(int nmemb, int size) {
+    void *rtn = calloc(nmemb, size);
+    if (rtn == NULL)
+    {
+        rt_error("Error when allocating memory");
+    }
+    return rtn;
+}
+
 void rt_error(char error_text[])
 {
     fprintf(stderr,ANSI_COLOR_RED "Runtime-error:%s\n" ANSI_COLOR_RESET,

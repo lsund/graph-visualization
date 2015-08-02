@@ -21,8 +21,16 @@
 #include "util.h"
 #include "constants.h"
 
-void mnbrak(GP gp, float *ax, float *bx, float *cx, float *fa, float *fb,
-        float *fc, float (*func)(float, GP))
+void bracket_minimum(
+        GraphPointer gp, 
+        float *ax, 
+        float *bx, 
+        float *cx, 
+        float *fa, 
+        float *fb, 
+        float *fc, 
+        float (*func)(float, GraphPointer)
+    )
 {
     float ulim, u, r, q, fu, dum;
 

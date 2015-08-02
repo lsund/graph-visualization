@@ -1,5 +1,5 @@
 
-EMFLAGS=-O1 -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 -D EMSCRIPT=1
+EMFLAGS=-O1 -D EMSCRIPT=1
 CFLAGS=-std=c99 -Wall -g
 
 SRC_DIR=lib/c
@@ -22,13 +22,13 @@ DATAS=$(DATA_DIR)/52.json\
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
 	-o lib/c_assets.js -s \
-	EXPORTED_FUNCTIONS="['_minimize']" \
+	EXPORTED_FUNCTIONS="['_Minimizer_run']" \
 	$(foreach var,$(DATAS),--preload-file $(var))
 
 smallemscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
 	-o lib/c_assets.js -s \
-	EXPORTED_FUNCTIONS="['_minimize']" \
+	EXPORTED_FUNCTIONS="['_Minimizer_run']" \
 	--preload-file test.csv
 
 normal: $(SRCS)

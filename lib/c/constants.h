@@ -21,10 +21,10 @@
 #define REPULSION_REDUCE 0.7
 
 #define WATR 1.0f
-#define WREP 5.0f
+#define WREP 7.0f
 #define WPOT 1.0f
 #define WANG 1.0f
-#define WCRS 1.0f
+#define WCRS 10.0f
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 

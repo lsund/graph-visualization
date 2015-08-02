@@ -13,17 +13,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../lib/c/util.h"
-#include "../lib/c/graph.h"
-#include "../lib/c/energy.h"
-#include "../lib/c/force.h"
-#include "../lib/c/conjugate_gradient.h"
-#include "minunit.h"
 #include "test.h"
 
 char *test_objective() 
 {
-    GP g = Graph_create( "data/test/4.json");
+    GraphPointer g = Graph_create( "data/test/4.json", Energy_local, Gradient_local);
 
     float f1, f2, f3;
 
@@ -60,69 +54,69 @@ char *test_objective()
     
     /////// Crosses ///////////////////////////////////////////////////////////
 
-    g = Graph_create("data/test/4-2.json");
+    g = Graph_create("data/test/4-2.json", Energy_local, Gradient_local);
 
-    Graph_create_crosses(g);
+    Graph_detect_crosses(g);
 
-    VP vi, vj, vk, vl;
-    B2P cur = g->crosses;
+    VertexPointer vi, vj, vk, vl;
+    BondPairPointer cur = g->crs;
     vi = cur->fst->fst; vj = cur->fst->snd; 
     vk = cur->snd->fst; vl = cur->snd->snd;
     
-    VP vquad[4] = { vi, vj, vk, vl };
+    VertexPointer vquad[4] = { vi, vj, vk, vl };
 
-    VS_sort(vquad, cur->cross);
+    VertexSet_sort(vquad, cur->cross);
 
     msg("checking closest two vertices to intersection...");
     mu_assert("first", vquad[0]->id == 0);
     mu_assert("second", vquad[1]->id == 1);
     msgpass();
     
-    BondPairs_free(g->crosses);
-    g->crosses = NULL;
+    BondPairs_free(g->crs);
+    g->crs = NULL;
     Graph_free(g);
 
-    g = Graph_create("data/test/4-3.json");
+    g = Graph_create("data/test/4-3.json", Energy_local, Gradient_local);
 
-    Graph_create_crosses(g);
+    Graph_detect_crosses(g);
 
-    cur = g->crosses;
+    cur = g->crs;
     vi = cur->fst->fst; vj = cur->fst->snd; 
     vk = cur->snd->fst; vl = cur->snd->snd;
     
-    VP vquad2[4] = { vi, vj, vk, vl };
+    VertexPointer vquad2[4] = { vi, vj, vk, vl };
 
-    VS_sort(vquad2, cur->cross);
+    VertexSet_sort(vquad2, cur->cross);
 
     msg("checking closest two vertices to intersection...");
     mu_assert("first", vquad2[1]->id == 2);
     mu_assert("second", vquad2[0]->id == 3);
     msgpass();
 
-    BondPairs_free(g->crosses);
-    g->crosses = NULL;
+    BondPairs_free(g->crs);
+    g->crs = NULL;
 
     Graph_free(g);
 
-    g = Graph_create("data/test/4-4.json");
+    g = Graph_create("data/test/4-4.json", Energy_local, Gradient_local);
 
-    Graph_create_crosses(g);
+    Graph_detect_crosses(g);
 
-    cur = g->crosses;
+    cur = g->crs;
     vi = cur->fst->fst; vj = cur->fst->snd; 
     vk = cur->snd->fst; vl = cur->snd->snd;
     
-    VP vquad3[4] = { vi, vj, vk, vl };
+    VertexPointer vquad3[4] = { vi, vj, vk, vl };
 
-    VS_sort(vquad3, cur->cross);
+    VertexSet_sort(vquad3, cur->cross);
 
     msg("checking closest two vertices to intersection...");
     mu_assert("second", vquad3[0]->id == 3);
     mu_assert("first", vquad3[1]->id == 2);
     msgpass();
 
-    BondPairs_free(g->crosses);
-    g->crosses = NULL;
+    BondPairs_free(g->crs);
+    g->crs = NULL;
 
     Graph_free(g);
     return 0;

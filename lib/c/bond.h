@@ -4,21 +4,23 @@
 
 #include "vertex.h"
 
-typedef struct bond B, *BP;
+typedef struct Bond Bond, *BondPointer;
 
-struct bond {
-    VP fst, snd;
+struct Bond {
+    VertexPointer fst, snd;
     float dist0;
 };
 
-BP bond_create(VP fst, VP snd, const float dist0);
+BondPointer Bond_create(
+        const VertexPointer fst, 
+        const VertexPointer snd, 
+        const float dist0
+    );
 
-void free_bonds(BP *bps, int nb);
+float Bond_attraction_energy(const BondPointer bp);
 
-int has_common_vertex(BP bpp1, BP bpp2);
+Vector Bond_attraction_gradient(const BondPointer bp);
 
-float bond_attraction_energy(const BP bp);
-
-Vec2D bond_attraction_force(const BP bp);
+void Bond_free(BondPointer bp);
 
 #endif

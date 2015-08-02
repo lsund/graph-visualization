@@ -2,8 +2,8 @@
 #ifndef VERTEX_PAIR_H
 #define VERTEX_PAIR_H
 
-float VertexPair_repulsion_energy(const P pr);
+float VertexPair_repulsion_energy(const Pair pr);
 
-Vec2D VertexPair_repulsion_force(const P pr);
+Vector VertexPair_repulsion_gradient(const Pair pr);
 
 #endif

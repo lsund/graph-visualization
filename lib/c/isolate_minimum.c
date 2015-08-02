@@ -7,7 +7,7 @@
  * Given a function func, and given a bracketing triplet of abcissas ax, bx, cx
  * (such that bx is between ax and cx, and func(bx) is less than both f(ax) and
  * f(cx)), this routine isolates the minimum to a ffractional precition of
- * about tol using Brent's method.The abcissa of the minimum is returned as
+ * about tol using Brent's method. The abcissa of the minimum is returned as
  * xmin, and the minimum function value is returned as brent, the returned
  * function value.
  *
@@ -21,8 +21,15 @@
 #include "util.h"
 #include "constants.h"
 
-float brent(GP graph, float ax, float bx, float cx, 
-        float (*func)(float, GP graph), float tol, float *xmin)
+float isolate_minimum(
+        GraphPointer graph, 
+        float ax, 
+        float bx, 
+        float cx, 
+        float (*func)(float, GraphPointer graph), 
+        float tol, 
+        float *xmin
+    )
 {
     int iter;
     float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
@@ -84,7 +91,3 @@ float brent(GP graph, float ax, float bx, float cx,
     return fx;
 }
 
-#undef ITMAX
-#undef CGOLD
-#undef ZEPS
-#undef SHFT

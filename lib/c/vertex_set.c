@@ -12,11 +12,11 @@
 
 #include <stdlib.h>
 
-#include "constants.h"
 #include "util.h"
+#include "constants.h"
 #include "vertex_set.h"
 
-VS VS_initialize(json_value *contents, int *nvp)
+VertexSet VertexSet_initialize(json_value *contents, int *nvp)
 {
     json_value *vsarr = contents->u.object.values[0].value;
     *nvp = vsarr->u.array.length;
@@ -24,11 +24,10 @@ VS VS_initialize(json_value *contents, int *nvp)
     int nv;
     nv = *nvp;
 
-    VS rtn = (VS) malloc(sizeof(VP) * nv);
+    VertexSet rtn;
+    rtn.set = (VertexPointer *) Util_allocate(nv, sizeof(VertexPointer));
+    rtn.n = nv;
 
-    if (rtn == NULL) {
-        rt_error("Error while allocating memory: create_vertices()");
-    }
     if (nv < 1) {
         rt_error("No vertices");
     }
@@ -49,8 +48,8 @@ VS VS_initialize(json_value *contents, int *nvp)
             rt_error("Bad JSON data: ident");
         }
 
-        Vec2D pos, zv;
-        zv = Vector2d_zero();
+        Vector pos, zv;
+        zv = Vector_zero();
         pos = zv;    
         json_value *position;
         position = vertex->u.object.values[1].value;
@@ -78,7 +77,7 @@ VS VS_initialize(json_value *contents, int *nvp)
             } else {
                 rt_error("Bad JSON data: position: y");
             }
-            pos = Vector2d_initialize(x, y);
+            pos = Vector_initialize(x, y);
             pos.given_coords = 1;
         } 
         else {
@@ -97,49 +96,38 @@ VS VS_initialize(json_value *contents, int *nvp)
             rt_error("Bad JSON data: type");
         }
 
-        *(rtn + i) = Vertex_create(id, pos, zv, zv, zv, 
+        *(rtn.set + i) = Vertex_create(id, pos, zv, zv, zv, 
                 VERTEX_BASE_WIDTH, VERTEX_BASE_HEIGHT, t, nv);
     }
     return rtn;
 }
 
-VSP VS_create(json_value *contents, int *nvp)
+VertexSetPointer VertexSet_create(json_value *contents, int *nvp)
 {
-    VSP rtn;
-    rtn = (VSP) malloc(sizeof(VS));
-    *rtn = VS_initialize(contents, nvp);
+    VertexSetPointer rtn;
+    rtn = (VertexSetPointer) malloc(sizeof(VertexSet));
+    *rtn = VertexSet_initialize(contents, nvp);
     return rtn;
 }
 
-
-
-void VS_free(VS vps, const int nv) 
-{
-    int i;
-    for (i = 0; i < nv; i++) {
-        Vertex_free(*(vps + i));
-    }
-    free(vps);
-}
-
-void VS_sort(VP *vquad, Vec2D cross) 
+void VertexSet_sort(VertexPointer *vquad, Vector cross) 
 {
     int i;
     for (i = 0; i < 3; i++) {
         int j;
         for (j = i + 1; j < 4; j++) {
-            VP vpi = *(vquad + i);
-            VP vpj = *(vquad + j);
+            VertexPointer vpi = *(vquad + i);
+            VertexPointer vpj = *(vquad + j);
             if (vpj->mass < vpi->mass) {
-                VP tmp = vquad[i];
+                VertexPointer tmp = vquad[i];
                 vquad[i] = vquad[j];
                 vquad[j] = tmp;
             } else if (vpj->mass == vpi->mass) {
                 float di, dj;
-                di = Vector2d_norm(Vector2d_sub(cross, vpi->pos));
-                dj = Vector2d_norm(Vector2d_sub(cross, vpj->pos));
+                di = Vector_norm(Vector_sub(cross, vpi->pos));
+                dj = Vector_norm(Vector_sub(cross, vpj->pos));
                 if (dj < di) {
-                    VP tmp = vquad[i];
+                    VertexPointer tmp = vquad[i];
                     vquad[i] = vquad[j];
                     vquad[j] = tmp;
                 }
@@ -148,19 +136,88 @@ void VS_sort(VP *vquad, Vec2D cross)
     }
 }
 
-void VS_move(const VP *vs, const int nv, const Vec2DP pc, 
-        const Vec2DP xc, float x) 
+void VertexSet_move(const VertexSet vs, const int nv, float x) 
 {
     int i;   
     for (i = 0; i < nv; i++) {
 
-        struct vertex *v = *(vs + i);
+        struct vertex *v = *(vs.set + i);
 
-        Vec2D ds, s;
-        ds = Vector2d_scalar_mult(*(xc + i), x);
-        s = Vector2d_add(*(pc + i), ds);
+        Vector ds, s;
+        ds = Vector_scalar_mult(v->grad0, x);
+        s = Vector_add(v->pos0, ds);
 
         Vertex_move(v, s);
     }
 }
+
+void VertexSet_apply_forces(
+        const VertexSet vs, 
+        const int nv, 
+        const float gam, 
+        const Strategy strat
+    )
+{
+    int i;
+    for (i = 0; i < nv; i++) {
+        VertexPointer vp = *(vs.set + i);
+        vp->g.x = -vp->grad.x;
+        vp->g.y = -vp->grad.y;
+        if (strat == INITIALIZE) {
+            vp->grad.x = vp->h.x = vp->g.x;
+            vp->grad.y = vp->h.y = vp->g.y;
+        } else {
+            vp->grad.x = vp->h.x = vp->g.x + gam * vp->h.x;
+            vp->grad.y = vp->h.y = vp->g.y + gam * vp->h.y;
+        }
+    }
+}
+
+void VertexSet_apply_forces_scalar(const VertexSet vs, const int nv, float x)
+{
+    int i;
+    for (i = 0; i < nv; i++) { 
+        VertexPointer vp = *(vs.set + i);
+        vp->grad.x *= x;
+        vp->grad.y *= x;
+    }   
+}
+
+
+void VertexSet_calculate_score(
+        const VertexSet vs, 
+        const int nv, 
+        float *gg, 
+        float *dgg)
+{
+    int i;
+    for (i = 0; i < nv; i++) {
+        VertexPointer vp = *(vs.set + i);
+        *gg += vp->g.x * vp->g.x;
+        *gg += vp->g.y * vp->g.y;
+        *dgg += (vp->grad.x + vp->g.x) * vp->grad.x;
+        *dgg += (vp->grad.y + vp->g.y) * vp->grad.y;
+    }
+}
+
+void VertexSet_set_statics(const VertexSet vs, const int nv)
+{
+    int i;
+    for (i = 0; i < nv; i++) {
+        VertexPointer vp;
+        vp = *(vs.set + i);
+        vp->pos0 = vp->pos;
+        vp->grad0 = vp->grad;
+    }
+}
+
+void VertexSet_free(VertexSet vs) 
+{
+    int i;
+    for (i = 0; i < vs.n; i++) {
+        Vertex_free(*(vs.set + i));
+    }
+    free(vs.set);
+}
+
 

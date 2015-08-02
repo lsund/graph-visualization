@@ -2,37 +2,42 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include "vector2d.h"
+#include "vector.h"
+#include "list.h"
 
-typedef struct vertex V, *VP;
+typedef struct vertex Vertex, *VertexPointer;
 
 struct vertex 
 {
-    Vec2D pos, tl, br, vel, g, h;
+    Vector pos, tl, br, grad, g, h;
+    Vector pos0, grad0;
     int id, mass;
     int *crs_bof;
     char type;
-    VP next;
+    VertexPointer next;
+    PList l;
 };
 
-VP Vertex_create(
+void Vertex_reset_dynamics(VertexPointer v);
+
+VertexPointer Vertex_create(
         const int id, 
-        const Vec2D pos, 
-        const Vec2D vel, 
-        const Vec2D g, 
-        const Vec2D h, 
+        const Vector pos, 
+        const Vector grad, 
+        const Vector g, 
+        const Vector h, 
         const float wdth, const
         float hght, 
         const char type, 
         const int nv 
 );
 
-void Vertex_move(const VP vp, const Vec2D s);
+void Vertex_move(const VertexPointer vp, const Vector s);
 
-float Vertex_potential_energy(const VP vp);
+float Vertex_potential_energy(const VertexPointer vp);
 
-Vec2D Vertex_potential_force(const VP vp);
+Vector Vertex_potential_gradient(const VertexPointer vp);
 
-void Vertex_free(VP vp);
+void Vertex_free(VertexPointer vp);
 
 #endif

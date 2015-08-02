@@ -11,11 +11,8 @@
 #include "graph.h"
 #include "vertex_set.h"
 #include "vertex_set.h"
-#include "vertex.h"
-#include "bond.h"
-#include "vector2d.h"
 
-P process_json(const char *filename, int *nvp, int *nbp)
+Pair process_json(const char *filename, int *nvp, int *nbp)
 {
     FILE *fp;
     struct stat filestatus;
@@ -76,13 +73,13 @@ P process_json(const char *filename, int *nvp, int *nbp)
         rt_error("process_json(): Second key is not 'bonds'");
     }
 
-    VS vs; BS bs;
-    vs = VS_initialize(value, nvp);
-    bs = BS_initialize(vs, value, nbp);
+    VertexSetPointer vs; BondSetPointer bs;
+    vs = VertexSet_create(value, nvp);
+    bs = BondSet_create(vs->set, value, nbp);
 
     json_value_free(value);
     free(file_contents);
 
-    return pair_initialize(vs, bs);
+    return Pair_initialize(vs, bs);
 }
 

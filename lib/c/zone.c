@@ -13,9 +13,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "zone2d.h"
+#include "zone.h"
 
-ZP zone2d_create(const int id, const int i, const int j, const int minx, 
+ZP Zone_create(const int id, const int i, const int j, const int minx, 
         const int miny, const int width, const int height) 
 {
     ZP rtn = malloc(sizeof(Z));
@@ -27,23 +27,13 @@ ZP zone2d_create(const int id, const int i, const int j, const int minx,
     return rtn;
 }
 
-void free_zones(ZP *zs, int nz) 
+
+void Zones_free(ZP *zs, int nz) 
 {
     int i;
     for (i = 0; i < nz; i++) {
         free(*(zs + i));
     }
     zs = NULL;
-}
-
-void free_zprs(ZprPtr zprs)
-{
-    ZprPtr cur = zprs;
-    while(cur != NULL) {
-        ZprPtr tmp = cur;
-        cur = cur->next;
-        free(tmp);
-    }
-    zprs = NULL;
 }
 

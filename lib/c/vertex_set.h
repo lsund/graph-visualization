@@ -4,18 +4,41 @@
 
 #include "json.h"
 #include "vertex.h"
+#include "util.h"
 
-typedef VP *VS, **VSP;
+typedef struct vertexset VertexSet, *VertexSetPointer;
 
-VSP VS_create(json_value *contents, int *nvp);
+struct vertexset {
+    VertexPointer *set;
+    int n;
+};
 
-VS VS_initialize(json_value *contents, int *nvp);
+VertexSetPointer VertexSet_create(json_value *contents, int *nvp);
 
-void VS_sort(VP *vquad, Vec2D cross);
+VertexSet VertexSet_initialize(json_value *contents, int *nvp);
 
-void VS_free(VS vs, int nv);
+void VertexSet_sort(VertexPointer *vquad, Vector cross);
 
-void VS_move(const VP *vs, const int nv, const Vec2DP pc, 
-        const Vec2DP xc, float x);
+void VertexSet_move(const VertexSet vs, const int nv, float x);
+
+void VertexSet_apply_forces(
+        const VertexSet vs, 
+        const int nv, 
+        float gam, 
+        Strategy strat 
+    );
+
+void VertexSet_apply_forces_scalar(const VertexSet vs, const int nv, float x);
+
+void VertexSet_calculate_score(
+        const VertexSet vs, 
+        const int nv, 
+        float *gg, 
+        float *dgg
+    );
+
+void VertexSet_set_statics(const VertexSet vs, const int nv);
+
+void VertexSet_free(VertexSet vs);
 
 #endif
