@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 
+#include "util.h"
 #include "pair.h"
 #include "constants.h"
 #include "grid.h"
@@ -21,10 +22,10 @@
 
 /* Public *******************************************************************/
 
-GrdP Grid_create()
+GridPointer Grid_create()
 {
-    GrdP rtn;
-    rtn = (GrdP) malloc(sizeof(Grd));
+    GridPointer rtn;
+    rtn = (GridPointer) malloc(sizeof(Grid));
 
     rtn->nz = 0;
     rtn->zps = (ZP *) malloc(sizeof(Z) * GRID_DIM_X * GRID_DIM_Y);
@@ -46,24 +47,24 @@ GrdP Grid_create()
     return rtn;
 }
 
-void Grid_append_member(GrdP grdp, const VertexPointer v, const ZP z)
+void Grid_append_member(GridPointer grid, const VertexPointer v, const ZP z)
 {
     v->next = z->members;
     z->members = v;
-    if (!*(grdp->is_populated + z->id)) {
-        *(grdp->pzps + grdp->npz) = z;
-        grdp->npz++;
+    if (!*(grid->is_populated + z->id)) {
+        *(grid->pzps + grid->npz) = z;
+        grid->npz++;
     }
-    *(grdp->is_populated + z->id) = 1;
+    *(grid->is_populated + z->id) = 1;
 }
 
-void Grid_check_adjacent(GrdP grdp) 
+void Grid_check_adjacent(GridPointer grid) 
 {
     int i, j;
-    for (i = 0; i < grdp->npz - 1; i++) {
-        for (j = i + 1; j < grdp->npz; j++) {
-            ZP zi = *(grdp->pzps + i);
-            ZP zj = *(grdp->pzps + j);
+    for (i = 0; i < grid->npz - 1; i++) {
+        for (j = i + 1; j < grid->npz; j++) {
+            ZP zi = *(grid->pzps + i);
+            ZP zj = *(grid->pzps + j);
             int diff;
             diff = zi->id - zj->id;
             
@@ -79,14 +80,14 @@ void Grid_check_adjacent(GrdP grdp)
                 diff == -GRID_DIM_X + 1;
             if (adj) {
                 Pair pr = Pair_initialize(zi, zj);
-                Z2P newz2p = ZonePair_create(pr, grdp->azps);
-                grdp->azps = newz2p;
+                Z2P newz2p = ZonePair_create(pr, grid->azps);
+                grid->azps = newz2p;
             }
         }
     }
 }
 
-void Grid_reset_dynamics(GrdP grid)
+void Grid_reset_dynamics(GridPointer grid)
 {
     if (grid->azps) ZonePairs_free(grid->azps);
     grid->azps = NULL;
@@ -99,11 +100,25 @@ void Grid_reset_dynamics(GrdP grid)
     }
 }
 
-void Grid_free(GrdP grdp)
+int *Grid_to_array(GridPointer grid)
 {
-    ZonePairs_free(grdp->azps);
-    Zones_free(grdp->zps, grdp->nz);
-    free(grdp->pzps);
-    free(grdp->zps);
-    free(grdp->is_populated);
+    int *rtn;
+    rtn = (int *) Util_allocate(grid->nz * 3, sizeof(int));
+    int i;
+    for (i = 0; i < grid->nz; i++) {
+        ZP z = *(grid->zps + i);
+        *(rtn + i * 3) = z->minx;
+        *(rtn + i * 3 + 1) = z->miny;
+        *(rtn + i * 3 + 2) = z->width;
+    }
+    return rtn;
+}
+
+void Grid_free(GridPointer grid)
+{
+    ZonePairs_free(grid->azps);
+    Zones_free(grid->zps, grid->nz);
+    free(grid->pzps);
+    free(grid->zps);
+    free(grid->is_populated);
 }

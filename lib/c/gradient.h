@@ -2,8 +2,7 @@
 #ifndef GRADIENT_H
 #define GRADIENT_H
 
-void Gradient_global(const GraphPointer gp);
-void Gradient_local(const GraphPointer gp);
+void Gradient_calculate(const GraphPointer gp);
 
 // FACADE FOR TESTING
 

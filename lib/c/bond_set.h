@@ -16,6 +16,8 @@ BondSetPointer BondSet_create(VertexPointer *vs, json_value *contents, int *nb);
 
 BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp);
 
+int *Bondset_to_array(BondSet bs);
+
 void BondSet_free(BondSet bs);
 
 #endif

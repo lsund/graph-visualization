@@ -45,8 +45,8 @@ static void first_order(const GraphPointer gp)
 static void second_order_repulsion(const GraphPointer gp)
 {
     int i;
-    for (i = 0; i < gp->grd->npz; i++) {
-        ZP z = *(gp->grd->pzps + i);
+    for (i = 0; i < gp->grid->npz; i++) {
+        ZP z = *(gp->grid->pzps + i);
         VertexPointer vi = z->members;
         while (vi->next) {
             VertexPointer vj;
@@ -62,7 +62,7 @@ static void second_order_repulsion(const GraphPointer gp)
             vi = vi->next;
         }
     }
-    Z2P z2p = gp->grd->azps;
+    Z2P z2p = gp->grid->azps;
     while (z2p) {
         VertexPointer vi;
         vi = z2p->fst->members;
@@ -155,12 +155,7 @@ static void fourth_order(const GraphPointer gp)
 
 /* Public *******************************************************************/
 
-void Gradient_global(const GraphPointer gp)
-{
-    fourth_order(gp);
-}
-
-void Gradient_local(const GraphPointer gp)
+void Gradient_calculate(const GraphPointer gp)
 {
     first_order(gp);
     second_order(gp);

@@ -20,41 +20,41 @@
 
 /* Private ******************************************************************/
 
-static float first_order(const GraphPointer gp) {
+static float first_order(const GraphPointer graph) {
 
     float rtn;
     rtn = 0;
     int i;
-    for (i = 0; i < gp->vs.n; i++) {
-        VertexPointer v = *(gp->vs.set + i);
+    for (i = 0; i < graph->vs.n; i++) {
+        VertexPointer v = *(graph->vs.set + i);
         rtn += Vertex_potential_energy(v);
     }
     return rtn;
 }
 
-static float second_order_attraction(const GraphPointer gp) 
+static float second_order_attraction(const GraphPointer graph) 
 {
     float rtn;
     rtn = 0; 
 
     int i;
-    for (i = 0; i < gp->bs.n; i++) {
+    for (i = 0; i < graph->bs.n; i++) {
         BondPointer bp;
-        bp = *(gp->bs.set + i);
+        bp = *(graph->bs.set + i);
         rtn += Bond_attraction_energy(bp);
     }
 
     return rtn;
 }
 
-static float second_order_repulsion(const GraphPointer gp) 
+static float second_order_repulsion(const GraphPointer graph) 
 {
     float rtn;
     rtn = 0.0;
     
     int i;
-    for (i = 0; i < gp->grd->npz; i++) {
-        ZP zp = *(gp->grd->pzps + i);
+    for (i = 0; i < graph->grid->npz; i++) {
+        ZP zp = *(graph->grid->pzps + i);
         VertexPointer vp0 = zp->members;
         while (vp0->next) {
             VertexPointer vp1;
@@ -72,7 +72,7 @@ static float second_order_repulsion(const GraphPointer gp)
             vp0 = vp0->next;
         }
     }
-    Z2P z2p = gp->grd->azps;
+    Z2P z2p = graph->grid->azps;
     while (z2p) {
         VertexPointer vp0;
         vp0 = z2p->fst->members;
@@ -96,72 +96,67 @@ static float second_order_repulsion(const GraphPointer gp)
     return rtn;
 }
 
-static float second_order(const GraphPointer gp)
+static float second_order(const GraphPointer graph)
 {
     float e2a, e2r;
-    e2a = second_order_attraction(gp);
-    e2r = second_order_repulsion(gp);
+    e2a = second_order_attraction(graph);
+    e2r = second_order_repulsion(graph);
 
     return e2a + e2r; 
 }
 
-static float third_order(const GraphPointer gp)
+static float third_order(const GraphPointer graph)
 {
-    if (!gp->con)
+    if (!graph->con)
         return 0;
 
     float rtn;
     rtn = 0; 
 
-    BondPairPointer b2p;
-    b2p = gp->con;
-    while (b2p) {
-        rtn += BondPair_angular_energy(b2p);
-        b2p = b2p->next;
+    BondPairPointer bpr;
+    bpr = graph->con;
+    while (bpr) {
+        rtn += BondPair_angular_energy(bpr);
+        bpr = bpr->next;
     }
 
     return rtn;
 }
 
-static float fourth_order(const GraphPointer gp)
+static float fourth_order(const GraphPointer graph)
 {
     float rtn;
     rtn = 0;
 
-    BondPairPointer b2p;
-    b2p = gp->crs;
-    while (b2p) {
-        rtn += BondPair_crossing_energy(b2p);
-        b2p = b2p->next;
+    BondPairPointer bpr;
+    bpr = graph->crs;
+    while (bpr) {
+        rtn += BondPair_crossing_energy(bpr);
+        bpr = bpr->next;
     }
     return rtn;
 }
 
 /* Public *******************************************************************/
 
-void Energy_global(const GraphPointer gp)
-{
-    gp->e = fourth_order(gp);
-}
-
-void Energy_local(const GraphPointer gp) 
+float Energy_calculate(const GraphPointer graph) 
 {
     float e1, e2, e3, e4;
-    e1 = first_order(gp);
-    e2 = second_order(gp);
-    e3 = third_order(gp);
-    e4 = fourth_order(gp);
-    gp->e = e1 + e2 + e3 + e4;
+    e1 = first_order(graph);
+    e2 = second_order(graph);
+    e3 = third_order(graph);
+    e4 = fourth_order(graph);
+    return e1 + e2 + e3 + e4;
 }
 
 /* Testing facade ***********************************************************/
 
-float (*test_first_order_energy)(const GraphPointer gp) = first_order;
-float (*test_second_order_energy)(const GraphPointer gp) = second_order;
-float (*test_second_order_attraction_energy)(const GraphPointer gp) = 
+float (*test_first_order_energy)(const GraphPointer graph) = first_order;
+float (*test_second_order_energy)(const GraphPointer graph) = second_order;
+float (*test_second_order_attraction_energy)(const GraphPointer graph) = 
         second_order_attraction;
-float (*test_second_order_repulsion_energy)(const GraphPointer gp) = 
+float (*test_second_order_repulsion_energy)(const GraphPointer graph) = 
         second_order_repulsion;
-float (*test_third_order_energy)(const GraphPointer gp) = third_order;
-float (*test_fourth_order_energy)(const GraphPointer gp) = fourth_order;
+float (*test_third_order_energy)(const GraphPointer graph) = third_order;
+float (*test_fourth_order_energy)(const GraphPointer graph) = fourth_order;
 

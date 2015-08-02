@@ -2,8 +2,7 @@
 #ifndef ENERGY_H
 #define ENERGY_H
 
-void Energy_local(const GraphPointer gp);
-void Energy_global(const GraphPointer gp);
+float Energy_calculate(const GraphPointer gp);
 
 // FACADE FOR TESTING
 

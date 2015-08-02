@@ -5,9 +5,9 @@
 #include "zone.h"
 #include "zone_pair.h"
 
-typedef struct Grd Grd, *GrdP;
+typedef struct grid Grid, *GridPointer;
 
-struct Grd {
+struct grid {
     int nz; 
     int npz; 
     int *is_populated;
@@ -16,14 +16,16 @@ struct Grd {
     Z2P azps;
 };
 
-GrdP Grid_create();
+GridPointer Grid_create();
 
-void Grid_append_member(GrdP grdp, const VertexPointer v, const ZP z);
+void Grid_append_member(GridPointer grid, const VertexPointer v, const ZP z);
 
-void Grid_reset_dynamics(GrdP grdpp);
+void Grid_reset_dynamics(GridPointer gridp);
 
-void Grid_check_adjacent(GrdP grdp);
+void Grid_check_adjacent(GridPointer grid);
 
-void Grid_free(GrdP grdp);
+int *Grid_to_array(GridPointer grid);
+
+void Grid_free(GridPointer grid);
 
 #endif

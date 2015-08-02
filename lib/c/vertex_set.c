@@ -136,10 +136,10 @@ void VertexSet_sort(VertexPointer *vquad, Vector cross)
     }
 }
 
-void VertexSet_move(const VertexSet vs, const int nv, float x) 
+void VertexSet_move(const VertexSet vs, float x) 
 {
     int i;   
-    for (i = 0; i < nv; i++) {
+    for (i = 0; i < vs.n; i++) {
 
         struct vertex *v = *(vs.set + i);
 
@@ -153,13 +153,12 @@ void VertexSet_move(const VertexSet vs, const int nv, float x)
 
 void VertexSet_apply_forces(
         const VertexSet vs, 
-        const int nv, 
         const float gam, 
         const Strategy strat
     )
 {
     int i;
-    for (i = 0; i < nv; i++) {
+    for (i = 0; i < vs.n; i++) {
         VertexPointer vp = *(vs.set + i);
         vp->g.x = -vp->grad.x;
         vp->g.y = -vp->grad.y;
@@ -173,10 +172,10 @@ void VertexSet_apply_forces(
     }
 }
 
-void VertexSet_apply_forces_scalar(const VertexSet vs, const int nv, float x)
+void VertexSet_apply_forces_scalar(const VertexSet vs, float x)
 {
     int i;
-    for (i = 0; i < nv; i++) { 
+    for (i = 0; i < vs.n; i++) { 
         VertexPointer vp = *(vs.set + i);
         vp->grad.x *= x;
         vp->grad.y *= x;
@@ -184,14 +183,10 @@ void VertexSet_apply_forces_scalar(const VertexSet vs, const int nv, float x)
 }
 
 
-void VertexSet_calculate_score(
-        const VertexSet vs, 
-        const int nv, 
-        float *gg, 
-        float *dgg)
+void VertexSet_calculate_score( const VertexSet vs, float *gg, float *dgg)
 {
     int i;
-    for (i = 0; i < nv; i++) {
+    for (i = 0; i < vs.n; i++) {
         VertexPointer vp = *(vs.set + i);
         *gg += vp->g.x * vp->g.x;
         *gg += vp->g.y * vp->g.y;
@@ -200,15 +195,27 @@ void VertexSet_calculate_score(
     }
 }
 
-void VertexSet_set_statics(const VertexSet vs, const int nv)
+void VertexSet_set_statics(const VertexSet vs)
 {
     int i;
-    for (i = 0; i < nv; i++) {
+    for (i = 0; i < vs.n; i++) {
         VertexPointer vp;
         vp = *(vs.set + i);
         vp->pos0 = vp->pos;
         vp->grad0 = vp->grad;
     }
+}
+
+float *VertexSet_to_array(const VertexSet vs)
+{
+    float *rtn = (float *) Util_allocate(vs.n * 2, sizeof(float));
+    int i;
+    for (i = 0; i < vs.n; i++) {
+        *(rtn + i * 2) = (*(vs.set + i))->pos.x;
+        *(rtn + i * 2 + 1) = (*(vs.set + i))->pos.y;
+    }
+    return rtn;
+
 }
 
 void VertexSet_free(VertexSet vs) 
