@@ -25,8 +25,8 @@ static int comp_by_mass(const void *elem1, const void *elem2)
 {
     VertexPointer *fst = (VertexPointer *) elem1;
     VertexPointer *snd = (VertexPointer *) elem2;
-    if ((*fst)->mass < (*snd)->mass) return 1;
-    if ((*fst)->mass > (*snd)->mass) return -1;
+    if ((*fst)->mass > (*snd)->mass) return 1;
+    if ((*fst)->mass < (*snd)->mass) return -1;
     return 0;
 }
 
@@ -49,37 +49,32 @@ static int comp_by_id(const void *elem1, const void *elem2)
  */
 void Placement_set_spiral(VertexSet vs, const int nv)
 {
-    qsort(vs.set, nv, sizeof(void *), comp_by_mass);
+    qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_mass);
     int n, gapx, gapy, dimx, dimy, i, x, y, 
-        placex, placey, dx, dy, t, max_iter, count;
+        placex, placey, dx, dy, t;
     n = nv;
     while (fabs(sqrt(n) - (int) sqrt(n)) > EPS) {
         n++;
     }
     dimx = dimy = sqrt(n);
-    count = 0;
     gapx = PANEL_X / dimx;
     gapy = PANEL_Y / dimy;
-    i = x = y = 0;
+    x = y = 0;
     dx = 0;
     dy = -1;
     t = fmax(dimx, dimy);
-    max_iter = t * t;
-    for (i = 0; i < max_iter; i++) {
-        if (count < nv && !(*(vs.set + count))->pos.given_coords) {
+    for (i = nv - 1; i >= 0; i--) {
+        if (!(*(vs.set + i))->pos.given_coords) {
             if ((-dimx / 2 <= x && x <= dimx / 2) && 
                 (-dimy / 2 <= y && y <= dimy / 2))
             {
+                
                 placex = x * gapx + PANEL_X / 2;
                 placey = y * gapy + PANEL_Y / 2;
-                (*(vs.set + count))->pos.x = placex; 
-                (*(vs.set + count))->pos.y = placey; 
-                count++;
+                (*(vs.set + i))->pos = Vector_initialize(placex, placey);
             }
-        } else {
-            count++;
         }
-        if ((x == y) || (x < 0 && x == -y) || (x > 0 && x == 1 - y)) {
+        if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
             t = dx;
             dx = -dy;
             dy = t;
@@ -87,7 +82,7 @@ void Placement_set_spiral(VertexSet vs, const int nv)
         x += dx;
         y += dy; 
     }
-    qsort(vs.set, nv, sizeof(void *), comp_by_id);
+    qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_id);
 }
 
 /**

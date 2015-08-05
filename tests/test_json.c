@@ -29,7 +29,7 @@ char *test_minimize() {
 
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(valid0);
         exit(0);
@@ -40,13 +40,13 @@ char *test_minimize() {
             mu_assert("ERROR, should not crash",
                     WEXITSTATUS(status) == 0);
         } else {
-            rt_error("1.Child did not terminate with exit");
+            Util_runtime_error("1.Child did not terminate with exit");
         }
         msgpass();
     }
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(invalid0);
         exit(0);
@@ -56,13 +56,13 @@ char *test_minimize() {
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
         } else {
-            rt_error("2.Child did not terminate with exit");
+            Util_runtime_error("2.Child did not terminate with exit");
         }
         msgpass();
     }
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(invalid1);
         exit(0);
@@ -72,13 +72,13 @@ char *test_minimize() {
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
         } else {
-            rt_error("3.Child did not terminate with exit");
+            Util_runtime_error("3.Child did not terminate with exit");
         }
         msgpass();
     }
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(invalid2);
         exit(0);
@@ -88,13 +88,13 @@ char *test_minimize() {
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
         } else {
-            rt_error("4. Child did not terminate with exit");
+            Util_runtime_error("4. Child did not terminate with exit");
         }
         msgpass();
     }
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(invalid3);
         exit(0);
@@ -104,13 +104,13 @@ char *test_minimize() {
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
         } else {
-            rt_error("5. Child did not terminate with exit");
+            Util_runtime_error("5. Child did not terminate with exit");
         }
         msgpass();
     }
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(invalid4);
         exit(0);
@@ -120,13 +120,13 @@ char *test_minimize() {
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should crash", WEXITSTATUS(status) == 1);
         } else {
-            rt_error("6. Child did not terminate with exit");
+            Util_runtime_error("6. Child did not terminate with exit");
         }
         msgpass();
     }
     p = fork();
     if (p < 0) {
-        rt_error("Could not create child");
+        Util_runtime_error("Could not create child");
     } else if (p == 0) {
         Minimizer_run(valid1);
         exit(0);
@@ -136,7 +136,7 @@ char *test_minimize() {
         if (WIFEXITED(status)) {
             mu_assert("ERROR, should not crash", WEXITSTATUS(status) == 0);
         } else {
-            rt_error("7. Child did not terminate with exit");
+            Util_runtime_error("7. Child did not terminate with exit");
         }
         msgpass();
     }

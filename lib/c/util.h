@@ -6,19 +6,23 @@
 #define SIGN(a,b) ((b) > 0.0 ? fabs(a) : -fabs(a))
 #define SHFT(a,b,c,d) (a)=(b);(b)=(c);(c)=(d);
 
+#include <assert.h>
+
 typedef enum { INITIALIZE, UPDATE } Strategy;
 
-int equal(const float tar, const float x);
+float Util_collection_min(const float *col, const int n);
 
-int about(const float tar, const float x);
+int Util_equal(const float tar, const float x);
 
-int in_range(const float lower, const float upper, const float x);
+int Util_is_zero(const float x);
 
-void check_range(const float *x, const float lower, const float upper);
+int Util_about(const float tar, const float x);
 
-const float max(const float *x, int len);
+int Util_in_range(const float lower, const float upper, const float x);
 
-void rt_error(char []);
+void Util_check_range(const float *x, const float lower, const float upper);
+
+void Util_runtime_error(char []);
 
 void *Util_allocate_initialize(int nmemb, int size);
 

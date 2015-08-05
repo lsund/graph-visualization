@@ -34,23 +34,29 @@ float VertexPair_repulsion_energy(const Pair pr)
     vp1 = (VertexPointer) pr.snd;
 
     int cb;
-    /*cb = *(vp0->crs_bof + vp1->id);*/
-    cb = 0;
+    cb = *(vp0->crs_bof + vp1->id);
     if (cb) {
         w *= REPULSION_REDUCE;
     }
+    
+    float i_tl_x, i_tl_y, i_br_x, i_br_y;
+    i_tl_x = fmax(vp0->tl.x, vp1->tl.x);
+    i_tl_y = fmax(vp0->tl.y, vp1->tl.y);
+    i_br_x = fmin(vp0->br.x, vp1->br.x);
+    i_br_y = fmin(vp0->br.y, vp1->br.y);
 
-    float x_o, y_o, a_o;
-    x_o = fmax(0.0, fmin(vp0->br.x, vp1->br.x) - fmax(vp0->tl.x, vp1->tl.x));
-    y_o = fmax(0.0, fmin(vp0->br.y, vp1->br.y) - fmax(vp0->tl.y, vp1->tl.y));
-    a_o = x_o * y_o;
-
-    return w * a_o;
+    if (i_tl_x > i_br_x || i_tl_y > i_br_y) {
+        return 0;
+    } else {
+        float i_dx, i_dy;
+        i_dx = i_br_x - i_tl_x;
+        i_dy = i_br_y - i_tl_y;
+        return w * powf(i_dx * i_dy, 2);
+    }
 }
 
 Vector VertexPair_repulsion_gradient(const Pair pr)
 {
-    
     float w;
     w = repulsion_weight(pr);
 
@@ -61,27 +67,33 @@ Vector VertexPair_repulsion_gradient(const Pair pr)
     int cb;
     cb = *(vp0->crs_bof + vp1->id);
     if (cb) {
-        w *= 0.5;
+        w *= REPULSION_REDUCE;
     }
 
+    float i_tl_x, i_tl_y, i_br_x, i_br_y;
+    i_tl_x = fmax(vp0->tl.x, vp1->tl.x);
+    i_tl_y = fmax(vp0->tl.y, vp1->tl.y);
+    i_br_x = fmin(vp0->br.x, vp1->br.x);
+    i_br_y = fmin(vp0->br.y, vp1->br.y);
+
     Vector frc;
-    if (vp1->pos.x < vp0->pos.x + PADDING && vp0->pos.x < vp1->pos.x) {
-        frc.x = -(fmax(0.0, fmin(vp0->br.y, vp1->br.y) - 
-                fmax(vp0->tl.y, vp1->tl.y)));
-    } else if (vp1->pos.x < vp0->pos.x && vp0->pos.x < vp1->pos.x + PADDING) {
-        frc.x = (fmax(0.0, fmin(vp0->br.y, vp1->br.y) - 
-                fmax(vp0->tl.y, vp1->tl.y)));
+
+    if (i_tl_x > i_br_x || i_tl_y > i_br_y) {
+        return Vector_zero();
     } else {
-        frc.x = 0.0;
-    }
-    if (vp1->pos.y < vp0->pos.y + PADDING && vp0->pos.y < vp1->pos.y) {
-        frc.y = -(fmax(0.0, fmin(vp0->br.x, vp1->br.x) - 
-                fmax(vp0->tl.x, vp1->tl.x)));
-    } else if (vp1->pos.y < vp0->pos.y && vp0->pos.y < vp1->pos.y + PADDING) {
-        frc.y = (fmax(0.0, fmin(vp0->br.x, vp1->br.x) - 
-                fmax(vp0->tl.x, vp1->tl.x)));
-    } else {
-        frc.y = 0.0;
+        float i_dx, i_dy;
+        i_dx = i_br_x - i_tl_x;
+        i_dy = i_br_y - i_tl_y;
+        if (vp0->pos.x < vp1->pos.x) {
+            frc.x = -2 * i_dx * powf(i_dy, 2);
+        } else {
+            frc.x = 2 * i_dx * powf(i_dy, 2);
+        } 
+        if (vp0->pos.y < vp1->pos.y) {
+            frc.y = -2 * i_dy * powf(i_dx, 2);
+        } else {
+            frc.y = 2 * i_dy * powf(i_dx, 2);
+        } 
     }
 
     return Vector_scalar_mult(frc, w);

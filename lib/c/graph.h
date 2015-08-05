@@ -5,7 +5,7 @@
 /// Fixed && not Fixed
 //
 
-#include "bond_pair.h"
+#include "bond_cross.h"
 #include "grid.h"
 #include "zone.h"
 #include "vertex_set.h"
@@ -21,7 +21,8 @@ struct graph
     GridPointer grid;
     VertexSet vs;
     BondSet bs;
-    BondPairPointer con, crs; 
+    BondPairPointer con;
+    BondCrossPointer crs;
 };
 
 GraphPointer Graph_create(const char *fname);

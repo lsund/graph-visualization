@@ -19,22 +19,9 @@ VertexSet VertexSet_initialize(json_value *contents, int *nvp);
 
 void VertexSet_sort(VertexPointer *vquad, Vector cross);
 
-void VertexSet_move(const VertexSet vs, float x);
-
-void VertexSet_apply_forces(
-        const VertexSet vs, 
-        float gam, 
-        Strategy strat 
-    );
-
-void VertexSet_apply_forces_scalar(const VertexSet vs, float x);
-
-void VertexSet_calculate_score( const VertexSet vs, float *gg, float *dgg);
-
-void VertexSet_set_statics(const VertexSet vs);
-
 float *VertexSet_to_array(const VertexSet vs);
 
 void VertexSet_free(VertexSet vs);
 
 #endif
+

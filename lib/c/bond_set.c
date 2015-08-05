@@ -41,7 +41,7 @@ BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
             fstid = first->u.integer;
             sndid = second->u.integer;
         } else {
-            rt_error("Bad JSON data");
+            Util_runtime_error("Bad JSON data");
         }
 
         if (length->type == json_integer) {
@@ -49,7 +49,7 @@ BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
         } else if (length->type == json_double) {
             len = (float) length->u.dbl;
         } else {
-            rt_error("Bad JSON data\n");
+            Util_runtime_error("Bad JSON data\n");
         }
 
         fst = *(vs + fstid);
@@ -63,7 +63,11 @@ BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
     return rtn;
 }
 
-BondSetPointer BondSet_create(VertexPointer *vs, json_value *contents, int *nbp)
+BondSetPointer BondSet_create(
+        VertexPointer *vs, 
+        json_value *contents, 
+        int *nbp
+    )
 {
     BondSetPointer rtn;
     rtn = (BondSetPointer) malloc(sizeof(BondSet));

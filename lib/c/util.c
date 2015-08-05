@@ -20,19 +20,34 @@
 
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_RESET "\x1b[0m"
-    
-int equal(const float tar, const float x) {
+
+float Util_collection_min(const float *col, const int n)
+{
+    int i, min;
+    min = col[0];
+    for (i = 1; i < n; i++) {
+        if (col[i] < min) min = col[i];
+    }
+    return min;
+}
+
+int Util_is_zero(const float x)
+{
+    return Util_equal(x, 0.0);
+}
+
+int Util_equal(const float tar, const float x) {
     return fabs(x - tar) < COMP_EPS;
 }
 
-int about(const float tar, const float x) {
-    if (equal(tar, x)) return 1;
+int Util_about(const float tar, const float x) {
+    if (Util_equal(tar, x)) return 1;
     float err;
-    err = fabs(x * MIN_DIST);
+    err = fabs(x * 0.05);
     return fabs(x - tar) <= err;
 }
 
-int in_range(const float lower, const float upper, const float x)
+int Util_in_range(const float lower, const float upper, const float x)
 {
     int lowcond = x > lower;
     int upcond = x < upper;
@@ -43,7 +58,7 @@ void *Util_allocate(int nmemb, int size) {
     void *rtn = malloc(nmemb * size);
     if (rtn == NULL)
     {
-        rt_error("Error when allocating memory");
+        Util_runtime_error("Error when allocating memory");
     }
     return rtn;
 }
@@ -52,12 +67,12 @@ void *Util_allocate_initialize(int nmemb, int size) {
     void *rtn = calloc(nmemb, size);
     if (rtn == NULL)
     {
-        rt_error("Error when allocating memory");
+        Util_runtime_error("Error when allocating memory");
     }
     return rtn;
 }
 
-void rt_error(char error_text[])
+void Util_runtime_error(char error_text[])
 {
     fprintf(stderr,ANSI_COLOR_RED "Runtime-error:%s\n" ANSI_COLOR_RESET,
             error_text);

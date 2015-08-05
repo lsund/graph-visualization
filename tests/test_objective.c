@@ -17,18 +17,14 @@
 
 char *test_objective() 
 {
-    GraphPointer g = Graph_create( "data/test/4.json", Energy_local, Gradient_local);
+    GraphPointer g = Graph_create( "data/test/4.json");
 
-    float f1, f2, f3;
+    float f1, f2;
 
-    f1 = test_first_order_energy(g);
+    f1 = test_first_order_energy(g->vs);
     f2 = test_second_order_energy(g);
-    f3 = test_third_order_energy(g);
 
     /////// 1d attraction /////////////////////////////////////////////////////
-
-    f1 = test_first_order_energy(g);
-
     
     msg("Objective: Central energy greater than 0...");
     mu_assert("Central energy should be greater or equal to 0", f1 >= 0);
@@ -36,32 +32,20 @@ char *test_objective()
     
     /////// 2d attraction /////////////////////////////////////////////////////
 
-    f2 = test_second_order_energy(g);
-
     msg("Objective: Attraction energy...");
     mu_assert("Repulsion energy should be greater or equal to 0", f2 >= 0);
     msgpass();
 
     Graph_free(g);
     
-    /////// Angular ///////////////////////////////////////////////////////////
-
-    /*g =Graph_create_file( "data/test/3-1.json");*/
-    msg("Objective: Angular energy...");
-    mu_assert("Repulsion energy should be greater or equal to 0", f3 >= 0);
-    msgpass();
-    /*free_graph(g);*/
-    
     /////// Crosses ///////////////////////////////////////////////////////////
 
-    g = Graph_create("data/test/4-2.json", Energy_local, Gradient_local);
-
-    Graph_detect_crosses(g);
+    g = Graph_create("data/test/4-2.json");
 
     VertexPointer vi, vj, vk, vl;
-    BondPairPointer cur = g->crs;
-    vi = cur->fst->fst; vj = cur->fst->snd; 
-    vk = cur->snd->fst; vl = cur->snd->snd;
+    BondCrossPointer cur = g->crs;
+    vi = cur->bpr.fst->fst; vj = cur->bpr.fst->snd; 
+    vk = cur->bpr.snd->fst; vl = cur->bpr.snd->snd;
     
     VertexPointer vquad[4] = { vi, vj, vk, vl };
 
@@ -72,17 +56,15 @@ char *test_objective()
     mu_assert("second", vquad[1]->id == 1);
     msgpass();
     
-    BondPairs_free(g->crs);
+    BondCrosses_free(g->crs);
     g->crs = NULL;
     Graph_free(g);
 
-    g = Graph_create("data/test/4-3.json", Energy_local, Gradient_local);
-
-    Graph_detect_crosses(g);
+    g = Graph_create("data/test/4-3.json");
 
     cur = g->crs;
-    vi = cur->fst->fst; vj = cur->fst->snd; 
-    vk = cur->snd->fst; vl = cur->snd->snd;
+    vi = cur->bpr.fst->fst; vj = cur->bpr.fst->snd; 
+    vk = cur->bpr.snd->fst; vl = cur->bpr.snd->snd;
     
     VertexPointer vquad2[4] = { vi, vj, vk, vl };
 
@@ -93,18 +75,16 @@ char *test_objective()
     mu_assert("second", vquad2[0]->id == 3);
     msgpass();
 
-    BondPairs_free(g->crs);
+    BondCrosses_free(g->crs);
     g->crs = NULL;
 
     Graph_free(g);
 
-    g = Graph_create("data/test/4-4.json", Energy_local, Gradient_local);
-
-    Graph_detect_crosses(g);
+    g = Graph_create("data/test/4-4.json");
 
     cur = g->crs;
-    vi = cur->fst->fst; vj = cur->fst->snd; 
-    vk = cur->snd->fst; vl = cur->snd->snd;
+    vi = cur->bpr.fst->fst; vj = cur->bpr.fst->snd; 
+    vk = cur->bpr.snd->fst; vl = cur->bpr.snd->snd;
     
     VertexPointer vquad3[4] = { vi, vj, vk, vl };
 
@@ -115,7 +95,7 @@ char *test_objective()
     mu_assert("first", vquad3[1]->id == 2);
     msgpass();
 
-    BondPairs_free(g->crs);
+    BondCrosses_free(g->crs);
     g->crs = NULL;
 
     Graph_free(g);

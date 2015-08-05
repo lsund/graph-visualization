@@ -85,6 +85,9 @@ GraphPointer Graph_create(const char *fname)
     GraphPointer rtn;
     rtn = create(*vs, *bs);
 
+    free(vs);
+    free(bs);
+
     Placement_set_spiral(rtn->vs, nv); 
     Graph_reset_dynamics(rtn);
 
@@ -96,7 +99,7 @@ void Graph_reset_dynamics(const GraphPointer g)
 {
     Grid_reset_dynamics(g->grid);
 
-    if (g->crs) BondPairs_free(g->crs);
+    if (g->crs) BondCrosses_free(g->crs);
     g->crs = NULL;
 
     int i;
@@ -113,29 +116,31 @@ void Graph_reset_dynamics(const GraphPointer g)
 void Graph_detect_crosses(const GraphPointer g)
 {
     int i, j;
-    BondPairPointer crs; 
+    BondCrossPointer crs; 
     crs = NULL; 
     for (i = 0; i < g->bs.n - 1; i++) {
         for (j = i + 1; j < g->bs.n; j++) {
 
-            BondPointer b1, b2;
-            b1 = *(g->bs.set + i);  
-            b2 = *(g->bs.set + j);  
+            BondPointer b0, b1;
+            b0 = *(g->bs.set + i);  
+            b1 = *(g->bs.set + j);  
 
-            float xi, yi;
+            BondPair bpr;
+            bpr = BondPair_initialize(Pair_initialize(b0, b1));
 
             int crossing;
-            BondPairPointer b2p;
-            b2p = BondPair_create(Pair_initialize(b1, b2), NULL);
-            crossing = BondPair_intersect(b2p, &xi, &yi);
+            float xi, yi;
+            crossing = BondPair_intersect(bpr, &xi, &yi);
             if (crossing) {
-                b2p->next = crs;
-                BondPair_set_cross(b2p, Vector_initialize(xi, yi));
-                crs = b2p;
-            } else {
-                free(b2p);
-                b2p = NULL;
-            }
+                Vector cross;
+                cross  = Vector_initialize(xi, yi);
+
+                BondCrossPointer bcrs;
+                bcrs = BondCross_create(bpr, cross);
+
+                bcrs->next = crs;
+                crs = bcrs;
+            } 
         }
     }
     g->crs = crs;
@@ -153,10 +158,11 @@ void Graph_detect_connected(const GraphPointer g)
             fst = *(g->bs.set + i);  
             snd = *(g->bs.set + j);  
             Pair pr = Pair_initialize(fst, snd);
-            int match = has_common_vertex(BondPair_initialize(pr , NULL));
+            int match = has_common_vertex(BondPair_initialize(pr));
             if (match) {
                 BondPairPointer newpr;
-                newpr = BondPair_create(Pair_initialize(fst, snd), con);
+                newpr = BondPair_create(Pair_initialize(fst, snd));
+                newpr->next = con;
                 con = newpr;
             }
         }
@@ -166,10 +172,10 @@ void Graph_detect_connected(const GraphPointer g)
 
 void Graph_free(GraphPointer g)
 {
+    if (g->con) BondPairs_free(g->con);
+    if (g->crs) BondCrosses_free(g->crs);
     VertexSet_free(g->vs);
     BondSet_free(g->bs);
-    if (g->con) BondPairs_free(g->con);
-    if (g->crs) BondPairs_free(g->crs);
     Grid_free(g->grid);
     free(g->grid);
     free(g);

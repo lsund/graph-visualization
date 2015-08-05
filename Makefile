@@ -1,5 +1,5 @@
 
-EMFLAGS=-O1 -D EMSCRIPT=1
+EMFLAGS=-O1 -D EMSCRIPT=1 -s PRECISE_F32=1 
 CFLAGS=-std=c99 -Wall -g
 
 SRC_DIR=lib/c
@@ -31,11 +31,15 @@ smallemscript: $(SRCS)
 	EXPORTED_FUNCTIONS="['_Minimizer_run']" \
 	--preload-file test.csv
 
-normal: $(SRCS)
+develop: $(SRCS)
 	gcc $(CFLAGS) $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
 
+production: $(SRCS)
+	gcc $(CFLAGS) -DNDEBUG $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
+
 test: $(SRCS) 
-	gcc $(CFLAGS) -D TEST=1 $(TEST_SRCS) $(SRCS) -o bin/test -lm
+	gcc $(CFLAGS) -D TEST=1 \
+	  $(TEST_SRCS) $(SRCS) -o bin/test -lm
 
 runtest: test
 	./bin/test

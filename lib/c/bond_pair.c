@@ -20,29 +20,26 @@
 
 /* Private ******************************************************************/
 
-static float angular_weight(const BondPairPointer b2p)
+static float angular_weight(const BondPairPointer bpr)
 {
-   return WANG / (b2p->other1->mass * b2p->other2->mass);
-}
-
-static float crossing_weight(const BondPairPointer b2p)
-{
-   return WCRS;
+   return WANG / (bpr->other1->mass * bpr->other2->mass);
 }
 
 /* Public *******************************************************************/
 
-BondPair BondPair_initialize(Pair pr, BondPairPointer next)
+BondPair BondPair_initialize(Pair pr)
 {
     BondPair rtn;
-    VertexPointer v0, v1, v2, v3;
     rtn.fst = (BondPointer) pr.fst;
     rtn.snd = (BondPointer) pr.snd;
+    rtn.next = NULL;
+
+    VertexPointer v0, v1, v2, v3;
     v0 = rtn.fst->fst;
     v1 = rtn.fst->snd;
     v2 = rtn.snd->fst;
     v3 = rtn.snd->snd;
-    rtn.next = next;
+
     if (v0->id == v2->id) {
         rtn.common = v0;
         rtn.other1 = v1;
@@ -63,36 +60,12 @@ BondPair BondPair_initialize(Pair pr, BondPairPointer next)
     return rtn;
 }
 
-BondPairPointer BondPair_create(Pair pr, BondPairPointer next)
+BondPairPointer BondPair_create(Pair pr)
 {
     BondPairPointer rtn = calloc(1, sizeof(BondPair));
-    *rtn = BondPair_initialize(pr, next);
+    *rtn = BondPair_initialize(pr);
+
     return rtn;
-}
-
-
-void BondPair_set_cross(BondPairPointer b2p, Vector cross)
-{
-    BondPointer b0, b1;
-    b0 = b2p->fst; b1 = b2p->snd;
-
-    VertexPointer v0, v1, v2, v3;
-    v0 = b0->fst; v1 = b0->snd; 
-    v2 = b1->fst; v3 = b1->snd;
-    
-    *(v0->crs_bof + v2->id) = 1;
-    *(v0->crs_bof + v3->id) = 1;
-
-    *(v1->crs_bof + v2->id) = 1;
-    *(v1->crs_bof + v3->id) = 1;
-
-    *(v2->crs_bof + v0->id) = 1;
-    *(v2->crs_bof + v1->id) = 1;
-
-    *(v3->crs_bof + v0->id) = 1;
-    *(v3->crs_bof + v1->id) = 1;
-
-    b2p->cross = cross;
 }
 
 /**
@@ -101,11 +74,11 @@ void BondPair_set_cross(BondPairPointer b2p, Vector cross)
  * and i_y.  
  * Credit: http://stackoverflow.com/users/78216/gavin
  */
-char BondPair_intersect(const BondPairPointer b2p, float *i_x, float *i_y) 
+char BondPair_intersect(const BondPair bpr, float *i_x, float *i_y) 
 {
     
     BondPointer b0, b1;
-    b0 = b2p->fst; b1 = b2p->snd;
+    b0 = bpr.fst; b1 = bpr.snd;
 
     VertexPointer v0, v1, v2, v3;
     v0 = b0->fst; v1 = b0->snd; 
@@ -141,12 +114,12 @@ char BondPair_intersect(const BondPairPointer b2p, float *i_x, float *i_y)
     return 0; 
 }
 
-float BondPair_angular_energy(const BondPairPointer b2p)
+float BondPair_angular_energy(const BondPairPointer bpr)
 {
     VertexPointer vi, vj, vk;
-    vi = b2p->other1; 
-    vj = b2p->common;
-    vk = b2p->other2; 
+    vi = bpr->other1; 
+    vj = bpr->common;
+    vk = bpr->other2; 
 
     float xji, yji, xjk, yjk;
     xji = vi->pos.x - vj->pos.x; yji = vi->pos.y - vj->pos.y;
@@ -160,18 +133,18 @@ float BondPair_angular_energy(const BondPairPointer b2p)
     theta = Vector_angle(vecji, vecjk);
     
     float wij, theta0;
-    wij = angular_weight(b2p);
+    wij = angular_weight(bpr);
     theta0 = (2 * M_PI) / (vj->mass - 1);
 
     return wij * powf(theta - theta0, 2);
 }
 
-Pair BondPair_angular_gradient(const BondPairPointer b2p)
+Pair BondPair_angular_gradient(const BondPairPointer bpr)
 {
     VertexPointer vi, vj, vk;
-    vi = b2p->other1; 
-    vj = b2p->common;
-    vk = b2p->other2; 
+    vi = bpr->other1; 
+    vj = bpr->common;
+    vk = bpr->other2; 
     
     float xji, yji, xjk, yjk; 
     xji = vi->pos.x - vj->pos.x;
@@ -179,11 +152,11 @@ Pair BondPair_angular_gradient(const BondPairPointer b2p)
     xjk = vk->pos.x - vj->pos.x;
     yjk = vk->pos.y - vj->pos.y;
 
-    if (about(xji, xjk)) {
+    if (Util_about(xji, xjk)) {
         xji += MIN_DIST;
         xjk -= MIN_DIST;
     }
-    if (about(yji, yjk)) {
+    if (Util_about(yji, yjk)) {
         yji += MIN_DIST;
         yjk -= MIN_DIST;
     }
@@ -214,7 +187,7 @@ Pair BondPair_angular_gradient(const BondPairPointer b2p)
     }
     dsq = dn / dd;
     if (dsq < 0) {
-        rt_error("Negative square root argument");
+        Util_runtime_error("Negative square root argument");
     }
     d = sqrtf(dn / dd);
 
@@ -225,15 +198,9 @@ Pair BondPair_angular_gradient(const BondPairPointer b2p)
     aver[3] = 2 * xjk * a1;
     
     float c1d, c2d;
-    c1d = c1 * d; c2d = c2 * d;
+    c1d = fmax(c1 * d, MIN_DIST); 
+    c2d = fmax(c2 * d, MIN_DIST);
 
-    if (c1d < MIN_DIST) {
-        c1d = MIN_DIST; 
-    } 
-    if (c2d < MIN_DIST) {
-        c2d = MIN_DIST;
-    }
-    
     float dxji, dyji, dxjk, dyjk;
     dxji = -(aver[0] * b) / c1d;
     dyji = -(aver[1] * b) / c1d;
@@ -242,8 +209,8 @@ Pair BondPair_angular_gradient(const BondPairPointer b2p)
 
     float wji, wjk;
 
-    wji = angular_weight(b2p);
-    wjk = angular_weight(b2p);
+    wji = angular_weight(bpr);
+    wjk = angular_weight(bpr);
 
     VectorPointer frcji, frcjk;
     
@@ -256,62 +223,6 @@ Pair BondPair_angular_gradient(const BondPairPointer b2p)
     return Pair_initialize(frcji, frcjk);
 }
 
-float BondPair_crossing_energy(BondPairPointer b2p)
-{
-    VertexPointer vi, vj, vk, vl;
-    vi = b2p->fst->fst; vj = b2p->fst->snd; 
-    vk = b2p->snd->fst; vl = b2p->snd->snd;
-    
-    VertexPointer vquad[4] = { vi, vj, vk, vl };
-    
-    VertexSet_sort(vquad, b2p->cross);
-    
-    float dvc1, dvc2; 
-    dvc1 = Vector_norm(Vector_sub(b2p->cross, vquad[0]->pos));
-    dvc2 = Vector_norm(Vector_sub(b2p->cross, vquad[1]->pos));
-    
-    float wi = crossing_weight(b2p);
-
-    return wi * (dvc1 + dvc2);
-
-}
-
-Pair BondPair_crossing_gradient(BondPairPointer b2p, VertexPointer v0, VertexPointer v1)
-{
-
-    Vector d0, d1;
-    d0 = Vector_sub(b2p->cross, v0->pos); 
-    d1 = Vector_sub(b2p->cross, v1->pos); 
-
-    float len0, len1;
-    len0 = Vector_norm(d0); len1 = Vector_norm(d1);
-
-    if (equal(len0, 0.0)) {
-        len0 = MIN_DIST;
-    } else if (equal(len1, 0.0)) {
-        len1 = MIN_DIST;
-    }
-    
-    float dx0, dy0, dx1, dy1; 
-    dx0 = d0.x / len0;
-    dy0 = d0.y / len0;
-    dx1 = d1.x / len1;
-    dy1 = d1.y / len1;
-
-    Vector *frc0, *frc1; 
-    frc0 = Vector_create(dx0, dy0);
-    frc1 = Vector_create(dx1, dy1);
-    
-    float w0, w1;
-    w0 = crossing_weight(b2p);
-    w1 = crossing_weight(b2p);
-
-    *frc0 = Vector_scalar_mult(*frc0, w0);  
-    *frc1 = Vector_scalar_mult(*frc1, w1);  
-    
-    return Pair_initialize(frc0, frc1);
-}
-
 int has_common_vertex(BondPair bpr) 
 {
     BondPointer bp1, bp2;
@@ -322,12 +233,12 @@ int has_common_vertex(BondPair bpr)
             bp1->snd->id == bp2->snd->id;
 }
 
-void BondPairs_free(BondPairPointer b2ps)
+void BondPairs_free(BondPairPointer bprs)
 {
-    BondPairPointer b2p = b2ps;
-    while(b2p != NULL) {
-        BondPairPointer tmp = b2p;
-        b2p = b2p->next;
+    BondPairPointer bpr = bprs;
+    while(bpr != NULL) {
+        BondPairPointer tmp = bpr;
+        bpr = bpr->next;
         free(tmp);
         tmp = NULL;
     }

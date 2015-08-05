@@ -9,7 +9,7 @@ typedef struct vertex Vertex, *VertexPointer;
 
 struct vertex 
 {
-    Vector pos, tl, br, grad, g, h;
+    Vector pos, tl, br;
     Vector pos0, grad0;
     int id, mass;
     int *crs_bof;
@@ -23,9 +23,7 @@ void Vertex_reset_dynamics(VertexPointer v);
 VertexPointer Vertex_create(
         const int id, 
         const Vector pos, 
-        const Vector grad, 
-        const Vector g, 
-        const Vector h, 
+        const Vector grad, const Vector g, const Vector h,
         const float wdth, const
         float hght, 
         const char type, 

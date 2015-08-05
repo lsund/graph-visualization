@@ -10,9 +10,9 @@ struct vector
     int given_coords;
 };
 
-Vector Vector_initialize(float x, float y);
+Vector Vector_initialize(const float x, const float y);
 
-VectorPointer Vector_create(float x, float y);
+VectorPointer Vector_create(const float x, const float y);
 
 Vector Vector_zero();
 
@@ -20,9 +20,13 @@ Vector Vector_add(Vector vec1, Vector vec2);
 
 Vector Vector_sub(Vector vec1, Vector vec2);
 
+Vector Vector_mult(Vector vec1, Vector vec2);
+
 Vector Vector_negate(Vector vec);
 
 Vector Vector_scalar_mult(Vector vec, float c);
+
+Vector Vector_scalar_add(Vector vec, float c);
 
 float Vector_cross(Vector vec1, Vector vec2);
 

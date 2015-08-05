@@ -29,16 +29,31 @@
     ({ (*bx) - ((*bx - *cx) * q - (*bx - *ax) *r ) / \
      (2.0 * SIGN(MAX(fabs(q - r), TINY), q - r));})
 
-static float step(float x, GraphPointer graph, float (*e_fun)(GraphPointer))   
-{   
-    VertexSet_move(graph->vs, x);
+VectorPointer cached_gradient;
 
-    Graph_reset_dynamics(graph);
-
-    return e_fun(graph);
+static void move_vertices(VertexSet vs, float x)
+{
+    int i;   
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer v = *(vs.set + i);
+        Vector ds;
+        ds = Vector_scalar_mult(cached_gradient[i], x);
+        Vertex_move(v, ds);
+    }
 }
 
-float isolate_minimum(
+static float step(float x, GraphPointer graph, float (*e_fun)(GraphPointer))   
+{   
+    move_vertices(graph->vs, x);
+    Graph_reset_dynamics(graph);
+
+    float energy;
+    energy = e_fun(graph);
+
+    return energy;
+}
+
+static float isolate_minimum(
         GraphPointer graph, 
         float ax, 
         float bx, 
@@ -51,7 +66,6 @@ float isolate_minimum(
     int iter;
     float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
     float e=0.0;
-    void rt_error(); 
 
     a=(ax < cx ? ax : cx);
     b=(ax > cx ? ax : cx);
@@ -103,7 +117,7 @@ float isolate_minimum(
             }
         }
     }
-    rt_error("Too many iterations in brent");
+    Util_runtime_error("Too many iterations in brent");
     *xmin=x;
     return fx;
 }
@@ -176,14 +190,27 @@ void bracket_minimum(
     }
 }
 
-
-void linmin(GraphPointer graph, float (*e_fun)(GraphPointer), float *fret)   
+void linmin(
+        GraphPointer graph, 
+        float (*e_fun)(GraphPointer), 
+        float *fret, 
+        VectorPointer gradient
+    )   
 {   
-
     VertexSet vs;
     vs = graph->vs;
 
-    VertexSet_set_statics(vs);    
+    cached_gradient = (VectorPointer) Util_allocate(vs.n, sizeof(Vector));
+
+    int i;
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer vp;
+        vp = *(vs.set + i);
+        vp->pos0 = vp->pos;
+
+        cached_gradient[i] = gradient[i];
+        gradient[i] = Vector_zero();
+    }
 
     float ax, xx;
     ax = 0.0; 
@@ -195,6 +222,9 @@ void linmin(GraphPointer graph, float (*e_fun)(GraphPointer), float *fret)
     float xmin;
     *fret = isolate_minimum(graph, ax, xx, bx, TOL, &xmin, e_fun);   
     
-    VertexSet_apply_forces_scalar(graph->vs, xmin);
-}   
+    for (i = 0; i < vs.n; i++) { 
+        Vector_scalar_mult(gradient[i], xmin);
+    }   
+    free(cached_gradient);
+}
 

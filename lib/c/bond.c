@@ -41,29 +41,32 @@ static float Bond_attraction_weight(const BondPointer bp)
 
 float Bond_attraction_energy(const BondPointer bp)
 {
-    float d0i, di, wi; 
-    d0i = bp->dist0 * SPRING_LENGTH;
-    di = Vector_norm(Vector_sub(bp->snd->pos, bp->fst->pos)); 
-    wi = Bond_attraction_weight(bp);
-    return wi * powf(di - d0i, 2);
+    float d0, d;
+    d0 = bp->dist0 * SPRING_LENGTH;
+    d = Vector_norm(Vector_sub(bp->snd->pos, bp->fst->pos)); 
+
+    float w;
+    w = Bond_attraction_weight(bp);
+    return w * powf(d - d0, 2);
 }
 
 Vector Bond_attraction_gradient(const BondPointer bp)
 {
-    float d0i, wi;
-    d0i = bp->dist0 * SPRING_LENGTH;
-    wi = Bond_attraction_weight(bp);
-
+    float d0;
+    d0 = bp->dist0 * SPRING_LENGTH;
     Vector vecb;
     vecb = Vector_sub(bp->snd->pos, bp->fst->pos);
 
-    float di;
-    di = Vector_norm(vecb); 
-    if (fabs(di) <  MIN_DIST) {
-        di = MIN_DIST;
+    float d;
+    d = Vector_norm(vecb); 
+    if (fabs(d) <  MIN_DIST) {
+        d = MIN_DIST;
     } 
+    
+    float w;
+    w = Bond_attraction_weight(bp);
 
-    return Vector_scalar_mult(vecb, 2 * wi * (di - d0i) / di);
+    return Vector_scalar_mult(vecb, 2 * w * (1 - (d0 / d)));
 }
 
 void Bond_free(BondPointer bp)
