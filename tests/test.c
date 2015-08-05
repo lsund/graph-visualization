@@ -36,6 +36,7 @@ char *test_vertex();
 char *test_bond();
 char *test_bondpair();
 char *test_bondcross();
+char *test_graph();
 int minimize(const char *fname);
 
 void msg(const char *s) 
@@ -57,6 +58,7 @@ static char *all_tests() {
     mu_run_test(test_bond);
     mu_run_test(test_bondpair);
     mu_run_test(test_bondcross);
+    mu_run_test(test_graph);
     return 0;
 }
 
@@ -70,29 +72,29 @@ int main(int argc, char **argv) {
         }
         else {
             printf("ALL TESTS passed\n");
+            int msec;
+            clock_t start, diff;
+            start = clock();
+            Minimizer_run("data/3.json");
+            diff = clock() - start;
+            msec = diff * 1000 / CLOCKS_PER_SEC;
+            printf("3 vertices: \n%d seconds %d milliseconds \n", 
+                    msec / 1000, msec % 1000);
+            start = clock();
+            Minimizer_run("data/23.json");
+            diff = clock() - start;
+            msec = diff * 1000 / CLOCKS_PER_SEC;
+            printf("23 vertices: \n%d seconds %d milliseconds \n", 
+                    msec / 1000, msec % 1000);
+            Minimizer_run("data/52.json");
+            diff = clock() - start;
+            msec = diff * 1000 / CLOCKS_PER_SEC;
+            printf("52 vertices: \n%d seconds %d milliseconds \n", 
+                    msec / 1000, msec % 1000);
         }
-        int msec;
-        clock_t start, diff;
-        start = clock();
-        Minimizer_run("data/3.json");
-        diff = clock() - start;
-        msec = diff * 1000 / CLOCKS_PER_SEC;
-        printf("3 vertices: \n%d seconds %d milliseconds \n", 
-                msec / 1000, msec % 1000);
-        start = clock();
-        Minimizer_run("data/23.json");
-        diff = clock() - start;
-        msec = diff * 1000 / CLOCKS_PER_SEC;
-        printf("23 vertices: \n%d seconds %d milliseconds \n", 
-                msec / 1000, msec % 1000);
-        Minimizer_run("data/52.json");
-        diff = clock() - start;
-        msec = diff * 1000 / CLOCKS_PER_SEC;
-        printf("52 vertices: \n%d seconds %d milliseconds \n", 
-                msec / 1000, msec % 1000);
         return result != 0;
     } else {
-        Minimizer_run("data/23.json");
+        Minimizer_run("data/52.json");
         return 0;
     }
 }

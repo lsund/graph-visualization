@@ -54,7 +54,7 @@ static float second_order_repulsion(const GridPointer grid)
     
     int i;
     for (i = 0; i < grid->npz; i++) {
-        ZP zp = *(grid->pzps + i);
+        ZonePointer zp = *(grid->pzps + i);
         VertexPointer vp0 = zp->members;
         while (vp0->next) {
             VertexPointer vp1;
@@ -72,7 +72,7 @@ static float second_order_repulsion(const GridPointer grid)
             vp0 = vp0->next;
         }
     }
-    Z2P z2p = grid->azps;
+    ZonePairPointer z2p = grid->azps;
     while (z2p) {
         VertexPointer vp0;
         vp0 = z2p->fst->members;

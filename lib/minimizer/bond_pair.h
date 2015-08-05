@@ -17,7 +17,7 @@ BondPair BondPair_initialize(const Pair pr);
 
 BondPairPointer BondPair_create(const Pair pr);
 
-char BondPair_intersect(const BondPair bpr, float *i_x, float *i_y);
+int BondPair_intersect(const BondPair bpr, VectorPointer v);
 
 float BondPair_angular_energy(const BondPairPointer bpr);
 

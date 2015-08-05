@@ -37,7 +37,33 @@ static float potential_weight(const VertexPointer vp)
 
 /* Public  ******************************************************************/
 
-void Vertex_reset_dynamics(VertexPointer v) 
+int Vertex_zone_idx(const VertexPointer v)
+{
+    int rtn;
+    if (v->pos.x >= PANEL_X) {
+        rtn = PANEL_X / PADDING - 1;
+    } else if (v->pos.x <= 0) {
+        rtn = 0;
+    } else {
+        rtn = ((int) v->pos.x) / PADDING;
+    }
+    return rtn; 
+}
+
+int Vertex_zone_idy(const VertexPointer v)
+{
+    int rtn;
+    if (v->pos.y >= PANEL_Y) {
+        rtn = PANEL_Y / PADDING - 1;
+    } else if (v->pos.y <= 0) {
+        rtn = 0;
+    } else {
+        rtn = ((int) v->pos.y) / PADDING;
+    }
+    return rtn;
+}
+
+void Vertex_reset_dynamics(const VertexPointer v) 
 {
     v->next = NULL;
 }

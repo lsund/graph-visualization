@@ -15,10 +15,17 @@
 
 #include "zone.h"
 
-ZP Zone_create(const int id, const int i, const int j, const int minx, 
-        const int miny, const int width, const int height) 
+ZonePointer Zone_create(
+        const int id, 
+        const int i, 
+        const int j, 
+        const int minx,
+        const int miny, 
+        const int width, 
+        const int height
+    )
 {
-    ZP rtn = malloc(sizeof(Z));
+    ZonePointer rtn = malloc(sizeof(Zone));
     rtn->id = id;
     rtn->i = i;
     rtn->j = j;
@@ -28,7 +35,7 @@ ZP Zone_create(const int id, const int i, const int j, const int minx,
 }
 
 
-void Zones_free(ZP *zs, int nz) 
+void Zones_free(ZonePointer *zs, int nz) 
 {
     int i;
     for (i = 0; i < nz; i++) {

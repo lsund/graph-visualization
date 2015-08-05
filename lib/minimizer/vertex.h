@@ -30,6 +30,9 @@ VertexPointer Vertex_create(
         const int nv 
 );
 
+int Vertex_zone_idy(const VertexPointer v);
+int Vertex_zone_idx(const VertexPointer v);
+
 void Vertex_move(const VertexPointer vp, const Vector s);
 
 float Vertex_potential_energy(const VertexPointer vp);

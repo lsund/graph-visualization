@@ -30,9 +30,8 @@ char *test_bondcross()
      
     BondPair bpr = BondPair_initialize(Pair_initialize(b, b2));
 
-    float x, y;
-    BondPair_intersect(bpr, &x, &y);
-    Vector cross = Vector_initialize(x, y);
+    Vector cross;
+    BondPair_intersect(bpr, &cross);
 
     BondCrossPointer bcrs = BondCross_create(bpr, cross);
     

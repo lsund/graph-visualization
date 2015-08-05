@@ -62,6 +62,11 @@ void create_sequences(
         const Strategy strat
     )
 {
+    
+    assert(gradient && g && h); 
+    assert(n > 0 && n <= MAX_NV); 
+    assert(strat == INITIALIZE || strat == UPDATE);
+    
     int i;
     for (i = 0; i < n; i++) {
         g[i] = Vector_negate(gradient[i]);
@@ -84,6 +89,10 @@ void calculate_score(
        float *dgg
     )
 {
+    assert(gradient); assert(g);
+    assert(n > 0 && n <= MAX_NV);
+    assert(Util_is_zero(*gg) && Util_is_zero(*dgg));
+
     int i;
     for (i = 0; i < n; i++) {
         *gg += Vector_dot(g[i], g[i]);
@@ -100,9 +109,8 @@ static void conjugate_gradient(
     )
 {
     
-    assert(graph);
-    assert(e_fun);
-    assert(g_fun);
+    assert(graph && e_fun && g_fun);
+    assert(graph->grid && graph->vs.set && graph->bs.set);
     assert(ftol > 0 && ftol < 0.1);
 
     int nv;
@@ -159,16 +167,25 @@ int Minimizer_run(const char *fname)
 {
     assert(fname);
 
-    GraphPointer graph;
-    graph = Graph_create(fname);
+    if (access(fname, R_OK) != -1) {
 
-    conjugate_gradient(graph, Energy_calculate, Gradient_calculate, FTOL);
+        GraphPointer graph;
+        graph = Graph_create(fname);
 
-    Graph_free(graph);
-    graph = NULL;
-    
-    assert(!graph);
-    return 0;
+        conjugate_gradient(graph, Energy_calculate, Gradient_calculate, FTOL);
+
+        Graph_free(graph);
+        graph = NULL;
+        
+        assert(!graph);
+
+        return 0;
+    } else {
+
+        fprintf(stderr, "Error: Can't read file: %s\n", fname);
+        return -1;
+    }
+
 }
 
 

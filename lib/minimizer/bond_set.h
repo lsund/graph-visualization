@@ -14,6 +14,8 @@ struct bondset {
 
 BondSetPointer BondSet_create(VertexPointer *vs, json_value *contents, int *nb);
 
+BondPointer BondSet_get_bond(const BondSet bs, const int i);
+
 BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp);
 
 int *Bondset_to_array(BondSet bs);

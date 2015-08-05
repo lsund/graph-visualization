@@ -63,6 +63,11 @@ BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
     return rtn;
 }
 
+BondPointer BondSet_get_bond(const BondSet bs, const int i) 
+{
+    return *(bs.set + i);  
+}
+
 BondSetPointer BondSet_create(
         VertexPointer *vs, 
         json_value *contents, 

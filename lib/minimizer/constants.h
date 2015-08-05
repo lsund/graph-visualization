@@ -13,6 +13,7 @@
 #define STEP 0
 #define INTERVAL 500
 
+#define MAX_NV 100
 #define PANEL_X 1000 
 #define PANEL_Y 1000
 #define PADDING 100.0f
@@ -26,11 +27,11 @@
 #define SPRING_LENGTH 100.0f
 #define REPULSION_REDUCE 1.0
 
-#define WATR 10.0f
+#define WATR 15.0f
 #define WREP 0.004f
-#define WPOT 3.0f
-#define WANG 100.0f
-#define WCRS 3.0f
+#define WPOT 2.5f
+#define WANG 500.0f
+#define WCRS 10.0f
 
 #define COMP_EPS 1.0e-4
 
@@ -58,6 +59,7 @@
 #define M_PI 3.14159265358979323846
 #define INTERVAL 800
 
+#define MAX_NV 100
 #define PANEL_X 1000 
 #define PANEL_Y 1000
 #define PADDING 100.0f
@@ -80,7 +82,7 @@
 #define WANG 1.0f
 #define WCRS 1.0f
 
-#define FTOL 1.0e-5
+#define FTOL 1.0e-3
 #define TOL 2.0e-4 
 #define ZEPS 1.0e-10
 #define EPS 1.0e-10

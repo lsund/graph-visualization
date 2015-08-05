@@ -74,9 +74,10 @@ BondPairPointer BondPair_create(Pair pr)
  * and i_y.  
  * Credit: http://stackoverflow.com/users/78216/gavin
  */
-char BondPair_intersect(const BondPair bpr, float *i_x, float *i_y) 
+int BondPair_intersect(const BondPair bpr, VectorPointer v) 
 {
-    
+    assert(v);
+
     BondPointer b0, b1;
     b0 = bpr.fst; b1 = bpr.snd;
 
@@ -105,10 +106,10 @@ char BondPair_intersect(const BondPair bpr, float *i_x, float *i_y)
     if (s >= MIN_DIST && s <= 1 - MIN_DIST && 
         t >= MIN_DIST && t <= 1 - MIN_DIST)
     {
-        if (i_x != NULL)
-            *i_x = p0_x + (t * s1_x);
-        if (i_y != NULL)
-            *i_y = p0_y + (t * s1_y);
+        float i_x, i_y;
+        i_x = p0_x + (t * s1_x);
+        i_y = p0_y + (t * s1_y);
+        *v = Vector_initialize(i_x, i_y);
         return 1;
     }
     return 0; 

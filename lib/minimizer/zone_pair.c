@@ -15,20 +15,20 @@
 #include "pair.h"
 #include "zone_pair.h"
 
-Z2P ZonePair_create(Pair pr, Z2P next)
+ZonePairPointer ZonePair_create(const Pair pr, const ZonePairPointer next)
 {
-    Z2P rtn = (Z2P) malloc(sizeof(Z2));
-    rtn->fst = (ZP) pr.fst;
-    rtn->snd = (ZP) pr.snd;
+    ZonePairPointer rtn = (ZonePairPointer) malloc(sizeof(ZonePair));
+    rtn->fst = (ZonePointer) pr.fst;
+    rtn->snd = (ZonePointer) pr.snd;
     rtn->next = next;
     return rtn;
 }
 
-void ZonePairs_free(Z2P z2p)
+void ZonePairs_free(ZonePairPointer z2p)
 {
-    Z2P cur = z2p;
+    ZonePairPointer cur = z2p;
     while(cur != NULL) {
-        Z2P tmp = cur;
+        ZonePairPointer tmp = cur;
         cur = cur->next;
         free(tmp);
     }

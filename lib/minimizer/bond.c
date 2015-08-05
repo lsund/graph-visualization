@@ -24,8 +24,8 @@ BondPointer Bond_create(
         const float dist0
     )
 {
-    fst->mass += 1;
-    snd->mass += 1;
+    fst->mass++;
+    snd->mass++;
 
     BondPointer rtn = malloc(sizeof(Bond));
     rtn->fst = fst;

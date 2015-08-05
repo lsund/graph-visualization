@@ -2,7 +2,7 @@
 EMFLAGS=-O1 -D EMSCRIPT=1 -s PRECISE_F32=1 
 CFLAGS=-std=c99 -Wall -g
 
-SRC_DIR=lib/c
+SRC_DIR=lib/minimizer
 TEST_SRC_DIR=tests
 DATA_DIR=data
 
@@ -44,5 +44,5 @@ test: $(SRCS)
 runtest: test
 	./bin/test
 
-run: normal
+run: develop
 	./bin/minimize
