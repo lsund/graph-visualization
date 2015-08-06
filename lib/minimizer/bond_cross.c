@@ -16,7 +16,7 @@
 #include "util.h"
 #include "constants.h"
 
-static float crossing_weight(const BondCrossPointer bcrs)
+static double crossing_weight(const BondCrossPointer bcrs)
 {
     return WCRS;
 }
@@ -64,29 +64,29 @@ BondCrossPointer BondCross_create(
     return rtn;
 }
 
-float BondCross_crossing_energy(const BondCrossPointer bcrs)
+double BondCross_crossing_energy(const BondCrossPointer bcrs)
 {
     VertexPointer v0, v1, v2, v3;
     v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.snd->fst; 
     v2 = bcrs->bpr.snd->snd; v3 = bcrs->bpr.fst->snd;
     
-    float d0, d1, d2, d3;
+    double d0, d1, d2, d3;
     d0 = Vector_norm(Vector_sub(bcrs->cross, v0->pos));
     d1 = Vector_norm(Vector_sub(bcrs->cross, v1->pos));
     d2 = Vector_norm(Vector_sub(bcrs->cross, v2->pos));
     d3 = Vector_norm(Vector_sub(bcrs->cross, v3->pos));
 
-    float dsums[4];
+    double dsums[4];
     dsums[0] = d0 + d1;
     dsums[1] = d0 + d2;
     dsums[2] = d1 + d3;
     dsums[3] = d2 + d3;
 
-    float mind, wi;
+    double mind, wi;
     mind = Util_collection_min(dsums, 4);
     wi = crossing_weight(bcrs);
     
-    return wi  / (v0->mass + v1->mass + v2->mass + v3->mass) * powf(mind, 2);
+    return wi  / (v0->mass + v1->mass + v2->mass + v3->mass) * pow(mind, 2);
 }
 
 VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
@@ -102,13 +102,13 @@ VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
     vec2 = Vector_sub(bcrs->cross, v2->pos);
     vec3 = Vector_sub(bcrs->cross, v3->pos);
 
-    float d0, d1, d2, d3;
+    double d0, d1, d2, d3;
     d0 = fmax(Vector_norm(vec0), MIN_DIST);
     d1 = fmax(Vector_norm(vec1), MIN_DIST);
     d2 = fmax(Vector_norm(vec2), MIN_DIST);
     d3 = fmax(Vector_norm(vec3), MIN_DIST);
 
-    float dsums[4];
+    double dsums[4];
     dsums[0] = d0 + d1;
     dsums[1] = d0 + d2;
     dsums[2] = d1 + d3;
@@ -124,7 +124,7 @@ VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
         }
     }
     
-    float v0_gradx, v0_grady, 
+    double v0_gradx, v0_grady, 
           v1_gradx, v1_grady, 
           v2_gradx, v2_grady, 
           v3_gradx, v3_grady;
@@ -171,7 +171,7 @@ VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
             break;
     }
 
-    float wi;
+    double wi;
     wi = crossing_weight(bcrs);
     
     VectorPointer rtn = Util_allocate(4, sizeof(Vector));

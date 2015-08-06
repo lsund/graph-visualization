@@ -17,16 +17,16 @@
 
 /* Private ******************************************************************/
 
-static float repulsion_weight(const Pair pr) 
+static double repulsion_weight(const Pair pr) 
 {
     return 2 * WREP;
 }
 
 /* Public *******************************************************************/
 
-float VertexPair_repulsion_energy(const Pair pr) 
+double VertexPair_repulsion_energy(const Pair pr) 
 {
-    float w;
+    double w;
     w = repulsion_weight(pr);
 
     VertexPointer vp0, vp1;
@@ -39,7 +39,7 @@ float VertexPair_repulsion_energy(const Pair pr)
         w *= REPULSION_REDUCE;
     }
     
-    float i_tl_x, i_tl_y, i_br_x, i_br_y;
+    double i_tl_x, i_tl_y, i_br_x, i_br_y;
     i_tl_x = fmax(vp0->tl.x, vp1->tl.x);
     i_tl_y = fmax(vp0->tl.y, vp1->tl.y);
     i_br_x = fmin(vp0->br.x, vp1->br.x);
@@ -48,16 +48,16 @@ float VertexPair_repulsion_energy(const Pair pr)
     if (i_tl_x > i_br_x || i_tl_y > i_br_y) {
         return 0;
     } else {
-        float i_dx, i_dy;
+        double i_dx, i_dy;
         i_dx = i_br_x - i_tl_x;
         i_dy = i_br_y - i_tl_y;
-        return w * powf(i_dx * i_dy, 2);
+        return w * pow(i_dx * i_dy, 2);
     }
 }
 
 Vector VertexPair_repulsion_gradient(const Pair pr)
 {
-    float w;
+    double w;
     w = repulsion_weight(pr);
 
     VertexPointer vp0, vp1;
@@ -70,7 +70,7 @@ Vector VertexPair_repulsion_gradient(const Pair pr)
         w *= REPULSION_REDUCE;
     }
 
-    float i_tl_x, i_tl_y, i_br_x, i_br_y;
+    double i_tl_x, i_tl_y, i_br_x, i_br_y;
     i_tl_x = fmax(vp0->tl.x, vp1->tl.x);
     i_tl_y = fmax(vp0->tl.y, vp1->tl.y);
     i_br_x = fmin(vp0->br.x, vp1->br.x);
@@ -81,18 +81,18 @@ Vector VertexPair_repulsion_gradient(const Pair pr)
     if (i_tl_x > i_br_x || i_tl_y > i_br_y) {
         return Vector_zero();
     } else {
-        float i_dx, i_dy;
+        double i_dx, i_dy;
         i_dx = i_br_x - i_tl_x;
         i_dy = i_br_y - i_tl_y;
         if (vp0->pos.x < vp1->pos.x) {
-            frc.x = -2 * i_dx * powf(i_dy, 2);
+            frc.x = -2 * i_dx * pow(i_dy, 2);
         } else {
-            frc.x = 2 * i_dx * powf(i_dy, 2);
+            frc.x = 2 * i_dx * pow(i_dy, 2);
         } 
         if (vp0->pos.y < vp1->pos.y) {
-            frc.y = -2 * i_dy * powf(i_dx, 2);
+            frc.y = -2 * i_dy * pow(i_dx, 2);
         } else {
-            frc.y = 2 * i_dy * powf(i_dx, 2);
+            frc.y = 2 * i_dy * pow(i_dx, 2);
         } 
     }
 

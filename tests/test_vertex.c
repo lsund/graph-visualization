@@ -17,32 +17,36 @@
 char *test_vertex() 
 {
     Vector zv = Vector_zero();
-    Vector pos1 = Vector_initialize(500, 500);
-    Vector pos2 = Vector_initialize(550, 500);
-    Vector pos3 = Vector_initialize(550, 550);
-    Vector pos4 = Vector_initialize(800, 800);
-    VertexPointer v = Vertex_create(0, pos1, zv, zv, zv, 1, 1, 'r', 4);
-    VertexPointer v1 = Vertex_create(1, pos2, zv, zv, zv, 1, 1, 'r', 4);
-    VertexPointer v2 = Vertex_create(2, pos3, zv, zv, zv, 1, 1, 'r', 4);
-    VertexPointer v3 = Vertex_create(3, pos4, zv, zv, zv, 1, 1, 'r', 4);
+    Vector pos1 = Vector_initialize(0.500, 0.500);
+    Vector pos2 = Vector_initialize(0.550, 0.500);
+    Vector pos3 = Vector_initialize(0.550, 0.550);
+    Vector pos4 = Vector_initialize(0.800, 0.800);
+    VertexPointer v = Vertex_create(0, pos1, zv, zv, zv, VERTEX_BASE_WIDTH,  
+            VERTEX_BASE_HEIGHT, 'r', 4);
+    VertexPointer v1 = Vertex_create(1, pos2, zv, zv, zv, VERTEX_BASE_WIDTH, 
+            VERTEX_BASE_HEIGHT, 'r', 4);
+    VertexPointer v2 = Vertex_create(2, pos3, zv, zv, zv, VERTEX_BASE_WIDTH, 
+            VERTEX_BASE_HEIGHT, 'r', 4);
+    VertexPointer v3 = Vertex_create(3, pos4, zv, zv, zv, VERTEX_BASE_WIDTH, 
+            VERTEX_BASE_HEIGHT, 'r', 4);
     msg("Checking vertex box...");
-    mu_assert("tl should be 450, 450", 
-            Util_about(v->tl.x, 450) && Util_about(v->tl.y, 450));
-    mu_assert("br should be 550, 550", 
-            Util_about(v->br.x, 550) && Util_about(v->br.y, 550));
+    mu_assert("tl should be 0.450, 0.450", 
+            Util_about(v->tl.x, 0.450) && Util_about(v->tl.y, 0.450));
+    mu_assert("br should be 0.550, 0.550", 
+            Util_about(v->br.x, 0.550) && Util_about(v->br.y, 0.550));
     msgpass();
 
     msg("Checking repulsion area...");
     mu_assert("{v, v} should completely overlap", 
             Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v)), 
-                2 *powf(101 * 101, 2))); 
+                2 *pow(0.1 * 0.1, 2))); 
     mu_assert("{v, v1}  should overlap half", 
             Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v1)), 
-                2 * powf(101 * 101 / 2, 2)));
+                2 * pow(0.1 * 0.1 / 2, 2)));
     
     mu_assert("{v, v2} should overlap 25 %", 
             Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v2)), 
-                2 * powf(102 * 102 / 4, 2))); 
+                2 * pow(0.1 * 0.1 / 4, 2))); 
     msgpass();
 
     mu_assert("{v, v3} should not overlap", 

@@ -19,7 +19,7 @@ BondPairPointer BondPair_create(const Pair pr);
 
 int BondPair_intersect(const BondPair bpr, VectorPointer v);
 
-float BondPair_angular_energy(const BondPairPointer bpr);
+double BondPair_angular_energy(const BondPairPointer bpr);
 
 Pair BondPair_angular_gradient(const BondPairPointer bpr);
 

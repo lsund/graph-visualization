@@ -25,11 +25,11 @@ static Vector center_distance(const VertexPointer vp)
     int cx, cy;
     cx = PANEL_X / 2; cy = PANEL_Y / 2;
     Vector rtn;
-    rtn = Vector_initialize((float) cx - vp->pos.x, (float) cy - vp->pos.y);
+    rtn = Vector_initialize((double) cx - vp->pos.x, (double) cy - vp->pos.y);
     return rtn;
 }
 
-static float potential_weight(const VertexPointer vp) 
+static double potential_weight(const VertexPointer vp) 
 {
     return WPOT;
 }
@@ -71,8 +71,8 @@ void Vertex_reset_dynamics(const VertexPointer v)
 VertexPointer Vertex_create(
        const int id, 
        const Vector pos, const Vector grad, const Vector g, const Vector h,
-       const float wdth, 
-       const float hght, 
+       const double wdth, 
+       const double hght, 
        const char type, 
        const int nv) 
 {
@@ -106,15 +106,15 @@ void Vertex_move(const VertexPointer v, const Vector ds)
     v->br.y = new_pos.y + (PADDING / 2);
 }
 
-float Vertex_potential_energy(const VertexPointer vp) 
+double Vertex_potential_energy(const VertexPointer vp) 
 {
     Vector cdist;
     cdist = center_distance(vp);
 
-    float w;
+    double w;
     w = potential_weight(vp);
     
-    return w * powf(Vector_norm(cdist), 2);
+    return w * pow(Vector_norm(cdist), 2);
 }
 
 Vector Vertex_potential_gradient(const VertexPointer vp)
@@ -122,7 +122,7 @@ Vector Vertex_potential_gradient(const VertexPointer vp)
     Vector cdist;
     cdist = center_distance(vp);
 
-    float w;
+    double w;
     w = potential_weight(vp);
 
     return Vector_scalar_mult(cdist, 2 * w);

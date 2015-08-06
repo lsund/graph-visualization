@@ -18,7 +18,7 @@ BondCrossPointer BondCross_create(
         const Vector cross
     );
 
-float BondCross_crossing_energy(const BondCrossPointer bpr);
+double BondCross_crossing_energy(const BondCrossPointer bpr);
 
 VectorPointer BondCross_crossing_gradient(const BondCrossPointer bpr);
 

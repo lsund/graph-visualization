@@ -32,8 +32,10 @@ GridPointer Grid_create()
     for (j = 0; j < GRID_DIM_Y; j++) {
         for (i = 0; i < GRID_DIM_X; i++) {
             id = (j * GRID_DIM_Y) + i;
-            ZonePointer z = Zone_create(id, i, j, i * PADDING, j * PADDING, 
-                    PADDING, PADDING);
+            ZonePointer z;
+            z= Zone_create(id, i, j, 
+                    (double) i * PADDING, (double) j * PADDING, 
+                    (double) PADDING, (double) PADDING);
             *(rtn->zps + id) = z;
             rtn->nz++;
         }

@@ -17,7 +17,7 @@
 BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
 {
     int i, fstid, sndid;
-    float len;
+    double len;
     VertexPointer fst, snd;
 
     json_value *bsarr = contents->u.object.values[1].value;
@@ -45,9 +45,9 @@ BondSet BondSet_initialize(VertexPointer *vs, json_value *contents, int *nbp)
         }
 
         if (length->type == json_integer) {
-            len = (float) length->u.integer;
+            len = (double) length->u.integer;
         } else if (length->type == json_double) {
-            len = (float) length->u.dbl;
+            len = (double) length->u.dbl;
         } else {
             Util_runtime_error("Bad JSON data\n");
         }

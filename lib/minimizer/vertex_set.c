@@ -55,7 +55,7 @@ VertexSet VertexSet_initialize(json_value *contents, int *nvp)
         position = vertex->u.object.values[1].value;
         if (position->type == json_array) {
             int length;
-            float x, y;
+            double x, y;
             x = y = 0;
             length = position->u.array.length;
             if (length != 2) {
@@ -64,16 +64,16 @@ VertexSet VertexSet_initialize(json_value *contents, int *nvp)
             json_value *j_x = position->u.array.values[0];
             json_value *j_y = position->u.array.values[1];
             if (j_x->type == json_integer) {
-                x = (float) j_x->u.integer;
+                x = (double) j_x->u.integer;
             } else if (j_x->type == json_double) {
-                x = (float) j_x->u.dbl;
+                x = (double) j_x->u.dbl;
             } else {
                 Util_runtime_error("Bad JSON data: position: x");
             }
             if (j_y->type == json_integer) {
-                y = (float) j_y->u.integer;
+                y = (double) j_y->u.integer;
             } else if (j_x->type == json_double) {
-                y = (float) j_y->u.dbl;
+                y = (double) j_y->u.dbl;
             } else {
                 Util_runtime_error("Bad JSON data: position: y");
             }
@@ -123,7 +123,7 @@ void VertexSet_sort(VertexPointer *vquad, Vector cross)
                 vquad[i] = vquad[j];
                 vquad[j] = tmp;
             } else if (vpj->mass == vpi->mass) {
-                float di, dj;
+                double di, dj;
                 di = Vector_norm(Vector_sub(cross, vpi->pos));
                 dj = Vector_norm(Vector_sub(cross, vpj->pos));
                 if (dj < di) {
@@ -136,7 +136,7 @@ void VertexSet_sort(VertexPointer *vquad, Vector cross)
     }
 }
 
-void VertexSet_move(const VertexSet vs, const VectorPointer gradient, float x)
+void VertexSet_move(const VertexSet vs, const VectorPointer gradient, double x)
 {
     int i;   
     for (i = 0; i < vs.n; i++) {
@@ -149,11 +149,11 @@ void VertexSet_move(const VertexSet vs, const VectorPointer gradient, float x)
 
 float *VertexSet_to_array(const VertexSet vs)
 {
-    float *rtn = (float *) Util_allocate(vs.n * 2, sizeof(float));
+    float *rtn = (float *) Util_allocate(vs.n * 2, sizeof(double));
     int i;
     for (i = 0; i < vs.n; i++) {
-        *(rtn + i * 2) = (*(vs.set + i))->pos.x;
-        *(rtn + i * 2 + 1) = (*(vs.set + i))->pos.y;
+        *(rtn + i * 2) = (float) (*(vs.set + i))->pos.x;
+        *(rtn + i * 2 + 1) = (float) (*(vs.set + i))->pos.y;
     }
     return rtn;
 

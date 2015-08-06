@@ -90,7 +90,7 @@ GraphPointer Graph_create(const char *fname)
     Pair pr;
     pr = process_json(fname, &nv, &nb);
     
-    assert(nb < (float) nv * logf((float) nv));
+    assert(nb < (double) nv * log((double) nv));
     assert(pr.fst && pr.snd);
 
     VertexSetPointer vs;

@@ -21,7 +21,7 @@
 BondPointer Bond_create(
         const VertexPointer fst, 
         const VertexPointer snd, 
-        const float dist0
+        const double dist0
     )
 {
     fst->mass++;
@@ -34,36 +34,36 @@ BondPointer Bond_create(
     return rtn;
 }
 
-static float Bond_attraction_weight(const BondPointer bp)
+static double Bond_attraction_weight(const BondPointer bp)
 {
     return WATR;
 }
 
-float Bond_attraction_energy(const BondPointer bp)
+double Bond_attraction_energy(const BondPointer bp)
 {
-    float d0, d;
+    double d0, d;
     d0 = bp->dist0 * SPRING_LENGTH;
     d = Vector_norm(Vector_sub(bp->snd->pos, bp->fst->pos)); 
 
-    float w;
+    double w;
     w = Bond_attraction_weight(bp);
-    return w * powf(d - d0, 2);
+    return w * pow(d - d0, 2);
 }
 
 Vector Bond_attraction_gradient(const BondPointer bp)
 {
-    float d0;
+    double d0;
     d0 = bp->dist0 * SPRING_LENGTH;
     Vector vecb;
     vecb = Vector_sub(bp->snd->pos, bp->fst->pos);
 
-    float d;
+    double d;
     d = Vector_norm(vecb); 
     if (fabs(d) <  MIN_DIST) {
         d = MIN_DIST;
     } 
     
-    float w;
+    double w;
     w = Bond_attraction_weight(bp);
 
     return Vector_scalar_mult(vecb, 2 * w * (1 - (d0 / d)));

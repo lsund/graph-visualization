@@ -50,27 +50,41 @@ static int comp_by_id(const void *elem1, const void *elem2)
 void Placement_set_spiral(VertexSet vs, const int nv)
 {
     qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_mass);
-    int n, gapx, gapy, dimx, dimy, i, x, y, 
-        placex, placey, dx, dy, t;
+
+    int n;
     n = nv;
     while (fabs(sqrt(n) - (int) sqrt(n)) > EPS) {
         n++;
     }
-    dimx = dimy = sqrt(n);
+    
+    int dimx, dimy;
+    dimx = (int) sqrt(n);
+    dimy = dimx;
+    
+    double gapx, gapy;
     gapx = PANEL_X / dimx;
     gapy = PANEL_Y / dimy;
-    x = y = 0;
+    
+    int x, y;
+    x = 0; 
+    y = 0;
+    
+    int dx, dy;
     dx = 0;
     dy = -1;
+
+    int t;
     t = fmax(dimx, dimy);
+
+    int i;
     for (i = nv - 1; i >= 0; i--) {
         if (!(*(vs.set + i))->pos.given_coords) {
             if ((-dimx / 2 <= x && x <= dimx / 2) && 
                 (-dimy / 2 <= y && y <= dimy / 2))
             {
-                
-                placex = x * gapx + PANEL_X / 2;
-                placey = y * gapy + PANEL_Y / 2;
+                double placex, placey;
+                placex = (double) x * gapx;
+                placey = (double) y * gapy;
                 (*(vs.set + i))->pos = Vector_initialize(placex, placey);
             }
         }
@@ -93,7 +107,7 @@ void Placement_set_spiral(VertexSet vs, const int nv)
 void Placement_set_grid(VertexSet vs, const int nv) 
 {
     int i, n, vdim, rows, cols;
-    float gapx, gapy, offsetx, offsety, x, y;
+    double gapx, gapy, offsetx, offsety, x, y;
     n = nv; 
     while (fabs(sqrt(n) - (int) sqrt(n)) > EPS) {
         n++;

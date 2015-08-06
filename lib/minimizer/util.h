@@ -10,17 +10,17 @@
 
 typedef enum { INITIALIZE, UPDATE } Strategy;
 
-float Util_collection_min(const float *col, const int n);
+double Util_collection_min(const double *col, const int n);
 
-int Util_equal(const float tar, const float x);
+int Util_equal(const double tar, const double x);
 
-int Util_is_zero(const float x);
+int Util_is_zero(const double x);
 
-int Util_about(const float tar, const float x);
+int Util_about(const double tar, const double x);
 
-int Util_in_range(const float lower, const float upper, const float x);
+int Util_in_range(const double lower, const double upper, const double x);
 
-void Util_check_range(const float *x, const float lower, const float upper);
+void Util_check_range(const double *x, const double lower, const double upper);
 
 void Util_runtime_error(char []);
 

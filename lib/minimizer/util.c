@@ -21,7 +21,7 @@
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_RESET "\x1b[0m"
 
-float Util_collection_min(const float *col, const int n)
+double Util_collection_min(const double *col, const int n)
 {
     int i, min;
     min = col[0];
@@ -31,26 +31,26 @@ float Util_collection_min(const float *col, const int n)
     return min;
 }
 
-int Util_is_zero(const float x)
+int Util_is_zero(const double x)
 {
     return Util_equal(x, 0.0);
 }
 
-int Util_equal(const float tar, const float x) {
-    return fabs(x - tar) < COMP_EPS;
+int Util_equal(const double tar, const double x) {
+    return fabs(x - tar) < EPS;
 }
 
-int Util_about(const float tar, const float x) {
+int Util_about(const double tar, const double x) {
     if (Util_equal(tar, x)) return 1;
-    float err;
+    double err;
     err = fabs(x * 0.05);
     return fabs(x - tar) <= err;
 }
 
-int Util_in_range(const float lower, const float upper, const float x)
+int Util_in_range(const double lower, const double upper, const double x)
 {
-    int lowcond = x > lower;
-    int upcond = x < upper;
+    int lowcond = x > lower || Util_equal(x, lower);
+    int upcond = x < upper || Util_equal(x, upper);
     return lowcond && upcond;
 }
 
@@ -74,7 +74,7 @@ void *Util_allocate_initialize(int nmemb, int size) {
 
 void Util_runtime_error(char error_text[])
 {
-    fprintf(stderr,ANSI_COLOR_RED "Runtime-error:%s\n" ANSI_COLOR_RESET,
+    fprintf(stderr,ANSI_COLOR_RED "Runtime-error: %s\n" ANSI_COLOR_RESET,
             error_text);
     exit(1);
 }

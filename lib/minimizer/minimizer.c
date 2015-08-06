@@ -58,7 +58,7 @@ void create_sequences(
         const VectorPointer g,
         const VectorPointer h,
         const int n,
-        const float gam, 
+        const double gam, 
         const Strategy strat
     )
 {
@@ -85,8 +85,8 @@ void calculate_score(
        const VectorPointer gradient, 
        const VectorPointer g,
        const int n,
-       float *gg, 
-       float *dgg
+       double *gg, 
+       double *dgg
     )
 {
     assert(gradient); assert(g);
@@ -103,9 +103,9 @@ void calculate_score(
 
 static void conjugate_gradient(
         GraphPointer graph, 
-        float (*e_fun)(GraphPointer), 
+        double (*e_fun)(GraphPointer), 
         void (*g_fun)(GraphPointer, VectorPointer),
-        float ftol
+        double ftol
     )
 {
     
@@ -127,7 +127,7 @@ static void conjugate_gradient(
 
     create_sequences(gradient, g, h, nv, 1, INITIALIZE);
 
-    float energy;
+    double energy;
     energy = e_fun(graph);
 
     assert(energy >= 0);
@@ -135,7 +135,7 @@ static void conjugate_gradient(
     int i; 
     for (i = 0; i < ITMAX; i++) {
         
-        float fret = 0.0;
+        double fret = 0.0;
         linmin(graph, e_fun, &fret, gradient);
 
         if (CLOSE_TO_TARGET(fret, energy, ftol)) break;
@@ -143,7 +143,7 @@ static void conjugate_gradient(
         g_fun(graph, gradient);
         energy = e_fun(graph);
 
-        float gg, dgg;
+        double gg, dgg;
         dgg = gg = 0.0;
         calculate_score(gradient, g, nv, &gg, &dgg); 
 
@@ -151,7 +151,7 @@ static void conjugate_gradient(
             break;
         }
         
-        float gam;
+        double gam;
         gam = dgg / gg;
         create_sequences(gradient, g, h, nv, gam, UPDATE);
     }

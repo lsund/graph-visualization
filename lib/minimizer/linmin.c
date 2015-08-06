@@ -31,7 +31,7 @@
 
 VectorPointer cached_gradient;
 
-static void move_vertices(VertexSet vs, float x)
+static void move_vertices(VertexSet vs, double x)
 {
     int i;   
     for (i = 0; i < vs.n; i++) {
@@ -42,30 +42,30 @@ static void move_vertices(VertexSet vs, float x)
     }
 }
 
-static float step(float x, GraphPointer graph, float (*e_fun)(GraphPointer))   
+static double step(double x, GraphPointer graph, double (*e_fun)(GraphPointer))   
 {   
     move_vertices(graph->vs, x);
     Graph_reset_dynamics(graph);
 
-    float energy;
+    double energy;
     energy = e_fun(graph);
 
     return energy;
 }
 
-static float isolate_minimum(
+static double isolate_minimum(
         GraphPointer graph, 
-        float ax, 
-        float bx, 
-        float cx, 
-        float tol, 
-        float *xmin,
-        float (*e_fun)(GraphPointer)
+        double ax, 
+        double bx, 
+        double cx, 
+        double tol, 
+        double *xmin,
+        double (*e_fun)(GraphPointer)
     )
 {
     int iter;
-    float a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
-    float e=0.0;
+    double a,b,d,etemp,fu,fv,fw,fx,p,q,r,tol1,tol2,u,v,w,x,xm;
+    double e=0.0;
 
     a=(ax < cx ? ax : cx);
     b=(ax > cx ? ax : cx);
@@ -124,13 +124,13 @@ static float isolate_minimum(
 
 void bracket_minimum(
         GraphPointer gp, 
-        float *ax, 
-        float *bx, 
-        float *cx, 
-        float *fa, 
-        float *fb, 
-        float *fc, 
-        float (*e_fun)(GraphPointer)
+        double *ax, 
+        double *bx, 
+        double *cx, 
+        double *fa, 
+        double *fb, 
+        double *fc, 
+        double (*e_fun)(GraphPointer)
     )
 {
     
@@ -138,7 +138,7 @@ void bracket_minimum(
     *fb = step(*bx, gp, e_fun);
     
     if (*fb > *fa) {
-        float dum;
+        double dum;
         SHFT(dum,*ax,*bx,dum);
         SHFT(dum,*fb,*fa,dum);
     }
@@ -148,15 +148,15 @@ void bracket_minimum(
 
     while (*fb > *fc) {
         
-        float r, q;
+        double r, q;
         r = (*bx - *ax) * (*fb - *fc);
         q = (*bx - *cx) * (*fb - *fa);
         
-        float u, ulim;
+        double u, ulim;
         u = PARABOLIC_EXTRAPOLATION(ax, bx, cx, q, r);
         ulim = (*bx)+GLIMIT*(*cx-*bx);
 
-        float fu;
+        double fu;
         if ((*bx-u)*(u-*cx) > 0.0) {
             fu=(*step)(u, gp, e_fun);
             if (fu < *fc) {
@@ -192,8 +192,8 @@ void bracket_minimum(
 
 void linmin(
         GraphPointer graph, 
-        float (*e_fun)(GraphPointer), 
-        float *fret, 
+        double (*e_fun)(GraphPointer), 
+        double *fret, 
         VectorPointer gradient
     )   
 {   
@@ -212,14 +212,14 @@ void linmin(
         gradient[i] = Vector_zero();
     }
 
-    float ax, xx;
+    double ax, xx;
     ax = 0.0; 
     xx = 1.0;   
     
-    float bx, fa, fx, fb;
+    double bx, fa, fx, fb;
     bracket_minimum(graph, &ax, &xx, &bx, &fa, &fx, &fb, e_fun);   
 
-    float xmin;
+    double xmin;
     *fret = isolate_minimum(graph, ax, xx, bx, TOL, &xmin, e_fun);   
     
     for (i = 0; i < vs.n; i++) { 

@@ -10,33 +10,31 @@
 #define EPS 1.0e-10
 #define TINY 1.0e-20
 
+#define MAX_NV 100
 #define STEP 0
 #define INTERVAL 500
 
-#define MAX_NV 100
-#define PANEL_X 1000 
-#define PANEL_Y 1000
-#define PADDING 100.0f
+#define PANEL_X 1.0
+#define PANEL_Y 1.0
+#define PADDING 0.1
 
-#define GRID_DIM_X PANEL_X / (int) PADDING
-#define GRID_DIM_Y PANEL_Y / (int) PADDING
+#define GRID_DIM_X (int) (PANEL_X / PADDING)
+#define GRID_DIM_Y (int) (PANEL_Y / PADDING)
 
-#define VERTEX_BASE_WIDTH 1
-#define VERTEX_BASE_HEIGHT 1
+#define VERTEX_BASE_WIDTH 0.001
+#define VERTEX_BASE_HEIGHT  0.001
 
-#define SPRING_LENGTH 100.0f
+#define SPRING_LENGTH 0.1
 #define REPULSION_REDUCE 1.0
 
-#define WATR 15.0f
-#define WREP 0.004f
-#define WPOT 2.5f
-#define WANG 500.0f
-#define WCRS 10.0f
+#define WATR 10.0
+#define WREP 700.0
+#define WPOT 1.0
+#define WANG 0.1
+#define WCRS 1.0
 
 #define COMP_EPS 1.0e-4
 
-#define DEFAULT_MASS 1.0
-#define DEFAULT_RADIUS 1.0
 #define DEFAULT_TYPE 'v' 
 #define DISTANCE_DELIMITER 0.4
 
@@ -54,33 +52,36 @@
 
 ////////////////////////////////////////////////////////////////
 
-#define RADIUS 1
-
 #define M_PI 3.14159265358979323846
 #define INTERVAL 800
 
 #define MAX_NV 100
-#define PANEL_X 1000 
-#define PANEL_Y 1000
-#define PADDING 100.0f
 
-#define GRID_DIM_X PANEL_X / (int) PADDING
-#define GRID_DIM_Y PANEL_Y / (int) PADDING
+//#define PANEL_X 1000.0
+//#define PANEL_Y 1000.0
+//#define PADDING 100.0
+//#define SPRING_LENGTH 100.0
+#define PANEL_X 1.0
+#define PANEL_Y 1.0
+#define PADDING 0.1
+#define SPRING_LENGTH 0.1
+
+#define GRID_DIM_X (int) (PANEL_X / PADDING)
+#define GRID_DIM_Y (int) (PANEL_Y / PADDING)
 
 #define VERTEX_BASE_WIDTH 0
 #define VERTEX_BASE_HEIGHT 0
 
-#define SPRING_LENGTH 100.0f
 #define THETA0 M_PI
 
-#define DEFAULT_STIFFNESS 1.0f
-#define REPULSION_REDUCE 0.7
+#define DEFAULT_STIFFNESS 1.0
+#define REPULSION_REDUCE 1.0
 
-#define WATR 1.0f
-#define WREP 1.0f
-#define WPOT 1.0f
-#define WANG 1.0f
-#define WCRS 1.0f
+#define WATR 1.0
+#define WREP 1.0
+#define WPOT 1.0
+#define WANG 1.0
+#define WCRS 1.0
 
 #define FTOL 1.0e-3
 #define TOL 2.0e-4 
@@ -90,8 +91,6 @@
 
 #define COMP_EPS 1.0e-4
 
-#define DEFAULT_MASS 1.0
-#define DEFAULT_RADIUS 1.0
 #define DEFAULT_TYPE 'v' 
 #define DISTANCE_DELIMITER 0.4
 

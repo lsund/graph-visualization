@@ -14,12 +14,12 @@
 
 #define DEBUG 0
 
-float step = 1;
+double step = 1;
 
 enum {TESTX, TESTY};
 enum { FIRST, SECONDA, SECONDR, THIRD, FOURTH };
 
-static int approximate(const float tar, const float x) {
+static int approximate(const double tar, const double x) {
 
     int small = fabs(x) < 65 && fabs(tar) < 65 && fabs(x - tar) < 10;
     if (small) return 1;
@@ -68,7 +68,7 @@ static char *compare_with_approx(const char *fname, int dim, int order)
         VertexPointer v = *(graph->vs.set + i);
         gradient = (VectorPointer) Util_allocate_initialize(nv, sizeof(Vector));
         
-        float e; 
+        double e; 
         if (order == FIRST) {
             (*test_first_order_gradient)(graph->vs, gradient);
             e = test_first_order_energy(graph->vs); 
@@ -86,7 +86,7 @@ static char *compare_with_approx(const char *fname, int dim, int order)
             e = (*test_fourth_order_energy)(graph->crs); 
         }
 
-        float grad; 
+        double grad; 
         if (dim == TESTX) {
             grad = gradient[i].x; 
         } else {
@@ -101,7 +101,7 @@ static char *compare_with_approx(const char *fname, int dim, int order)
             Vector pos = Vector_initialize(v->pos.x, v->pos.y + step);
             Vertex_move(v, pos);
         }
-        float estep;
+        double estep;
         if (order == FIRST) {
             estep = test_first_order_energy(graph->vs); 
         } else if (order == SECONDA) {
@@ -121,7 +121,7 @@ static char *compare_with_approx(const char *fname, int dim, int order)
             Vector pos = Vector_initialize(v->pos.x, v->pos.y + step);
             Vertex_move(v, pos);
         }
-        float e2step;
+        double e2step;
         if (order == FIRST) {
             e2step = test_first_order_energy(graph->vs); 
         } else if (order == SECONDA) {
@@ -134,12 +134,13 @@ static char *compare_with_approx(const char *fname, int dim, int order)
             e2step = (*test_fourth_order_energy)(graph->crs); 
         }
         
-        float approx = -(4 * estep  - 3 * e - e2step) / (2 * step);
+        double approx = -(4 * estep  - 3 * e - e2step) / (2 * step);
         
-        float about = approximate(approx, grad);
+        double about = approximate(approx, grad);
 
         if (about == 0) {
-            printf("%f %f\n", approx, grad);
+            printf("\nIteration: %d, Expected: %f Actual: %f\n", 
+                    i, approx, grad);
             Graph_free(graph);
         }
         
@@ -178,30 +179,31 @@ static char *compare_with_approx(const char *fname, int dim, int order)
 char *test_gradient() 
 {
     const char *n4 = "data/test/4.json";
-    const char *n23 = "data/test/4.json";
+    const char *n23 = "data/test/23.json";
+    const char *n52 = "data/test/52.json";
 
-    char *msg1 = compare_with_approx(n23, TESTX, FIRST);
+    char *msg1 = compare_with_approx(n4, TESTX, FIRST);
     if (msg1 != NULL) return msg1;
 
-    char *msg2 = compare_with_approx(n23, TESTY, FIRST);
+    char *msg2 = compare_with_approx(n4, TESTY, FIRST);
     if (msg2 != NULL) return msg2;
 
-    char *msg3 = compare_with_approx(n23, TESTX, SECONDA);
+    char *msg3 = compare_with_approx(n4, TESTX, SECONDA);
     if (msg3 != NULL) return msg3;
 
-    char *msg4 = compare_with_approx(n23, TESTY, SECONDA);
+    char *msg4 = compare_with_approx(n4, TESTY, SECONDA);
     if (msg4 != NULL) return msg4;
 
-    char *msg5 = compare_with_approx(n23, TESTX, SECONDR);
+    char *msg5 = compare_with_approx(n4, TESTX, SECONDR);
     if (msg5 != NULL) return msg5;
 
-    char *msg6 = compare_with_approx(n23, TESTY, SECONDR);
+    char *msg6 = compare_with_approx(n4, TESTY, SECONDR);
     if (msg6 != NULL) return msg6;
 
-    char *msg7 = compare_with_approx(n23, TESTX, THIRD);
+    char *msg7 = compare_with_approx(n4, TESTX, THIRD);
     if (msg7 != NULL) return msg7;
 
-    char *msg8 = compare_with_approx(n23, TESTY, THIRD);
+    char *msg8 = compare_with_approx(n4, TESTY, THIRD);
     if (msg8 != NULL) return msg8;
 
     /*char *msg9 = compare_with_approx(n4, TESTX, FOURTH);*/

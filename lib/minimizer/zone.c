@@ -19,10 +19,10 @@ ZonePointer Zone_create(
         const int id, 
         const int i, 
         const int j, 
-        const int minx,
-        const int miny, 
-        const int width, 
-        const int height
+        const double minx,
+        const double miny, 
+        const double width, 
+        const double height
     )
 {
     ZonePointer rtn = malloc(sizeof(Zone));

@@ -19,7 +19,7 @@ char *test_objective()
 {
     GraphPointer g = Graph_create( "data/test/4.json");
 
-    float f1, f2;
+    double f1, f2;
 
     f1 = test_first_order_energy(g->vs);
     f2 = test_second_order_energy(g);

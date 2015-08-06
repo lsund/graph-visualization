@@ -8,16 +8,16 @@ typedef struct Bond Bond, *BondPointer;
 
 struct Bond {
     VertexPointer fst, snd;
-    float dist0;
+    double dist0;
 };
 
 BondPointer Bond_create(
         const VertexPointer fst, 
         const VertexPointer snd, 
-        const float dist0
+        const double dist0
     );
 
-float Bond_attraction_energy(const BondPointer bp);
+double Bond_attraction_energy(const BondPointer bp);
 
 Vector Bond_attraction_gradient(const BondPointer bp);
 

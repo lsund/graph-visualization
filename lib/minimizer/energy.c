@@ -20,9 +20,9 @@
 
 /* Private ******************************************************************/
 
-static float first_order(const VertexSet vs) {
+static double first_order(const VertexSet vs) {
 
-    float rtn;
+    double rtn;
     rtn = 0;
     int i;
     for (i = 0; i < vs.n; i++) {
@@ -32,9 +32,9 @@ static float first_order(const VertexSet vs) {
     return rtn;
 }
 
-static float second_order_attraction(const BondSet bs) 
+static double second_order_attraction(const BondSet bs) 
 {
-    float rtn;
+    double rtn;
     rtn = 0; 
 
     int i;
@@ -47,9 +47,9 @@ static float second_order_attraction(const BondSet bs)
     return rtn;
 }
 
-static float second_order_repulsion(const GridPointer grid) 
+static double second_order_repulsion(const GridPointer grid) 
 {
-    float rtn;
+    double rtn;
     rtn = 0.0;
     
     int i;
@@ -96,18 +96,18 @@ static float second_order_repulsion(const GridPointer grid)
     return rtn;
 }
 
-static float second_order(const GraphPointer graph)
+static double second_order(const GraphPointer graph)
 {
-    float e2a, e2r;
+    double e2a, e2r;
     e2a = second_order_attraction(graph->bs);
     e2r = second_order_repulsion(graph->grid);
 
     return e2a + e2r; 
 }
 
-static float third_order(const BondPairPointer con)
+static double third_order(const BondPairPointer con)
 {
-    float rtn;
+    double rtn;
     rtn = 0; 
 
     BondPairPointer bpr;
@@ -121,9 +121,9 @@ static float third_order(const BondPairPointer con)
     return rtn;
 }
 
-static float fourth_order(const BondCrossPointer crs)
+static double fourth_order(const BondCrossPointer crs)
 {
-    float rtn;
+    double rtn;
     rtn = 0;
 
     BondCrossPointer bcrs;
@@ -137,9 +137,9 @@ static float fourth_order(const BondCrossPointer crs)
 
 /* Public *******************************************************************/
 
-float Energy_calculate(const GraphPointer graph) 
+double Energy_calculate(const GraphPointer graph) 
 {
-    float e1, e2, e3, e4;
+    double e1, e2, e3, e4;
     e1 = first_order(graph->vs);
     e2 = second_order(graph);
     e3 = third_order(graph->con);
@@ -150,12 +150,12 @@ float Energy_calculate(const GraphPointer graph)
 
 /* Testing facade ***********************************************************/
 
-float (*test_first_order_energy)(const VertexSet vs) = first_order;
-float (*test_second_order_energy)(const GraphPointer graph) = second_order;
-float (*test_second_order_attraction_energy)(const BondSet bs) = 
+double (*test_first_order_energy)(const VertexSet vs) = first_order;
+double (*test_second_order_energy)(const GraphPointer graph) = second_order;
+double (*test_second_order_attraction_energy)(const BondSet bs) = 
         second_order_attraction;
-float (*test_second_order_repulsion_energy)(const GridPointer grid) = 
+double (*test_second_order_repulsion_energy)(const GridPointer grid) = 
         second_order_repulsion;
-float (*test_third_order_energy)(const BondPairPointer con) = third_order;
-float (*test_fourth_order_energy)(const BondCrossPointer crs) = fourth_order;
+double (*test_third_order_energy)(const BondPairPointer con) = third_order;
+double (*test_fourth_order_energy)(const BondCrossPointer crs) = fourth_order;
 
