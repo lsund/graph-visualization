@@ -16,7 +16,7 @@
 
 #define PANEL_X 1.0
 #define PANEL_Y 1.0
-#define PADDING 0.1
+#define PADDING 0.15
 
 #define GRID_DIM_X (int) (PANEL_X / PADDING)
 #define GRID_DIM_Y (int) (PANEL_Y / PADDING)
