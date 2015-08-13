@@ -29,7 +29,8 @@
 #define TEST 0
 #endif
 
-char *test_minimize();
+char *test_util();
+char *test_json();
 char *test_objective();
 char *test_gradient();
 char *test_vertex();
@@ -37,7 +38,6 @@ char *test_bond();
 char *test_bondpair();
 char *test_bondcross();
 char *test_graph();
-int minimize(const char *fname);
 
 void msg(const char *s) 
 {
@@ -51,14 +51,33 @@ void msgpass()
 int tests_run = 0;
 
 static char *all_tests() {
-    mu_run_test(test_minimize);
-    mu_run_test(test_objective);
-    mu_run_test(test_gradient);
-    mu_run_test(test_vertex);
+    msg("#################### TEST SYSTEM INPUT ###################\n\n");
+    mu_run_test(test_json);
+    printf("\n");
+    msg("#################### TEST UTIL ###########################\n\n");
+    mu_run_test(test_util);
+    printf("\n");
+    msg("#################### TEST VERTEX #########################\n\n");
+    mu_run_test(test_vertex); 
+    printf("\n");
+    msg("#################### TEST BOND ###########################\n\n");
     mu_run_test(test_bond);
+    printf("\n");
+    msg("#################### TEST BOND PAIR ######################\n\n");
     mu_run_test(test_bondpair);
+    printf("\n");
+    msg("#################### TEST BOND CROSS #####################\n\n");
     mu_run_test(test_bondcross);
+    printf("\n");
+    msg("#################### TEST OBJECTIVE ######################\n\n");
+    mu_run_test(test_objective);
+    printf("\n");
+    msg("#################### TEST GRADIENT #######################\n\n");
+    mu_run_test(test_gradient);
+    printf("\n");
+    msg("#################### TEST GRAPH ##########################\n\n");
     mu_run_test(test_graph);
+    printf("\n");
     return 0;
 }
 
@@ -94,7 +113,7 @@ int main(int argc, char **argv) {
         }
         return result != 0;
     } else {
-        Minimizer_run("data/52.json");
+        Minimizer_run("data/43.json");
         return 0;
     }
 }

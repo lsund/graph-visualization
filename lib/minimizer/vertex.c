@@ -20,7 +20,7 @@
 
 /* Private ******************************************************************/
 
-static Vector center_distance(const VertexPointer vp) 
+static Vector Vertex_to_center(const VertexPointer vp) 
 {
     int cx, cy;
     cx = PANEL_X / 2; cy = PANEL_Y / 2;
@@ -91,25 +91,30 @@ VertexPointer Vertex_create(
     return rtn;
 }
 
+void Vertex_set_position(const VertexPointer v, const Vector pos)
+{
+    v->pos.x = pos.x;
+    v->pos.y = pos.y;
+
+    v->tl.x = pos.x - (PADDING / 2.0);
+    v->tl.y = pos.y - (PADDING / 2.0);
+
+    v->br.x = pos.x + (PADDING / 2.0);
+    v->br.y = pos.y + (PADDING / 2.0);
+}
+
 void Vertex_move(const VertexPointer v, const Vector ds) 
 {
     Vector new_pos;
     new_pos = Vector_add(v->pos0, ds);
 
-    v->pos.x = new_pos.x;
-    v->pos.y = new_pos.y;
-
-    v->tl.x = new_pos.x - (PADDING / 2);
-    v->tl.y = new_pos.y - (PADDING / 2);
-
-    v->br.x = new_pos.x + (PADDING / 2);
-    v->br.y = new_pos.y + (PADDING / 2);
+    Vertex_set_position(v, new_pos);
 }
 
 double Vertex_potential_energy(const VertexPointer vp) 
 {
     Vector cdist;
-    cdist = center_distance(vp);
+    cdist = Vertex_to_center(vp);
 
     double w;
     w = potential_weight(vp);
@@ -120,7 +125,7 @@ double Vertex_potential_energy(const VertexPointer vp)
 Vector Vertex_potential_gradient(const VertexPointer vp)
 {
     Vector cdist;
-    cdist = center_distance(vp);
+    cdist = Vertex_to_center(vp);
 
     double w;
     w = potential_weight(vp);

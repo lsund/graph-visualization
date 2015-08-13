@@ -1,9 +1,5 @@
-
 #ifndef GRAPH_H 
 #define GRAPH_H
-
-/// Fixed && not Fixed
-//
 
 #include "bond_cross.h"
 #include "grid.h"

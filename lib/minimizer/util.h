@@ -10,15 +10,51 @@
 
 typedef enum { INITIALIZE, UPDATE } Strategy;
 
-double Util_collection_min(const double *col, const int n);
+typedef enum { PLUS, MINUS } Sign;
 
+Sign Util_sign(const double x);
+
+/** 
+ * Returns the minimum value of a set of doubles;
+ */
+double Util_doubles_min(const double *set, const int n);
+
+/**
+ * Returns the maximum value of a set of doubles.
+ */
+double Util_doubles_max(const double *set, const int n);
+
+/**
+ * Normalizes a set of doubles to range [0, upper] where the domain of the set
+ * is [min, max]
+ */
+void Util_normalize(
+        double *set, 
+        const int n, 
+        const double upper, 
+        const double min, 
+        const double max 
+    );
+
+/**
+ * Evaluates weather two double values are "equal", returning 1 if they are, 0
+ * otherwise
+ */
 int Util_equal(const double tar, const double x);
 
 int Util_is_zero(const double x);
 
 int Util_about(const double tar, const double x);
 
+int Util_close_to(const double tar, const double x);
+
 int Util_in_range(const double lower, const double upper, const double x);
+
+int Util_in_range_strict(
+        const double lower, 
+        const double upper, 
+        const double x
+    );
 
 void Util_check_range(const double *x, const double lower, const double upper);
 

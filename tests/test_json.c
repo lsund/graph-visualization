@@ -14,7 +14,7 @@
 
 int minimize(const char *fname);
 
-char *test_minimize() {
+char *test_json() {
 
     const char *valid0 = "data/test/10-0.json";
     const char *valid1 = "data/test/10-1.json";
@@ -31,7 +31,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(valid0);
+        Graph_create(valid0);
         exit(0);
     } else {
         msg("Valid data...");
@@ -48,7 +48,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(invalid0);
+        Graph_create(invalid0);
         exit(0);
     } else {
         msg("Invalid data: first bracket...");
@@ -64,7 +64,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(invalid1);
+        Graph_create(invalid1);
         exit(0);
     } else {
         msg("Invalid data: wrong spelled key...");
@@ -80,7 +80,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(invalid2);
+        Graph_create(invalid2);
         exit(0);
     } else {
         msg("Invalid data: only vertices...");
@@ -96,7 +96,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(invalid3);
+        Graph_create(invalid3);
         exit(0);
     } else {
         msg("Invalid data: wrong spelled key bonds...");
@@ -112,7 +112,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(invalid4);
+        Graph_create(invalid4);
         exit(0);
     } else {
         msg("Invalid data: No bonds or vertcies...");
@@ -128,7 +128,7 @@ char *test_minimize() {
     if (p < 0) {
         Util_runtime_error("Could not create child");
     } else if (p == 0) {
-        Minimizer_run(valid1);
+        Graph_create(valid1);
         exit(0);
     } else {
         msg("Valid data: vertices but no bonds...");

@@ -16,7 +16,8 @@
 
 #define PANEL_X 1.0
 #define PANEL_Y 1.0
-#define PADDING 0.15
+#define PADDING 0.12
+#define SPRING_LENGTH 0.12
 
 #define GRID_DIM_X (int) (PANEL_X / PADDING)
 #define GRID_DIM_Y (int) (PANEL_Y / PADDING)
@@ -24,14 +25,13 @@
 #define VERTEX_BASE_WIDTH 0.001
 #define VERTEX_BASE_HEIGHT  0.001
 
-#define SPRING_LENGTH 0.1
 #define REPULSION_REDUCE 1.0
 
-#define WATR 10.0
-#define WREP 700.0
-#define WPOT 1.0
-#define WANG 0.1
-#define WCRS 1.0
+#define WATR 15.0
+#define WREP 500.0
+#define WPOT 2.0
+#define WANG 0.002
+#define WCRS 1.50
 
 #define COMP_EPS 1.0e-4
 

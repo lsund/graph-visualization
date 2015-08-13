@@ -24,10 +24,14 @@
 GridPointer Grid_create()
 {
     GridPointer rtn;
-    rtn = (GridPointer) malloc(sizeof(Grid));
+    rtn = (GridPointer) Util_allocate(1, sizeof(Grid));
 
     rtn->nz = 0;
-    rtn->zps = (ZonePointer *) malloc(sizeof(Zone) * GRID_DIM_X * GRID_DIM_Y);
+
+    int nzones; 
+    nzones = GRID_DIM_X * GRID_DIM_Y;
+
+    rtn->zps = (ZonePointer *) Util_allocate_initialize(nzones, sizeof(Zone));
     int i, j, id;
     for (j = 0; j < GRID_DIM_Y; j++) {
         for (i = 0; i < GRID_DIM_X; i++) {
@@ -40,8 +44,8 @@ GridPointer Grid_create()
             rtn->nz++;
         }
     }
-    rtn->is_populated = (int *) malloc(sizeof(int) * rtn->nz);
-    rtn->pzps = (ZonePointer *) malloc(sizeof(void *) * rtn->nz);
+    rtn->is_populated = (int *) Util_allocate_initialize(rtn->nz, sizeof(int));
+    rtn->pzps = (ZonePointer *) Util_allocate_initialize(rtn->nz, sizeof(void *));
     rtn->azps = NULL;
     rtn->npz = 0;
     
@@ -109,7 +113,7 @@ void Grid_reset_dynamics(const GridPointer grid)
     for (i = 0; i < grid->nz; i++) {
         *(grid->is_populated + i) = 0;
         ZonePointer z = *(grid->zps + i);
-        z->members = NULL;
+        if (z) z->members = NULL;
     }
 }
 

@@ -9,18 +9,91 @@
 * Creation Date: 03-08-2015
 
 *****************************************************************************/
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 #include "bond_cross.h"
 #include "util.h"
 #include "constants.h"
+#include "crossing_gradient.h"
+
+/* Private *******************************************************************/
+
+#ifndef TEST
+#define TEST 0
+#endif
 
 static double crossing_weight(const BondCrossPointer bcrs)
 {
     return WCRS;
 }
 
+static double bump(const double d, const double b) {
+    const double a = 1 / (b / 2);
+    const double c = (a * pow((b / 2), 2)) / 2;
+    if (Util_in_range(0, (b / 4), d)) {
+        return a * pow(d, 2);
+    } else if (Util_in_range((b / 4), (3 * b / 4), d)) {
+        return -a * pow(d - (b / 2), 2) + c;
+    } else if (Util_in_range((3 * b / 4), b, d)) {
+        return a * pow(d - b, 2);
+    } else {
+        return 0;
+    }
+}
+
+static void dbump(
+        double *gradient, 
+        const double d,
+        const double b,
+        const Vector v0,
+        const Vector v1,
+        const Vector v2,
+        const Vector v3
+    )
+{
+    if (Util_in_range(0, (b / 4), d)) {
+        gradient[0] = CrossingGradient_df0x0(v0, v1, v2, v3);
+        gradient[1] = CrossingGradient_df0y0(v0, v1, v2, v3);
+        gradient[2] = CrossingGradient_df0x1(v0, v1, v2, v3);
+        gradient[3] = CrossingGradient_df0y1(v0, v1, v2, v3);
+        gradient[4] = CrossingGradient_df0x2(v0, v1, v2, v3);
+        gradient[5] = CrossingGradient_df0y2(v0, v1, v2, v3);
+        gradient[6] = CrossingGradient_df0x3(v0, v1, v2, v3);
+        gradient[7] = CrossingGradient_df0y3(v0, v1, v2, v3);
+    } else if (Util_in_range((b / 4), (3 * b / 4), d)) {
+        gradient[0] = CrossingGradient_df1x0(v0, v1, v2, v3);
+        gradient[1] = CrossingGradient_df1y0(v0, v1, v2, v3);
+        gradient[2] = CrossingGradient_df1x1(v0, v1, v2, v3);
+        gradient[3] = CrossingGradient_df1y1(v0, v1, v2, v3);
+        gradient[4] = CrossingGradient_df1x2(v0, v1, v2, v3);
+        gradient[5] = CrossingGradient_df1y2(v0, v1, v2, v3);
+        gradient[6] = CrossingGradient_df1x3(v0, v1, v2, v3);
+        gradient[7] = CrossingGradient_df1y3(v0, v1, v2, v3);
+    } else if (Util_in_range((3 * b / 4), b, d)) {
+        gradient[0] = CrossingGradient_df2x0(v0, v1, v2, v3);
+        gradient[1] = CrossingGradient_df2y0(v0, v1, v2, v3);
+        gradient[2] = CrossingGradient_df2x1(v0, v1, v2, v3);
+        gradient[3] = CrossingGradient_df2y1(v0, v1, v2, v3);
+        gradient[4] = CrossingGradient_df2x2(v0, v1, v2, v3);
+        gradient[5] = CrossingGradient_df2y2(v0, v1, v2, v3);
+        gradient[6] = CrossingGradient_df2x3(v0, v1, v2, v3);
+        gradient[7] = CrossingGradient_df2y3(v0, v1, v2, v3);
+    } else {
+        gradient[0] = 0;
+        gradient[1] = 0;
+        gradient[2] = 0;
+        gradient[3] = 0;
+        gradient[4] = 0;
+        gradient[5] = 0;
+        gradient[6] = 0;
+        gradient[7] = 0;
+    }
+}
+
+/* Public ********************************************************************/
 
 BondCross BondCross_initialize(const BondPair bpr, const Vector cross)
 {
@@ -50,7 +123,6 @@ BondCross BondCross_initialize(const BondPair bpr, const Vector cross)
     *(v3->crs_bof + v1->id) = 1;
 
     rtn.cross = cross;
-
     return rtn;
 }
 
@@ -66,127 +138,99 @@ BondCrossPointer BondCross_create(
 
 double BondCross_crossing_energy(const BondCrossPointer bcrs)
 {
-    VertexPointer v0, v1, v2, v3;
-    v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.snd->fst; 
-    v2 = bcrs->bpr.snd->snd; v3 = bcrs->bpr.fst->snd;
     
-    double d0, d1, d2, d3;
-    d0 = Vector_norm(Vector_sub(bcrs->cross, v0->pos));
-    d1 = Vector_norm(Vector_sub(bcrs->cross, v1->pos));
-    d2 = Vector_norm(Vector_sub(bcrs->cross, v2->pos));
-    d3 = Vector_norm(Vector_sub(bcrs->cross, v3->pos));
+    BondPointer b0, b1;
+    b0 = bcrs->bpr.fst; b1 = bcrs->bpr.snd;
 
-    double dsums[4];
-    dsums[0] = d0 + d1;
-    dsums[1] = d0 + d2;
-    dsums[2] = d1 + d3;
-    dsums[3] = d2 + d3;
-
-    double mind, wi;
-    mind = Util_collection_min(dsums, 4);
-    wi = crossing_weight(bcrs);
+    VertexPointer v[4];
+    v[0] = b0->fst; 
+    v[1] = b0->snd; 
+    v[2] = b1->fst; 
+    v[3] = b1->snd;
     
-    return wi  / (v0->mass + v1->mass + v2->mass + v3->mass) * pow(mind, 2);
+    Vector vecs[4]; 
+    vecs[0] = Vector_sub(bcrs->cross, v[0]->pos);
+    vecs[1] = Vector_sub(bcrs->cross, v[1]->pos);
+    vecs[2] = Vector_sub(bcrs->cross, v[2]->pos);
+    vecs[3] = Vector_sub(bcrs->cross, v[3]->pos);
+    
+    double dsum;
+    dsum = fmax(Vector_norm(vecs[0]), EPS) + fmax(Vector_norm(vecs[2]), EPS);
+
+    double d0, d1;
+    d0 = Vector_sub(b0->snd->pos, b0->fst->pos).len; 
+    d1 = Vector_sub(b1->snd->pos, b1->fst->pos).len; 
+
+    double rtn = bump(dsum, d0 + d1);
+    
+    double wi;
+    if (!TEST) {
+        wi = crossing_weight(bcrs) / (v[0]->mass + v[1]->mass + v[2]->mass + v[3]->mass) ;
+    } else {
+        wi = crossing_weight(bcrs);
+    }
+    return wi * rtn;
 }
 
 VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
 {
+    BondPointer b0, b1;
+    b0 = bcrs->bpr.fst; b1 = bcrs->bpr.snd;
 
-    VertexPointer v0, v1, v2, v3;
-    v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.snd->fst; 
-    v2 = bcrs->bpr.snd->snd; v3 = bcrs->bpr.fst->snd;
+    VertexPointer v[4];
+    v[0] = b0->fst; 
+    v[1] = b0->snd; 
+    v[2] = b1->fst; 
+    v[3] = b1->snd;
     
-    Vector vec0, vec1, vec2, vec3; 
-    vec0 = Vector_sub(bcrs->cross, v0->pos);
-    vec1 = Vector_sub(bcrs->cross, v1->pos);
-    vec2 = Vector_sub(bcrs->cross, v2->pos);
-    vec3 = Vector_sub(bcrs->cross, v3->pos);
+    Vector vecs[4]; 
+    vecs[0] = Vector_sub(bcrs->cross, v[0]->pos);
+    vecs[1] = Vector_sub(bcrs->cross, v[1]->pos);
+    vecs[2] = Vector_sub(bcrs->cross, v[2]->pos);
+    vecs[3] = Vector_sub(bcrs->cross, v[3]->pos);
+    
+    double dsum;
+    dsum = fmax(Vector_norm(vecs[0]), EPS) + fmax(Vector_norm(vecs[2]), EPS);
 
-    double d0, d1, d2, d3;
-    d0 = fmax(Vector_norm(vec0), MIN_DIST);
-    d1 = fmax(Vector_norm(vec1), MIN_DIST);
-    d2 = fmax(Vector_norm(vec2), MIN_DIST);
-    d3 = fmax(Vector_norm(vec3), MIN_DIST);
+    double d0, d1;
+    d0 = Vector_sub(v[1]->pos, v[0]->pos).len; 
+    d1 = Vector_sub(v[3]->pos, v[2]->pos).len; 
 
-    double dsums[4];
-    dsums[0] = d0 + d1;
-    dsums[1] = d0 + d2;
-    dsums[2] = d1 + d3;
-    dsums[3] = d2 + d3;
+    double gradient[8];
+    dbump(gradient, dsum, d0 + d1, v[0]->pos, v[1]->pos, v[2]->pos, v[3]->pos);
     
-    int i, min, minind;
-    min = dsums[0];
-    minind = 0;
-    for (i = 1; i < 4; i++) {
-        if (dsums[i] < min) {
-            min = dsums[i];
-            minind = i;
-        }
-    }
-    
-    double v0_gradx, v0_grady, 
-          v1_gradx, v1_grady, 
-          v2_gradx, v2_grady, 
-          v3_gradx, v3_grady;
-    switch (minind) {
-        case 0:
-            v0_gradx = 2 * vec0.x * dsums[0] / d0;
-            v0_grady = 2 * vec0.y * dsums[0] / d0;
-            v1_gradx = 2 * vec1.x * dsums[0] / d1; 
-            v1_grady = 2 * vec1.y * dsums[0] / d1; 
-            v2_gradx = 0; 
-            v2_grady = 0; 
-            v3_gradx = 0; 
-            v3_grady = 0; 
-            break;
-        case 1:
-            v0_gradx = 2 * vec0.x * dsums[1] / d0;
-            v0_grady = 2 * vec0.y * dsums[1] / d0;
-            v1_gradx = 0; 
-            v1_grady = 0; 
-            v2_gradx = 2 * vec2.x * dsums[1] / d2; 
-            v2_grady = 2 * vec2.y * dsums[1] / d2; 
-            v3_gradx = 0; 
-            v3_grady = 0; 
-            break;
-        case 2:
-            v0_gradx = 0;
-            v0_grady = 0;
-            v1_gradx = 2 * vec1.x * dsums[2] / d1; 
-            v1_grady = 2 * vec1.y * dsums[2] / d1; 
-            v2_gradx = 0; 
-            v2_grady = 0; 
-            v3_gradx = 2 * vec3.x * dsums[2] / d3; 
-            v3_grady = 2 * vec3.y * dsums[2] / d3; 
-            break;
-        case 3:
-            v0_gradx = 0;
-            v0_grady = 0;
-            v1_gradx = 0; 
-            v1_grady = 0; 
-            v2_gradx = 2 * vec2.x * dsums[3] / d2; 
-            v2_grady = 2 * vec2.y * dsums[3] / d2; 
-            v3_gradx = 2 * vec3.x * dsums[3] / d3; 
-            v3_grady = 2 * vec3.y * dsums[3] / d3; 
-            break;
-    }
+    assert(!(gradient[0] != gradient[0]));
+    assert(!(gradient[1] != gradient[1]));
+    assert(!(gradient[2] != gradient[2]));
+    assert(!(gradient[3] != gradient[3]));
+    assert(!(gradient[4] != gradient[4]));
+    assert(!(gradient[5] != gradient[5]));
+    assert(!(gradient[6] != gradient[6]));
+    assert(!(gradient[7] != gradient[7]));
+
+    Vector v0_grad, v1_grad, v2_grad, v3_grad;
+    v0_grad = Vector_initialize(gradient[0], gradient[1]);
+    v1_grad = Vector_initialize(gradient[2], gradient[3]);
+    v2_grad = Vector_initialize(gradient[4], gradient[5]);
+    v3_grad = Vector_initialize(gradient[6], gradient[7]);
 
     double wi;
     wi = crossing_weight(bcrs);
     
     VectorPointer rtn = Util_allocate(4, sizeof(Vector));
-
-    Vector v0_grad, v1_grad, v2_grad, v3_grad;
-    v0_grad = Vector_initialize(v0_gradx, v0_grady);
-    v1_grad = Vector_initialize(v1_gradx, v1_grady);
-    v2_grad = Vector_initialize(v2_gradx, v2_grady);
-    v3_grad = Vector_initialize(v3_gradx, v3_grady);
-
-    rtn[0] = Vector_scalar_mult(v0_grad, wi / v0->mass);
-    rtn[1] = Vector_scalar_mult(v1_grad, wi / v1->mass);
-    rtn[2] = Vector_scalar_mult(v2_grad, wi / v2->mass);
-    rtn[3] = Vector_scalar_mult(v3_grad, wi / v3->mass);
-
+    
+    if (!TEST) {
+        rtn[0] = Vector_scalar_mult(v0_grad, -wi / v[0]->mass);
+        rtn[1] = Vector_scalar_mult(v1_grad, -wi / v[1]->mass);
+        rtn[2] = Vector_scalar_mult(v2_grad, -wi / v[2]->mass);
+        rtn[3] = Vector_scalar_mult(v3_grad, -wi / v[3]->mass);
+    } else {
+        rtn[0] = Vector_scalar_mult(v0_grad, -wi);
+        rtn[1] = Vector_scalar_mult(v1_grad, -wi);
+        rtn[2] = Vector_scalar_mult(v2_grad, -wi);
+        rtn[3] = Vector_scalar_mult(v3_grad, -wi);
+    }
+    
     return rtn;
 }
 

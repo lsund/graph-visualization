@@ -10,6 +10,7 @@
 
 *****************************************************************************/
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -17,13 +18,15 @@
 #include "constants.h"
 #include "bond_pair.h"
 #include "bond_set.h"
+#include "angular_gradient.h"
 
 /* Private ******************************************************************/
 
 static double angular_weight(const BondPairPointer bpr)
 {
-   return WANG / (bpr->other1->mass * bpr->other2->mass);
+   return WANG;
 }
+
 
 /* Public *******************************************************************/
 
@@ -80,16 +83,18 @@ int BondPair_intersect(const BondPair bpr, VectorPointer v)
 
     BondPointer b0, b1;
     b0 = bpr.fst; b1 = bpr.snd;
-
-    VertexPointer v0, v1, v2, v3;
-    v0 = b0->fst; v1 = b0->snd; 
-    v2 = b1->fst; v3 = b1->snd;
+    
+    VertexPointer vertices[4];
+    vertices[0] = b0->fst; 
+    vertices[1] = b0->snd; 
+    vertices[2] = b1->fst; 
+    vertices[3] = b1->snd;
 
     double p0_x, p0_y, p1_x, p1_y, p2_x, p2_y, p3_x, p3_y;
-    p0_x = v0->pos.x; p0_y = v0->pos.y;
-    p1_x = v1->pos.x; p1_y = v1->pos.y;
-    p2_x = v2->pos.x; p2_y = v2->pos.y;
-    p3_x = v3->pos.x; p3_y = v3->pos.y;
+    p0_x = vertices[0]->pos.x; p0_y = vertices[0]->pos.y;
+    p1_x = vertices[1]->pos.x; p1_y = vertices[1]->pos.y;
+    p2_x = vertices[2]->pos.x; p2_y = vertices[2]->pos.y;
+    p3_x = vertices[3]->pos.x; p3_y = vertices[3]->pos.y;
 
     double s1_x, s1_y, s2_x, s2_y;
     s1_x = p1_x - p0_x;     
@@ -103,8 +108,8 @@ int BondPair_intersect(const BondPair bpr, VectorPointer v)
     t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / 
         (-s2_x * s1_y + s1_x * s2_y);
 
-    if (s >= MIN_DIST && s <= 1 - MIN_DIST && 
-        t >= MIN_DIST && t <= 1 - MIN_DIST)
+    if (s >= EPS && s <= 1 - EPS && 
+        t >= EPS && t <= 1 - EPS)
     {
         double i_x, i_y;
         i_x = p0_x + (t * s1_x);
@@ -140,91 +145,53 @@ double BondPair_angular_energy(const BondPairPointer bpr)
     return wij * pow(theta - theta0, 2);
 }
 
-Pair BondPair_angular_gradient(const BondPairPointer bpr)
+VectorPointer BondPair_angular_gradient(const BondPairPointer bpr)
 {
     VertexPointer vi, vj, vk;
     vi = bpr->other1; 
     vj = bpr->common;
     vk = bpr->other2; 
     
-    double xji, yji, xjk, yjk; 
-    xji = vi->pos.x - vj->pos.x;
-    yji = vi->pos.y - vj->pos.y;
-    xjk = vk->pos.x - vj->pos.x;
-    yjk = vk->pos.y - vj->pos.y;
-
-    if (Util_about(xji, xjk)) {
-        xji += MIN_DIST;
-        xjk -= MIN_DIST;
-    }
-    if (Util_about(yji, yjk)) {
-        yji += MIN_DIST;
-        yjk -= MIN_DIST;
-    }
-
-    Vector vecji, vecjk;
-    vecji = Vector_initialize(xji, yji);
-    vecjk = Vector_initialize(xjk, yjk);
+    Vector v0, v1, v2; 
+    v0 = vi->pos; v1 = vj->pos; v2 = vk->pos;
     
-    double theta0;
-    theta0 = (2 * M_PI) / (vj->mass - 1);
-    
-    double a1, a2; 
-    a1 = (xjk * yji - yjk * xji);
-    a2 = (yjk * xji - xjk * yji);
-    
-    double b;
-    b = theta0 - Vector_angle(vecji, vecjk);
-    
-    double c1, c2;
-    c1 = vecjk.len * pow((pow(xji, 2) + pow(yji, 2)), (3/2));
-    c2 = vecji.len * pow((pow(xjk, 2) + pow(yjk, 2)), (3/2));
-    
-    double dn, dd, dsq, d;
-    dn = pow(a2, 2);
-    dd = (pow(xji, 2) + pow(yji, 2)) * (pow(xjk, 2) + pow(yjk, 2));
-    if (dd < MIN_DIST) {
-        dd = MIN_DIST;
-    }
-    dsq = dn / dd;
-    if (dsq < 0) {
-        Util_runtime_error("Negative square root argument");
-    }
-    d = sqrt(dn / dd);
+    double w;
+    int m;
+    w = angular_weight(bpr);
+    m = vj->mass - 1;
 
-    double aver[4];
-    aver[0] = 2 * yji * a1;
-    aver[1] = 2 * xji * a2;
-    aver[2] = 2 * yjk * a2;
-    aver[3] = 2 * xjk * a1;
+    double gradient[6];
+    gradient[0] = AngularGradient_dfx0(v0, v1, v2, w, m);
+    gradient[1] = AngularGradient_dfy0(v0, v1, v2, w, m);
+    gradient[2] = AngularGradient_dfx1(v0, v1, v2, w, m);
+    gradient[3] = AngularGradient_dfy1(v0, v1, v2, w, m);
+    gradient[4] = AngularGradient_dfx2(v0, v1, v2, w, m);
+    gradient[5] = AngularGradient_dfy2(v0, v1, v2, w, m);
+
+    assert(!(gradient[0] != gradient[0]));
+    assert(!(gradient[1] != gradient[1]));
+    assert(!(gradient[2] != gradient[2]));
+    assert(!(gradient[3] != gradient[3]));
+    assert(!(gradient[4] != gradient[4]));
+    assert(!(gradient[5] != gradient[5]));
+    assert(gradient[0] < 1000);
+    assert(gradient[1] < 1000);
+    assert(gradient[2] < 1000);
+    assert(gradient[3] < 1000);
+    assert(gradient[4] < 1000);
+    assert(gradient[5] < 1000);
+
     
-    double c1d, c2d;
-    c1d = fmax(c1 * d, MIN_DIST); 
-    c2d = fmax(c2 * d, MIN_DIST);
+    VectorPointer rtn = Util_allocate(3, sizeof(Vector));
 
-    double dxji, dyji, dxjk, dyjk;
-    dxji = -(aver[0] * b) / c1d;
-    dyji = -(aver[1] * b) / c1d;
-    dxjk = -(aver[2] * b) / c2d;
-    dyjk = -(aver[3] * b) / c2d;
+    rtn[0] = Vector_scalar_mult(Vector_initialize(gradient[0], gradient[1]), w);
+    rtn[1] = Vector_scalar_mult(Vector_initialize(gradient[2], gradient[3]), w);
+    rtn[2] = Vector_scalar_mult(Vector_initialize(gradient[4], gradient[5]), w);
 
-    double wji, wjk;
-
-    wji = angular_weight(bpr);
-    wjk = angular_weight(bpr);
-
-    VectorPointer frcji, frcjk;
-    
-    frcji = Vector_create(dxji, dyji);
-    frcjk = Vector_create(dxjk, dyjk);
-
-    *frcji = Vector_scalar_mult(*frcji, wji);  
-    *frcjk = Vector_scalar_mult(*frcjk, wjk);  
-    
-    return Pair_initialize(frcji, frcjk);
+    return rtn;
 }
 
-int has_common_vertex(BondPair bpr) 
+int BondPair_has_common_vertex(const BondPair bpr) 
 {
     BondPointer bp1, bp2;
     bp1 = bpr.fst; bp2 = bpr.snd;
@@ -234,7 +201,7 @@ int has_common_vertex(BondPair bpr)
             bp1->snd->id == bp2->snd->id;
 }
 
-void BondPairs_free(BondPairPointer bprs)
+void BondPairs_free(const BondPairPointer bprs)
 {
     BondPairPointer bpr = bprs;
     while(bpr != NULL) {

@@ -10,8 +10,9 @@
 
 *****************************************************************************/
 
-#include <math.h>
 #include <stdio.h>
+#include <time.h>
+#include <math.h>
 #include <stdlib.h>
 
 #include "vertex.h"
@@ -41,12 +42,6 @@ static int comp_by_id(const void *elem1, const void *elem2)
 
 /* Public ********************************************************************/
 
-/**
- * Assigns the positions of vertices vs as a spiral starting from the middle of
- * the panel whose dimension are specified by PANEL_X and PANEL_Y, starting
- * with the vertex with the most connections, the vertex with the second most
- * connections etc.
- */
 void Placement_set_spiral(VertexSet vs, const int nv)
 {
     qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_mass);
@@ -85,7 +80,7 @@ void Placement_set_spiral(VertexSet vs, const int nv)
                 double placex, placey;
                 placex = (double) x * gapx;
                 placey = (double) y * gapy;
-                (*(vs.set + i))->pos = Vector_initialize(placex, placey);
+                Vertex_set_position(*(vs.set + i), Vector_initialize(placex, placey));
             }
         }
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
@@ -99,11 +94,18 @@ void Placement_set_spiral(VertexSet vs, const int nv)
     qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_id);
 }
 
-/**
- * Assigns the positions of vertices vs.set as a grid in the panel whose dimension
- * are specified by PANEL_X and PANEL_Y, starting in the upper-left corner with
- * the vertex with the lowest id. 
- */
+void Placement_set_random(const VertexSet vs, const int nv)
+{
+    srand(time(NULL));
+    int i;
+    for (i = 0; i < nv; i++) {
+        double rx, ry;
+        rx = ((double) rand()) / RAND_MAX;
+        ry = ((double) rand()) / RAND_MAX;
+        Vertex_set_position(*(vs.set + i), Vector_initialize(rx, ry));
+    }
+}
+
 void Placement_set_grid(VertexSet vs, const int nv) 
 {
     int i, n, vdim, rows, cols;
@@ -126,7 +128,7 @@ void Placement_set_grid(VertexSet vs, const int nv)
         }
         x = cols * gapx + offsetx;
         y = rows * gapy + offsety; 
-        (*(vs.set + i))->pos = Vector_initialize(x, y);
+        Vertex_set_position(*(vs.set + i), Vector_initialize(x, y));
         cols++;
     }
 }

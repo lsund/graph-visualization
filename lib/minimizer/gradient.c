@@ -124,18 +124,18 @@ static void third_order(
     BondPairPointer bpr = con;
     while (bpr) {
         
-        Pair pr = BondPair_angular_gradient(bpr);
-        VertexPointer vi, vk;
+        VectorPointer grad;
+        grad = BondPair_angular_gradient(bpr);
+        VertexPointer vi, vj, vk;
         vi = bpr->other1; 
+        vj = bpr->common; 
         vk = bpr->other2; 
-        Vector gradi, gradk;
-        gradi = *((VectorPointer) pr.fst);
-        gradk = *((VectorPointer) pr.snd);
-        gradient[vi->id] = Vector_add(gradient[vi->id], gradi);
-        gradient[vk->id] = Vector_add(gradient[vk->id], gradk);
+
+        gradient[vi->id] = Vector_add(gradient[vi->id], grad[0]);
+        gradient[vj->id] = Vector_add(gradient[vj->id], grad[1]);
+        gradient[vk->id] = Vector_add(gradient[vk->id], grad[2]);
         
-        free(pr.fst);
-        free(pr.snd);
+        free(grad); 
 
         bpr = bpr->next;
     }
@@ -153,8 +153,8 @@ static void fourth_order(
         VectorPointer grad = BondCross_crossing_gradient(bcrs);
 
         VertexPointer v0, v1, v2, v3;
-        v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.snd->fst; 
-        v2 = bcrs->bpr.snd->snd; v3 = bcrs->bpr.fst->snd;
+        v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.fst->snd; 
+        v2 = bcrs->bpr.snd->fst; v3 = bcrs->bpr.snd->snd;
 
         gradient[v0->id] = Vector_add(gradient[v0->id], grad[0]);
         gradient[v1->id] = Vector_add(gradient[v1->id], grad[1]);

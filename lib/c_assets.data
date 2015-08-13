@@ -56,10 +56,10 @@
 {
   "vertices":
     [
-      {"id":0,"position":[100, 300],"radius":1,"type":"r"},
-      {"id":1,"position":[200, 300],"radius":1,"type":"r"},
-      {"id":2,"position":[100, 600],"radius":1,"type":"r"},
-      {"id":3,"position":[200, 600],"radius":1,"type":"r"}
+      {"id":0,"position":[0.100, 0.300],"radius":1,"type":"r"},
+      {"id":1,"position":[0.200, 0.300],"radius":1,"type":"r"},
+      {"id":2,"position":[0.100, 0.600],"radius":1,"type":"r"},
+      {"id":3,"position":[0.200, 0.600],"radius":1,"type":"r"}
     ],
   "bonds":
     [
@@ -99,10 +99,10 @@
 {
   "vertices":
     [
-      {"id":0,"position":[501, 700],"radius":1,"type":"r"},
-      {"id":1,"position":[600, 700],"radius":1,"type":"r"},
-      {"id":2,"position":[500, 900],"radius":1,"type":"r"},
-      {"id":3,"position":[600, 900],"radius":1,"type":"r"}
+      {"id":0,"position":[0.501, 0.700],"radius":1,"type":"r"},
+      {"id":1,"position":[0.600, 0.700],"radius":1,"type":"r"},
+      {"id":2,"position":[0.500, 0.900],"radius":1,"type":"r"},
+      {"id":3,"position":[0.600, 0.900],"radius":1,"type":"r"}
     ],
   "bonds":
     [

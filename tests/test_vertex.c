@@ -53,7 +53,7 @@ char *test_vertex()
            Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v3)), 0));
     
     msg("Checking Vertex_repulsion gradient...");
-
+    
     mu_assert("should have negative x-component", 
            VertexPair_repulsion_gradient(Pair_initialize(v, v1)).x < 0);
     

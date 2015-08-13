@@ -177,7 +177,7 @@ void Graph_detect_connected(const GraphPointer graph)
             snd = BondSet_get_bond(graph->bs, j);
             Pair pr = Pair_initialize(fst, snd);
             int common;
-            common = has_common_vertex(BondPair_initialize(pr));
+            common = BondPair_has_common_vertex(BondPair_initialize(pr));
             if (common) {
                 link_bondpair(graph, Pair_initialize(fst, snd));
             }

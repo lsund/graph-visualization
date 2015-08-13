@@ -64,7 +64,7 @@ static double second_order_repulsion(const GridPointer grid)
                 if (vp0->id > vp1->id) {
                     pr = Pair_initialize(vp1, vp0);
                 } else {
-                    pr = Pair_initialize(vp1, vp0);
+                    pr = Pair_initialize(vp0, vp1);
                 }
                 rtn += VertexPair_repulsion_energy(pr);
                 vp1 = vp1->next;

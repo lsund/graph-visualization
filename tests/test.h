@@ -11,6 +11,7 @@
 #include "../lib/minimizer/gradient.h"
 #include "../lib/minimizer/constants.h"
 #include "../lib/minimizer/minimizer.h"
+#include "../lib/minimizer/placement.h"
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/wait.h> 

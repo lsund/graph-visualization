@@ -21,10 +21,10 @@ int BondPair_intersect(const BondPair bpr, VectorPointer v);
 
 double BondPair_angular_energy(const BondPairPointer bpr);
 
-Pair BondPair_angular_gradient(const BondPairPointer bpr);
+VectorPointer BondPair_angular_gradient(const BondPairPointer bpr);
 
-int has_common_vertex(BondPair bpr);
+int BondPair_has_common_vertex(const BondPair bpr);
 
-void BondPairs_free(BondPairPointer b2ps);
+void BondPairs_free(const BondPairPointer b2ps);
 
 #endif

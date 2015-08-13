@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "constants.h"
 #include "vector.h"
 #include "util.h"
 
@@ -91,9 +92,10 @@ double Vector_angle(Vector v1, Vector v2)
     assert(lenp >= 0);
 
     if (Util_is_zero(lenp)) {
-        Util_runtime_error("Vector_angle: Division by zero");
+        return 0.0;
+        /*Util_runtime_error("Vector_angle: Division by zero");*/
     }
-    if (scalp != scalp) Util_runtime_error("angle: Nan scalp");
+    if (scalp != scalp) Util_runtime_error("Vector_angle: Nan scalp");
     if (
             Util_equal(scalp, lenp) || 
             Util_equal(scalp, -lenp) || 
@@ -105,10 +107,10 @@ double Vector_angle(Vector v1, Vector v2)
 
     double div;
     div = scalp / lenp;
-    if (Util_equal(div, 1.0) || Util_equal(div, -1.0)) 
+    if (fabs(div - 1.0) < EPS || fabs(div + 1.0) < EPS) 
         return 0.0;
-    if (!Util_in_range(-1.0, 1.0, div)) {
-        Util_runtime_error("Outside acos range"); 
+    if (!Util_in_range_strict(-1.0, 1.0, div)) {
+        Util_runtime_error("Vector_angle: Outside acos range"); 
     }
     return acos(div);
 }
