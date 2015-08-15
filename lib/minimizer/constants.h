@@ -4,6 +4,12 @@
 
 #if !TEST
 
+#define L_ITMAX 200
+#define G_ITMAX 10
+#define T_ITMAX 5 
+
+#define TEMP 0
+
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 
 #define ZEPS 1.0e-10
@@ -31,7 +37,7 @@
 #define WREP 500.0
 #define WPOT 2.0
 #define WANG 0.002
-#define WCRS 1.50
+#define WCRS 1.55
 
 #define COMP_EPS 1.0e-4
 
@@ -46,21 +52,27 @@
 #define GOLD 1.618034
 #define GLIMIT 100.0
 
-#define ITMAX 200
-
 #else 
 
 ////////////////////////////////////////////////////////////////
 
-#define M_PI 3.14159265358979323846
+#define L_ITMAX 200
+#define G_ITMAX 10
+#define T_ITMAX 5
+
+#define FTOL 1.0e-3
+#define TOL 2.0e-4 
+#define ZEPS 1.0e-10
+#define EPS 1.0e-10
+#define TINY 1.0e-20
+#define MIN_DIST 0.01
+
+#define TEMP 0
+
 #define INTERVAL 800
 
 #define MAX_NV 100
 
-//#define PANEL_X 1000.0
-//#define PANEL_Y 1000.0
-//#define PADDING 100.0
-//#define SPRING_LENGTH 100.0
 #define PANEL_X 1.0
 #define PANEL_Y 1.0
 #define PADDING 0.1
@@ -83,25 +95,17 @@
 #define WANG 1.0
 #define WCRS 1.0
 
-#define FTOL 1.0e-3
-#define TOL 2.0e-4 
-#define ZEPS 1.0e-10
-#define EPS 1.0e-10
-#define TINY 1.0e-20
-
 #define COMP_EPS 1.0e-4
 
 #define DEFAULT_TYPE 'v' 
 #define DISTANCE_DELIMITER 0.4
 
-#define MIN_DIST 0.01
 #define PRECISION_DIGITS 8
+#define M_PI 3.14159265358979323846
 
 #define CGOLD 0.3819660
 #define GOLD 1.618034
 #define GLIMIT 100.0
-
-#define ITMAX 200
 
 #endif
 

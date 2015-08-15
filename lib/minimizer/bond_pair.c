@@ -174,13 +174,6 @@ VectorPointer BondPair_angular_gradient(const BondPairPointer bpr)
     assert(!(gradient[3] != gradient[3]));
     assert(!(gradient[4] != gradient[4]));
     assert(!(gradient[5] != gradient[5]));
-    assert(gradient[0] < 1000);
-    assert(gradient[1] < 1000);
-    assert(gradient[2] < 1000);
-    assert(gradient[3] < 1000);
-    assert(gradient[4] < 1000);
-    assert(gradient[5] < 1000);
-
     
     VectorPointer rtn = Util_allocate(3, sizeof(Vector));
 

@@ -24,33 +24,31 @@
 #include "graph.h"
 #include "vertex.h"
 #include "util.h"
+#include "linmin.h"
 
-#define PARABOLIC_EXTRAPOLATION(ax, bx, cx, q, r) \
-    ({ (*bx) - ((*bx - *cx) * q - (*bx - *ax) *r ) / \
-     (2.0 * SIGN(MAX(fabs(q - r), TINY), q - r));})
-
-VectorPointer cached_gradient;
-
-static void move_vertices(VertexSet vs, double x)
+static double parabolic_extrapolation(
+        const double *ax, 
+        const double *bx, 
+        const double *cx, 
+        const double q, 
+        const double r
+    )
 {
-    int i;   
-    for (i = 0; i < vs.n; i++) {
-        VertexPointer v = *(vs.set + i);
-        Vector ds;
-        ds = Vector_scalar_mult(cached_gradient[i], x);
-        Vertex_move(v, ds);
-    }
+    return (*bx) - ((*bx - *cx) * q - (*bx - *ax) *r ) / 
+           (2.0 * SIGN(MAX(fabs(q - r), TINY), q - r));
 }
 
-static double step(double x, GraphPointer graph, double (*e_fun)(GraphPointer))   
+static double step(
+        double x, GraphPointer graph, 
+        void (*e_fun)(GraphPointer)
+    )   
 {   
-    move_vertices(graph->vs, x);
+    VertexSet_move(graph->vs, x);
     Graph_reset_dynamics(graph);
 
-    double energy;
-    energy = e_fun(graph);
+    e_fun(graph);
 
-    return energy;
+    return graph->energy;
 }
 
 static double isolate_minimum(
@@ -60,7 +58,7 @@ static double isolate_minimum(
         double cx, 
         double tol, 
         double *xmin,
-        double (*e_fun)(GraphPointer)
+        void (*e_fun)(GraphPointer)
     )
 {
     int iter;
@@ -71,7 +69,7 @@ static double isolate_minimum(
     b=(ax > cx ? ax : cx);
     x = w = v = bx;
     fw = fv = fx = step(x, graph, e_fun);
-    for (iter = 1;iter <= ITMAX; iter++) {
+    for (iter = 0; iter < L_ITMAX; iter++) {
         xm = 0.5 * (a + b);
         tol2 = 2.0 * (tol1 = tol * fabs(x) + ZEPS);
         if (fabs(x-xm) <= (tol2-0.5*(b-a))) {
@@ -130,7 +128,7 @@ void bracket_minimum(
         double *fa, 
         double *fb, 
         double *fc, 
-        double (*e_fun)(GraphPointer)
+        void (*e_fun)(GraphPointer)
     )
 {
     
@@ -153,7 +151,7 @@ void bracket_minimum(
         q = (*bx - *cx) * (*fb - *fa);
         
         double u, ulim;
-        u = PARABOLIC_EXTRAPOLATION(ax, bx, cx, q, r);
+        u = parabolic_extrapolation(ax, bx, cx, q, r);
         ulim = (*bx)+GLIMIT*(*cx-*bx);
 
         double fu;
@@ -192,25 +190,14 @@ void bracket_minimum(
 
 void linmin(
         GraphPointer graph, 
-        double (*e_fun)(GraphPointer), 
-        double *fret, 
-        VectorPointer gradient
+        void (*e_fun)(GraphPointer),
+        double *fret
     )   
 {   
     VertexSet vs;
     vs = graph->vs;
-
-    cached_gradient = (VectorPointer) Util_allocate(vs.n, sizeof(Vector));
-
-    int i;
-    for (i = 0; i < vs.n; i++) {
-        VertexPointer vp;
-        vp = *(vs.set + i);
-        vp->pos0 = vp->pos;
-
-        cached_gradient[i] = gradient[i];
-        gradient[i] = Vector_zero();
-    }
+    
+    VertexSet_store_gradient(vs);
 
     double ax, xx;
     ax = 0.0; 
@@ -221,10 +208,7 @@ void linmin(
 
     double xmin;
     *fret = isolate_minimum(graph, ax, xx, bx, TOL, &xmin, e_fun);   
-    
-    for (i = 0; i < vs.n; i++) { 
-        Vector_scalar_mult(gradient[i], xmin);
-    }   
-    free(cached_gradient);
+
+    VertexSet_boost(vs, xmin);
 }
 

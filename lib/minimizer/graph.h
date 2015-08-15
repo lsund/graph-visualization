@@ -19,6 +19,7 @@ struct graph
     BondSet bs;
     BondPairPointer con;
     BondCrossPointer crs;
+    double energy;
 };
 
 GraphPointer Graph_create(const char *fname);

@@ -33,8 +33,9 @@ GraphPointer create(VertexSet vs, BondSet bs)
     
     rtn->grid = Grid_create(); 
     rtn->con = NULL; rtn->crs = NULL;
-
-    rtn->vs = vs; rtn->bs = bs;
+    rtn->energy = 0;
+    rtn->vs = vs; 
+    rtn->bs = bs;
 
     Graph_detect_connected(rtn);
     

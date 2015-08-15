@@ -10,13 +10,14 @@
 
 *****************************************************************************/
 
+#include "../lib/minimizer/constants.h"
 #include "test.h"
 #include <math.h>
+#include <stdlib.h>
 
-#define DEBUG 0
-
-double step = 0.001;
-int incorrect = 0;
+static double step = 1e-7;
+static int incorrect = 0;
+static double accepted_percentage = 0.03;
 
 enum {TESTX, TESTY};
 enum { FIRST, SECONDA, SECONDR, THIRD, FOURTH };
@@ -33,18 +34,14 @@ static int get_nof_bondcrosses(GraphPointer graph) {
 
 static int approximate(const double tar, double x) {
 
-    int small = fabs(x) < 1e-05 && fabs(tar) < 1e-05;
+    int small = fabs(x) < 1e-04 && fabs(tar) < 1e-04;
     if (small) return 1;
-    if (DEBUG) {
-        printf("\ntarget: %f, number; %f\n", tar, x);
-        printf("ratio: %f\n", fabs(1 - tar / x));
-    }
     if (Util_equal(tar, x)) return 1;
-    int about = fabs(1 - tar / x) < 0.02;
+    int about = fabs(1 - tar / x) < accepted_percentage;
     return about;
 }
 
-static char *compare_with_approx(const char *fname, int dim, int order, int nv)
+static char *compare_with_approx(const char *fname, int dim, int order, int nv, FILE *log)
 {
     if (dim == TESTX) {
         if (order == FIRST) {
@@ -78,34 +75,32 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv)
         Placement_set_random(graph->vs, graph->vs.n);
         Graph_reset_dynamics(graph);
         int nof_crs1 = get_nof_bondcrosses(graph);
-        VectorPointer gradient;
         VertexPointer v = *(graph->vs.set + i);
-        gradient = (VectorPointer) Util_allocate_initialize(nv, sizeof(Vector));
         double e; 
+        graph->energy = 0;
         if (order == FIRST) {
-            (*test_first_order_gradient)(graph->vs, gradient);
-            e = test_first_order_energy(graph->vs); 
+            (*test_first_order_gradient)(graph->vs);
+            test_first_order_energy(graph); 
         } else if (order == SECONDA) {
-            (*test_second_order_attraction_gradient)(graph->bs, gradient);
-            e = (*test_second_order_attraction_energy)(graph->bs); 
+            (*test_second_order_attraction_gradient)(graph->bs);
+            (*test_second_order_attraction_energy)(graph); 
         } else if (order == SECONDR) {
-            (*test_second_order_repulsion_gradient)(graph->grid, gradient);
-            e = (*test_second_order_repulsion_energy)(graph->grid); 
+            (*test_second_order_repulsion_gradient)(graph->grid);
+            (*test_second_order_repulsion_energy)(graph); 
         } else if (order == THIRD) {
-            (*test_third_order_gradient)(graph->con, gradient);
-            e = (*test_third_order_energy)(graph->con); 
+            (*test_third_order_gradient)(graph->con);
+            (*test_third_order_energy)(graph); 
         } else {
-            (*test_fourth_order_gradient)(graph->crs, gradient);
-            e = (*test_fourth_order_energy)(graph->crs); 
+            (*test_fourth_order_gradient)(graph->crs);
+            (*test_fourth_order_energy)(graph); 
         }
-        
+        e = graph->energy; 
         double grad; 
         if (dim == TESTX) {
-            grad = gradient[i].x; 
+            grad = v->gradient.x;
         } else {
-            grad = gradient[i].y; 
+            grad = v->gradient.y;
         }
-        free(gradient);
         
         Vector pos; 
         if (dim == TESTX) {
@@ -123,17 +118,19 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv)
             }
         }
         double estep;
+        graph->energy = 0;
         if (order == FIRST) {
-            estep = test_first_order_energy(graph->vs); 
+            test_first_order_energy(graph); 
         } else if (order == SECONDA) {
-            estep = (*test_second_order_attraction_energy)(graph->bs); 
+            (*test_second_order_attraction_energy)(graph); 
         } else if (order == SECONDR) {
-            estep = (*test_second_order_repulsion_energy)(graph->grid); 
+            (*test_second_order_repulsion_energy)(graph); 
         } else if (order == THIRD) {
-            estep = (*test_third_order_energy)(graph->con); 
+            (*test_third_order_energy)(graph); 
         } else {
-            estep = (*test_fourth_order_energy)(graph->crs); 
+            (*test_fourth_order_energy)(graph); 
         }
+        estep = graph->energy;
 
         if (dim == TESTX) {
             Vector pos = Vector_initialize(v->pos.x + step, v->pos.y);
@@ -151,18 +148,19 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv)
             }
         }
         double e2step;
+        graph->energy = 0;
         if (order == FIRST) {
-            e2step = test_first_order_energy(graph->vs); 
+            test_first_order_energy(graph); 
         } else if (order == SECONDA) {
-            e2step = (*test_second_order_attraction_energy)(graph->bs); 
+            (*test_second_order_attraction_energy)(graph); 
         } else if (order == SECONDR) {
-            e2step = (*test_second_order_repulsion_energy)(graph->grid); 
+            (*test_second_order_repulsion_energy)(graph); 
         } else if (order == THIRD) {
-            e2step = (*test_third_order_energy)(graph->con); 
+            (*test_third_order_energy)(graph); 
         } else {
-            e2step = (*test_fourth_order_energy)(graph->crs); 
+            (*test_fourth_order_energy)(graph); 
         }
-        
+        e2step = graph->energy;
         double approx; 
         if (order == THIRD) {
             approx = (4 * estep  - 3 * e - e2step) / (2 * step);
@@ -173,36 +171,35 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv)
         double about = approximate(approx, grad);
 
         if (about == 0) {
-            printf("\nGradient: %d, Expected: %f Actual: %f\n", 
-                    i, approx, grad);
+            switch (order) {
+                case FIRST:
+                    fprintf(log, "First order gradient");
+                    break;
+                case SECONDA:
+                    fprintf(log, "Second order attraction gradient");
+                    break;
+                case SECONDR:
+                    fprintf(log, "Second order repulsion gradient");
+                    break;
+                case THIRD:
+                    fprintf(log, "Third order gradient");
+                    break;
+                case FOURTH:
+                    fprintf(log, "Fourth order gradient");
+                    break;
+                default: 
+                    Util_runtime_error("Invalid parameter");
+            }
+            if (dim == TESTX) {
+                fprintf(log, ": x direction\n");
+            } else {
+                fprintf(log, ": y direction\n");
+            }
+            fprintf(log, "Gradient of vertex: %d of %d\n", i, nv);
+            fprintf(log, "Expected: %f Actual: %f\n", approx, grad);
+            fprintf(log, "Vertex Position {%f, %f}\n", v->pos.x, v->pos.y);
+            fprintf(log, "---------------------\n");
             incorrect++;
-        }
-        
-        if (dim == TESTX) {
-            if (order == FIRST) { 
-                mu_assert("gradient approximation failed: first order x", about);
-            }  else if (order == SECONDA) {
-                mu_assert("gradient approximation failed: second order attraction x", about);
-            } else if (order == SECONDR) {
-                mu_assert("gradient approximation failed: second order repulsion x", 1);
-            } else if (order == THIRD) {
-                mu_assert("gradient approximation failed: third order x", 1);
-            } else {
-                mu_assert("gradient approximation failed: fourth order x", 1);
-            }
-        } 
-        else {
-            if (order == FIRST) {
-                mu_assert("gradient approximation failed: first order y", about);
-            }  else if (order == SECONDA) {
-                mu_assert("gradient approximation failed: second order attraction y", about);
-            } else if (order == SECONDR) {
-                mu_assert("gradient approximation failed: second order repulsion y", 1);
-            } else if (order == THIRD) {
-                mu_assert("gradient approximation failed: third order y", 1);
-            } else {
-                mu_assert("gradient approximation failed: fourth order y", 1);
-            }
         }
         Graph_free(graph);
     }
@@ -210,36 +207,36 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv)
     return NULL;
 } 
 
-static char *run_gradient_tesets(const char *fname, int nv)
+static char *run_gradient_tesets(const char *fname, int nv, FILE *log)
 {
-    char *msg1 = compare_with_approx(fname, TESTX, FIRST, nv);
+    char *msg1 = compare_with_approx(fname, TESTX, FIRST, nv, log);
     if (msg1 != NULL) return msg1;
 
-    char *msg2 = compare_with_approx(fname, TESTY, FIRST, nv);
+    char *msg2 = compare_with_approx(fname, TESTY, FIRST, nv, log);
     if (msg2 != NULL) return msg2;
 
-    char *msg3 = compare_with_approx(fname, TESTX, SECONDA, nv);
+    char *msg3 = compare_with_approx(fname, TESTX, SECONDA, nv, log);
     if (msg3 != NULL) return msg3;
 
-    char *msg4 = compare_with_approx(fname, TESTY, SECONDA, nv);
+    char *msg4 = compare_with_approx(fname, TESTY, SECONDA, nv, log);
     if (msg4 != NULL) return msg4;
 
-    char *msg5 = compare_with_approx(fname, TESTX, SECONDR, nv);
+    char *msg5 = compare_with_approx(fname, TESTX, SECONDR, nv, log);
     if (msg5 != NULL) return msg5;
 
-    char *msg6 = compare_with_approx(fname, TESTY, SECONDR, nv);
+    char *msg6 = compare_with_approx(fname, TESTY, SECONDR, nv, log);
     if (msg6 != NULL) return msg6;
 
-    char *msg7 = compare_with_approx(fname, TESTX, THIRD, nv);
+    char *msg7 = compare_with_approx(fname, TESTX, THIRD, nv, log);
     if (msg7 != NULL) return msg7;
 
-    char *msg8 = compare_with_approx(fname, TESTY, THIRD, nv);
+    char *msg8 = compare_with_approx(fname, TESTY, THIRD, nv, log);
     if (msg8 != NULL) return msg8;
 
-    char *msg9 = compare_with_approx(fname, TESTX, FOURTH, nv);
+    char *msg9 = compare_with_approx(fname, TESTX, FOURTH, nv, log);
     if (msg9 != NULL) return msg9;
 
-    char *msg10 = compare_with_approx(fname, TESTY, FOURTH, nv);
+    char *msg10 = compare_with_approx(fname, TESTY, FOURTH, nv, log);
     if (msg10 != NULL) return msg10;
 
     return NULL;
@@ -256,47 +253,59 @@ char *test_gradient()
     const char *n52 = "data/test/52.json";
     const char *n43 = "data/test/43.json";
 
-    msg("Testing gradients of 3 vertices...\n"); 
-    char *msg0 = run_gradient_tesets(n3, 3);
-    if (msg0 != NULL) return msg0;
-    msgpass();
-        
-    msg("Testing gradients of 4 vertices...\n"); 
-    char *msg1 = run_gradient_tesets(n4, 4);
-    if (msg1 != NULL) return msg1;
-    msgpass();
-
-    msg("Testing gradients of 6 vertices...\n"); 
-    char *msg2 = run_gradient_tesets(n6, 6);
-    if (msg2 != NULL) return msg2;
-    msgpass();
-
-    msg("Testing gradients of 23 vertices...\n"); 
-    char *msg3 = run_gradient_tesets(n23, 23);
-    if (msg3 != NULL) return msg3;
-    msgpass();
-
-    msg("Testing gradients of 52 vertices...\n"); 
-    char *msg4 = run_gradient_tesets(n52, 52);
-    if (msg4 != NULL) return msg4;
-    msgpass();
-
-    msg("Testing gradients of 43 vertices...\n"); 
-    char *msg5 = run_gradient_tesets(n43, 43);
-    if (msg5 != NULL) return msg5;
-    msgpass();
-
-    msg("Testing gradients of 4 vertices, take 2...\n"); 
-    char *msg6 = run_gradient_tesets(n4_2, 4);
-    if (msg6 != NULL) return msg6;
-    msgpass();
-
-    msg("Testing gradients of 4 vertices, take 3...\n"); 
-    char *msg7 = run_gradient_tesets(n4_3, 4);
-    if (msg7 != NULL) return msg7;
-    msgpass();
-
+    int i;
     
+    FILE *log = fopen("log/gradient.txt", "a");
+
+    if (!log) {
+        Util_runtime_error("Could not open file\n");
+    }
+    
+    for (i = 0; i < T_ITMAX; i++) {
+
+        msg("Testing gradients of 3 vertices...\n"); 
+        char *msg0 = run_gradient_tesets(n3, 3, log);
+        if (msg0 != NULL) return msg0;
+        msgpass();
+            
+        msg("Testing gradients of 4 vertices...\n"); 
+        char *msg1 = run_gradient_tesets(n4, 4, log);
+        if (msg1 != NULL) return msg1;
+        msgpass();
+
+        msg("Testing gradients of 6 vertices...\n"); 
+        char *msg2 = run_gradient_tesets(n6, 6, log);
+        if (msg2 != NULL) return msg2;
+        msgpass();
+        
+        msg("Testing gradients of 23 vertices...\n"); 
+        char *msg3 = run_gradient_tesets(n23, 23, log);
+        if (msg3 != NULL) return msg3;
+        msgpass();
+
+        msg("Testing gradients of 52 vertices...\n"); 
+        char *msg4 = run_gradient_tesets(n52, 52, log);
+        if (msg4 != NULL) return msg4;
+        msgpass();
+
+        msg("Testing gradients of 43 vertices...\n"); 
+        char *msg5 = run_gradient_tesets(n43, 43, log);
+        if (msg5 != NULL) return msg5;
+        msgpass();
+
+        msg("Testing gradients of 4 vertices, take 2...\n"); 
+        char *msg6 = run_gradient_tesets(n4_2, 4, log);
+        if (msg6 != NULL) return msg6;
+        msgpass();
+
+        msg("Testing gradients of 4 vertices, take 3...\n"); 
+        char *msg7 = run_gradient_tesets(n4_3, 4, log);
+        if (msg7 != NULL) return msg7;
+        msgpass();
+
+    }
+    
+    fclose(log); 
     printf("incorrect estimations/calculations: %d\n", incorrect);  
     return 0;
 }

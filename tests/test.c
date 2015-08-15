@@ -38,6 +38,7 @@ char *test_bond();
 char *test_bondpair();
 char *test_bondcross();
 char *test_graph();
+char *test_global();
 
 void msg(const char *s) 
 {
@@ -77,6 +78,9 @@ static char *all_tests() {
     printf("\n");
     msg("#################### TEST GRAPH ##########################\n\n");
     mu_run_test(test_graph);
+    printf("\n");
+    msg("#################### TEST GLOBAL OPTIMIZER ###############\n\n");
+    mu_run_test(test_global);
     printf("\n");
     return 0;
 }

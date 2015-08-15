@@ -2,15 +2,24 @@
 #ifndef ENERGY_H
 #define ENERGY_H
 
-double Energy_calculate(const GraphPointer gp);
+typedef struct energy Energy, *EnergyPointer;
+
+struct energy {
+    double *parts;
+    double sum;
+};
+
+EnergyPointer Energy_create(const int nv);
+
+void Energy_calculate(const GraphPointer graph);
 
 // FACADE FOR TESTING
 
-double (*test_first_order_energy)(const VertexSet vs);
-double (*test_second_order_energy)(const GraphPointer graph);
-double (*test_second_order_attraction_energy)(const BondSet bs);
-double (*test_second_order_repulsion_energy)(const GridPointer grid);
-double (*test_third_order_energy)(const BondPairPointer con);
-double (*test_fourth_order_energy)(const BondCrossPointer crs);
+void (*test_first_order_energy)(const GraphPointer graph);
+void (*test_second_order_energy)(const GraphPointer graph);
+void (*test_second_order_attraction_energy)(const GraphPointer graph);
+void (*test_second_order_repulsion_energy)(const GraphPointer graph);
+void (*test_third_order_energy)(const GraphPointer graph);
+void (*test_fourth_order_energy)(const GraphPointer graph);
 
 #endif

@@ -15,7 +15,8 @@ struct vertex
     int *crs_bof;
     char type;
     VertexPointer next;
-    PList l;
+    double energy;
+    Vector gradient, g, h;
 };
 
 void Vertex_reset_dynamics(VertexPointer v);
@@ -23,12 +24,13 @@ void Vertex_reset_dynamics(VertexPointer v);
 VertexPointer Vertex_create(
         const int id, 
         const Vector pos, 
-        const Vector grad, const Vector g, const Vector h,
         const double wdth, 
         const double hght, 
         const char type, 
         const int nv 
 );
+
+Vertex Vertex_copy(const Vertex v);
 
 int Vertex_zone_idy(const VertexPointer v);
 int Vertex_zone_idx(const VertexPointer v);

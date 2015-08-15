@@ -96,7 +96,7 @@ VertexSet VertexSet_initialize(json_value *contents, int *nvp)
             Util_runtime_error("Bad JSON data: type");
         }
 
-        *(rtn.set + i) = Vertex_create(id, pos, zv, zv, zv,
+        *(rtn.set + i) = Vertex_create(id, pos,
                 VERTEX_BASE_WIDTH, VERTEX_BASE_HEIGHT, t, nv);
     }
     return rtn;
@@ -110,50 +110,100 @@ VertexSetPointer VertexSet_create(json_value *contents, int *nvp)
     return rtn;
 }
 
-void VertexSet_sort(VertexPointer *vquad, Vector cross) 
+VertexPointer VertexSet_get_vertex(const VertexSet vs, const int i)
+{
+    return *(vs.set + i);
+}
+
+void VertexSet_store_gradient(const VertexSet vs)
 {
     int i;
-    for (i = 0; i < 3; i++) {
-        int j;
-        for (j = i + 1; j < 4; j++) {
-            VertexPointer vpi = *(vquad + i);
-            VertexPointer vpj = *(vquad + j);
-            if (vpj->mass < vpi->mass) {
-                VertexPointer tmp = vquad[i];
-                vquad[i] = vquad[j];
-                vquad[j] = tmp;
-            } else if (vpj->mass == vpi->mass) {
-                double di, dj;
-                di = Vector_norm(Vector_sub(cross, vpi->pos));
-                dj = Vector_norm(Vector_sub(cross, vpj->pos));
-                if (dj < di) {
-                    VertexPointer tmp = vquad[i];
-                    vquad[i] = vquad[j];
-                    vquad[j] = tmp;
-                }
-            }
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer v;
+        v = VertexSet_get_vertex(vs, i);
+        v->pos0 = v->pos;
+        v->grad0 = v->gradient;
+        v->gradient = Vector_zero();
+    }
+}
+
+void VertexSet_move(const VertexSet vs, const double x)
+{
+    int i;   
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer v;
+        v = VertexSet_get_vertex(vs, i);
+
+        Vector ds;
+        ds = Vector_scalar_mult(v->grad0, x);
+
+        Vertex_move(v, ds);
+    }
+}
+    
+void VertexSet_boost(const VertexSet vs, const double x)
+{
+    int i;    
+    for (i = 0; i < vs.n; i++) { 
+        VertexPointer v;
+        v = VertexSet_get_vertex(vs, i);
+        Vector_scalar_mult(v->gradient, x);
+    }   
+}
+
+void VertexSet_create_sequences(
+        const VertexSet vs,
+        const int n,
+        const double gam, 
+        const Strategy strat
+    )
+{
+    assert(n > 0 && n <= MAX_NV); 
+    assert(strat == INITIALIZE || strat == UPDATE);
+    
+    int i;
+    for (i = 0; i < n; i++) {
+        VertexPointer v = VertexSet_get_vertex(vs, i);
+        v->g = Vector_negate(v->gradient);
+        if (strat == INITIALIZE) {
+            v->gradient = v->h = v->g;
+
+        } else {
+            Vector h_gam, g_h_gam;
+            h_gam = Vector_scalar_mult(v->h, gam);
+            g_h_gam = Vector_add(v->g, h_gam);
+
+            v->gradient = v->h = g_h_gam;
         }
     }
 }
 
-void VertexSet_move(const VertexSet vs, const VectorPointer gradient, double x)
+void VertexSet_calculate_score(
+        const VertexSet vs,
+        const int n,
+        double *gg, 
+        double *dgg
+    )
 {
-    int i;   
-    for (i = 0; i < vs.n; i++) {
-        VertexPointer v = *(vs.set + i);
-        Vector ds;
-        ds = Vector_scalar_mult(gradient[i], x);
-        Vertex_move(v, ds);
+    assert(n > 0 && n <= MAX_NV);
+    assert(Util_is_zero(*gg) && Util_is_zero(*dgg));
+
+    int i;
+    for (i = 0; i < n; i++) {
+        VertexPointer v = VertexSet_get_vertex(vs, i);
+        *gg += Vector_dot(v->g, v->g);
+        *dgg += Vector_dot(Vector_add(v->gradient, v->g), v->gradient);
     }
 }
+
 
 float *VertexSet_to_array(const VertexSet vs)
 {
     float *rtn = (float *) Util_allocate(vs.n * 2, sizeof(double));
     int i;
     for (i = 0; i < vs.n; i++) {
-        *(rtn + i * 2) = (float) (*(vs.set + i))->pos.x;
-        *(rtn + i * 2 + 1) = (float) (*(vs.set + i))->pos.y;
+        *(rtn + i * 2) = (float) (VertexSet_get_vertex(vs, i))->pos.x;
+        *(rtn + i * 2 + 1) = (float) (VertexSet_get_vertex(vs, i))->pos.y;
     }
     return rtn;
 
@@ -163,7 +213,7 @@ void VertexSet_free(VertexSet vs)
 {
     int i;
     for (i = 0; i < vs.n; i++) {
-        Vertex_free(*(vs.set + i));
+        Vertex_free(VertexSet_get_vertex(vs, i));
     }
     free(vs.set);
 }

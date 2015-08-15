@@ -14,16 +14,15 @@
 
 char *test_bondcross() 
 {
-    Vector zv = Vector_initialize(0, 0);
     Vector pos0 = Vector_initialize(501, 700);
     Vector pos1 = Vector_initialize(600, 700);
     Vector pos2 = Vector_initialize(500, 900);
     Vector pos3 = Vector_initialize(600, 900);
     int nv = 4;
-    VertexPointer v = Vertex_create(0, pos0, zv, zv, zv, 1, 1, 'r', nv);
-    VertexPointer v1 = Vertex_create(1, pos1, zv, zv, zv, 1, 1, 'r', nv);
-    VertexPointer v2 = Vertex_create(2, pos2, zv, zv, zv, 1, 1, 'r', nv);
-    VertexPointer v3 = Vertex_create(3, pos3, zv, zv, zv, 1, 1, 'r', nv);
+    VertexPointer v = Vertex_create(0, pos0, 1, 1, 'r', nv);
+    VertexPointer v1 = Vertex_create(1, pos1, 1, 1, 'r', nv);
+    VertexPointer v2 = Vertex_create(2, pos2, 1, 1, 'r', nv);
+    VertexPointer v3 = Vertex_create(3, pos3, 1, 1, 'r', nv);
     
     BondPointer b = Bond_create(v, v3, 1);
     BondPointer b2 = Bond_create(v1, v2, 1);

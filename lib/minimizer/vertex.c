@@ -68,19 +68,41 @@ void Vertex_reset_dynamics(const VertexPointer v)
     v->next = NULL;
 }
 
+Vertex Vertex_copy(const Vertex v)
+{
+    Vertex rtn;
+    rtn.pos = v.pos;
+    rtn.tl = v.tl;
+    rtn.br = v.br;
+    rtn.pos0 = v.pos0;
+    rtn.grad0 = v.grad0;
+    rtn.id = v.id;
+    rtn.mass = v.mass;
+    rtn.crs_bof = v.crs_bof;
+    rtn.type = v.type;
+    rtn.next = v.next;
+
+    return rtn;
+}
+
 VertexPointer Vertex_create(
        const int id, 
-       const Vector pos, const Vector grad, const Vector g, const Vector h,
+       const Vector pos,
        const double wdth, 
        const double hght, 
        const char type, 
-       const int nv) 
+       const int nv
+    ) 
 {
     VertexPointer rtn;
     rtn = Util_allocate_initialize(1, sizeof(Vertex));
     rtn->id = id;
     rtn->mass = 1;
     rtn->pos = pos;
+    rtn->energy = 0.0;
+    rtn->gradient = Vector_zero();
+    rtn->g = Vector_zero(); 
+    rtn->h = Vector_zero();
     rtn->tl = Vector_sub(pos, Vector_initialize((PADDING + wdth) / 2, 
                 (PADDING + hght) / 2));
     rtn->br = Vector_add(pos, Vector_initialize((PADDING + wdth) / 2, 

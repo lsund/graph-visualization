@@ -2,6 +2,12 @@
 #ifndef LINMIN_H
 #define LINMIN_H
 
-void linmin(GraphPointer gp, double (*e_fun)(GraphPointer), double *fret, VectorPointer gradient);
+#include "energy.h"
+
+void linmin(
+      const GraphPointer graph, 
+      void (*e_fun)(GraphPointer), 
+      double *fret
+  );
 
 #endif

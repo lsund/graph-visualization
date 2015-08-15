@@ -22,34 +22,27 @@
 
 /* Private ******************************************************************/
 
-static void apply_repulsion(
-        const VertexPointer vi, 
-        const VertexPointer vj,
-        const VectorPointer gradient
-    ) 
+static void apply_repulsion(const VertexPointer vi, const VertexPointer vj) 
 {
     Vector rpls_grad;
     Pair pr = Pair_initialize(vi, vj);
     rpls_grad = VertexPair_repulsion_gradient(pr);
 
-    gradient[vi->id] = Vector_add(gradient[vi->id], rpls_grad);
-    gradient[vj->id] = Vector_add(gradient[vj->id], Vector_negate(rpls_grad));
+    vi->gradient = Vector_add(vi->gradient, rpls_grad);
+    vj->gradient = Vector_add(vj->gradient, Vector_negate(rpls_grad));
 }
 
-static void first_order(const VertexSet vs, const VectorPointer gradient)
+static void first_order(const VertexSet vs)
 {
     int i;
     for (i = 0; i < vs.n; i++) {
         VertexPointer v;
         v = *(vs.set + i);
-        gradient[i] = Vector_add(gradient[i], Vertex_potential_gradient(v));
+        v->gradient = Vector_add(v->gradient, Vertex_potential_gradient(v));
     }
 }
 
-static void second_order_repulsion(
-        const GridPointer grid, 
-        const VectorPointer gradient
-    )
+static void second_order_repulsion(const GridPointer grid)
 {
     int i;
     for (i = 0; i < grid->npz; i++) {
@@ -60,9 +53,9 @@ static void second_order_repulsion(
             vj = vi->next; 
             while (vj) {
                 if (vi->id > vj->id) {
-                    apply_repulsion(vj, vi, gradient);
+                    apply_repulsion(vj, vi);
                 } else {
-                    apply_repulsion(vi, vj, gradient);
+                    apply_repulsion(vi, vj);
                 }
                 vj = vj->next;
             }
@@ -78,9 +71,9 @@ static void second_order_repulsion(
             vj = z2p->snd->members;
             while (vj) {
                 if (vi->id > vj->id) {
-                    apply_repulsion(vj, vi, gradient);
+                    apply_repulsion(vj, vi);
                 } else {
-                    apply_repulsion(vi, vj, gradient);
+                    apply_repulsion(vi, vj);
                 }
                 vj = vj->next;          
             }
@@ -90,10 +83,7 @@ static void second_order_repulsion(
     }
 }
 
-static void second_order_attraction(
-        const BondSet bs, 
-        const VectorPointer gradient
-    )
+static void second_order_attraction(const BondSet bs)
 {
     int i;
     for (i = 0; i < bs.n; i++) {
@@ -102,24 +92,19 @@ static void second_order_attraction(
         Vector grad, neg_grad;
         grad = Bond_attraction_gradient(b);
         neg_grad = Vector_negate(grad);
-        gradient[b->fst->id] = Vector_add(gradient[b->fst->id], grad);
-        gradient[b->snd->id] = Vector_add(gradient[b->snd->id], neg_grad);
+
+        b->fst->gradient = Vector_add(b->fst->gradient, grad);
+        b->snd->gradient = Vector_add(b->snd->gradient, neg_grad);
     }
 }
 
-static void second_order(
-        const GraphPointer graph, 
-        const VectorPointer gradient
-    )
+static void second_order(const GraphPointer graph)
 {
-    second_order_repulsion(graph->grid, gradient);
-    second_order_attraction(graph->bs, gradient);
+    second_order_repulsion(graph->grid);
+    second_order_attraction(graph->bs);
 }
 
-static void third_order(
-        const BondPairPointer con, 
-        const VectorPointer gradient
-    )
+static void third_order(const BondPairPointer con)
 {
     BondPairPointer bpr = con;
     while (bpr) {
@@ -131,9 +116,9 @@ static void third_order(
         vj = bpr->common; 
         vk = bpr->other2; 
 
-        gradient[vi->id] = Vector_add(gradient[vi->id], grad[0]);
-        gradient[vj->id] = Vector_add(gradient[vj->id], grad[1]);
-        gradient[vk->id] = Vector_add(gradient[vk->id], grad[2]);
+        vi->gradient = Vector_add(vi->gradient, grad[0]);
+        vj->gradient = Vector_add(vj->gradient, grad[1]);
+        vk->gradient = Vector_add(vk->gradient, grad[2]);
         
         free(grad); 
 
@@ -141,10 +126,7 @@ static void third_order(
     }
 }
 
-static void fourth_order(
-        const BondCrossPointer crs, 
-        const VectorPointer gradient
-    )
+static void fourth_order(const BondCrossPointer crs)
 {
     BondCrossPointer bcrs;
     bcrs = crs;
@@ -156,10 +138,10 @@ static void fourth_order(
         v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.fst->snd; 
         v2 = bcrs->bpr.snd->fst; v3 = bcrs->bpr.snd->snd;
 
-        gradient[v0->id] = Vector_add(gradient[v0->id], grad[0]);
-        gradient[v1->id] = Vector_add(gradient[v1->id], grad[1]);
-        gradient[v2->id] = Vector_add(gradient[v2->id], grad[2]);
-        gradient[v3->id] = Vector_add(gradient[v3->id], grad[3]);
+        v0->gradient = Vector_add(v0->gradient, grad[0]);
+        v1->gradient = Vector_add(v1->gradient, grad[1]);
+        v2->gradient = Vector_add(v2->gradient, grad[2]);
+        v3->gradient = Vector_add(v3->gradient, grad[3]);
         
         free(grad); 
                 
@@ -169,37 +151,20 @@ static void fourth_order(
 
 /* Public *******************************************************************/
 
-void Gradient_calculate(const GraphPointer graph, const VectorPointer gradient)
+void Gradient_calculate(const GraphPointer graph)
 {
-    first_order(graph->vs, gradient);
-    second_order(graph, gradient);
-    third_order(graph->con, gradient);
-    fourth_order(graph->crs, gradient);
+    first_order(graph->vs);
+    second_order(graph);
+    third_order(graph->con);
+    fourth_order(graph->crs);
 }
 
 /* Test facade *************************************************************/
 
-void (*test_first_order_gradient)(
-        const VertexSet vs, 
-        const VectorPointer gradient
-    ) = first_order;
-void (*test_second_order_gradient)(
-        const GraphPointer graph, 
-        const VectorPointer gradient) = second_order;
-void (*test_second_order_attraction_gradient)(
-        const BondSet bs, 
-        const VectorPointer gradient
-    ) = second_order_attraction;
-void (*test_second_order_repulsion_gradient)(
-        const GridPointer grid, 
-        const VectorPointer gradient
-    ) = second_order_repulsion;
-void (*test_third_order_gradient)(
-        const BondPairPointer con, 
-        const VectorPointer gradient
-    ) = third_order;
-void (*test_fourth_order_gradient)(
-        const BondCrossPointer crs, 
-        const VectorPointer gradient
-    ) = fourth_order;
+void (*test_first_order_gradient)(const VertexSet vs) = first_order;
+void (*test_second_order_gradient)(const GraphPointer graph) = second_order;
+void (*test_second_order_attraction_gradient)(const BondSet bs) =second_order_attraction;
+void (*test_second_order_repulsion_gradient)(const GridPointer grid) =second_order_repulsion; 
+void (*test_third_order_gradient)(const BondPairPointer con) = third_order; 
+void (*test_fourth_order_gradient)(const BondCrossPointer crs) = fourth_order;
 
