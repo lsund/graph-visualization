@@ -5,10 +5,10 @@
 #if !TEST
 
 #define L_ITMAX 200
-#define G_ITMAX 10
-#define T_ITMAX 5 
+#define G_ITMAX 100 
+#define T_ITMAX 1 
 
-#define TEMP 0
+#define TEMPERATURE 0.0
 
 #define FTOL 1.0e-5
 #define TOL 2.0e-4 
@@ -35,7 +35,7 @@
 
 #define WATR 15.0
 #define WREP 500.0
-#define WPOT 2.0
+#define WPOT 15.0
 #define WANG 0.002
 #define WCRS 1.55
 

@@ -79,7 +79,7 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv, 
         double e; 
         graph->energy = 0;
         if (order == FIRST) {
-            (*test_first_order_gradient)(graph->vs);
+            (*test_first_order_gradient)(graph);
             test_first_order_energy(graph); 
         } else if (order == SECONDA) {
             (*test_second_order_attraction_gradient)(graph->bs);

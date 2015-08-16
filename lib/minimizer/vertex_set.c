@@ -16,17 +16,15 @@
 #include "constants.h"
 #include "vertex_set.h"
 
-VertexSet VertexSet_initialize(json_value *contents, int *nvp)
+void VertexSet_update_vertex(const VertexSet vs, const int i, const VertexPointer v)
 {
+    *(vs.set + i) = v;
+}
+
+static void populate(VertexSet vs, json_value *contents, int *nvp)
+{
+    int nv = *nvp;
     json_value *vsarr = contents->u.object.values[0].value;
-    *nvp = vsarr->u.array.length;
-
-    int nv;
-    nv = *nvp;
-
-    VertexSet rtn;
-    rtn.set = (VertexPointer *) Util_allocate(nv, sizeof(VertexPointer));
-    rtn.n = nv;
 
     if (nv < 1) {
         Util_runtime_error("No vertices");
@@ -95,24 +93,79 @@ VertexSet VertexSet_initialize(json_value *contents, int *nvp)
         } else {
             Util_runtime_error("Bad JSON data: type");
         }
-
-        *(rtn.set + i) = Vertex_create(id, pos,
-                VERTEX_BASE_WIDTH, VERTEX_BASE_HEIGHT, t, nv);
+        VertexSet_update_vertex(
+                vs, 
+                i, 
+                Vertex_create(id, pos, VERTEX_BASE_WIDTH, VERTEX_BASE_HEIGHT, t)
+            );
     }
+}
+
+VertexSet VertexSet_initialize(int nv)
+{
+    VertexSet rtn;
+    rtn.set = (VertexPointer *) Util_allocate(nv, sizeof(VertexPointer));
+    rtn.n = nv;
+
+    return rtn;
+}
+
+VertexSet VertexSet_initialize_populate(json_value *contents, int *nvp)
+{
+    json_value *vsarr = contents->u.object.values[0].value;
+    *nvp = vsarr->u.array.length;
+
+    int nv;
+    nv = *nvp;
+    
+    VertexSet rtn;
+    rtn = VertexSet_initialize(nv);
+    populate(rtn, contents, nvp);
+
     return rtn;
 }
 
 VertexSetPointer VertexSet_create(json_value *contents, int *nvp)
 {
     VertexSetPointer rtn;
-    rtn = (VertexSetPointer) malloc(sizeof(VertexSet));
-    *rtn = VertexSet_initialize(contents, nvp);
+    rtn = (VertexSetPointer) Util_allocate(1, sizeof(VertexSet));
+    *rtn = VertexSet_initialize_populate(contents, nvp);
     return rtn;
 }
 
 VertexPointer VertexSet_get_vertex(const VertexSet vs, const int i)
 {
     return *(vs.set + i);
+}
+
+VertexSet VertexSet_copy(const VertexSet vs)
+{
+    VertexSet rtn;
+    rtn = VertexSet_initialize(vs.n);
+
+    int i;
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer current = VertexSet_get_vertex(vs, i);
+        VertexPointer copy = Vertex_copy_pointer(current);
+        VertexSet_update_vertex(rtn, i, copy);
+    }
+
+    return rtn;
+}
+
+VectorPointer VertexSet_positions(const VertexSet vs)
+{
+    VectorPointer rtn;
+    rtn = Util_allocate(vs.n, sizeof(Vector));
+
+    int i;
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer current;
+        current = VertexSet_get_vertex(vs, i);
+        *(rtn + i) = current->pos;
+    }
+
+    return rtn;
 }
 
 void VertexSet_store_gradient(const VertexSet vs)
@@ -196,7 +249,6 @@ void VertexSet_calculate_score(
     }
 }
 
-
 float *VertexSet_to_array(const VertexSet vs)
 {
     float *rtn = (float *) Util_allocate(vs.n * 2, sizeof(double));
@@ -217,5 +269,4 @@ void VertexSet_free(VertexSet vs)
     }
     free(vs.set);
 }
-
 

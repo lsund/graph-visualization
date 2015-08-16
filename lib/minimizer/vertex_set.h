@@ -13,11 +13,19 @@ struct vertexset {
     int n;
 };
 
+VertexSet VertexSet_initialize(int nv);
+
+VertexSet VertexSet_initialize_populate(json_value *contents, int *nvp);
+
 VertexSetPointer VertexSet_create(json_value *contents, int *nvp);
 
-VertexSet VertexSet_initialize(json_value *contents, int *nvp);
-
 VertexPointer VertexSet_get_vertex(const VertexSet vs, const int i);
+
+void VertexSet_update_vertex(const VertexSet vs, const int i, const VertexPointer v);
+
+VertexSet VertexSet_copy(const VertexSet vs);
+
+VectorPointer VertexSet_positions(const VertexSet vs);
 
 void VertexSet_store_gradient(const VertexSet vs);
 

@@ -37,6 +37,8 @@ GraphPointer create(VertexSet vs, BondSet bs)
     rtn->vs = vs; 
     rtn->bs = bs;
 
+    rtn->center = Vertex_initialize(-1, Vector_zero(), 0, 0, 'c');
+
     Graph_detect_connected(rtn);
     
     assert(rtn); 
@@ -63,10 +65,10 @@ static void assign_vertex_to_zone(
     Grid_append_member(grid, v, Grid_get_zone(grid, i, j));
 }
 
-static void link_bondpair(const GraphPointer graph, const Pair pr) 
+static void link_bondconnection(const GraphPointer graph, const Pair pr) 
 {
-    BondPairPointer newpr;
-    newpr = BondPair_create(pr);
+    BondConnectionPointer newpr;
+    newpr = BondConnection_create(pr);
     newpr->next = graph->con;
     graph->con = newpr;
 }
@@ -180,7 +182,7 @@ void Graph_detect_connected(const GraphPointer graph)
             int common;
             common = BondPair_has_common_vertex(BondPair_initialize(pr));
             if (common) {
-                link_bondpair(graph, Pair_initialize(fst, snd));
+                link_bondconnection(graph, Pair_initialize(fst, snd));
             }
         }
     }
@@ -188,7 +190,7 @@ void Graph_detect_connected(const GraphPointer graph)
 
 void Graph_free(const GraphPointer graph)
 {
-    if (graph->con) BondPairs_free(graph->con);
+    if (graph->con) BondConnections_free(graph->con);
     if (graph->crs) BondCrosses_free(graph->crs);
     VertexSet_free(graph->vs);
     BondSet_free(graph->bs);

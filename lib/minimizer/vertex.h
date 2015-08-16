@@ -12,7 +12,6 @@ struct vertex
     Vector pos, tl, br;
     Vector pos0, grad0;
     int id, mass;
-    int *crs_bof;
     char type;
     VertexPointer next;
     double energy;
@@ -21,16 +20,25 @@ struct vertex
 
 void Vertex_reset_dynamics(VertexPointer v);
 
+Vertex Vertex_initialize(
+        const int id, 
+        const Vector pos, 
+        const double wdth, 
+        const double hght, 
+        const char type
+);
+
 VertexPointer Vertex_create(
         const int id, 
         const Vector pos, 
         const double wdth, 
         const double hght, 
-        const char type, 
-        const int nv 
+        const char type
 );
 
 Vertex Vertex_copy(const Vertex v);
+
+VertexPointer Vertex_copy_pointer(const VertexPointer v);
 
 int Vertex_zone_idy(const VertexPointer v);
 int Vertex_zone_idx(const VertexPointer v);

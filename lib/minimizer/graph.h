@@ -1,6 +1,7 @@
 #ifndef GRAPH_H 
 #define GRAPH_H
 
+#include "bond_connection.h"
 #include "bond_cross.h"
 #include "grid.h"
 #include "zone.h"
@@ -17,9 +18,10 @@ struct graph
     GridPointer grid;
     VertexSet vs;
     BondSet bs;
-    BondPairPointer con;
+    BondConnectionPointer con;
     BondCrossPointer crs;
     double energy;
+    Vertex center;
 };
 
 GraphPointer Graph_create(const char *fname);

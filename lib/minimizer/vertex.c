@@ -18,23 +18,6 @@
 #include "vertex.h"
 #include "constants.h"
 
-/* Private ******************************************************************/
-
-static Vector Vertex_to_center(const VertexPointer vp) 
-{
-    int cx, cy;
-    cx = PANEL_X / 2; cy = PANEL_Y / 2;
-    Vector rtn;
-    rtn = Vector_initialize((double) cx - vp->pos.x, (double) cy - vp->pos.y);
-    return rtn;
-}
-
-static double potential_weight(const VertexPointer vp) 
-{
-    return WPOT;
-}
-
-
 /* Public  ******************************************************************/
 
 int Vertex_zone_idx(const VertexPointer v)
@@ -68,20 +51,28 @@ void Vertex_reset_dynamics(const VertexPointer v)
     v->next = NULL;
 }
 
-Vertex Vertex_copy(const Vertex v)
+Vertex Vertex_initialize(
+       const int id, 
+       const Vector pos,
+       const double wdth, 
+       const double hght, 
+       const char type
+    )
 {
     Vertex rtn;
-    rtn.pos = v.pos;
-    rtn.tl = v.tl;
-    rtn.br = v.br;
-    rtn.pos0 = v.pos0;
-    rtn.grad0 = v.grad0;
-    rtn.id = v.id;
-    rtn.mass = v.mass;
-    rtn.crs_bof = v.crs_bof;
-    rtn.type = v.type;
-    rtn.next = v.next;
-
+    rtn.id = id;
+    rtn.mass = 1;
+    rtn.pos = pos;
+    rtn.energy = 0.0;
+    rtn.gradient = Vector_zero();
+    rtn.g = Vector_zero(); 
+    rtn.h = Vector_zero();
+    rtn.tl = Vector_sub(pos, Vector_initialize((PADDING + wdth) / 2, 
+                (PADDING + hght) / 2));
+    rtn.br = Vector_add(pos, Vector_initialize((PADDING + wdth) / 2, 
+               (PADDING + hght) / 2));
+    rtn.type = type;
+    Vertex_reset_dynamics(&rtn);
     return rtn;
 }
 
@@ -90,26 +81,42 @@ VertexPointer Vertex_create(
        const Vector pos,
        const double wdth, 
        const double hght, 
-       const char type, 
-       const int nv
-    ) 
+       const char type
+    )
 {
     VertexPointer rtn;
     rtn = Util_allocate_initialize(1, sizeof(Vertex));
-    rtn->id = id;
-    rtn->mass = 1;
-    rtn->pos = pos;
-    rtn->energy = 0.0;
-    rtn->gradient = Vector_zero();
-    rtn->g = Vector_zero(); 
-    rtn->h = Vector_zero();
-    rtn->tl = Vector_sub(pos, Vector_initialize((PADDING + wdth) / 2, 
-                (PADDING + hght) / 2));
-    rtn->br = Vector_add(pos, Vector_initialize((PADDING + wdth) / 2, 
-                (PADDING + hght) / 2));
-    rtn->type = type;
-    rtn->crs_bof = (int *) calloc(nv, sizeof(int));
-    Vertex_reset_dynamics(rtn);
+    *rtn = Vertex_initialize(id, pos, wdth, hght, type);
+
+    return rtn;
+}
+
+Vertex Vertex_copy(const Vertex v)
+{
+    Vertex rtn;
+    rtn.id = v.id;
+    rtn.pos = v.pos;
+    rtn.tl = v.tl;
+    rtn.br = v.br;
+    rtn.type = v.type;
+    rtn.pos0 = v.pos0;
+    rtn.grad0 = v.grad0;
+    rtn.mass = v.mass;
+    rtn.next = v.next;
+    rtn.energy = v.energy;
+    rtn.gradient = v.gradient;
+    rtn.g = v.g;
+    rtn.h = v.h;
+
+    return rtn;
+}
+
+VertexPointer Vertex_copy_pointer(const VertexPointer v)
+{
+    VertexPointer rtn;
+    rtn = Util_allocate(1, sizeof(Vertex));
+    *rtn = Vertex_copy(*v);
+
     return rtn;
 }
 
@@ -133,31 +140,8 @@ void Vertex_move(const VertexPointer v, const Vector ds)
     Vertex_set_position(v, new_pos);
 }
 
-double Vertex_potential_energy(const VertexPointer vp) 
+void Vertex_free(VertexPointer v)
 {
-    Vector cdist;
-    cdist = Vertex_to_center(vp);
-
-    double w;
-    w = potential_weight(vp);
-    
-    return w * pow(Vector_norm(cdist), 2);
-}
-
-Vector Vertex_potential_gradient(const VertexPointer vp)
-{
-    Vector cdist;
-    cdist = Vertex_to_center(vp);
-
-    double w;
-    w = potential_weight(vp);
-
-    return Vector_scalar_mult(cdist, 2 * w);
-}
-
-void Vertex_free(VertexPointer vp)
-{
-    free(vp->crs_bof);
-    free(vp);
+    free(v);
 }
 

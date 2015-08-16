@@ -2,6 +2,8 @@
 #ifndef ENERGY_H
 #define ENERGY_H
 
+#include "graph.h"
+
 typedef struct energy Energy, *EnergyPointer;
 
 struct energy {

@@ -33,12 +33,6 @@ double VertexPair_repulsion_energy(const Pair pr)
     vp0 = (VertexPointer) pr.fst;
     vp1 = (VertexPointer) pr.snd;
 
-    /*int cb;*/
-    /*cb = *(vp0->crs_bof + vp1->id);*/
-    /*if (cb) {*/
-        /*w *= REPULSION_REDUCE;*/
-    /*}*/
-    
     double i_tl_x, i_tl_y, i_br_x, i_br_y;
     i_tl_x = fmax(vp0->tl.x, vp1->tl.x);
     i_tl_y = fmax(vp0->tl.y, vp1->tl.y);
@@ -64,12 +58,6 @@ Vector VertexPair_repulsion_gradient(const Pair pr)
     VertexPointer vp0, vp1;
     vp0 = (VertexPointer) pr.fst;
     vp1 = (VertexPointer) pr.snd;
-
-    /*int cb;*/
-    /*cb = *(vp0->crs_bof + vp1->id);*/
-    /*if (cb) {*/
-      /*w *= REPULSION_REDUCE;*/
-    /*}*/
 
     double i_tl_x, i_tl_y, i_br_x, i_br_y;
     i_tl_x = fmax(vp0->tl.x, vp1->tl.x);

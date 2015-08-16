@@ -21,13 +21,13 @@ char *test_vertex()
     Vector pos3 = Vector_initialize(0.550, 0.550);
     Vector pos4 = Vector_initialize(0.800, 0.800);
     VertexPointer v = Vertex_create(0, pos1, VERTEX_BASE_WIDTH,  
-            VERTEX_BASE_HEIGHT, 'r', 4);
+            VERTEX_BASE_HEIGHT, 'r');
     VertexPointer v1 = Vertex_create(1, pos2, VERTEX_BASE_WIDTH, 
-            VERTEX_BASE_HEIGHT, 'r', 4);
+            VERTEX_BASE_HEIGHT, 'r');
     VertexPointer v2 = Vertex_create(2, pos3, VERTEX_BASE_WIDTH, 
-            VERTEX_BASE_HEIGHT, 'r', 4);
+            VERTEX_BASE_HEIGHT, 'r');
     VertexPointer v3 = Vertex_create(3, pos4, VERTEX_BASE_WIDTH, 
-            VERTEX_BASE_HEIGHT, 'r', 4);
+            VERTEX_BASE_HEIGHT, 'r');
     msg("Checking vertex box...");
     mu_assert("tl should be 0.450, 0.450", 
             Util_about(v->tl.x, 0.450) && Util_about(v->tl.y, 0.450));
@@ -67,7 +67,66 @@ char *test_vertex()
            Util_about(VertexPair_repulsion_gradient(Pair_initialize(v, v3)).y, 0));
 
     msgpass();
+    
+    Vector pos = Vector_initialize(30, 30); 
+    Vector g = Vector_initialize(123, 123);
+    Vector h = Vector_initialize(23, 23);
+    Vector pos0 = Vector_initialize(1234, 234);
+    Vector grad0 = Vector_initialize(0, 43);
+    Vector gradient = Vector_initialize(1, 41);
+    Vertex v4 = Vertex_initialize(77, pos, 2, 2, 'r');
+    Vertex v5 = Vertex_initialize(66, pos, 3, 4, 'r');
+    v4.next = &v5;
+    v4.g = g;
+    v4.h = h;
+    v4.pos0 = pos0;
+    v4.grad0 = grad0;
+    v4.gradient = gradient;
+    double e = 234;
+    v4.energy = e;
 
+    Vertex v6 = Vertex_copy(v4);
+    
+    mu_assert("v4 address should not equal v6", &v4 != &v6);
+    mu_assert("pos: v4 not equal to v6", Vector_equal(v4.pos, v6.pos));
+    mu_assert("gradient: v4 not equal to v6", Vector_equal(v4.gradient, v6.gradient));
+    mu_assert("pos0: v4 not equal to v6", Vector_equal(v4.pos0, v6.pos0));
+    mu_assert("grad0: v4 not equal to v6", Vector_equal(v4.grad0, v6.grad0));
+    mu_assert("tl: v4 not equal to v6", Vector_equal(v4.tl, v6.tl));
+    mu_assert("br: v4 not equal to v6", Vector_equal(v4.br, v6.br));
+    mu_assert("g: v4 not equal to v6", Vector_equal(v4.g, v6.g));
+    mu_assert("h: v4 not equal to v6", Vector_equal(v4.h, v6.h));
+    mu_assert("id || type: v4 not equal to v6", v4.id == v6.id && v4.type == v6.type);
+    mu_assert("mass || next: v4 not equal to v6", v4.mass == v6.mass && v4.next == v6.next);
+    mu_assert("energy: v4 not equal to v6", Util_equal(v4.energy, v6.energy));
+
+    VertexPointer v7 = Vertex_create(77, pos, 1, 2, 'r');
+    v7->next = &v5;
+    v7->g = g;
+    v7->h = h;
+    v7->pos0 = pos0;
+    v7->grad0 = grad0;
+    v7->gradient = gradient;
+    v7->energy = e;
+
+    VertexPointer v8 = Vertex_copy_pointer(v7);
+
+    mu_assert("v7 address should not equal v8", v7 != v8);
+    mu_assert("pos: v7 not equal to v8", Vector_equal(v7->pos, v8->pos));
+    mu_assert("gradient: v7 not equal to v8", Vector_equal(v7->gradient, v8->gradient));
+    mu_assert("pos0: v7 not equal to v8", Vector_equal(v7->pos0, v8->pos0));
+    mu_assert("grad0: v7 not equal to v8", Vector_equal(v7->grad0, v8->grad0));
+    mu_assert("tl: v7 not equal to v8", Vector_equal(v7->tl, v8->tl));
+    mu_assert("br: v7 not equal to v8", Vector_equal(v7->br, v8->br));
+    mu_assert("g: v7 not equal to v8", Vector_equal(v7->g, v8->g));
+    mu_assert("h: v7 not equal to v8", Vector_equal(v7->h, v8->h));
+    mu_assert("id || type: v7 not equal to v8", v7->id == v8->id && v7->type == v8->type);
+    mu_assert("mass || next: v7 not equal to v8", v7->mass == v8->mass && v7->next == v8->next);
+    mu_assert("energy: v7 not equal to v8", Util_equal(v7->energy, v8->energy));
+    
+    
+    Vertex_free(v7);
+    Vertex_free(v8);
 
     return 0;
 

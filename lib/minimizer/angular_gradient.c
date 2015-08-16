@@ -12,7 +12,6 @@
 
 #include <math.h>
 
-#include "stdio.h"
 #include "util.h"
 #include "constants.h"
 #include "vector.h"

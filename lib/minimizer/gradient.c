@@ -14,10 +14,10 @@
 #include <stdlib.h>
 #include <math.h>
 
+#include "gradient.h"
 #include "pair.h"
 #include "util.h"
 #include "constants.h"
-#include "graph.h"
 #include "vertex_set.h"
 
 /* Private ******************************************************************/
@@ -32,13 +32,20 @@ static void apply_repulsion(const VertexPointer vi, const VertexPointer vj)
     vj->gradient = Vector_add(vj->gradient, Vector_negate(rpls_grad));
 }
 
-static void first_order(const VertexSet vs)
+static void first_order(const GraphPointer graph)
 {
+    VertexSet vs;
+    vs = graph->vs;
+
     int i;
     for (i = 0; i < vs.n; i++) {
         VertexPointer v;
         v = *(vs.set + i);
-        v->gradient = Vector_add(v->gradient, Vertex_potential_gradient(v));
+
+        Bond b;
+        b = Bond_initialize(v, &graph->center, 0.0); 
+
+        v->gradient = Vector_add(v->gradient, Bond_attraction_gradient(&b));
     }
 }
 
@@ -104,13 +111,13 @@ static void second_order(const GraphPointer graph)
     second_order_attraction(graph->bs);
 }
 
-static void third_order(const BondPairPointer con)
+static void third_order(const BondConnectionPointer con)
 {
-    BondPairPointer bpr = con;
+    BondConnectionPointer bpr = con;
     while (bpr) {
         
         VectorPointer grad;
-        grad = BondPair_angular_gradient(bpr);
+        grad = BondConnection_angular_gradient(bpr);
         VertexPointer vi, vj, vk;
         vi = bpr->other1; 
         vj = bpr->common; 
@@ -153,7 +160,7 @@ static void fourth_order(const BondCrossPointer crs)
 
 void Gradient_calculate(const GraphPointer graph)
 {
-    first_order(graph->vs);
+    first_order(graph);
     second_order(graph);
     third_order(graph->con);
     fourth_order(graph->crs);
@@ -161,10 +168,10 @@ void Gradient_calculate(const GraphPointer graph)
 
 /* Test facade *************************************************************/
 
-void (*test_first_order_gradient)(const VertexSet vs) = first_order;
+void (*test_first_order_gradient)(const GraphPointer graph) = first_order;
 void (*test_second_order_gradient)(const GraphPointer graph) = second_order;
 void (*test_second_order_attraction_gradient)(const BondSet bs) =second_order_attraction;
 void (*test_second_order_repulsion_gradient)(const GridPointer grid) =second_order_repulsion; 
-void (*test_third_order_gradient)(const BondPairPointer con) = third_order; 
+void (*test_third_order_gradient)(const BondConnectionPointer con) = third_order; 
 void (*test_fourth_order_gradient)(const BondCrossPointer crs) = fourth_order;
 

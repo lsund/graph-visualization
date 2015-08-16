@@ -103,25 +103,6 @@ BondCross BondCross_initialize(const BondPair bpr, const Vector cross)
     rtn.cross = cross;
     rtn.next = NULL;
 
-    BondPointer b0, b1;
-    b0 = bpr.fst; b1 = bpr.snd;
-
-    VertexPointer v0, v1, v2, v3;
-    v0 = b0->fst; v1 = b0->snd; 
-    v2 = b1->fst; v3 = b1->snd;
-    
-    *(v0->crs_bof + v2->id) = 1;
-    *(v0->crs_bof + v3->id) = 1;
-
-    *(v1->crs_bof + v2->id) = 1;
-    *(v1->crs_bof + v3->id) = 1;
-
-    *(v2->crs_bof + v0->id) = 1;
-    *(v2->crs_bof + v1->id) = 1;
-
-    *(v3->crs_bof + v0->id) = 1;
-    *(v3->crs_bof + v1->id) = 1;
-
     rtn.cross = cross;
     return rtn;
 }
@@ -239,26 +220,6 @@ void BondCrosses_free(BondCrossPointer bcrss)
 {
     BondCrossPointer bcrs = bcrss;
     while(bcrs != NULL) {
-
-        BondPointer b0, b1;
-        b0 = bcrs->bpr.fst; b1 = bcrs->bpr.snd;
-
-        VertexPointer v0, v1, v2, v3;
-        v0 = b0->fst; v1 = b0->snd; 
-        v2 = b1->fst; v3 = b1->snd;
-        
-        *(v0->crs_bof + v2->id) = 0;
-        *(v0->crs_bof + v3->id) = 0;
-
-        *(v1->crs_bof + v2->id) = 0;
-        *(v1->crs_bof + v3->id) = 0;
-
-        *(v2->crs_bof + v0->id) = 0;
-        *(v2->crs_bof + v1->id) = 0;
-
-        *(v3->crs_bof + v0->id) = 0;
-        *(v3->crs_bof + v1->id) = 0;
-
         BondCrossPointer tmp = bcrs;
         bcrs = bcrs->next;
         free(tmp);

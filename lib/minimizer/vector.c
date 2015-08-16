@@ -40,19 +40,19 @@ Vector Vector_zero()
     return Vector_initialize(0.0, 0.0);
 }
 
-Vector Vector_add(Vector vec1, Vector vec2) 
+Vector Vector_add(Vector vec0, Vector vec1) 
 {
-    return Vector_initialize(vec1.x + vec2.x, vec1.y + vec2.y);
+    return Vector_initialize(vec0.x + vec1.x, vec0.y + vec1.y);
 }
 
-Vector Vector_sub(Vector vec1, Vector vec2) 
+Vector Vector_sub(Vector vec0, Vector vec1) 
 {
-    return Vector_initialize(vec1.x - vec2.x, vec1.y - vec2.y);
+    return Vector_initialize(vec0.x - vec1.x, vec0.y - vec1.y);
 }
 
-Vector Vector_mult(Vector vec1, Vector vec2) 
+Vector Vector_mult(Vector vec0, Vector vec1) 
 {
-    return Vector_initialize(vec1.x * vec2.x, vec1.y * vec2.y);
+    return Vector_initialize(vec0.x * vec1.x, vec0.y * vec1.y);
 }
 
 Vector Vector_negate(Vector vec) 
@@ -70,9 +70,9 @@ Vector Vector_scalar_add(Vector vec, double c)
     return Vector_initialize(c + vec.x, c + vec.y);
 }
 
-double Vector_dot(Vector v1, Vector v2)
+double Vector_dot(Vector v0, Vector v1)
 {   
-    return v1.x * v2.x + v1.y * v2.y;
+    return v0.x * v1.x + v0.y * v1.y;
 }
 
 double Vector_norm(Vector v) 
@@ -80,15 +80,15 @@ double Vector_norm(Vector v)
     return sqrt(Vector_dot(v, v));
 }
 
-double Vector_angle(Vector v1, Vector v2)
+double Vector_angle(Vector v0, Vector v1)
 {
 
     double scalp;
-    scalp = Vector_dot(v1, v2);
+    scalp = Vector_dot(v0, v1);
     assert(!(scalp != scalp));
     
     double lenp;
-    lenp = (v1.len * v2.len);
+    lenp = (v0.len * v1.len);
     assert(lenp >= 0);
 
     if (Util_is_zero(lenp)) {
@@ -115,22 +115,22 @@ double Vector_angle(Vector v1, Vector v2)
     return acos(div);
 }
 
-int Vector_parallel(Vector v1, Vector v2)
+int Vector_parallel(Vector v0, Vector v1)
 {
-    return Util_equal(Vector_angle(v1, v2), 0);
+    return Util_equal(Vector_angle(v0, v1), 0);
 }
 
-int Vector_Util_equal(Vector v1, Vector v2)
+int Vector_equal(Vector v0, Vector v1)
 {
-    return Util_equal(v1.x, v2.x) && Util_equal(v1.y, v2.y);
+    return Util_equal(v0.x, v1.x) && Util_equal(v0.y, v1.y);
 }
 
 /**
  * Magnitude of the vector that would result from a regular 3D space. 
  */
 
-double Vector_cross(Vector vec1, Vector vec2)
+double Vector_cross(Vector vec0, Vector vec1)
 {
-    return (vec1.x * vec2.y) - (vec2.x * vec1.y);
+    return (vec0.x * vec1.y) - (vec1.x * vec0.y);
 }
 

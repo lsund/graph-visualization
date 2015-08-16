@@ -18,7 +18,7 @@ char *test_graph()
     GraphPointer graph = Graph_create(fname);
     
     int ncrs = 0; int ncon = 0;
-    BondPairPointer cur_con = graph->con;
+    BondConnectionPointer cur_con = graph->con;
     BondCrossPointer cur_crs = graph->crs;
     while (cur_con) {
         ncon++; 

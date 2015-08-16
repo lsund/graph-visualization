@@ -5,6 +5,7 @@
 #include "bond_pair.h"
 
 typedef struct bondcross BondCross, *BondCrossPointer;
+
 struct bondcross {
     BondPair bpr;
     Vector cross;

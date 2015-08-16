@@ -15,7 +15,6 @@
 #include <stdlib.h>
 
 #include "constants.h"
-#include "graph.h"
 #include "util.h"
 #include "energy.h"
 
@@ -27,9 +26,15 @@ static void first_order(const GraphPointer graph)
     vs = graph->vs;
     int i;
     for (i = 0; i < vs.n; i++) {
-        VertexPointer v = *(vs.set + i);
+        VertexPointer v;
+        v = *(vs.set + i);
+        
+        Bond b;
+        b = Bond_initialize(v, &graph->center, 0.0); 
+
         double e;
-        e = Vertex_potential_energy(v);
+        e = Bond_attraction_energy(&b);
+
         graph->energy += e;
         v->energy = e;
     }
@@ -115,12 +120,12 @@ static void second_order(const GraphPointer graph)
 static void third_order(const GraphPointer graph)
 {
     
-    BondPairPointer bpr;
+    BondConnectionPointer bpr;
     bpr = graph->con;
 
     while (bpr) {
         double e;
-        e = BondPair_angular_energy(bpr);
+        e = BondConnection_angular_energy(bpr);
         graph->energy += e;
         bpr->common->energy += e / 3;
         bpr->other1->energy += e / 3;
@@ -155,6 +160,8 @@ void Energy_calculate(const GraphPointer graph)
     second_order(graph);
     third_order(graph);
     fourth_order(graph);
+
+    assert(!(graph->energy != graph->energy));
 }
 
 /* Testing facade ***********************************************************/

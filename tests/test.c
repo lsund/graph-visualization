@@ -39,6 +39,7 @@ char *test_bondpair();
 char *test_bondcross();
 char *test_graph();
 char *test_global();
+char *test_vertexset();
 
 void msg(const char *s) 
 {
@@ -69,6 +70,9 @@ static char *all_tests() {
     printf("\n");
     msg("#################### TEST BOND CROSS #####################\n\n");
     mu_run_test(test_bondcross);
+    printf("\n");
+    msg("#################### TEST VERTEX SET #####################\n\n");
+    mu_run_test(test_vertexset);
     printf("\n");
     msg("#################### TEST OBJECTIVE ######################\n\n");
     mu_run_test(test_objective);
@@ -117,7 +121,7 @@ int main(int argc, char **argv) {
         }
         return result != 0;
     } else {
-        Minimizer_run("data/43.json");
+        Minimizer_run("data/23.json");
         return 0;
     }
 }

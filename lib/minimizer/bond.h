@@ -11,6 +11,12 @@ struct Bond {
     double dist0;
 };
 
+Bond Bond_initialize(
+        const VertexPointer fst, 
+        const VertexPointer snd, 
+        const double dist0
+    );
+
 BondPointer Bond_create(
         const VertexPointer fst, 
         const VertexPointer snd, 

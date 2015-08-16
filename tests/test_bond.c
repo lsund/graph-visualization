@@ -16,9 +16,9 @@ char *test_bond()
 {
     Vector pos1 = Vector_initialize(500, 500);
     Vector pos2 = Vector_initialize(600, 500);
-    int nv = 2;
-    VertexPointer v = Vertex_create(0, pos1, 1, 1, 'r', nv);
-    VertexPointer v1 = Vertex_create(1, pos2, 1, 1, 'r', nv);
+
+    VertexPointer v = Vertex_create(0, pos1, 1, 1, 'r');
+    VertexPointer v1 = Vertex_create(1, pos2, 1, 1, 'r');
     
     Bond_create(v, v1, 1);
     
