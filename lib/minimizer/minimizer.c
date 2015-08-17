@@ -46,10 +46,11 @@ static void js_interact(GraphPointer graph)
     varr = NULL; barr = NULL; zarr = NULL;
 }
 
-void Minimizer_run(const char *fname) 
+float *Minimizer_run(const char *fname) 
 {
     assert(fname);
-
+    float *rtn;
+    rtn = 0;
     if (access(fname, R_OK) != -1) {
 
         GraphPointer graph;
@@ -58,16 +59,20 @@ void Minimizer_run(const char *fname)
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
         js_interact(graph);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
-        js_interact(graph);
         
+        if (EMSCRIPT) {
+            js_interact(graph);
+        } else {
+            rtn = VertexSet_to_array(graph->vs); 
+        }
+
         Graph_free(graph);
-        graph = NULL;
-        
-        assert(!graph);
+        graph = 0;
 
     } else {
-        Util_runtime_error("Minimizer_run(): Can't read file");
+        Util_runtime_error("Minimizer_run: Can't read file");
     }
-}
 
+    return rtn;
+}
 
