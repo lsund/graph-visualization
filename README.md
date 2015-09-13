@@ -1,14 +1,14 @@
 # MinGrad
 
 Minimizer component for force directed graph visualization. Will turn JSON into
-a set of coordinates representing a good graph layout.
+a set of vertex coordinates representing a good graph layout.
 
 ## Public interface
 
-The interface for the minimizer is `float *Minimizer_run(const char *fname)` where 
+Including `minimizer.h` gives access to `float *Minimizer_run(const char *fname)` where 
 `fname` is the path to a JSON-file of the following format:
 
-```json
+```
 {
   "vertices":
     [
