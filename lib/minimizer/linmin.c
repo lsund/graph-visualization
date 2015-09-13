@@ -44,7 +44,7 @@ static double step(
     )   
 {   
     VertexSet_move(graph->vs, x);
-    Graph_reset_dynamics(graph);
+    Graph_reset_dynamic_data(graph);
 
     e_fun(graph);
 
@@ -82,41 +82,41 @@ static double isolate_minimum(
             p = (x - v) * q - (x - w) * r;
             q = 2.0 * (q - r);
             if (q > 0.0) p = -p;
-            q=fabs(q);
-            etemp=e;
-            e=d;
-            if (fabs(p) >= fabs(0.5*q*etemp) || p <= q*(a-x) || p >= q*(b-x))
-                d=CGOLD*(e=(x >= xm ? a-x : b-x));
+            q = fabs(q);
+            etemp = e;
+            e = d;
+            if (fabs(p) >= fabs(0.5 * q * etemp) || p <= q * (a - x) || p >= q * (b - x))
+                d = CGOLD * (e = (x >= xm ? a - x : b - x));
             else {
-                d=p/q;
-                u=x+d;
-                if (u-a < tol2 || b-u < tol2)
-                    d=SIGN(tol1,xm-x);
+                d =p / q;
+                u = x + d;
+                if (u - a < tol2 || b - u < tol2)
+                    d = SIGN(tol1, xm - x);
             }
         } else {
-            d=CGOLD*(e=(x >= xm ? a-x : b-x));
+            d = CGOLD * (e = (x >= xm ? a - x : b - x));
         }
-        u=(fabs(d) >= tol1 ? x+d : x+SIGN(tol1,d));
+        u = (fabs(d) >= tol1 ? x + d : x + SIGN(tol1, d));
         fu = step(u, graph, e_fun);
         if (fu <= fx) {
-            if (u >= x) a=x; else b=x;
+            if (u >= x) a = x; else b = x;
             SHFT(v,w,x,u)
-                SHFT(fv,fw,fx,fu)
+            SHFT(fv,fw,fx,fu)
         } else {
-            if (u < x) a=u; else b=u;
+            if (u < x) a = u; else b = u;
             if (fu <= fw || w == x) {
-                v=w;
-                w=u;
-                fv=fw;
-                fw=fu;
+                v = w;
+                w = u;
+                fv = fw;
+                fw = fu;
             } else if (fu <= fv || v == x || v == w) {
-                v=u;
-                fv=fu;
+                v = u;
+                fv = fu;
             }
         }
     }
     Util_runtime_error("Too many iterations in brent");
-    *xmin=x;
+    *xmin = x;
     return fx;
 }
 
@@ -191,7 +191,7 @@ void bracket_minimum(
 void linmin(
         GraphPointer graph, 
         void (*e_fun)(GraphPointer),
-        double *fret
+        double *o_min
     )   
 {   
     VertexSet vs;
@@ -207,7 +207,7 @@ void linmin(
     bracket_minimum(graph, &ax, &xx, &bx, &fa, &fx, &fb, e_fun);   
 
     double xmin;
-    *fret = isolate_minimum(graph, ax, xx, bx, TOL, &xmin, e_fun);   
+    *o_min = isolate_minimum(graph, ax, xx, bx, TOL, &xmin, e_fun);   
 
     VertexSet_boost(vs, xmin);
 }

@@ -1,6 +1,6 @@
 
-#ifndef CROSSING_GRADIENT_H
-#define CROSSING_GRADIENT_H
+#ifndef CROSS_GRADIENT_H
+#define CROSS_GRADIENT_H
 
 double CrossingGradient_df0x0(
     const Vector v0,

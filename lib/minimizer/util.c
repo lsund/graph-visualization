@@ -108,6 +108,13 @@ int Util_in_range_strict(
     return lowcond && upcond;
 }
 
+void Util_runtime_error(char error_text[])
+{
+    fprintf(stderr,ANSI_COLOR_RED "Runtime-error: %s\n" ANSI_COLOR_RESET,
+            error_text);
+    exit(1);
+}
+
 void *Util_allocate(int nmemb, int size) {
     void *rtn = malloc(nmemb * size);
     if (rtn == NULL)
@@ -124,12 +131,5 @@ void *Util_allocate_initialize(int nmemb, int size) {
         Util_runtime_error("Error when allocating memory");
     }
     return rtn;
-}
-
-void Util_runtime_error(char error_text[])
-{
-    fprintf(stderr,ANSI_COLOR_RED "Runtime-error: %s\n" ANSI_COLOR_RESET,
-            error_text);
-    exit(1);
 }
 

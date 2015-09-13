@@ -3,14 +3,16 @@
 
  * File Name: minimizer.c
  
- * Description: Defines an object able to 'minimize' the energy of the graph
- * G(V, B) created by the set of Vertices V and Bonds B defined in JSON format.
+ * Description: Defines the minimizer, the engine capable of creating a
+ * graph-object G and minimizing its energy as an attempt of finding a good
+ * visual representation of G. 
  
  * Creation Date: 24-06-2015
 
  *****************************************************************************/
 
 #include <unistd.h>
+#include <string.h>
 
 #include "emscripten.h"
 #include "util.h"
@@ -65,12 +67,21 @@ float *Minimizer_run(const char *fname)
         } else {
             rtn = VertexSet_to_array(graph->vs); 
         }
+        if (PRINT_STATISTICS) {
+            printf("Overlaps: %d\n", graph->ncrosses);
+            printf("Angular resolution %f\n", Graph_angular_resolution(graph));
+            printf("-----------------------\n");
+        }
 
         Graph_free(graph);
         graph = 0;
-
     } else {
-        Util_runtime_error("Minimizer_run: Can't read file");
+        assert((sizeof(fname) / sizeof(char)) <= MAX_FILENAME_LENGTH);
+
+        char emsg[128];
+        strcpy(emsg, "Minimizer_run: Can't read file: ");
+        strcat(emsg, fname);
+        Util_runtime_error(emsg);
     }
 
     return rtn;

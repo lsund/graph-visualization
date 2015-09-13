@@ -37,7 +37,7 @@ GraphPointer create(VertexSet vs, BondSet bs)
     rtn->vs = vs; 
     rtn->bs = bs;
 
-    rtn->center = Vertex_initialize(-1, Vector_zero(), 0, 0, 'c');
+    rtn->center = Vertex_initialize(-1, Vector_zero(), "center", 'c', 1);
 
     Graph_detect_connected(rtn);
     
@@ -58,11 +58,7 @@ static void assign_vertex_to_zone(
     assert(grid->nz > 0 && grid->is_populated);
     assert(grid->zps && grid->pzps);
     
-    int i, j; 
-    i = Vertex_zone_idx(v);
-    j = Vertex_zone_idy(v);
-
-    Grid_append_member(grid, v, Grid_get_zone(grid, i, j));
+    Grid_append_vertex(grid, v);
 }
 
 static void link_bondconnection(const GraphPointer graph, const Pair pr) 
@@ -79,8 +75,8 @@ static void link_bondcross(
         const Vector cross
     )
 {
-    BondCrossPointer bcrs;
-    bcrs = BondCross_create(bpr, cross);
+    BondOverlapPointer bcrs;
+    bcrs = BondOverlap_create(bpr, cross);
     bcrs->next = graph->crs;
     graph->crs = bcrs;
 } 
@@ -89,18 +85,17 @@ static void link_bondcross(
 
 GraphPointer Graph_create(const char *fname) 
 {
-    int nv, nb;
     Pair pr;
-    pr = process_json(fname, &nv, &nb);
+    pr = process_json(fname);
     
-    assert(nb < (double) nv * log((double) nv));
-    assert(pr.fst && pr.snd);
-
     VertexSetPointer vs;
     vs = (VertexSetPointer) pr.fst; 
 
     BondSetPointer bs;
     bs = (BondSetPointer) pr.snd; 
+    
+    assert(bs->n < (double) vs->n * log((double) vs->n));
+    assert(pr.fst && pr.snd);
 
     GraphPointer rtn;
     rtn = create(*vs, *bs);
@@ -108,10 +103,9 @@ GraphPointer Graph_create(const char *fname)
     free(vs);
     free(bs);
 
-    Placement_set_spiral(rtn->vs, nv); 
-    Graph_reset_dynamics(rtn);
+    Placement_set_spiral(rtn->vs); 
+    Graph_reset_dynamic_data(rtn);
     
-    assert(rtn->max_vw >= 0 && rtn->max_vh >= 0);
     assert(rtn->grid && rtn->vs.set && rtn->bs.set);
     assert(rtn->vs.n > 0 && rtn->vs.n <= MAX_NV);
     assert(rtn->bs.n >= 0);
@@ -119,13 +113,13 @@ GraphPointer Graph_create(const char *fname)
     return rtn;
 }
 
-void Graph_reset_dynamics(const GraphPointer graph)
+void Graph_reset_dynamic_data(const GraphPointer graph)
 {
     assert(graph && graph->grid && graph->vs.n > 0 && graph->vs.set);
 
-    Grid_reset_dynamics(graph->grid);
+    Grid_reset_dynamic_data(graph->grid);
 
-    if (graph->crs) BondCrosses_free(graph->crs);
+    if (graph->crs) BondOverlap_free(graph->crs);
     graph->crs = NULL;
 
     int i;
@@ -135,18 +129,18 @@ void Graph_reset_dynamics(const GraphPointer graph)
         assign_vertex_to_zone(graph->grid, v);
     }
 
-    Grid_check_adjacent(graph->grid);
-    Graph_detect_crosses(graph);
+    Grid_detect_adjacent_zones(graph->grid);
+    Graph_detect_overlapping_bonds(graph);
 }
 
-void Graph_detect_crosses(const GraphPointer graph)
+void Graph_detect_overlapping_bonds(const GraphPointer graph)
 {
     assert(graph && graph->bs.set && graph->bs.n >= 0);
     assert(!graph->crs);
 
     BondSet bs;
     bs = graph->bs;
-
+    graph->ncrosses = 0;
     int i;
     for (i = 0; i < bs.n - 1; i++) {
         int j;
@@ -162,6 +156,7 @@ void Graph_detect_crosses(const GraphPointer graph)
             Vector cross;
             crossing = BondPair_intersect(bpr, &cross);
             if (crossing) {
+                graph->ncrosses++;
                 link_bondcross(graph, bpr, cross);
             } 
         }
@@ -188,10 +183,45 @@ void Graph_detect_connected(const GraphPointer graph)
     }
 }
 
+double Graph_angular_resolution(const GraphPointer graph)
+{
+    int i;
+    double rtn = 0;
+    for (i = 0; i < graph->bs.n - 1; i++) {
+        int j;
+        for (j = i + 1; j < graph->bs.n; j++) {
+            BondPointer fst, snd;
+            fst = BondSet_get_bond(graph->bs, i);
+            snd = BondSet_get_bond(graph->bs, j);
+            Pair pr = Pair_initialize(fst, snd);
+            int common;
+            common = BondPair_has_common_vertex(BondPair_initialize(pr));
+            if (common) {
+                BondConnectionPointer bconn;
+                bconn = BondConnection_create(pr);
+                VertexPointer vi, vj, vk;
+                vi = bconn->other1; 
+                vj = bconn->common;
+                vk = bconn->other2; 
+                double xji, yji, xjk, yjk;
+                xji = vi->pos.x - vj->pos.x; yji = vi->pos.y - vj->pos.y;
+                xjk = vk->pos.x - vj->pos.x; yjk = vk->pos.y - vj->pos.y;
+
+                Vector vecji, vecjk;
+                vecji = Vector_initialize(xji, yji);
+                vecjk = Vector_initialize(xjk, yjk);
+                
+                rtn += Vector_angle(vecji, vecjk);
+            }
+        }
+    }
+    return rtn;
+}
+
 void Graph_free(const GraphPointer graph)
 {
     if (graph->con) BondConnections_free(graph->con);
-    if (graph->crs) BondCrosses_free(graph->crs);
+    if (graph->crs) BondOverlap_free(graph->crs);
     VertexSet_free(graph->vs);
     BondSet_free(graph->bs);
     Grid_free(graph->grid);

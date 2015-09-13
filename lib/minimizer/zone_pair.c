@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 
-#include "pair.h"
 #include "zone_pair.h"
 
 ZonePairPointer ZonePair_create(const Pair pr, const ZonePairPointer next)
@@ -27,7 +26,7 @@ ZonePairPointer ZonePair_create(const Pair pr, const ZonePairPointer next)
 void ZonePairs_free(ZonePairPointer z2p)
 {
     ZonePairPointer cur = z2p;
-    while(cur != NULL) {
+    while(cur != 0) {
         ZonePairPointer tmp = cur;
         cur = cur->next;
         free(tmp);

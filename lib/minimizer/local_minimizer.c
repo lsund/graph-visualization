@@ -13,7 +13,6 @@
 #include <math.h>
 
 #include "constants.h"
-#include "graph.h"
 #include "linmin.h"
 
 /* Private ******************************************************************/
@@ -41,7 +40,7 @@ void LocalMinimizer_run(
 
     g_fun(graph);
 
-    VertexSet_create_sequences(graph->vs, nv, 1, INITIALIZE);
+    VertexSet_create_sequences(graph->vs, 1, INITIALIZE);
 
     double e;
     e_fun(graph);
@@ -63,7 +62,7 @@ void LocalMinimizer_run(
 
         double gg, dgg;
         dgg = gg = 0.0;
-        VertexSet_calculate_score(graph->vs, nv, &gg, &dgg); 
+        VertexSet_calculate_score(graph->vs, &gg, &dgg); 
 
         if (fabs(gg) < EPS) {
             break;
@@ -71,7 +70,7 @@ void LocalMinimizer_run(
         
         double gam;
         gam = dgg / gg;
-        VertexSet_create_sequences(graph->vs, nv, gam, UPDATE);
+        VertexSet_create_sequences(graph->vs, gam, UPDATE);
     }
 }
 

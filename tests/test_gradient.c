@@ -242,11 +242,14 @@ static char *run_gradient_tesets(const char *fname, int nv, FILE *log)
     return NULL;
 }
 
+#ifndef T_ITMAX
+#define T_ITMAX 1
+#endif
+
 char *test_gradient() 
 {
     const char *n3 = "data/test/3.json";
     const char *n4 = "data/test/4-1.json";
-    const char *n4_2 = "data/test/4.json";
     const char *n4_3 = "data/test/4-2.json";
     const char *n6 = "data/test/6.json";
     const char *n23 = "data/test/23.json";
@@ -294,11 +297,6 @@ char *test_gradient()
         msgpass();
 
         msg("Testing gradients of 4 vertices, take 2...\n"); 
-        char *msg6 = run_gradient_tesets(n4_2, 4, log);
-        if (msg6 != NULL) return msg6;
-        msgpass();
-
-        msg("Testing gradients of 4 vertices, take 3...\n"); 
         char *msg7 = run_gradient_tesets(n4_3, 4, log);
         if (msg7 != NULL) return msg7;
         msgpass();

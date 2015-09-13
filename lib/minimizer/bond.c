@@ -4,7 +4,7 @@
 
 * Author: Ludvig Sundström
 
-* Description: 
+* Description: Defines a bond, which is a relation between two vertices. 
 
 * Creation Date: 28-07-2015
 
@@ -18,7 +18,7 @@
 #include "constants.h"
 #include "bond.h"
 
-BondPointer Bond_create(
+Bond Bond_initialize(
         const VertexPointer fst, 
         const VertexPointer snd, 
         const double dist0
@@ -26,32 +26,31 @@ BondPointer Bond_create(
 {
     fst->mass++;
     snd->mass++;
-
-    BondPointer rtn = malloc(sizeof(Bond));
-    rtn->fst = fst;
-    rtn->snd = snd;
-    rtn->dist0 = dist0;
+    Bond rtn;
+    rtn.fst = fst;
+    rtn.snd = snd;  
+    rtn.dist0 = dist0;
+    rtn.stiffness = WATR;
 
     return rtn;
 }
 
-Bond Bond_initialize(
+BondPointer Bond_create(
         const VertexPointer fst, 
         const VertexPointer snd, 
         const double dist0
     )
 {
-    Bond rtn;
-    rtn.fst = fst;
-    rtn.snd = snd;  
-    rtn.dist0 = dist0;
+
+    BondPointer rtn = malloc(sizeof(Bond));
+    *rtn = Bond_initialize(fst, snd, dist0);
 
     return rtn;
 }
 
 static double Bond_attraction_weight(const BondPointer bp)
 {
-    return WATR;
+    return bp->stiffness;
 }
 
 double Bond_attraction_energy(const BondPointer bp)
@@ -59,8 +58,6 @@ double Bond_attraction_energy(const BondPointer bp)
     double d0, d;
     d0 = bp->dist0 * SPRING_LENGTH;
     d = Vector_norm(Vector_sub(bp->snd->pos, bp->fst->pos)); 
-    /*printf("%f %f %f %f\n", bp->snd->pos.x, bp->snd->pos.y, bp->fst->pos.x, bp->fst->pos.y);*/
-    /*exit(0);*/
         
     double w;
     w = Bond_attraction_weight(bp);

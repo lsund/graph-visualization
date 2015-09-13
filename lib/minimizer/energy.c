@@ -136,12 +136,12 @@ static void third_order(const GraphPointer graph)
 
 static void fourth_order(const GraphPointer graph)
 {
-    BondCrossPointer bcrs;
+    BondOverlapPointer bcrs;
     bcrs = graph->crs;
 
     while (bcrs) {
         double e;
-        e = BondCross_crossing_energy(bcrs);
+        e = BondOverlap_overlap_energy(bcrs);
         graph->energy += e;
         bcrs->bpr.fst->fst->energy += e / 4;
         bcrs->bpr.fst->snd->energy += e / 4;

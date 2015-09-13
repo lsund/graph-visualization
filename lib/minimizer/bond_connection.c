@@ -20,7 +20,7 @@
 
 /* Private ******************************************************************/
 
-static double angular_weight(const BondConnectionPointer bpr)
+static double angular_weight(const BondConnectionPointer bcon)
 {
    return WANG;
 }
@@ -30,7 +30,6 @@ static double angular_weight(const BondConnectionPointer bpr)
 BondConnection BondConnection_initialize(const Pair pr)
 {
     BondConnection rtn;
-
     rtn.bpr = BondPair_initialize(pr);
     rtn.next = 0;
 
@@ -69,12 +68,12 @@ BondConnectionPointer BondConnection_create(const Pair pr)
     return rtn;
 }
 
-double BondConnection_angular_energy(const BondConnectionPointer bpr)
+double BondConnection_angular_energy(const BondConnectionPointer bcon)
 {
     VertexPointer vi, vj, vk;
-    vi = bpr->other1; 
-    vj = bpr->common;
-    vk = bpr->other2; 
+    vi = bcon->other1; 
+    vj = bcon->common;
+    vk = bcon->other2; 
 
     double xji, yji, xjk, yjk;
     xji = vi->pos.x - vj->pos.x; yji = vi->pos.y - vj->pos.y;
@@ -88,34 +87,36 @@ double BondConnection_angular_energy(const BondConnectionPointer bpr)
     theta = Vector_angle(vecji, vecjk);
     
     double wij, theta0;
-    wij = angular_weight(bpr);
+    wij = angular_weight(bcon);
     theta0 = (2 * M_PI) / (vj->mass - 1);
 
     return wij * pow(theta - theta0, 2);
 }
 
-VectorPointer BondConnection_angular_gradient(const BondConnectionPointer bpr)
+VectorPointer BondConnection_angular_gradient(const BondConnectionPointer bcon)
 {
     VertexPointer vi, vj, vk;
-    vi = bpr->other1; 
-    vj = bpr->common;
-    vk = bpr->other2; 
-    
-    Vector v0, v1, v2; 
-    v0 = vi->pos; v1 = vj->pos; v2 = vk->pos;
+    vi = bcon->other1; 
+    vj = bcon->common;
+    vk = bcon->other2; 
+   
+    Vector vec[3]; 
+    vec[0] = vi->pos;
+    vec[1] = vj->pos;
+    vec[2] = vk->pos;
     
     double w;
     int m;
-    w = angular_weight(bpr);
+    w = angular_weight(bcon);
     m = vj->mass - 1;
 
     double gradient[6];
-    gradient[0] = AngularGradient_dfx0(v0, v1, v2, w, m);
-    gradient[1] = AngularGradient_dfy0(v0, v1, v2, w, m);
-    gradient[2] = AngularGradient_dfx1(v0, v1, v2, w, m);
-    gradient[3] = AngularGradient_dfy1(v0, v1, v2, w, m);
-    gradient[4] = AngularGradient_dfx2(v0, v1, v2, w, m);
-    gradient[5] = AngularGradient_dfy2(v0, v1, v2, w, m);
+    gradient[0] = AngularGradient_dfx0(vec[0], vec[1], vec[2], w, m);
+    gradient[1] = AngularGradient_dfy0(vec[0], vec[1], vec[2], w, m);
+    gradient[2] = AngularGradient_dfx1(vec[0], vec[1], vec[2], w, m);
+    gradient[3] = AngularGradient_dfy1(vec[0], vec[1], vec[2], w, m);
+    gradient[4] = AngularGradient_dfx2(vec[0], vec[1], vec[2], w, m);
+    gradient[5] = AngularGradient_dfy2(vec[0], vec[1], vec[2], w, m);
 
     assert(!(gradient[0] != gradient[0]));
     assert(!(gradient[1] != gradient[1]));
@@ -133,12 +134,12 @@ VectorPointer BondConnection_angular_gradient(const BondConnectionPointer bpr)
     return rtn;
 }
 
-void BondConnections_free(const BondConnectionPointer bcs)
+void BondConnections_free(const BondConnectionPointer bcons)
 {
-    BondConnectionPointer bpr = bcs;
-    while(bpr) {
-        BondConnectionPointer tmp = bpr;
-        bpr = bpr->next;
+    BondConnectionPointer bcon = bcons;
+    while(bcon) {
+        BondConnectionPointer tmp = bcon;
+        bcon = bcon->next;
         free(tmp);
         tmp = 0;
     }

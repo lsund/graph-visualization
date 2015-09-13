@@ -10,14 +10,15 @@
 
 *****************************************************************************/
 
-#include "math.h"
+#include <math.h>
+
+#include "vertex_pair.h"
 #include "constants.h"
 #include "vertex.h"
-#include "pair.h"
 
 /* Private ******************************************************************/
 
-static double repulsion_weight(const Pair pr) 
+static double repulsion_weight() 
 {
     return 2 * WREP;
 }
@@ -27,7 +28,7 @@ static double repulsion_weight(const Pair pr)
 double VertexPair_repulsion_energy(const Pair pr) 
 {
     double w;
-    w = repulsion_weight(pr);
+    w = repulsion_weight();
 
     VertexPointer vp0, vp1;
     vp0 = (VertexPointer) pr.fst;
@@ -49,11 +50,10 @@ double VertexPair_repulsion_energy(const Pair pr)
     }
 }
 
-
 Vector VertexPair_repulsion_gradient(const Pair pr)
 {
     double w;
-    w = repulsion_weight(pr);
+    w = repulsion_weight();
 
     VertexPointer vp0, vp1;
     vp0 = (VertexPointer) pr.fst;

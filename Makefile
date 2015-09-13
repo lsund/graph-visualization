@@ -12,12 +12,7 @@ TEST_SRCS := $(shell find $(TEST_SRC_DIR)/* -maxdepth 0 -name '*.c')
 DATAS=$(DATA_DIR)/52.json\
  $(DATA_DIR)/23.json\
  $(DATA_DIR)/43.json\
- $(DATA_DIR)/10.json\
- $(DATA_DIR)/4.json\
- $(DATA_DIR)/3.json\
- $(DATA_DIR)/3-1.json\
- $(DATA_DIR)/4-1.json\
- $(DATA_DIR)/3-2.json\
+ $(DATA_DIR)/69.json\
 
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \

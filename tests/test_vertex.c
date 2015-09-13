@@ -20,14 +20,10 @@ char *test_vertex()
     Vector pos2 = Vector_initialize(0.550, 0.500);
     Vector pos3 = Vector_initialize(0.550, 0.550);
     Vector pos4 = Vector_initialize(0.800, 0.800);
-    VertexPointer v = Vertex_create(0, pos1, VERTEX_BASE_WIDTH,  
-            VERTEX_BASE_HEIGHT, 'r');
-    VertexPointer v1 = Vertex_create(1, pos2, VERTEX_BASE_WIDTH, 
-            VERTEX_BASE_HEIGHT, 'r');
-    VertexPointer v2 = Vertex_create(2, pos3, VERTEX_BASE_WIDTH, 
-            VERTEX_BASE_HEIGHT, 'r');
-    VertexPointer v3 = Vertex_create(3, pos4, VERTEX_BASE_WIDTH, 
-            VERTEX_BASE_HEIGHT, 'r');
+    VertexPointer v = Vertex_create(0, pos1, 0, 'r', 0);
+    VertexPointer v1 = Vertex_create(1, pos2, 0, 'r', 0);
+    VertexPointer v2 = Vertex_create(2, pos3, 0, 'r', 0);
+    VertexPointer v3 = Vertex_create(3, pos4, 0, 'r', 0);
     msg("Checking vertex box...");
     mu_assert("tl should be 0.450, 0.450", 
             Util_about(v->tl.x, 0.450) && Util_about(v->tl.y, 0.450));
@@ -74,8 +70,8 @@ char *test_vertex()
     Vector pos0 = Vector_initialize(1234, 234);
     Vector grad0 = Vector_initialize(0, 43);
     Vector gradient = Vector_initialize(1, 41);
-    Vertex v4 = Vertex_initialize(77, pos, 2, 2, 'r');
-    Vertex v5 = Vertex_initialize(66, pos, 3, 4, 'r');
+    Vertex v4 = Vertex_initialize(77, pos, 0, 'r', 0);
+    Vertex v5 = Vertex_initialize(66, pos, 0, 'r', 0);
     v4.next = &v5;
     v4.g = g;
     v4.h = h;
@@ -100,7 +96,7 @@ char *test_vertex()
     mu_assert("mass || next: v4 not equal to v6", v4.mass == v6.mass && v4.next == v6.next);
     mu_assert("energy: v4 not equal to v6", Util_equal(v4.energy, v6.energy));
 
-    VertexPointer v7 = Vertex_create(77, pos, 1, 2, 'r');
+    VertexPointer v7 = Vertex_create(77, pos, 0, 'r', 0);
     v7->next = &v5;
     v7->g = g;
     v7->h = h;

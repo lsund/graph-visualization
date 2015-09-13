@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-* File Name: bond_crossing.c
+* File Name: bond_overlap.c
 
 * Author: Ludvig Sundström
 
@@ -10,14 +10,13 @@
 
 *****************************************************************************/
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#include "bond_cross.h"
+#include "bond_overlap.h"
 #include "util.h"
 #include "constants.h"
-#include "crossing_gradient.h"
+#include "cross_gradient.h"
 
 /* Private *******************************************************************/
 
@@ -25,25 +24,32 @@
 #define TEST 0
 #endif
 
-static double crossing_weight(const BondCrossPointer bcrs)
+static double weight()
 {
     return WCRS;
 }
 
-static double bump(const double d, const double b) {
-    const double a = 1 / (b / 2);
-    const double c = (a * pow((b / 2), 2)) / 2;
-    if (Util_in_range(0, (b / 4), d)) {
-        return a * pow(d, 2);
-    } else if (Util_in_range((b / 4), (3 * b / 4), d)) {
-        return -a * pow(d - (b / 2), 2) + c;
-    } else if (Util_in_range((3 * b / 4), b, d)) {
-        return a * pow(d - b, 2);
+/* The combination of three parabolas takes the two dimensional shape of a
+ * bump. The maximum value of function is the value of the local variable
+ * max_y.
+ */
+static double bump(const double x, const double range) {
+    const double steepness = 1 / (range / 2);
+    const double max_val = (steepness * pow((range / 2), 2)) / 2;
+    if (Util_in_range(0, (range / 4), x)) {
+        return steepness * pow(x, 2);
+    } else if (Util_in_range((range / 4), (3 * range / 4), x)) {
+        return -steepness * pow(x - (range / 2), 2) + max_val;
+    } else if (Util_in_range((3 * range / 4), range, x)) {
+        return steepness * pow(x - range, 2);
     } else {
         return 0;
     }
 }
 
+/*
+ * The derivative of bump. 
+ */
 static void dbump(
         double *gradient, 
         const double d,
@@ -95,31 +101,27 @@ static void dbump(
 
 /* Public ********************************************************************/
 
-BondCross BondCross_initialize(const BondPair bpr, const Vector cross)
+BondOverlap BondOverlap_initialize(const BondPair bpr, const Vector cross)
 {
-    BondCross rtn;
+    BondOverlap rtn;
 
     rtn.bpr = bpr;
     rtn.cross = cross;
-    rtn.next = NULL;
+    rtn.next = 0;
 
     rtn.cross = cross;
     return rtn;
 }
 
-BondCrossPointer BondCross_create(
-        const BondPair bcrs, 
-        const Vector cross
-    )
+BondOverlapPointer BondOverlap_create( const BondPair bcrs, const Vector cross)
 {
-    BondCrossPointer rtn = Util_allocate(1, sizeof(BondCross));
-    *rtn = BondCross_initialize(bcrs, cross);
+    BondOverlapPointer rtn = Util_allocate(1, sizeof(BondOverlap));
+    *rtn = BondOverlap_initialize(bcrs, cross);
     return rtn;
 }
 
-double BondCross_crossing_energy(const BondCrossPointer bcrs)
+double BondOverlap_overlap_energy(const BondOverlapPointer bcrs)
 {
-    
     BondPointer b0, b1;
     b0 = bcrs->bpr.fst; b1 = bcrs->bpr.snd;
 
@@ -146,14 +148,14 @@ double BondCross_crossing_energy(const BondCrossPointer bcrs)
     
     double wi;
     if (!TEST) {
-        wi = crossing_weight(bcrs) / (v[0]->mass + v[1]->mass + v[2]->mass + v[3]->mass) ;
+        wi = weight() / (v[0]->mass + v[1]->mass + v[2]->mass + v[3]->mass) ;
     } else {
-        wi = crossing_weight(bcrs);
+        wi = weight();
     }
     return wi * rtn;
 }
 
-VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
+VectorPointer BondOverlap_overlap_gradient(const BondOverlapPointer bcrs)
 {
     BondPointer b0, b1;
     b0 = bcrs->bpr.fst; b1 = bcrs->bpr.snd;
@@ -196,7 +198,7 @@ VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
     v3_grad = Vector_initialize(gradient[6], gradient[7]);
 
     double wi;
-    wi = crossing_weight(bcrs);
+    wi = weight();
     
     VectorPointer rtn = Util_allocate(4, sizeof(Vector));
     
@@ -216,14 +218,14 @@ VectorPointer BondCross_crossing_gradient(const BondCrossPointer bcrs)
 }
 
 
-void BondCrosses_free(BondCrossPointer bcrss)
+void BondOverlap_free(const BondOverlapPointer bcrss)
 {
-    BondCrossPointer bcrs = bcrss;
-    while(bcrs != NULL) {
-        BondCrossPointer tmp = bcrs;
+    BondOverlapPointer bcrs = bcrss;
+    while(bcrs != 0) {
+        BondOverlapPointer tmp = bcrs;
         bcrs = bcrs->next;
         free(tmp);
-        tmp = NULL;
+        tmp = 0;
     }
 }
 

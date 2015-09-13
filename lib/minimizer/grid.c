@@ -19,6 +19,32 @@
 
 /* Private ******************************************************************/
 
+int zone_idx(const VertexPointer v)
+{
+    int rtn;
+    if (v->pos.x >= PANEL_X) {
+        rtn = PANEL_X / PADDING - 1;
+    } else if (v->pos.x <= 0) {
+        rtn = 0;
+    } else {
+        rtn = ((int) v->pos.x) / PADDING;
+    }
+    return rtn; 
+}
+
+int zone_idy(const VertexPointer v)
+{
+    int rtn;
+    if (v->pos.y >= PANEL_Y) {
+        rtn = PANEL_Y / PADDING - 1;
+    } else if (v->pos.y <= 0) {
+        rtn = 0;
+    } else {
+        rtn = ((int) v->pos.y) / PADDING;
+    }
+    return rtn;
+}
+
 /* Public *******************************************************************/
 
 GridPointer Grid_create()
@@ -46,7 +72,7 @@ GridPointer Grid_create()
     }
     rtn->is_populated = (int *) Util_allocate_initialize(rtn->nz, sizeof(int));
     rtn->pzps = (ZonePointer *) Util_allocate_initialize(rtn->nz, sizeof(void *));
-    rtn->azps = NULL;
+    rtn->azps = 0;
     rtn->npz = 0;
     
     return rtn;
@@ -60,12 +86,12 @@ ZonePointer Grid_get_zone(const GridPointer grid, const int x, const int y)
     return *(grid->zps + (y * GRID_DIM_X) + x);
 }
 
-void Grid_append_member(
-        const GridPointer grid, 
-        const VertexPointer v, 
-        const ZonePointer z
-    )
+void Grid_append_vertex(const GridPointer grid, const VertexPointer v)
 {
+    int i, j; 
+    i = zone_idx(v);
+    j = zone_idy(v);
+    ZonePointer z = Grid_get_zone(grid, i, j);
     v->next = z->members;
     z->members = v;
     if (!*(grid->is_populated + z->id)) {
@@ -75,7 +101,7 @@ void Grid_append_member(
     *(grid->is_populated + z->id) = 1;
 }
 
-void Grid_check_adjacent(const GridPointer grid) 
+void Grid_detect_adjacent_zones(const GridPointer grid) 
 {
     int i, j;
     for (i = 0; i < grid->npz - 1; i++) {
@@ -104,16 +130,16 @@ void Grid_check_adjacent(const GridPointer grid)
     }
 }
 
-void Grid_reset_dynamics(const GridPointer grid)
+void Grid_reset_dynamic_data(const GridPointer grid)
 {
     if (grid->azps) ZonePairs_free(grid->azps);
-    grid->azps = NULL;
+    grid->azps = 0;
     grid->npz = 0;
     int i;
     for (i = 0; i < grid->nz; i++) {
         *(grid->is_populated + i) = 0;
         ZonePointer z = *(grid->zps + i);
-        if (z) z->members = NULL;
+        if (z) z->members = 0;
     }
 }
 

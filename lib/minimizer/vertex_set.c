@@ -12,6 +12,7 @@
 
 #include <stdlib.h>
 
+#include "string.h"
 #include "util.h"
 #include "constants.h"
 #include "vertex_set.h"
@@ -21,115 +22,12 @@ void VertexSet_update_vertex(const VertexSet vs, const int i, const VertexPointe
     *(vs.set + i) = v;
 }
 
-static void populate(VertexSet vs, json_value *contents, int *nvp)
-{
-    int nv = *nvp;
-    json_value *vsarr = contents->u.object.values[0].value;
-
-    if (nv < 1) {
-        Util_runtime_error("No vertices");
-    }
-
-    int i;
-    for (i = 0; i < nv; i++) {
-        
-        json_value *vertex;  
-        vertex = vsarr->u.array.values[i];
-
-        json_value *ident;
-        int id;
-        id = -99;
-        ident = vertex->u.object.values[0].value;
-        if (ident->type == json_integer) {
-            id = ident->u.integer;
-        } else {
-            Util_runtime_error("Bad JSON data: ident");
-        }
-
-        Vector pos, zv;
-        zv = Vector_zero();
-        pos = zv;    
-        json_value *position;
-        position = vertex->u.object.values[1].value;
-        if (position->type == json_array) {
-            int length;
-            double x, y;
-            x = y = 0;
-            length = position->u.array.length;
-            if (length != 2) {
-                Util_runtime_error("Bad JSON data, position dimension not 2");
-            }
-            json_value *j_x = position->u.array.values[0];
-            json_value *j_y = position->u.array.values[1];
-            if (j_x->type == json_integer) {
-                x = (double) j_x->u.integer;
-            } else if (j_x->type == json_double) {
-                x = (double) j_x->u.dbl;
-            } else {
-                Util_runtime_error("Bad JSON data: position: x");
-            }
-            if (j_y->type == json_integer) {
-                y = (double) j_y->u.integer;
-            } else if (j_x->type == json_double) {
-                y = (double) j_y->u.dbl;
-            } else {
-                Util_runtime_error("Bad JSON data: position: y");
-            }
-            pos = Vector_initialize(x, y);
-            pos.given_coords = 1;
-        } 
-        else {
-            if (position->type != json_null) {
-                Util_runtime_error("Bad JSON data: position");
-            }
-        }
-
-        char t;
-        t = 0;
-        json_value *vertex_type;
-        vertex_type = vertex->u.object.values[3].value;
-        if (vertex_type->type == json_string) {
-            t = vertex_type ->u.string.ptr[0];
-        } else {
-            Util_runtime_error("Bad JSON data: type");
-        }
-        VertexSet_update_vertex(
-                vs, 
-                i, 
-                Vertex_create(id, pos, VERTEX_BASE_WIDTH, VERTEX_BASE_HEIGHT, t)
-            );
-    }
-}
-
 VertexSet VertexSet_initialize(int nv)
 {
     VertexSet rtn;
     rtn.set = (VertexPointer *) Util_allocate(nv, sizeof(VertexPointer));
     rtn.n = nv;
 
-    return rtn;
-}
-
-VertexSet VertexSet_initialize_populate(json_value *contents, int *nvp)
-{
-    json_value *vsarr = contents->u.object.values[0].value;
-    *nvp = vsarr->u.array.length;
-
-    int nv;
-    nv = *nvp;
-    
-    VertexSet rtn;
-    rtn = VertexSet_initialize(nv);
-    populate(rtn, contents, nvp);
-
-    return rtn;
-}
-
-VertexSetPointer VertexSet_create(json_value *contents, int *nvp)
-{
-    VertexSetPointer rtn;
-    rtn = (VertexSetPointer) Util_allocate(1, sizeof(VertexSet));
-    *rtn = VertexSet_initialize_populate(contents, nvp);
     return rtn;
 }
 
@@ -206,16 +104,15 @@ void VertexSet_boost(const VertexSet vs, const double x)
 
 void VertexSet_create_sequences(
         const VertexSet vs,
-        const int n,
         const double gam, 
         const Strategy strat
     )
 {
-    assert(n > 0 && n <= MAX_NV); 
+    assert(vs.n > 0 && vs.n <= MAX_NV); 
     assert(strat == INITIALIZE || strat == UPDATE);
     
     int i;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < vs.n; i++) {
         VertexPointer v = VertexSet_get_vertex(vs, i);
         v->g = Vector_negate(v->gradient);
         if (strat == INITIALIZE) {
@@ -233,16 +130,15 @@ void VertexSet_create_sequences(
 
 void VertexSet_calculate_score(
         const VertexSet vs,
-        const int n,
         double *gg, 
         double *dgg
     )
 {
-    assert(n > 0 && n <= MAX_NV);
+    assert(vs.n > 0 && vs.n <= MAX_NV);
     assert(Util_is_zero(*gg) && Util_is_zero(*dgg));
 
     int i;
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < vs.n; i++) {
         VertexPointer v = VertexSet_get_vertex(vs, i);
         *gg += Vector_dot(v->g, v->g);
         *dgg += Vector_dot(Vector_add(v->gradient, v->g), v->gradient);

@@ -23,12 +23,11 @@ Vector Vector_initialize(const double x, const double y)
     Vector rtn;
     rtn.x = x;
     rtn.y = y;
-    rtn.given_coords = 0;
     rtn.len = sqrt(x * x + y * y);
     return rtn;
 }
 
-VectorPointer Vector_create(double x, double y)
+VectorPointer Vector_create(const double x, const double y)
 {
     VectorPointer rtn = (VectorPointer) malloc(sizeof(Vector));
     *rtn = Vector_initialize(x, y);
@@ -40,62 +39,62 @@ Vector Vector_zero()
     return Vector_initialize(0.0, 0.0);
 }
 
-Vector Vector_add(Vector vec0, Vector vec1) 
+Vector Vector_add(const Vector vec0, const Vector vec1) 
 {
     return Vector_initialize(vec0.x + vec1.x, vec0.y + vec1.y);
 }
 
-Vector Vector_sub(Vector vec0, Vector vec1) 
+Vector Vector_sub(const Vector vec0, const Vector vec1) 
 {
     return Vector_initialize(vec0.x - vec1.x, vec0.y - vec1.y);
 }
 
-Vector Vector_mult(Vector vec0, Vector vec1) 
+Vector Vector_mult(const Vector vec0, const Vector vec1) 
 {
     return Vector_initialize(vec0.x * vec1.x, vec0.y * vec1.y);
 }
 
-Vector Vector_negate(Vector vec) 
+Vector Vector_negate(const Vector vec) 
 {
     return Vector_initialize(-vec.x, -vec.y);
 }
 
-Vector Vector_scalar_mult(Vector vec, double c)
+Vector Vector_scalar_mult(const Vector vec, const double c)
 {
     return Vector_initialize(c * vec.x, c * vec.y);
 }
 
-Vector Vector_scalar_add(Vector vec, double c)
+Vector Vector_scalar_add(const Vector vec, const double c)
 {
     return Vector_initialize(c + vec.x, c + vec.y);
 }
 
-double Vector_dot(Vector v0, Vector v1)
+double Vector_dot(const Vector vec0, const Vector vec1)
 {   
-    return v0.x * v1.x + v0.y * v1.y;
+    return vec0.x * vec1.x + vec0.y * vec1.y;
 }
 
-double Vector_norm(Vector v) 
+double Vector_norm(const Vector v) 
 {
     return sqrt(Vector_dot(v, v));
 }
 
-double Vector_angle(Vector v0, Vector v1)
+double Vector_angle(const Vector vec0, const Vector vec1)
 {
 
     double scalp;
-    scalp = Vector_dot(v0, v1);
-    assert(!(scalp != scalp));
+    scalp = Vector_dot(vec0, vec1);
     
     double lenp;
-    lenp = (v0.len * v1.len);
+    lenp = (vec0.len * vec1.len);
     assert(lenp >= 0);
 
     if (Util_is_zero(lenp)) {
         return 0.0;
-        /*Util_runtime_error("Vector_angle: Division by zero");*/
     }
-    if (scalp != scalp) Util_runtime_error("Vector_angle: Nan scalp");
+    if (scalp != scalp) {
+        Util_runtime_error("Vector_angle: Nan scalp");
+    }
     if (
             Util_equal(scalp, lenp) || 
             Util_equal(scalp, -lenp) || 
@@ -115,22 +114,13 @@ double Vector_angle(Vector v0, Vector v1)
     return acos(div);
 }
 
-int Vector_parallel(Vector v0, Vector v1)
+int Vector_parallel(const Vector vec0, const Vector vec1)
 {
-    return Util_equal(Vector_angle(v0, v1), 0);
+    return Util_equal(Vector_angle(vec0, vec1), 0);
 }
 
-int Vector_equal(Vector v0, Vector v1)
+int Vector_equal(const Vector vec0, const Vector vec1)
 {
-    return Util_equal(v0.x, v1.x) && Util_equal(v0.y, v1.y);
-}
-
-/**
- * Magnitude of the vector that would result from a regular 3D space. 
- */
-
-double Vector_cross(Vector vec0, Vector vec1)
-{
-    return (vec0.x * vec1.y) - (vec1.x * vec0.y);
+    return Util_equal(vec0.x, vec1.x) && Util_equal(vec0.y, vec1.y);
 }
 

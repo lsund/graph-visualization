@@ -180,6 +180,8 @@ void GlobalMinimizer_run(
     }
     double e1 = graph->energy;
     double rat = e1 / e0;
-    printf("%f%% energy improvement\n", (1 - rat) * 100);
+    if (PRINT_STATISTICS) {
+        printf("%f%% energy improvement\n", (1 - rat) * 100);
+    }
 }
 

@@ -40,11 +40,8 @@ defmodule ConvertCsv do
   defp vertex_to_string(v) do
     "{\"id\":" <> 
       to_string(v.id) <> 
-      ",\"position\":null" <> 
-      ",\"mass\":" <> 
-      to_string(v.mass) <> 
-      ",\"radius\":" <> 
-      to_string(v.radius) <> 
+      ",\"fixed\":null" <> 
+      ",\"label\":null" <> 
       ",\"type\":\"" <> 
       to_string(v.type) <> 
       "\"}"
@@ -62,7 +59,7 @@ defmodule ConvertCsv do
 
   def mk_vertices(0), do: []
   def mk_vertices(n) do
-    [%{id: n - 1, mass: 1, radius: 1, type: "r"} | mk_vertices(n - 1)]
+    [%{id: n - 1, type: "r"} | mk_vertices(n - 1)]
   end
   
   def mk_bonds(table, nv) do

@@ -15,8 +15,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "placement.h"
 #include "vertex.h"
-#include "vertex_set.h"
 #include "constants.h"
 #include "util.h"
 
@@ -42,12 +42,12 @@ static int comp_by_id(const void *elem1, const void *elem2)
 
 /* Public ********************************************************************/
 
-void Placement_set_spiral(VertexSet vs, const int nv)
+void Placement_set_spiral(VertexSet vs)
 {
     qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_mass);
 
     int n;
-    n = nv;
+    n = vs.n;
     while (fabs(sqrt(n) - (int) sqrt(n)) > EPS) {
         n++;
     }
@@ -72,16 +72,14 @@ void Placement_set_spiral(VertexSet vs, const int nv)
     t = fmax(dimx, dimy);
 
     int i;
-    for (i = nv - 1; i >= 0; i--) {
-        if (!(*(vs.set + i))->pos.given_coords) {
-            if ((-dimx / 2 <= x && x <= dimx / 2) && 
-                (-dimy / 2 <= y && y <= dimy / 2))
-            {
-                double placex, placey;
-                placex = (double) x * gapx;
-                placey = (double) y * gapy;
-                Vertex_set_position(*(vs.set + i), Vector_initialize(placex, placey));
-            }
+    for (i = vs.n - 1; i >= 0; i--) {
+        if ((-dimx / 2 <= x && x <= dimx / 2) && 
+            (-dimy / 2 <= y && y <= dimy / 2))
+        {
+            double placex, placey;
+            placex = (double) x * gapx;
+            placey = (double) y * gapy;
+            Vertex_set_position(*(vs.set + i), Vector_initialize(placex, placey));
         }
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
             t = dx;
@@ -94,11 +92,11 @@ void Placement_set_spiral(VertexSet vs, const int nv)
     qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_id);
 }
 
-void Placement_set_random(const VertexSet vs, const int nv)
+void Placement_set_random(const VertexSet vs)
 {
     srand(time(NULL));
     int i;
-    for (i = 0; i < nv; i++) {
+    for (i = 0; i < vs.n; i++) {
         double rx, ry;
         rx = ((double) rand()) / RAND_MAX;
         ry = ((double) rand()) / RAND_MAX;
@@ -106,11 +104,11 @@ void Placement_set_random(const VertexSet vs, const int nv)
     }
 }
 
-void Placement_set_grid(VertexSet vs, const int nv) 
+void Placement_set_grid(VertexSet vs) 
 {
     int i, n, vdim, rows, cols;
     double gapx, gapy, offsetx, offsety, x, y;
-    n = nv; 
+    n = vs.n; 
     while (fabs(sqrt(n) - (int) sqrt(n)) > EPS) {
         n++;
     }
@@ -121,7 +119,7 @@ void Placement_set_grid(VertexSet vs, const int nv)
     offsety = gapy / 2;
     rows = 0;
     cols = -1;
-    for (i = 0; i < nv; i++) {
+    for (i = 0; i < vs.n; i++) {
         if (i % vdim == 0) {
             rows++;
             cols = 0; 

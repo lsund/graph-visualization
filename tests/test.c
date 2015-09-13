@@ -31,7 +31,6 @@
 
 char *test_util();
 char *test_json();
-char *test_objective();
 char *test_gradient();
 char *test_vertex();
 char *test_bond();
@@ -74,9 +73,6 @@ static char *all_tests() {
     msg("#################### TEST VERTEX SET #####################\n\n");
     mu_run_test(test_vertexset);
     printf("\n");
-    msg("#################### TEST OBJECTIVE ######################\n\n");
-    mu_run_test(test_objective);
-    printf("\n");
     msg("#################### TEST GRADIENT #######################\n\n");
     mu_run_test(test_gradient);
     printf("\n");
@@ -102,18 +98,18 @@ int main(int argc, char **argv) {
             int msec;
             clock_t start, diff;
             start = clock();
-            Minimizer_run("data/3.json");
+            Minimizer_run("data/test/3.json");
             diff = clock() - start;
             msec = diff * 1000 / CLOCKS_PER_SEC;
             printf("3 vertices: \n%d seconds %d milliseconds \n", 
                     msec / 1000, msec % 1000);
             start = clock();
-            Minimizer_run("data/23.json");
+            Minimizer_run("data/test/23.json");
             diff = clock() - start;
             msec = diff * 1000 / CLOCKS_PER_SEC;
             printf("23 vertices: \n%d seconds %d milliseconds \n", 
                     msec / 1000, msec % 1000);
-            Minimizer_run("data/52.json");
+            Minimizer_run("data/test/52.json");
             diff = clock() - start;
             msec = diff * 1000 / CLOCKS_PER_SEC;
             printf("52 vertices: \n%d seconds %d milliseconds \n", 

@@ -12,6 +12,7 @@
 #include "../lib/minimizer/constants.h"
 #include "../lib/minimizer/minimizer.h"
 #include "../lib/minimizer/placement.h"
+#include "../lib/minimizer/tests.h"
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/wait.h> 

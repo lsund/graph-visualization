@@ -44,6 +44,7 @@ static void first_order(const GraphPointer graph)
 
         Bond b;
         b = Bond_initialize(v, &graph->center, 0.0); 
+        b.stiffness = WPOT;
 
         v->gradient = Vector_add(v->gradient, Bond_attraction_gradient(&b));
     }
@@ -133,13 +134,13 @@ static void third_order(const BondConnectionPointer con)
     }
 }
 
-static void fourth_order(const BondCrossPointer crs)
+static void fourth_order(const BondOverlapPointer crs)
 {
-    BondCrossPointer bcrs;
+    BondOverlapPointer bcrs;
     bcrs = crs;
     while (bcrs) {
 
-        VectorPointer grad = BondCross_crossing_gradient(bcrs);
+        VectorPointer grad = BondOverlap_overlap_gradient(bcrs);
 
         VertexPointer v0, v1, v2, v3;
         v0 = bcrs->bpr.fst->fst; v1 = bcrs->bpr.fst->snd; 
@@ -173,5 +174,5 @@ void (*test_second_order_gradient)(const GraphPointer graph) = second_order;
 void (*test_second_order_attraction_gradient)(const BondSet bs) =second_order_attraction;
 void (*test_second_order_repulsion_gradient)(const GridPointer grid) =second_order_repulsion; 
 void (*test_third_order_gradient)(const BondConnectionPointer con) = third_order; 
-void (*test_fourth_order_gradient)(const BondCrossPointer crs) = fourth_order;
+void (*test_fourth_order_gradient)(const BondOverlapPointer crs) = fourth_order;
 

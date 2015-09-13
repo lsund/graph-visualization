@@ -4,6 +4,9 @@
 
 #include "bond_pair.h"
 
+// A bond connection is a pair of bonds which share a common vertex. They are
+// internally stored as a linked list, so each structure has a pointer to the
+// next element in this list.
 typedef struct bondconnection BondConnection, *BondConnectionPointer;
 
 struct bondconnection {
@@ -12,14 +15,19 @@ struct bondconnection {
     BondConnectionPointer next;
 };
 
+// A bond connection speciied by the pair pr
 BondConnection BondConnection_initialize(const Pair pr);
 
+// A pointer to the bond connection specified by the pair pr
 BondConnectionPointer BondConnection_create(const Pair pr);
 
-double BondConnection_angular_energy(const BondConnectionPointer bpr);
+// The angular energy of the bondconnection at bcon 
+double BondConnection_angular_energy(const BondConnectionPointer bcon);
 
-VectorPointer BondConnection_angular_gradient(const BondConnectionPointer bpr);
+// The angular gradient, the x and y derivative  of the bondconnection at bcon
+VectorPointer BondConnection_angular_gradient(const BondConnectionPointer bcon);
 
-void BondConnections_free(const BondConnectionPointer bcs);
+// Frees the bondconnection at bcons and its linked elements
+void BondConnections_free(const BondConnectionPointer bcons);
 
 #endif

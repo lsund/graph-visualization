@@ -4,7 +4,12 @@
 
 #include "vertex.h"
 
-
+// A zone is a rectangular partition of a larger quadratic area. A zone is
+// indexed by its field (id), and it has a coordinates (i, j) that indicates
+// the zone position, when the top-left zone has zone-coordinates (0, 0). A
+// zone has fields (minx, miny) which are the coordinates of the top-left
+// corner of the zone. A zone also has a (width, height). A zone is associated
+// with a number of vertices, which are stored in the array (members)
 typedef struct Zone Zone, *ZonePointer;
 
 struct Zone {
@@ -12,7 +17,8 @@ struct Zone {
       VertexPointer members;
 };
 
-
+// The zone with the specified id, zone-coordinates, coordinates, width and
+// height
 ZonePointer Zone_create(
         const int id, 
         const int i, 
@@ -23,6 +29,7 @@ ZonePointer Zone_create(
         const double height
     );
 
+// Frees the memory allocated for all zones in array zones
 void Zones_free(ZonePointer *zs, int nz);
 
 #endif
