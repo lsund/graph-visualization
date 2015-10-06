@@ -5,27 +5,48 @@
 // Print information about the run to standard output
 #define PRINT_STATISTICS 1
 
-// Data defined data labels 
-#define MAX_LABEL_LENGTH 8 + 1 
-// File name macx length
-#define MAX_FILENAME_LENGTH 128
-
 // Maximum number of allowed vertices
 #define MAX_NV 100
 
 // The outputed coordinates will lie in range [0..PANEL_X[, [0..PANEL_Y[
 #define PANEL_X 1.0
 #define PANEL_Y 1.0
-// Dimension of individual grid rectangles
-#define GRID_DIM_X (int) (PANEL_X / PADDING)
-#define GRID_DIM_Y (int) (PANEL_Y / PADDING)
 
-//IF COMBINED WITH EMSCRIPTEN/////////////////////////////////////////////////
+// WEIGHTS FOR PENALTY TERMS
+// 
+// ATTRACTION
+#define WATR 15.0
+
+//REPULSION
+#define WREP 500.0
+
+// GRAVITY
+#define WPOT 1.0
+
+// ANGULAR RESOLUTION
+#define WANG 0.002
+
+// OVERLAP
+#define WCRS 1.65
+
 // Toggle animation
 #define STEP 0
 // Animation interval 
 #define INTERVAL 500
-//////////////////////////////////////////////////////////////////////////////
+
+// CONSTANTS BELOW THIS LINE SHOULD PROBABLY NOT BE CHANGED ///////////////////
+
+// Data defined data labels 
+#define MAX_LABEL_LENGTH 8 + 1 
+// File name macx length
+#define MAX_FILENAME_LENGTH 128
+
+// Dimension of individual grid rectangles
+#define GRID_DIM_X (int) (PANEL_X / PADDING)
+#define GRID_DIM_Y (int) (PANEL_Y / PADDING)
+
+// Vertex default type
+#define DEFAULT_TYPE 'd' 
 
 // Small numbers  
 #define FTOL 1.0e-5
@@ -60,16 +81,6 @@
 
 #define VERTEX_BASE_WIDTH 0.001
 #define VERTEX_BASE_HEIGHT  0.001
-
-// Individual energy constants 
-#define WATR 15.0
-#define WREP 500.0
-#define WPOT 1.0
-#define WANG 0.002
-#define WCRS 1.65
-
-// Vertex default type
-#define DEFAULT_TYPE 'd' 
 
 // Vertex mass
 #define DEFAULT_MASS 0
