@@ -14,6 +14,19 @@ DATAS=$(DATA_DIR)/52.json\
  $(DATA_DIR)/43.json\
  $(DATA_DIR)/71.json\
 
+emscript-fromsingle: lib/minimizer/metafile.c
+	emcc $(EMFLAGS) $(CFLAGS) lib/minimizer/metafile.c \
+	-o lib/c_assets.js -s \
+	EXPORTED_FUNCTIONS="['_Minimizer_run']" \
+	$(foreach var,$(DATAS),--preload-file $(var))
+
+executable-fromsingle: lib/minimizer/metafile.c lib/minimizer/main_sample.c
+	gcc $(CFLAGS) -DNDEBUG lib/minimizer/metafile.c lib/minimizer/main_sample.c \
+	  -o bin/minimize -lm
+
+object-fromsingle: lib/minimizer/metafile.c 
+	gcc $(CFLAGS) -c -DNDEBUG lib/minimizer/metafile.c -o obj/minimize.o -lm
+
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(CFLAGS) $(SRCS) \
 	-o lib/c_assets.js -s \

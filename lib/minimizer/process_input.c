@@ -8,9 +8,9 @@
 #include "constants.h"
 #include "util.h"
 #include "json.h"
-#include "graph.h"
 #include "vertex_set.h"
-#include "vertex_set.h"
+#include "bond_set.h"
+#include "pair.h"
 
 static void parse_vertex_data(
         json_value *vertex, 

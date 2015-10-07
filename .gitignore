@@ -1,6 +1,6 @@
 a.out
 json-parser
 package.json
-bin
+bin/minimize
 log
 c_assets*

@@ -2,8 +2,8 @@
 #ifndef VERTEX_SET_H
 #define VERTEX_SET_H
 
-#include "vertex.h"
 #include "util.h"
+#include "vertex.h"
 
 // A vertexset is a set of pointers to vertices. (set) is the array of vertices
 // and (n) is the length of that array

@@ -32,7 +32,7 @@ static void apply_repulsion(const VertexPointer vi, const VertexPointer vj)
     vj->gradient = Vector_add(vj->gradient, Vector_negate(rpls_grad));
 }
 
-static void first_order(const GraphPointer graph)
+static void first_order_gradient(const GraphPointer graph)
 {
     VertexSet vs;
     vs = graph->vs;
@@ -50,7 +50,7 @@ static void first_order(const GraphPointer graph)
     }
 }
 
-static void second_order_repulsion(const GridPointer grid)
+static void second_order_repulsion_gradient(const GridPointer grid)
 {
     int i;
     for (i = 0; i < grid->npz; i++) {
@@ -91,7 +91,7 @@ static void second_order_repulsion(const GridPointer grid)
     }
 }
 
-static void second_order_attraction(const BondSet bs)
+static void second_order_attraction_gradient(const BondSet bs)
 {
     int i;
     for (i = 0; i < bs.n; i++) {
@@ -106,13 +106,13 @@ static void second_order_attraction(const BondSet bs)
     }
 }
 
-static void second_order(const GraphPointer graph)
+static void second_order_gradient(const GraphPointer graph)
 {
-    second_order_repulsion(graph->grid);
-    second_order_attraction(graph->bs);
+    second_order_repulsion_gradient(graph->grid);
+    second_order_attraction_gradient(graph->bs);
 }
 
-static void third_order(const BondConnectionPointer con)
+static void third_order_gradient(const BondConnectionPointer con)
 {
     BondConnectionPointer bpr = con;
     while (bpr) {
@@ -134,7 +134,7 @@ static void third_order(const BondConnectionPointer con)
     }
 }
 
-static void fourth_order(const BondOverlapPointer crs)
+static void fourth_order_gradient(const BondOverlapPointer crs)
 {
     BondOverlapPointer bcrs;
     bcrs = crs;
@@ -161,18 +161,18 @@ static void fourth_order(const BondOverlapPointer crs)
 
 void Gradient_calculate(const GraphPointer graph)
 {
-    first_order(graph);
-    second_order(graph);
-    third_order(graph->con);
-    fourth_order(graph->crs);
+    first_order_gradient(graph);
+    second_order_gradient(graph);
+    third_order_gradient(graph->con);
+    fourth_order_gradient(graph->crs);
 }
 
 /* Test facade *************************************************************/
 
-void (*test_first_order_gradient)(const GraphPointer graph) = first_order;
-void (*test_second_order_gradient)(const GraphPointer graph) = second_order;
-void (*test_second_order_attraction_gradient)(const BondSet bs) =second_order_attraction;
-void (*test_second_order_repulsion_gradient)(const GridPointer grid) =second_order_repulsion; 
-void (*test_third_order_gradient)(const BondConnectionPointer con) = third_order; 
-void (*test_fourth_order_gradient)(const BondOverlapPointer crs) = fourth_order;
+void (*test_first_order_gradient)(const GraphPointer graph) = first_order_gradient;
+void (*test_second_order_gradient)(const GraphPointer graph) = second_order_gradient;
+void (*test_second_order_attraction_gradient)(const BondSet bs) =second_order_attraction_gradient;
+void (*test_second_order_repulsion_gradient)(const GridPointer grid) =second_order_repulsion_gradient; 
+void (*test_third_order_gradient)(const BondConnectionPointer con) = third_order_gradient; 
+void (*test_fourth_order_gradient)(const BondOverlapPointer crs) = fourth_order_gradient;
 

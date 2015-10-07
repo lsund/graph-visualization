@@ -20,7 +20,7 @@
 
 /* Private ******************************************************************/
 
-static void first_order(const GraphPointer graph) 
+static void first_order_energy(const GraphPointer graph) 
 {
     VertexSet vs; 
     vs = graph->vs;
@@ -40,7 +40,7 @@ static void first_order(const GraphPointer graph)
     }
 }
 
-static void second_order_attraction(const GraphPointer graph) 
+static void second_order_attraction_energy(const GraphPointer graph) 
 {
     BondSet bs;
     bs = graph->bs;
@@ -56,7 +56,7 @@ static void second_order_attraction(const GraphPointer graph)
     }
 }
 
-static void second_order_repulsion(const GraphPointer graph) 
+static void second_order_repulsion_energy(const GraphPointer graph) 
 {
     GridPointer grid;
     grid = graph->grid;
@@ -111,13 +111,13 @@ static void second_order_repulsion(const GraphPointer graph)
     }
 }
 
-static void second_order(const GraphPointer graph)
+static void second_order_energy(const GraphPointer graph)
 {
-    second_order_attraction(graph);
-    second_order_repulsion(graph);
+    second_order_attraction_energy(graph);
+    second_order_repulsion_energy(graph);
 }
 
-static void third_order(const GraphPointer graph)
+static void third_order_energy(const GraphPointer graph)
 {
     
     BondConnectionPointer bpr;
@@ -134,7 +134,7 @@ static void third_order(const GraphPointer graph)
     }
 }
 
-static void fourth_order(const GraphPointer graph)
+static void fourth_order_energy(const GraphPointer graph)
 {
     BondOverlapPointer bcrs;
     bcrs = graph->crs;
@@ -156,10 +156,10 @@ static void fourth_order(const GraphPointer graph)
 void Energy_calculate(const GraphPointer graph) 
 {
     graph->energy = 0.0;
-    first_order(graph);
-    second_order(graph);
-    third_order(graph);
-    fourth_order(graph);
+    first_order_energy(graph);
+    second_order_energy(graph);
+    third_order_energy(graph);
+    fourth_order_energy(graph);
 
     assert(!(graph->energy != graph->energy));
 }
@@ -167,15 +167,15 @@ void Energy_calculate(const GraphPointer graph)
 /* Testing facade ***********************************************************/
 
 void  (*test_first_order_energy)(const GraphPointer graph) = 
-        first_order;
+        first_order_energy;
 void  (*test_second_order_energy)(const GraphPointer graph) = 
-        second_order;
+        second_order_energy;
 void  (*test_second_order_attraction_energy)(const GraphPointer graph) = 
-        second_order_attraction;
+        second_order_attraction_energy;
 void  (*test_second_order_repulsion_energy)(const GraphPointer graph) = 
-        second_order_repulsion;
+        second_order_repulsion_energy;
 void  (*test_third_order_energy)(const GraphPointer graph) = 
-        third_order;
+        third_order_energy;
 void  (*test_fourth_order_energy)(const GraphPointer graph) = 
-        fourth_order;
+        fourth_order_energy;
 
