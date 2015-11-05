@@ -47,7 +47,6 @@ static double step(
     Graph_reset_dynamic_data(graph);
 
     e_fun(graph);
-
     return graph->energy;
 }
 

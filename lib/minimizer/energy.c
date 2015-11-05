@@ -31,6 +31,7 @@ static void first_order_energy(const GraphPointer graph)
         
         Bond b;
         b = Bond_initialize(v, &graph->center, 0.0); 
+        b.stiffness = WPOT;
 
         double e;
         e = Bond_attraction_energy(&b);

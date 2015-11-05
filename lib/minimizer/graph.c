@@ -94,7 +94,6 @@ GraphPointer Graph_create(const char *fname)
     BondSetPointer bs;
     bs = (BondSetPointer) pr.snd; 
     
-    assert(bs->n < (double) vs->n * log((double) vs->n));
     assert(pr.fst && pr.snd);
 
     GraphPointer rtn;

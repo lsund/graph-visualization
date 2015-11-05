@@ -3,7 +3,13 @@
 #define CONSTANTS_H
 
 // Print information about the run to standard output
-#define PRINT_STATISTICS 1
+#define PRINT_STATISTICS 0
+
+// Toggle animation
+#define STEP 0
+// Animation interval 
+#define INTERVAL 500
+
 
 // Maximum number of allowed vertices
 #define MAX_NV 100
@@ -18,21 +24,16 @@
 #define WATR 15.0
 
 //REPULSION
-#define WREP 500.0
+#define WREP 800.0
 
 // GRAVITY
 #define WPOT 1.0
 
 // ANGULAR RESOLUTION
-#define WANG 0.002
+#define WANG 0.0002
 
 // OVERLAP
-#define WCRS 1.65
-
-// Toggle animation
-#define STEP 0
-// Animation interval 
-#define INTERVAL 500
+#define WCRS 25.0
 
 // CONSTANTS BELOW THIS LINE SHOULD PROBABLY NOT BE CHANGED ///////////////////
 
@@ -50,7 +51,7 @@
 
 // Small numbers  
 #define FTOL 1.0e-5
-#define TOL 2.0e-4 
+#define TOL 1.0e-6 
 #define ZEPS 1.0e-10
 #define EPS 1.0e-10
 #define TINY 1.0e-20
@@ -69,15 +70,15 @@
 // Max iterations of local minimizer
 #define L_ITMAX 200
 // Max iterations of global minimizer
-#define G_ITMAX 10 
+#define G_ITMAX 0
 
 // 'Acceptance' temperature of global minimizer
 #define TEMPERATURE 0.0
 
 // Padding between nodes. 
-#define PADDING 0.12
+#define PADDING 0.10
 // Optimal bond-length 
-#define SPRING_LENGTH 0.09
+#define SPRING_LENGTH 0.10
 
 #define VERTEX_BASE_WIDTH 0.001
 #define VERTEX_BASE_HEIGHT  0.001
