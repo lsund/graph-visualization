@@ -57,7 +57,6 @@ float *Minimizer_run(const char *fname)
 
         GraphPointer graph;
         graph = Graph_create(fname);
-
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
         js_interact(graph);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);

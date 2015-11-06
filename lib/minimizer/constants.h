@@ -18,7 +18,7 @@
 #define WATR 15.0
 
 //REPULSION
-#define WREP 500.0
+#define WREP 200.0
 
 // GRAVITY
 #define WPOT 1.0
@@ -27,7 +27,7 @@
 #define WANG 0.002
 
 // OVERLAP
-#define WCRS 1.65
+#define WCRS 2.85
 
 // Toggle animation
 #define STEP 0
@@ -50,7 +50,7 @@
 
 // Small numbers  
 #define FTOL 1.0e-5
-#define TOL 2.0e-4 
+#define TOL 1.0e-6 
 #define ZEPS 1.0e-10
 #define EPS 1.0e-10
 #define TINY 1.0e-20
@@ -69,7 +69,7 @@
 // Max iterations of local minimizer
 #define L_ITMAX 200
 // Max iterations of global minimizer
-#define G_ITMAX 10 
+#define G_ITMAX 4
 
 // 'Acceptance' temperature of global minimizer
 #define TEMPERATURE 0.0

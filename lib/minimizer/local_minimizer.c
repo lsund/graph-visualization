@@ -11,6 +11,7 @@
 *****************************************************************************/
 
 #include <math.h>
+#include <stdio.h>
 
 #include "constants.h"
 #include "linmin.h"
@@ -45,6 +46,7 @@ void LocalMinimizer_run(
     double e;
     e_fun(graph);
     e = graph->energy;
+    if (PRINT_STATISTICS) printf("energy: %f\n", e);
 
     assert(e >= 0);
     
@@ -71,6 +73,12 @@ void LocalMinimizer_run(
         double gam;
         gam = dgg / gg;
         VertexSet_create_sequences(graph->vs, gam, UPDATE);
+        if (PRINT_STATISTICS) 
+            printf("Bonds: %d Ovelaps: %d Ratio: %f\n", 
+                    graph->bs.n, 
+                    graph->ncrosses,
+                    (double) graph->ncrosses / (double) graph->bs.n);
     }
+    if (PRINT_STATISTICS) printf("Iterations LM: %d\n", i);
 }
 
