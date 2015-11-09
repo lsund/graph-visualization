@@ -16,11 +16,13 @@
 #include "constants.h"
 #include "vertex.h"
 
+double g_wrep;
+
 /* Private ******************************************************************/
 
 static double repulsion_weight() 
 {
-    return 2 * WREP;
+    return 2 * g_wrep;
 }
 
 /* Public *******************************************************************/

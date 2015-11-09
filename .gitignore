@@ -4,3 +4,4 @@ package.json
 bin/minimize
 log
 c_assets*
+data

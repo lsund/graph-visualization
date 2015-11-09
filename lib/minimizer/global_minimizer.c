@@ -97,7 +97,7 @@ Vector generate_move()
     
     assert(x < 1 && x >= -1 && y < 1 && y >= -1); 
 
-    double a = 0.01;
+    double a = 2 * PADDING;
     
     Vector rtn;
     rtn = Vector_scalar_mult(Vector_initialize(x, y), a);
@@ -114,17 +114,18 @@ static void mutate(const GraphPointer graph)
     vs = graph->vs; 
 
     int n;
-    n = vs.n / 5; 
+    n = vs.n / 7; 
 
     VertexSet subset;
     subset = pick_subset(vs, n);
-    
+    Vector move = generate_move();
+     
     int i; 
     for (i = 0; i < n; i++) {
         Vector new_pos;
         VertexPointer v;
         v = VertexSet_get_vertex(vs, i);
-        new_pos = Vector_add(v->pos, generate_move());
+        new_pos = Vector_add(v->pos, move);
         Vertex_set_position(v, new_pos);
     }
 }

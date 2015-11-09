@@ -18,11 +18,13 @@
 #include "bond_connection.h"
 #include "angular_gradient.h"
 
+double g_wang;
+
 /* Private ******************************************************************/
 
 static double angular_weight(const BondConnectionPointer bcon)
 {
-   return WANG;
+   return g_wang;
 }
 
 /* Public *******************************************************************/
@@ -62,7 +64,7 @@ BondConnection BondConnection_initialize(const Pair pr)
 
 BondConnectionPointer BondConnection_create(const Pair pr)
 {
-    BondConnectionPointer rtn = Util_allocate_initialize(1, sizeof(BondConnection));
+    BondConnectionPointer rtn = Util_allocate(1, sizeof(BondConnection));
     *rtn = BondConnection_initialize(pr);
 
     return rtn;
@@ -137,7 +139,7 @@ VectorPointer BondConnection_angular_gradient(const BondConnectionPointer bcon)
 void BondConnections_free(const BondConnectionPointer bcons)
 {
     BondConnectionPointer bcon = bcons;
-    while(bcon) {
+    while(bcon != 0) {
         BondConnectionPointer tmp = bcon;
         bcon = bcon->next;
         free(tmp);

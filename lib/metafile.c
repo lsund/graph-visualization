@@ -11,6 +11,7 @@
 *****************************************************************************/
 
 #include "metafile.h"
+#include "minimizer/js_interact.h"
 
 static void check1(double *a, double *b)
 {

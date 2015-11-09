@@ -18,6 +18,8 @@
 #include "util.h"
 #include "energy.h"
 
+double g_wpot;
+
 /* Private ******************************************************************/
 
 static void first_order_energy(const GraphPointer graph) 
@@ -31,6 +33,7 @@ static void first_order_energy(const GraphPointer graph)
         
         Bond b;
         b = Bond_initialize(v, &graph->center, 0.0); 
+        b.stiffness = g_wpot * sqrt(v->mass);
 
         double e;
         e = Bond_attraction_energy(&b);

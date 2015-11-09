@@ -24,7 +24,7 @@ enum { FIRST, SECONDA, SECONDR, THIRD, FOURTH };
 
 static int get_nof_bondcrosses(GraphPointer graph) {
     int n = 0;
-    BondCrossPointer cur = graph->crs;
+    BondOverlapPointer cur = graph->crs;
     while (cur) {
         n++;
         cur = cur->next;
@@ -72,8 +72,8 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv, 
     for (int i = 0; i < nv; i++) {
         GraphPointer graph;
         graph = Graph_create(fname);\
-        Placement_set_random(graph->vs, graph->vs.n);
-        Graph_reset_dynamics(graph);
+        Placement_set_random(graph->vs);
+        Graph_reset_dynamic_data(graph);
         int nof_crs1 = get_nof_bondcrosses(graph);
         VertexPointer v = *(graph->vs.set + i);
         double e; 
@@ -112,7 +112,7 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv, 
         Vertex_move(v, pos);
 
         if (order == FOURTH) {
-            Graph_reset_dynamics(graph);
+            Graph_reset_dynamic_data(graph);
             if (nof_crs1 != get_nof_bondcrosses(graph)) {
                 break;
             }
@@ -135,14 +135,14 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv, 
         if (dim == TESTX) {
             Vector pos = Vector_initialize(v->pos.x + step, v->pos.y);
             Vertex_move(v, pos);
-            Graph_reset_dynamics(graph);
+            Graph_reset_dynamic_data(graph);
         } else {
             Vector pos = Vector_initialize(v->pos.x, v->pos.y + step);
             Vertex_move(v, pos);
-            Graph_reset_dynamics(graph);
+            Graph_reset_dynamic_data(graph);
         }
         if (order == FOURTH) {
-            Graph_reset_dynamics(graph);
+            Graph_reset_dynamic_data(graph);
             if (nof_crs1 != get_nof_bondcrosses(graph)) {
                 break;
             }

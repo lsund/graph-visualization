@@ -12,4 +12,12 @@
 // NULL
 float *Minimizer_run(const char *fname);
 
+float *Minimizer_run_next();
+
+void Minimizer_run_all(double wpot, double watr, double wrep, double wang, double wcrs);
+
+int Minimizer_load_files();
+
+int Minimizer_unload_files();
+
 #endif
