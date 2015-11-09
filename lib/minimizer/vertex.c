@@ -117,6 +117,7 @@ void Vertex_move(const VertexPointer v, const Vector ds)
 
 void Vertex_free(VertexPointer v)
 {
+    free(v->label);
     free(v);
 }
 

@@ -43,6 +43,14 @@ static void check2(double *a)
     *a = x;
 }
 
+static void check3(double *a, double *b, double *c, double *d)
+{
+    *a = Util_is_zero(*a) ? EPS : *a;
+    *b = Util_is_zero(*b) ? EPS : *b;
+    *c = Util_is_zero(*c) ? EPS : *c;
+    if (d) *d = Util_is_zero(*d) ? EPS : *d;
+}
+
 double AngularGradient_dfx0(Vector v0, Vector v1, Vector v2, double w, int mass) {
     double x0, y0, x1, y1, x2, y2;
     x0 = v0.x; 
@@ -74,9 +82,10 @@ double AngularGradient_dfx0(Vector v0, Vector v1, Vector v2, double w, int mass)
     double d00 = c00 * c01;
     double d01 = c02 * c01;
     double d03 = c05 * c06;
-    assert(!Util_is_zero(d00));
-    assert(!Util_is_zero(d01));
-    assert(!Util_is_zero(d03));
+    check3(&d00, &d01, &d03, 0);
+    /*assert(!Util_is_zero(d00));*/
+    /*assert(!Util_is_zero(d01));*/
+    /*assert(!Util_is_zero(d03));*/
 
     double e00 = a00 / d00;
     double e01 = c07 / d01;
@@ -127,9 +136,10 @@ double AngularGradient_dfy0(Vector v0, Vector v1, Vector v2, double w, int mass)
     double d00 = c00 * c01;
     double d01 = c02 * c01;
     double d03 = c05 * c06;
-    assert(!Util_is_zero(d00));
-    assert(!Util_is_zero(d01));
-    assert(!Util_is_zero(d03));
+    check3(&d00, &d01, &d03, 0);
+    /*assert(!Util_is_zero(d00));*/
+    /*assert(!Util_is_zero(d01));*/
+    /*assert(!Util_is_zero(d03));*/
 
     double e02 = b05 / d00;
     double e03 = c03 / d03;
@@ -184,10 +194,11 @@ double AngularGradient_dfx1(Vector v0, Vector v1, Vector v2, double w, int mass)
     double d01 = c02 * c01;
     double d03 = c05 * c06;
     double d04 = c00 * c04;
-    assert(!Util_is_zero(d00));
-    assert(!Util_is_zero(d01));
-    assert(!Util_is_zero(d03));
-    assert(!Util_is_zero(d04));
+    check3(&d00, &d01, &d03, &d04);
+    /*assert(!Util_is_zero(d00));*/
+    /*assert(!Util_is_zero(d01));*/
+    /*assert(!Util_is_zero(d03));*/
+    /*assert(!Util_is_zero(d04));*/
 
     double e01 = c07 / d01;
     double e02 = b05 / d00;
@@ -242,10 +253,11 @@ double AngularGradient_dfy1(Vector v0, Vector v1, Vector v2, double w, int mass)
     double d01 = c02 * c01;
     double d03 = c05 * c06;
     double d04 = c00 * c04;
-    assert(!Util_is_zero(d00));
-    assert(!Util_is_zero(d01));
-    assert(!Util_is_zero(d03));
-    assert(!Util_is_zero(d04));
+    check3(&d00, &d01, &d03, &d04);
+    /*assert(!Util_is_zero(d00));*/
+    /*assert(!Util_is_zero(d01));*/
+    /*assert(!Util_is_zero(d03));*/
+    /*assert(!Util_is_zero(d04));*/
 
     double e02 = b05 / d00;
     double e03 = c03 / d03;
@@ -297,9 +309,10 @@ double AngularGradient_dfx2(Vector v0, Vector v1, Vector v2, double w, int mass)
     double d00 = c00 * c01;
     double d03 = c05 * c06;
     double d04 = c00 * c04;
-    assert(!Util_is_zero(d00));
-    assert(!Util_is_zero(d03));
-    assert(!Util_is_zero(d04));
+    check3(&d00, &d03, &d04, 0);
+    /*assert(!Util_is_zero(d00));*/
+    /*assert(!Util_is_zero(d03));*/
+    /*assert(!Util_is_zero(d04));*/
 
     double e02 = b05 / d00;
     double e03 = c03 / d03;
@@ -349,9 +362,10 @@ double AngularGradient_dfy2(Vector v0, Vector v1, Vector v2, double w, int mass)
     double d00 = c00 * c01;
     double d03 = c05 * c06;
     double d04 = c00 * c04;
-    assert(!Util_is_zero(d00));
-    assert(!Util_is_zero(d03));
-    assert(!Util_is_zero(d04));
+    check3(&d00, &d03, &d04, 0);
+    /*assert(!Util_is_zero(d00));*/
+    /*assert(!Util_is_zero(d03));*/
+    /*assert(!Util_is_zero(d04));*/
 
     double e02 = b05 / d00;
     double e03 = c03 / d03;

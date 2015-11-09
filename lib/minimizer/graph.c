@@ -2,13 +2,13 @@
 
 * File Name: graph.c
 
-* Author: Ludvig Sundström
+ * Author: Ludvig Sundström
 
-* Description: 
+ * Description: 
 
-* Creation Date: 07-07-2015
+ * Creation Date: 07-07-2015
 
-*****************************************************************************/
+ *****************************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +30,7 @@ GraphPointer create(VertexSet vs, BondSet bs)
 
     GraphPointer rtn; 
     rtn = (GraphPointer) calloc(1, sizeof(Graph));
-    
+
     rtn->grid = Grid_create(); 
     rtn->con = NULL; rtn->crs = NULL;
     rtn->energy = 0;
@@ -40,7 +40,7 @@ GraphPointer create(VertexSet vs, BondSet bs)
     rtn->center = Vertex_initialize(-1, Vector_zero(), "center", 'c', 1);
 
     Graph_detect_connected(rtn);
-    
+
     assert(rtn); 
     return rtn;
 }
@@ -52,12 +52,12 @@ GraphPointer create(VertexSet vs, BondSet bs)
 static void assign_vertex_to_zone(
         const GridPointer grid, 
         const VertexPointer v
-    )
+        )
 {
     assert(grid && v);
     assert(grid->nz > 0 && grid->is_populated);
     assert(grid->zps && grid->pzps);
-    
+
     Grid_append_vertex(grid, v);
 }
 
@@ -73,7 +73,7 @@ static void link_bondcross(
         const GraphPointer graph, 
         const BondPair bpr, 
         const Vector cross
-    )
+        )
 {
     BondOverlapPointer bcrs;
     bcrs = BondOverlap_create(bpr, cross);
@@ -87,13 +87,13 @@ GraphPointer Graph_create(const char *fname)
 {
     Pair pr;
     pr = process_json(fname);
-    
+
     VertexSetPointer vs;
     vs = (VertexSetPointer) pr.fst; 
 
     BondSetPointer bs;
     bs = (BondSetPointer) pr.snd; 
-    
+
     assert(pr.fst && pr.snd);
 
     GraphPointer rtn;
@@ -184,7 +184,8 @@ void Graph_detect_connected(const GraphPointer graph)
 
 double Graph_angular_resolution(const GraphPointer graph)
 {
-    int i;
+    int i, nconn;
+    nconn = 0;
     double rtn = 0;
     for (i = 0; i < graph->bs.n - 1; i++) {
         int j;
@@ -196,6 +197,7 @@ double Graph_angular_resolution(const GraphPointer graph)
             int common;
             common = BondPair_has_common_vertex(BondPair_initialize(pr));
             if (common) {
+                nconn++;
                 BondConnectionPointer bconn;
                 bconn = BondConnection_create(pr);
                 VertexPointer vi, vj, vk;
@@ -219,7 +221,9 @@ double Graph_angular_resolution(const GraphPointer graph)
 
 void Graph_free(const GraphPointer graph)
 {
-    if (graph->con) BondConnections_free(graph->con);
+    if (graph->con) {
+        BondConnections_free(graph->con);
+    }
     if (graph->crs) BondOverlap_free(graph->crs);
     VertexSet_free(graph->vs);
     BondSet_free(graph->bs);

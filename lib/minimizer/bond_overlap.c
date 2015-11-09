@@ -18,6 +18,8 @@
 #include "constants.h"
 #include "cross_gradient.h"
 
+double g_wcrs;
+
 /* Private *******************************************************************/
 
 #ifndef TEST
@@ -26,7 +28,7 @@
 
 static double weight()
 {
-    return WCRS;
+    return g_wcrs;
 }
 
 /* The combination of three parabolas takes the two dimensional shape of a

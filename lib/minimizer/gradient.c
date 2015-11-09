@@ -20,6 +20,8 @@
 #include "constants.h"
 #include "vertex_set.h"
 
+double g_wpot;
+
 /* Private ******************************************************************/
 
 static void apply_repulsion(const VertexPointer vi, const VertexPointer vj) 
@@ -44,7 +46,7 @@ static void first_order_gradient(const GraphPointer graph)
 
         Bond b;
         b = Bond_initialize(v, &graph->center, 0.0); 
-        b.stiffness = WPOT;
+        b.stiffness = g_wpot * sqrt(v->mass);
 
         v->gradient = Vector_add(v->gradient, Bond_attraction_gradient(&b));
     }

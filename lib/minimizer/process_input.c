@@ -258,6 +258,7 @@ Pair process_json(const char *filename)
     if (value == NULL) {
         free(file_contents);
         json_value_free(value);
+        printf("Error in file: %s\n", filename);
         Util_runtime_error("process_json(): Unable to parse data");
     }
     if (value->u.object.length != 2) {

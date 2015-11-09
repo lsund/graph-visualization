@@ -2,8 +2,8 @@
 defmodule ConvertCsv do
 
   @min_dist 0.01
-  @distance_delimiter 0.4
-  
+  @distance_delimiter 0.1
+
   def run(source, dest) do
     {:ok, table} = File.read!(source) |> ExCsv.parse
     nv = length(hd(table.body))
@@ -13,6 +13,15 @@ defmodule ConvertCsv do
     IO.puts("Vertices: " <> Integer.to_string(nv) <> ", Bonds: " <> Integer.to_string(length(bs)));
   end
 
+  def run_dir(source, dest) do
+    {status, list} = File.ls(source)
+    list |> Enum.map(
+      fn fname ->
+        [name | suffix] = String.split(fname, ".")
+        run(source <> fname, dest <> name <> ".json") 
+      end)
+  end
+  
   def writejson(path, vertices, bonds) do
     {:ok, file} = File.open(path, [:write])
     nv = length(vertices)

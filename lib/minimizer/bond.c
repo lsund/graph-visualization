@@ -18,6 +18,8 @@
 #include "constants.h"
 #include "bond.h"
 
+double g_watr;
+
 Bond Bond_initialize(
         const VertexPointer fst, 
         const VertexPointer snd, 
@@ -30,7 +32,7 @@ Bond Bond_initialize(
     rtn.fst = fst;
     rtn.snd = snd;  
     rtn.dist0 = dist0;
-    rtn.stiffness = WATR;
+    rtn.stiffness = g_watr;
 
     return rtn;
 }
@@ -39,7 +41,7 @@ BondPointer Bond_create(
         const VertexPointer fst, 
         const VertexPointer snd, 
         const double dist0
-    )
+        )
 {
 
     BondPointer rtn = malloc(sizeof(Bond));
@@ -56,7 +58,11 @@ static double Bond_attraction_weight(const BondPointer bp)
 double Bond_attraction_energy(const BondPointer bp)
 {
     double d0, d;
-    d0 = bp->dist0 * SPRING_LENGTH;
+    if (CUSTOM_LENGTHS) {
+        d0 = bp->dist0 * SPRING_LENGTH;
+    } else {
+        d0 = SPRING_LENGTH;
+    }
     d = Vector_norm(Vector_sub(bp->snd->pos, bp->fst->pos)); 
         
     double w;
@@ -67,7 +73,11 @@ double Bond_attraction_energy(const BondPointer bp)
 Vector Bond_attraction_gradient(const BondPointer bp)
 {
     double d0;
-    d0 = bp->dist0 * SPRING_LENGTH;
+    if (CUSTOM_LENGTHS) {
+        d0 = bp->dist0 * SPRING_LENGTH;
+    } else {
+        d0 = SPRING_LENGTH;
+    }
 
     Vector vecb;
     vecb = Vector_sub(bp->snd->pos, bp->fst->pos);

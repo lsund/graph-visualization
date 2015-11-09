@@ -13,6 +13,7 @@
 
 #include <unistd.h>
 #include <string.h>
+#include <dirent.h>
 
 #include "emscripten.h"
 #include "util.h"
@@ -24,13 +25,29 @@
 #include "local_minimizer.h"
 #include "global_minimizer.h"
 #include "js_interact.h"
+#include "minimizer.h"
 
 #ifndef EMSCRIPT
 #define EMSCRIPT 0
 #endif
 
+int nfiles;
+int g_findex;
+char **fnames;
+
+int tot_overlaps;
+double tot_energy;
+double tot_angres;
+
 float *Minimizer_run(const char *fname) 
 {
+    if (EMSCRIPT) {
+        g_wpot = 0.00011;
+        g_wrep = 0.8;
+        g_watr = 0.8;
+        g_wang = 0.0;
+        g_wcrs = 0.4;
+    }
     assert(fname);
     float *rtn;
     rtn = 0;
@@ -38,8 +55,17 @@ float *Minimizer_run(const char *fname)
 
         GraphPointer graph;
         graph = Graph_create(fname);
+        if (PRINT_STATISTICS) {
+            printf("-----------------------\n");
+            printf("Filename: %s\n", fname);
+            printf("Vertices: %d, Bonds: %d\n", graph->vs.n, graph->bs.n);
+        }
+        if (graph->bs.n > 100) {
+            fprintf(stderr, "Number of bonds too damn high!\n");
+            Graph_free(graph);
+            return 0;
+        }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
-        js_interact(graph);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
         
         if (EMSCRIPT) {
@@ -48,22 +74,92 @@ float *Minimizer_run(const char *fname)
             rtn = VertexSet_to_array(graph->vs); 
         }
         if (PRINT_STATISTICS) {
+            printf("energy: %f\n", graph->energy);
             printf("Overlaps: %d\n", graph->ncrosses);
-            printf("Angular resolution %f\n", Graph_angular_resolution(graph));
-            printf("-----------------------\n");
+            float angres = Graph_angular_resolution(graph);
+            printf("Angular resolution %f\n", angres);
+            tot_overlaps += graph->ncrosses;
+            tot_angres += angres;
+            tot_energy += graph->energy;
+            
         }
 
         Graph_free(graph);
         graph = 0;
     } else {
         assert((sizeof(fname) / sizeof(char)) <= MAX_FILENAME_LENGTH);
-
-        char emsg[128];
-        strcpy(emsg, "Minimizer_run: Can't read file: ");
-        strcat(emsg, fname);
-        Util_runtime_error(emsg);
+        
+        printf("Error! in file: %s\n", fname);
+        Util_runtime_error("Can't read file");
     }
 
     return rtn;
+}
+
+int get_files(char **fnames) {
+    char sourcepath[64];
+    strcpy(sourcepath, "data/json");
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(sourcepath)) != NULL) {
+        int i = 0;
+        while ((ent = readdir(dir)) != NULL) {
+            if ((strcmp(ent->d_name, ".") != 0) &&
+                    (strcmp(ent->d_name, "..") != 0)) 
+            {
+                sprintf(fnames[i], "%s/%s", sourcepath, ent->d_name);
+                i++;
+            }
+        }
+        closedir(dir);
+        return i;
+    } else {
+        perror("Error");
+        return -1;
+    }
+}
+
+int Minimizer_load_files()
+{
+    fnames = Util_allocate(MAX_FILES, sizeof(void *));
+    int i;
+    for (i = 0; i < MAX_FILES; i++) {
+        fnames[i] = Util_allocate(MAX_FILENAME_LENGTH, sizeof(char));
+    }
+    nfiles = get_files(fnames);
+    printf("Files loaded\n");
+    return 0;
+}
+
+int Minimizer_unload_files() {
+    int i;
+    for (i = 0; i < MAX_FILES; i++) {
+        free(fnames[i]);
+    }
+    free(fnames);
+    return 0;
+}
+
+float *Minimizer_run_next()
+{
+    g_findex++;
+    return Minimizer_run(fnames[g_findex]);
+}
+
+void Minimizer_run_all(double wpot, double wrep, double watr, double wang, double wcrs)
+{
+    g_wpot = wpot;
+    g_wrep = wrep;
+    g_watr = watr;
+    g_wang = wang;
+    g_wcrs = wcrs;
+    int i;
+    for (i = 0; i < nfiles; i++) {
+        Minimizer_run_next();
+    }
+    printf("%d files processed\n", i);
+    printf("Total overlaps: %d\n", tot_overlaps);
+    printf("Tot angular res: %f\n", tot_angres);
+    printf("Tot energy: %f\n", tot_energy);
 }
 
