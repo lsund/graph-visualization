@@ -10,6 +10,7 @@ defmodule ConvertCsv do
     vs = mk_vertices(nv)
     bs = mk_bonds(table, nv)
     writejson(dest, vs, bs)
+    IO.puts("Vertices: " <> Integer.to_string(nv) <> ", Bonds: " <> Integer.to_string(length(bs)));
   end
 
   def writejson(path, vertices, bonds) do
@@ -70,7 +71,7 @@ defmodule ConvertCsv do
             Enum.filter(row, fn(%{fst: _, len: x, snd: _}) -> 
               x < @distance_delimiter 
             end) 
-          end) 
+          end)
   end
 
   def distancematrix_to_bonds([], _, _), do: []
@@ -82,7 +83,7 @@ defmodule ConvertCsv do
   def row_to_bonds([], _, _, _), do: []
   def row_to_bonds([x | xs], pairs, n, i) do
     if x < @min_dist do x = @min_dist end
-    cond do 
+    cond do
       Enum.member?(pairs, {n, i}) ->
         [%{fst: n, snd: i, len: x} | row_to_bonds(xs, pairs, n, i + 1)] 
       true ->
