@@ -53,13 +53,12 @@ static void parse_vertex_data(
             } else {
                 Util_runtime_error("Bad JSON data: position: x");
             }
-            if (j_y->type == json_integer && Util_in_range(0, 1, (double) j_y->u.dbl)) {
-                fixed_x = (double) j_y->u.integer;
-            } else if (j_x->type == json_double) {
-                fixed_x = (double) j_y->u.dbl;
+            if (j_y->type == json_double && Util_in_range(0, 1, (double) j_y->u.dbl)) {
+                fixed_y = (double) j_y->u.dbl;
             } else {
                 Util_runtime_error("Bad JSON data: position: y");
             }
+            printf(" pos: %f %f\n", fixed_x, fixed_y);
             pos = Vector_initialize(fixed_x, fixed_y);
         } 
         else {
@@ -174,6 +173,8 @@ static void populate_bondset(BondSet bs, VertexSet vs, json_value *contents, int
         parse_bond_data(vs, bond_value, &fst, &snd, &len); 
         BondPointer bp;
         bp = Bond_create(fst, snd, len);
+        fst->mass++;
+        snd->mass++;
         *(bs.set + i) = bp;
     }
         

@@ -32,24 +32,23 @@
 #endif
 
 int nfiles;
-int g_findex;
+int g_findex = -1;
 char **fnames;
 
 int tot_overlaps;
 double tot_energy;
 double tot_angres;
 
-float *Minimizer_run(const char *fname) 
+double g_wpot = 0.004;
+double g_wrep = 0.8;
+double g_watr = 0.5;
+double g_wang = 0.00000;
+double g_wcrs = 0.040;
+
+float Minimizer_run(const char *fname) 
 {
-    if (EMSCRIPT) {
-        g_wpot = 0.00011;
-        g_wrep = 0.8;
-        g_watr = 0.8;
-        g_wang = 0.0;
-        g_wcrs = 0.4;
-    }
     assert(fname);
-    float *rtn;
+    float rtn;
     rtn = 0;
     if (access(fname, R_OK) != -1) {
 
@@ -65,13 +64,17 @@ float *Minimizer_run(const char *fname)
             Graph_free(graph);
             return 0;
         }
-        LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
-        GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
+        if (EMSCRIPT) {
+            js_interact(graph);
+        }
+        if (MINIMIZE) {
+            LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
+            if (PRINT_STATISTICS) printf("One minimization energy: %f\n", graph->energy);
+            rtn = GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
+        }
         
         if (EMSCRIPT) {
             js_interact(graph);
-        } else {
-            rtn = VertexSet_to_array(graph->vs); 
         }
         if (PRINT_STATISTICS) {
             printf("energy: %f\n", graph->energy);
@@ -81,9 +84,7 @@ float *Minimizer_run(const char *fname)
             tot_overlaps += graph->ncrosses;
             tot_angres += angres;
             tot_energy += graph->energy;
-            
         }
-
         Graph_free(graph);
         graph = 0;
     } else {
@@ -92,7 +93,6 @@ float *Minimizer_run(const char *fname)
         printf("Error! in file: %s\n", fname);
         Util_runtime_error("Can't read file");
     }
-
     return rtn;
 }
 
@@ -140,7 +140,7 @@ int Minimizer_unload_files() {
     return 0;
 }
 
-float *Minimizer_run_next()
+float Minimizer_run_next()
 {
     g_findex++;
     return Minimizer_run(fnames[g_findex]);
@@ -154,10 +154,15 @@ void Minimizer_run_all(double wpot, double wrep, double watr, double wang, doubl
     g_wang = wang;
     g_wcrs = wcrs;
     int i;
+    float tot_energy_improvement = 0;
     for (i = 0; i < nfiles; i++) {
-        Minimizer_run_next();
+        float energy_improvement = Minimizer_run_next();
+        tot_energy_improvement += energy_improvement;
+        printf("%f\n", energy_improvement);
     }
     printf("%d files processed\n", i);
+    printf("Total improvement%f\n", tot_energy_improvement);
+    printf("Average improvement%f\n", tot_energy_improvement / nfiles);
     printf("Total overlaps: %d\n", tot_overlaps);
     printf("Tot angular res: %f\n", tot_angres);
     printf("Tot energy: %f\n", tot_energy);

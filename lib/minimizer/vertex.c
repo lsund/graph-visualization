@@ -108,11 +108,11 @@ void Vertex_set_position(const VertexPointer v, const Vector pos)
 
 void Vertex_move(const VertexPointer v, const Vector ds) 
 {
-    if (!v->fixed) {
+    /*if (!v->fixed) {*/
         Vector new_pos;
         new_pos = Vector_add(v->pos0, ds);
         Vertex_set_position(v, new_pos);
-    }
+    /*}*/
 }
 
 void Vertex_free(VertexPointer v)

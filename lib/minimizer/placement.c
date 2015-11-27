@@ -79,7 +79,10 @@ void Placement_set_spiral(VertexSet vs)
             double placex, placey;
             placex = (double) x * gapx;
             placey = (double) y * gapy;
-            Vertex_set_position(*(vs.set + i), Vector_initialize(placex, placey));
+            VertexPointer v = *(vs.set + i);
+            if (!v->fixed) {
+                Vertex_set_position(v, Vector_initialize(placex, placey));\
+            }
         }
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
             t = dx;

@@ -21,13 +21,16 @@ extern double tot_angres;
 // Animation interval 
 #define INTERVAL 500
 
+// Do minimization
+#define MINIMIZE 1
+
 // Max iterations of local minimizer
 #define L_ITMAX 200
 // Max iterations of global minimizer
-#define G_ITMAX 0
+#define G_ITMAX 10
 
 // 'Acceptance' temperature of global minimizer
-#define TEMPERATURE 0.0
+#define TEMPERATURE 0.00
 
 // Maximum number of allowed vertices
 #define MAX_NV 105
@@ -55,7 +58,7 @@ extern double tot_angres;
 // Padding between nodes. 
 #define PADDING 0.1
 // Optimal bond-length 
-#define SPRING_LENGTH 0.01
+#define SPRING_LENGTH 0.02
 
 // Data defined data labels 
 #define MAX_LABEL_LENGTH 8 + 1 
@@ -92,7 +95,7 @@ extern double tot_angres;
 #define VERTEX_BASE_HEIGHT  0.001
 
 // Vertex mass
-#define DEFAULT_MASS 0
+#define DEFAULT_MASS 1
 
 //#else 
 

@@ -97,7 +97,7 @@ Vector generate_move()
     
     assert(x < 1 && x >= -1 && y < 1 && y >= -1); 
 
-    double a = 2 * PADDING;
+    double a = 1.5 * PADDING;
     
     Vector rtn;
     rtn = Vector_scalar_mult(Vector_initialize(x, y), a);
@@ -113,15 +113,18 @@ static void mutate(const GraphPointer graph)
     VertexSet vs;
     vs = graph->vs; 
 
+    int den;
+    den = (((double) rand()) / RAND_MAX)  * 10;
+
     int n;
-    n = vs.n / 7; 
+    n = vs.n / 5; 
 
     VertexSet subset;
     subset = pick_subset(vs, n);
-    Vector move = generate_move();
      
     int i; 
     for (i = 0; i < n; i++) {
+        Vector move = generate_move();
         Vector new_pos;
         VertexPointer v;
         v = VertexSet_get_vertex(vs, i);
@@ -132,7 +135,7 @@ static void mutate(const GraphPointer graph)
 
 /* Public ******************************************************************/
 
-void GlobalMinimizer_run(
+float GlobalMinimizer_run(
         const GraphPointer graph,
         void (*e_fun)(GraphPointer),
         void (*g_fun)(GraphPointer)
@@ -165,24 +168,26 @@ void GlobalMinimizer_run(
         energy_ratio = new_e / old_e;
 
         assert(!(energy_ratio != energy_ratio));
-        double temperature, r, c;
-        temperature = Util_is_zero(TEMPERATURE) ? MIN_DIST : TEMPERATURE;
-        r = (((double) rand()) / RAND_MAX);
-        c = exp(-(new_e - old_e) / temperature);
-        if (new_e > old_e && r > c) {
-            int j;
-            for (j = 0; j < vs.n; j++) {
-                VertexPointer v;
-                v = VertexSet_get_vertex(vs, j);
-                Vertex_set_position(v, *(ps_0 + j));
+
+        if (new_e > old_e) {
+            double temperature, r, c;
+            temperature = Util_is_zero(TEMPERATURE) ? MIN_DIST : TEMPERATURE;
+            r = (((double) rand()) / RAND_MAX);
+            c = exp(-(new_e - old_e) / temperature);
+            if (Util_is_zero(TEMPERATURE) || r > c) {
+                int j;
+                for (j = 0; j < vs.n; j++) {
+                    VertexPointer v;
+                    v = VertexSet_get_vertex(vs, j);
+                    Vertex_set_position(v, *(ps_0 + j));
+                }
             }
+            e_fun(graph);
         }
         free(ps_0);
     }
     double e1 = graph->energy;
     double rat = e1 / e0;
-    if (PRINT_STATISTICS) {
-        printf("%f%% energy improvement\n", (1 - rat) * 100);
-    }
+    return (1 - rat) * 100;
 }
 

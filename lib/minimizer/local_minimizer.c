@@ -53,10 +53,10 @@ void LocalMinimizer_run(
     
     int i; 
     for (i = 0; i < L_ITMAX; i++) {
-        
+
         if (STEP) {
             js_interact(graph);
-            /*emscripten_sleep(INTERVAL);*/
+            emscripten_sleep(INTERVAL);
         }
         
         double fret = 0.0;
@@ -85,6 +85,6 @@ void LocalMinimizer_run(
                     /*graph->ncrosses,*/
                     /*(double) graph->ncrosses / (double) graph->bs.n);*/
     }
-    if (PRINT_STATISTICS) printf("Iterations LM: %d\n", i);
+    /*if (PRINT_STATISTICS) printf("Iterations LM: %d\n", i);*/
 }
 

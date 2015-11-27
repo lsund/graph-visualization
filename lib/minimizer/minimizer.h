@@ -10,9 +10,9 @@
 // If the constant EMSCRIPT is set to 1, this procedure will attempt to call
 // the javascript function window.processCdata() using emscripten and return
 // NULL
-float *Minimizer_run(const char *fname);
+float Minimizer_run(const char *fname);
 
-float *Minimizer_run_next();
+float Minimizer_run_next();
 
 void Minimizer_run_all(double wpot, double watr, double wrep, double wang, double wcrs);
 
