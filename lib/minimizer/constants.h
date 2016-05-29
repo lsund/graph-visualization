@@ -17,7 +17,7 @@ extern double tot_angres;
 #define PRINT_STATISTICS 1
 
 // use Data defined bond lengths
-#define CUSTOM_LENGTHS 1
+#define CUSTOM_LENGTHS 0
 
 // Toggle animation
 #define STEP 0

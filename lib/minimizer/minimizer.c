@@ -25,8 +25,6 @@
 #include "local_minimizer.h"
 #include "global_minimizer.h"
 #include "js_interact.h"
-#include "minimizer.h"
-#include "vertex_set.h"
 
 #ifndef EMSCRIPT
 #define EMSCRIPT 0
@@ -67,14 +65,14 @@ float *Minimizer_run(const char *fname)
             return 0;
         }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
-        /*GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);*/
+        GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
         if (EMSCRIPT) {
             printf("emscript;;\n");
-            VertexSet_print(graph->vs);
+            /*VertexSet_print(graph->vs);*/
             js_interact(graph);
         } else {
             printf("normal;;\n");
-            VertexSet_print(graph->vs);
+            /*VertexSet_print(graph->vs);*/
             rtn = VertexSet_to_array(graph->vs); 
         }
         Graph_free(graph);
@@ -87,76 +85,4 @@ float *Minimizer_run(const char *fname)
     }
     return rtn;
 }
-
-/*int get_files(char **fnames) {*/
-    /*char sourcepath[64];*/
-    /*strcpy(sourcepath, "data/json");*/
-    /*DIR *dir;*/
-    /*struct dirent *ent;*/
-    /*if ((dir = opendir(sourcepath)) != NULL) {*/
-        /*int i = 0;*/
-        /*while ((ent = readdir(dir)) != NULL) {*/
-            /*if ((strcmp(ent->d_name, ".") != 0) &&*/
-                    /*(strcmp(ent->d_name, "..") != 0)) */
-            /*{*/
-                /*sprintf(fnames[i], "%s/%s", sourcepath, ent->d_name);*/
-                /*i++;*/
-            /*}*/
-        /*}*/
-        /*closedir(dir);*/
-        /*return i;*/
-    /*} else {*/
-        /*perror("Error");*/
-        /*return -1;*/
-    /*}*/
-/*}*/
-
-/*int Minimizer_load_files()*/
-/*{*/
-    /*fnames = Util_allocate(MAX_FILES, sizeof(void *));*/
-    /*int i;*/
-    /*for (i = 0; i < MAX_FILES; i++) {*/
-        /*fnames[i] = Util_allocate(MAX_FILENAME_LENGTH, sizeof(char));*/
-    /*}*/
-    /*nfiles = get_files(fnames);*/
-    /*printf("Files loaded\n");*/
-    /*return 0;*/
-/*}*/
-
-/*int Minimizer_unload_files() {*/
-    /*int i;*/
-    /*for (i = 0; i < MAX_FILES; i++) {*/
-        /*free(fnames[i]);*/
-    /*}*/
-    /*free(fnames);*/
-    /*return 0;*/
-/*}*/
-
-/*float Minimizer_run_next()*/
-/*{*/
-    /*g_findex++;*/
-    /*return Minimizer_run(fnames[g_findex]);*/
-/*}*/
-
-/*void Minimizer_run_all(double wpot, double wrep, double watr, double wang, double wcrs)*/
-/*{*/
-    /*g_wpot = wpot;*/
-    /*g_wrep = wrep;*/
-    /*g_watr = watr;*/
-    /*g_wang = wang;*/
-    /*g_wcrs = wcrs;*/
-    /*int i;*/
-    /*float tot_energy_improvement = 0;*/
-    /*for (i = 0; i < nfiles; i++) {*/
-        /*float energy_improvement = Minimizer_run_next();*/
-        /*tot_energy_improvement += energy_improvement;*/
-        /*printf("%f\n", energy_improvement);*/
-    /*}*/
-    /*printf("%d files processed\n", i);*/
-    /*printf("Total improvement%f\n", tot_energy_improvement);*/
-    /*printf("Average improvement%f\n", tot_energy_improvement / nfiles);*/
-    /*printf("Total overlaps: %d\n", tot_overlaps);*/
-    /*printf("Tot angular res: %f\n", tot_angres);*/
-    /*printf("Tot energy: %f\n", tot_energy);*/
-/*}*/
 

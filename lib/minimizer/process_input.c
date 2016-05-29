@@ -58,9 +58,7 @@ static void parse_vertex_data(
             } else {
                 Util_runtime_error("Bad JSON data: position: y");
             }
-            printf("%d (%f,%f)\n", id, fixed_x, fixed_y);
             pos = Vector_initialize(fixed_x, fixed_y);
-            /*printf("%s\n", Vector_string(pos));*/
         } 
         else {
             pos = zv;

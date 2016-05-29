@@ -79,7 +79,6 @@ void Placement_set_spiral(VertexSet vs, VertexPointer center)
     for (i = 0; i < vs.n; i++) {
         VertexPointer v = *(vs.set + i);
         if (v->fixed) {
-            Vertex_print(v);
             Vector doff = Vector_initialize(v->pos.x, v->pos.y);
             offset = Vector_add(offset, doff);
             nfixed++;

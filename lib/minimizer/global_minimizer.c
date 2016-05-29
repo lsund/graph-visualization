@@ -113,15 +113,9 @@ static void mutate(const GraphPointer graph)
     VertexSet vs;
     vs = graph->vs; 
 
-    int den;
-    den = (((double) rand()) / RAND_MAX)  * 10;
-
     int n;
     n = vs.n / 5; 
 
-    VertexSet subset;
-    subset = pick_subset(vs, n);
-     
     int i; 
     for (i = 0; i < n; i++) {
         Vector move = generate_move();
@@ -142,7 +136,6 @@ float GlobalMinimizer_run(
     )
 {
     assert(graph);
-    double e0 = graph->energy; 
     srand(time(NULL));
     int i; 
 
@@ -186,5 +179,6 @@ float GlobalMinimizer_run(
         }
         free(ps_0);
     }
+    return 0.0;
 }
 

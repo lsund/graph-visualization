@@ -38,9 +38,6 @@ void LocalMinimizer_run(
     assert(graph->grid && graph->vs.set && graph->bs.set);
     assert(ftol > 0 && ftol < 0.1);
 
-    int nv;
-    nv = graph->vs.n;
-
     g_fun(graph);
 
     VertexSet_create_sequences(graph->vs, 1, INITIALIZE);
@@ -79,12 +76,6 @@ void LocalMinimizer_run(
         double gam;
         gam = dgg / gg;
         VertexSet_create_sequences(graph->vs, gam, UPDATE);
-        /*if (PRINT_STATISTICS) */
-            /*printf("Bonds: %d Ovelaps: %d Ratio: %f\n", */
-                    /*graph->bs.n, */
-                    /*graph->ncrosses,*/
-                    /*(double) graph->ncrosses / (double) graph->bs.n);*/
     }
-    /*if (PRINT_STATISTICS) printf("Iterations LM: %d\n", i);*/
 }
 

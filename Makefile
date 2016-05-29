@@ -39,7 +39,7 @@ smallemscript: $(SRCS)
 	--preload-file test.csv
 
 develop: $(SRCS)
-	gcc $(CFLAGS) $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
+	gcc $(CFLAGS) $(SRCS) lib/main_sample.c -o bin/minimize -lm
 
 production: $(SRCS)
 	gcc $(CFLAGS) -DNDEBUG $(TEST_SRCS) $(SRCS) -o bin/minimize -lm

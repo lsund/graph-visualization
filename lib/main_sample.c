@@ -10,15 +10,20 @@
 
 *****************************************************************************/
 
+#include <stdio.h>
+
 #include "minimizer/minimizer.h"
+#include "minimizer/util.h"
 
 int main(int argc, char *argv[]) 
 {
-    if (argc == 2) {
-        // Just for demonstration
-        const char *fname = argv[1];
-        Minimizer_run(fname);
-        return 0;
+    int nvertices = 22;
+    const char *fname = "data/eugene.json";
+    float *ret = Util_allocate(nvertices * 2, sizeof(float));
+    ret = Minimizer_run(fname);
+    int i;
+    for (i = 0; i < nvertices * 2; i += 2) {
+        printf("Vertex %d, (%f, %f)\n", i / 2, ret[i], ret[i + 1]);
     }
-    return 1;
+    return 0;
 }
