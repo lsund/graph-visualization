@@ -80,6 +80,7 @@ GridPointer Grid_create()
 
 ZonePointer Grid_get_zone(const GridPointer grid, const int x, const int y)
 {
+
     assert(x < GRID_DIM_X && x >= 0);
     assert(y < GRID_DIM_Y && y >= 0);
 

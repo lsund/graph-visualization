@@ -95,9 +95,10 @@ void Placement_set_spiral(VertexSet vs, VertexPointer center)
             double placex, placey;
             placex = (double) x * gapx;
             placey = (double) y * gapy;
-            if (!(*vs.set + i)->fixed) {
+            VertexPointer v = *(vs.set + i);
+            if (!v->fixed) {
                 Vector initpos = Vector_initialize(placex + offset.x, placey + offset.y);
-                Vertex_set_position(*(vs.set + i), initpos);
+                Vertex_set_position(v, initpos);
             }
         }
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
@@ -149,3 +150,4 @@ void Placement_set_grid(VertexSet vs)
         cols++;
     }
 }
+

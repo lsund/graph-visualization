@@ -9,13 +9,9 @@ DATA_DIR=data/json
 
 SRCS := $(shell find $(SRC_DIR)/* -maxdepth 0 -name '*.c')
 TEST_SRCS := $(shell find $(TEST_SRC_DIR)/* -maxdepth 0 -name '*.c')
-<<<<<<< HEAD
 DATAS := $(shell find $(DATA_DIR)/* -maxdepth 0 -name '*.json') data/planar.json \
-	data/tree.json data/3.json
-=======
-DATAS := $(shell find $(DATA_DIR)/* -maxdepth 0 -name '*.json') data/planar.json data/angular.json \
-	data/chain.json data/cube.json
->>>>>>> 9ff6ebb047b95c78b2b25659e350680c4503a489
+	data/tree.json data/3.json data/json/dmt_117_52.json \
+	data/eugene.json
 
 emscript-fromsingle: lib/metafile.c
 	emcc $(EMFLAGS) $(ASYNCFLAGS) $(CFLAGS) lib/metafile.c \
@@ -33,7 +29,7 @@ object-fromsingle: lib/metafile.c
 emscript: $(SRCS)
 	emcc $(EMFLAGS) $(ASYNCFLAGS) $(CFLAGS) $(SRCS) \
 	-o lib/c_assets.js -s \
-	EXPORTED_FUNCTIONS="['_Minimizer_run', '_Minimizer_load_files', '_Minimizer_run_next']" \
+	EXPORTED_FUNCTIONS="['_Minimizer_run']" \
 	$(foreach var,$(DATAS),--preload-file $(var))
 
 smallemscript: $(SRCS)

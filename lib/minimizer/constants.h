@@ -17,7 +17,7 @@ extern double tot_angres;
 #define PRINT_STATISTICS 1
 
 // use Data defined bond lengths
-#define CUSTOM_LENGTHS 0
+#define CUSTOM_LENGTHS 1
 
 // Toggle animation
 #define STEP 0
@@ -30,7 +30,7 @@ extern double tot_angres;
 // Max iterations of local minimizer
 #define L_ITMAX 200
 // Max iterations of global minimizer
-#define G_ITMAX 10
+#define G_ITMAX 0
 
 // 'Acceptance' temperature of global minimizer
 #define TEMPERATURE 0.00
@@ -41,22 +41,6 @@ extern double tot_angres;
 // The outputed coordinates will lie in range [0..PANEL_X[, [0..PANEL_Y[
 #define PANEL_X 1.0
 #define PANEL_Y 1.0
-
-// WEIGHTS FOR PENALTY TERMS
-// WATR 15
-// WREP 800
-// WPOT 0.01
-// WANG 0.0003
-// WCRS 32
-//
-// 0.5
-// 1.2
-// 0.0002
-// 0.0
-// 1.1
-//
-// 1.1
-// 0.10
 
 // Padding between nodes. 
 #define PADDING 0.1

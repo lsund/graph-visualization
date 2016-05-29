@@ -124,7 +124,8 @@ int main(int argc, char **argv) {
         }
         return result != 0;
     } else {
+        Minimizer_run("data/planar.json");
         /*Minimizer_run("data/3.json");*/
-        Minimizer_run("data/json/dmt_117_52.json");
+        /*Minimizer_run("data/json/dmt_117_52.json");*/
     }
 }

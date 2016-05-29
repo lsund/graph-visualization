@@ -109,8 +109,10 @@ void Vertex_move(const VertexPointer v, const Vector ds)
 {
     if (!v->fixed) {
         if (DEBUG) {
-            printf("moving vertex:\n");
-            Vertex_print(v);
+            if (v->id == 0) {
+                printf("moving vertex 0:\n");
+                Vertex_print(v);
+            }
         }
         Vector new_pos;
         new_pos = Vector_add(v->pos0, ds);

@@ -60,6 +60,7 @@ static void parse_vertex_data(
             }
             printf("%d (%f,%f)\n", id, fixed_x, fixed_y);
             pos = Vector_initialize(fixed_x, fixed_y);
+            /*printf("%s\n", Vector_string(pos));*/
         } 
         else {
             pos = zv;
