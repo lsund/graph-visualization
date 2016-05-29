@@ -33,7 +33,7 @@
 #endif
 
 int nfiles;
-int g_findex;
+int g_findex = -1;
 char **fnames;
 
 int tot_overlaps;
@@ -49,7 +49,7 @@ double g_wcrs = 0.040;
 float *Minimizer_run(const char *fname) 
 {
     assert(fname);
-    float *rtn;
+    float rtn;
     rtn = 0;
     if (access(fname, R_OK) != -1) {
 
@@ -68,7 +68,6 @@ float *Minimizer_run(const char *fname)
         }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
-
         if (EMSCRIPT) {
             printf("emscript;;\n");
             VertexSet_print(graph->vs);
@@ -86,7 +85,6 @@ float *Minimizer_run(const char *fname)
         printf("Error! in file: %s\n", fname);
         Util_runtime_error("Can't read file");
     }
-
     return rtn;
 }
 
@@ -134,7 +132,7 @@ int Minimizer_unload_files() {
     return 0;
 }
 
-float *Minimizer_run_next()
+float Minimizer_run_next()
 {
     g_findex++;
     return Minimizer_run(fnames[g_findex]);
@@ -148,10 +146,15 @@ void Minimizer_run_all(double wpot, double wrep, double watr, double wang, doubl
     g_wang = wang;
     g_wcrs = wcrs;
     int i;
+    float tot_energy_improvement = 0;
     for (i = 0; i < nfiles; i++) {
-        Minimizer_run_next();
+        float energy_improvement = Minimizer_run_next();
+        tot_energy_improvement += energy_improvement;
+        printf("%f\n", energy_improvement);
     }
     printf("%d files processed\n", i);
+    printf("Total improvement%f\n", tot_energy_improvement);
+    printf("Average improvement%f\n", tot_energy_improvement / nfiles);
     printf("Total overlaps: %d\n", tot_overlaps);
     printf("Tot angular res: %f\n", tot_angres);
     printf("Tot energy: %f\n", tot_energy);

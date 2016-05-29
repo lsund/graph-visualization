@@ -9,7 +9,7 @@ typedef enum { RANDOM, HIGH_ENERGY, LOW_CONNECTIVITY } PickingStrategy;
 
 #define DEFAULT_STRAT RANDOM
 
-void GlobalMinimizer_run(
+float GlobalMinimizer_run(
         const GraphPointer graph,
         void (*e_fun)(GraphPointer),
         void (*g_fun)(GraphPointer)

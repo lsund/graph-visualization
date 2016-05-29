@@ -26,8 +26,6 @@ Bond Bond_initialize(
         const double dist0
     )
 {
-    fst->mass++;
-    snd->mass++;
     Bond rtn;
     rtn.fst = fst;
     rtn.snd = snd;  

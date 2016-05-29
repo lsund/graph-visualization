@@ -128,4 +128,3 @@ int main(int argc, char **argv) {
         Minimizer_run("data/json/dmt_117_52.json");
     }
 }
-

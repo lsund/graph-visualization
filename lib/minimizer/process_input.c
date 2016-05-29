@@ -173,6 +173,8 @@ static void populate_bondset(BondSet bs, VertexSet vs, json_value *contents, int
         parse_bond_data(vs, bond_value, &fst, &snd, &len); 
         BondPointer bp;
         bp = Bond_create(fst, snd, len);
+        fst->mass++;
+        snd->mass++;
         *(bs.set + i) = bp;
     }
         
