@@ -28,7 +28,7 @@ struct graph
     BondOverlapPointer crs;
     Vertex center;
     double energy;
-    int ncrosses;
+    int ncrosses, ncon;
     double ang_res;
 };
 

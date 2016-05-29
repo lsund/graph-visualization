@@ -124,3 +124,10 @@ int Vector_equal(const Vector vec0, const Vector vec1)
     return Util_equal(vec0.x, vec1.x) && Util_equal(vec0.y, vec1.y);
 }
 
+char *Vector_string(Vector vec)
+{
+    char *rtn = Util_allocate_initialize(18 * 2 + 10, sizeof(char));
+    sprintf(rtn, "(x: %f, y: %f)", vec.x, vec.y);
+    return rtn;
+}
+

@@ -10,6 +10,9 @@ extern int tot_overlaps;
 extern double tot_energy;
 extern double tot_angres;
 
+// Debug flag
+#define DEBUG 0
+
 // Print information about the run to standard output
 #define PRINT_STATISTICS 1
 
@@ -79,7 +82,6 @@ extern double tot_angres;
 #define TINY 1.0e-20
 #define COMP_EPS 1.0e-4
 #define MIN_DIST 0.0001
-
 
 // Minimizer magic numbers
 #define CGOLD 0.3819660

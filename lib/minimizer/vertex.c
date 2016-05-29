@@ -59,7 +59,6 @@ VertexPointer Vertex_create(
     return rtn;
 }
 
-
 void Vertex_reset_dynamics(const VertexPointer v) 
 {
     v->next = NULL;
@@ -109,10 +108,21 @@ void Vertex_set_position(const VertexPointer v, const Vector pos)
 void Vertex_move(const VertexPointer v, const Vector ds) 
 {
     if (!v->fixed) {
+        if (DEBUG) {
+            printf("moving vertex:\n");
+            Vertex_print(v);
+        }
         Vector new_pos;
         new_pos = Vector_add(v->pos0, ds);
         Vertex_set_position(v, new_pos);
-    }
+    } 
+}
+
+void Vertex_print(VertexPointer v) 
+{
+    char *vecstr = Vector_string(v->pos);
+    printf("[id: %d, %s]\n", v->id, vecstr);
+    free(vecstr);
 }
 
 void Vertex_free(VertexPointer v)

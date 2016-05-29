@@ -67,6 +67,7 @@ static void link_bondconnection(const GraphPointer graph, const Pair pr)
     newpr = BondConnection_create(pr);
     newpr->next = graph->con;
     graph->con = newpr;
+    graph->ncon++;
 }
 
 static void link_bondcross(
@@ -102,7 +103,7 @@ GraphPointer Graph_create(const char *fname)
     free(vs);
     free(bs);
 
-    Placement_set_spiral(rtn->vs); 
+    Placement_set_spiral(rtn->vs, &rtn->center); 
     Graph_reset_dynamic_data(rtn);
     
     assert(rtn->grid && rtn->vs.set && rtn->bs.set);
@@ -165,6 +166,7 @@ void Graph_detect_overlapping_bonds(const GraphPointer graph)
 void Graph_detect_connected(const GraphPointer graph)
 {
     assert(!graph->con);
+    graph->ncon = 0;
     int i;
     for (i = 0; i < graph->bs.n - 1; i++) {
         int j;

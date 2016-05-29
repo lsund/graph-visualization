@@ -9,7 +9,8 @@ DATA_DIR=data/json
 
 SRCS := $(shell find $(SRC_DIR)/* -maxdepth 0 -name '*.c')
 TEST_SRCS := $(shell find $(TEST_SRC_DIR)/* -maxdepth 0 -name '*.c')
-DATAS := $(shell find $(DATA_DIR)/* -maxdepth 0 -name '*.json') data/planar.json
+DATAS := $(shell find $(DATA_DIR)/* -maxdepth 0 -name '*.json') data/planar.json \
+	data/tree.json data/3.json
 
 emscript-fromsingle: lib/metafile.c
 	emcc $(EMFLAGS) $(CFLAGS) lib/metafile.c \

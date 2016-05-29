@@ -26,6 +26,7 @@
 #include "global_minimizer.h"
 #include "js_interact.h"
 #include "minimizer.h"
+#include "vertex_set.h"
 
 #ifndef EMSCRIPT
 #define EMSCRIPT 0
@@ -39,15 +40,14 @@ int tot_overlaps;
 double tot_energy;
 double tot_angres;
 
+double g_wpot = 0.004;
+double g_wrep = 0.8;
+double g_watr = 0.5;
+double g_wang = 0.00000;
+double g_wcrs = 0.040;
+
 float *Minimizer_run(const char *fname) 
 {
-    if (EMSCRIPT) {
-        g_wpot = 0.00011;
-        g_wrep = 0.8;
-        g_watr = 0.8;
-        g_wang = 0.0;
-        g_wcrs = 0.4;
-    }
     assert(fname);
     float *rtn;
     rtn = 0;
@@ -59,6 +59,7 @@ float *Minimizer_run(const char *fname)
             printf("-----------------------\n");
             printf("Filename: %s\n", fname);
             printf("Vertices: %d, Bonds: %d\n", graph->vs.n, graph->bs.n);
+            printf("Number of conncetions %d\n", graph->ncon);
         }
         if (graph->bs.n > 100) {
             fprintf(stderr, "Number of bonds too damn high!\n");
@@ -67,23 +68,16 @@ float *Minimizer_run(const char *fname)
         }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
-        
+
         if (EMSCRIPT) {
+            printf("emscript;;\n");
+            VertexSet_print(graph->vs);
             js_interact(graph);
         } else {
+            printf("normal;;\n");
+            VertexSet_print(graph->vs);
             rtn = VertexSet_to_array(graph->vs); 
         }
-        if (PRINT_STATISTICS) {
-            printf("energy: %f\n", graph->energy);
-            printf("Overlaps: %d\n", graph->ncrosses);
-            float angres = Graph_angular_resolution(graph);
-            printf("Angular resolution %f\n", angres);
-            tot_overlaps += graph->ncrosses;
-            tot_angres += angres;
-            tot_energy += graph->energy;
-            
-        }
-
         Graph_free(graph);
         graph = 0;
     } else {

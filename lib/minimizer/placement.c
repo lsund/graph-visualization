@@ -42,7 +42,7 @@ static int comp_by_id(const void *elem1, const void *elem2)
 
 /* Public ********************************************************************/
 
-void Placement_set_spiral(VertexSet vs)
+void Placement_set_spiral(VertexSet vs, VertexPointer center)
 {
     qsort((void *) vs.set, vs.n, sizeof(void *), comp_by_mass);
 
@@ -72,6 +72,22 @@ void Placement_set_spiral(VertexSet vs)
     t = fmax(dimx, dimy);
 
     int i;
+    int nfixed;
+    Vector offset;
+    nfixed = 0;
+    offset = Vector_zero();
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer v = *(vs.set + i);
+        if (v->fixed) {
+            Vertex_print(v);
+            Vector doff = Vector_initialize(v->pos.x, v->pos.y);
+            offset = Vector_add(offset, doff);
+            nfixed++;
+        }
+    }
+    offset = Vector_scalar_mult(offset, 1.0 / nfixed);
+    Vertex_set_position(center, offset);
+
     for (i = vs.n - 1; i >= 0; i--) {
         if ((-dimx / 2 <= x && x <= dimx / 2) && 
             (-dimy / 2 <= y && y <= dimy / 2))
@@ -79,7 +95,10 @@ void Placement_set_spiral(VertexSet vs)
             double placex, placey;
             placex = (double) x * gapx;
             placey = (double) y * gapy;
-            Vertex_set_position(*(vs.set + i), Vector_initialize(placex, placey));
+            if (!(*vs.set + i)->fixed) {
+                Vector initpos = Vector_initialize(placex + offset.x, placey + offset.y);
+                Vertex_set_position(*(vs.set + i), initpos);
+            }
         }
         if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y))) {
             t = dx;

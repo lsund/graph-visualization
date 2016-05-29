@@ -56,4 +56,7 @@ int Vector_parallel(Vector vec0, Vector vec1);
 // 1 if vectors vec0, vec1 are equal 0 otherwise
 int Vector_equal(Vector vec0, Vector vec1);
 
+// Prints a string representation to stdout
+char *Vector_string(Vector vec);
+
 #endif

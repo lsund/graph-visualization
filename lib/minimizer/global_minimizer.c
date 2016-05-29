@@ -179,10 +179,5 @@ void GlobalMinimizer_run(
         }
         free(ps_0);
     }
-    double e1 = graph->energy;
-    double rat = e1 / e0;
-    if (PRINT_STATISTICS) {
-        printf("%f%% energy improvement\n", (1 - rat) * 100);
-    }
 }
 

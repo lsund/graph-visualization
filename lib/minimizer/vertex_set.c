@@ -10,6 +10,7 @@
 
 *****************************************************************************/
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "string.h"
@@ -154,6 +155,16 @@ float *VertexSet_to_array(const VertexSet vs)
     }
     return rtn;
 
+}
+
+void VertexSet_print(VertexSet vs)
+{
+    int i;
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer v = VertexSet_get_vertex(vs, i);
+        Vertex_print(v);
+    }
+    printf("\n");
 }
 
 void VertexSet_free(VertexSet vs) 

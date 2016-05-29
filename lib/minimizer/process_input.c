@@ -53,13 +53,12 @@ static void parse_vertex_data(
             } else {
                 Util_runtime_error("Bad JSON data: position: x");
             }
-            if (j_y->type == json_integer && Util_in_range(0, 1, (double) j_y->u.dbl)) {
-                fixed_x = (double) j_y->u.integer;
-            } else if (j_x->type == json_double) {
-                fixed_x = (double) j_y->u.dbl;
+            if (j_y->type == json_double && Util_in_range(0, 1, (double) j_y->u.dbl)) {
+                fixed_y = (double) j_y->u.dbl;
             } else {
                 Util_runtime_error("Bad JSON data: position: y");
             }
+            printf("%d (%f,%f)\n", id, fixed_x, fixed_y);
             pos = Vector_initialize(fixed_x, fixed_y);
         } 
         else {

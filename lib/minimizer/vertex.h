@@ -72,6 +72,9 @@ double Vertex_potential_energy(const VertexPointer v);
 // derivative.
 Vector Vertex_potential_gradient(const VertexPointer v);
 
+// Prints a string representation of the vertex to stdout
+void Vertex_print(VertexPointer v);
+ 
 // Frees the vertex at v
 void Vertex_free(VertexPointer v);
 

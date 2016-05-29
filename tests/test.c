@@ -124,87 +124,8 @@ int main(int argc, char **argv) {
         }
         return result != 0;
     } else {
-        Minimizer_load_files();
-        double potentials[2] = {0.0001, 0.0002};
-        double repulsions[4] = {0.5, 0.6, 0.8, 1.0};
-        double attractions[5] = {0.2, 0.4, 0.5, 0.6, 0.8};
-        double angulars[2] = {0.0, 0.00001};
-        double overlaps[5] = {0.2, 0.3, 0.4, 0.6, 0.8};
-
-        int best_overlaps = 999999;
-        double best_angres = 999999.0;
-        double best_energy = 999999.0;
-
-        double best_overlap_config[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
-        double best_angres_config[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
-        double best_energy_config[5] = {0.0, 0.0, 0.0, 0.0, 0.0};
-
-        int i, j, k, l, m;
-        for(i = 0; i < 2; i++) {
-            for(j = 0; j < 4; j++) {
-                for(k = 0; k < 5; k++) {
-                    for(l = 0; l < 2; l++) {
-                        for(m = 0; m < 5; m++) {
-                            tot_overlaps = 0;
-                            tot_angres = 0.0;
-                            tot_energy = 0.0;
-                            g_findex = -1;
-                            Minimizer_run_all(
-                                    potentials[i],
-                                    repulsions[j],
-                                    attractions[k],
-                                    angulars[l],
-                                    overlaps[m]
-                                );
-                            if (tot_overlaps <= best_overlaps) {
-                                best_overlaps = tot_overlaps;
-                                best_overlap_config[0] = potentials[i];
-                                best_overlap_config[1] = repulsions[j];
-                                best_overlap_config[2] = attractions[k];
-                                best_overlap_config[3] = angulars[l];
-                                best_overlap_config[4] = overlaps[m];
-                            }
-                            if (tot_angres <= best_angres) {
-                                best_angres = tot_angres;
-                                best_angres_config[0] = potentials[i];
-                                best_angres_config[1] = repulsions[j];
-                                best_angres_config[2] = attractions[k];
-                                best_angres_config[3] = angulars[l];
-                                best_angres_config[4] = overlaps[m];
-                            }
-                            if (tot_energy <= best_energy) {
-                                best_energy = tot_energy;
-                                best_energy_config[0] = potentials[i];
-                                best_energy_config[1] = repulsions[j];
-                                best_energy_config[2] = attractions[k];
-                                best_energy_config[3] = angulars[l];
-                                best_energy_config[4] = overlaps[m];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        printf("\nBest energy config: \n wpot %f\n wrep %f\n watr %f\n wang %f\n wcrs %f\n",
-                best_energy_config[0],
-                best_energy_config[1],
-                best_energy_config[2],
-                best_energy_config[3],
-                best_energy_config[4]);
-        printf("\nBest overlap config: \n wpot %f\n wrep %f\n watr %f\n wang %f\n wcrs %f\n",
-                best_overlap_config[0],
-                best_overlap_config[1],
-                best_overlap_config[2],
-                best_overlap_config[3],
-                best_overlap_config[4]);
-        printf("\nBest angres config: \n wpot %f\n wrep %f\n watr %f\n wang %f\n wcrs %f\n",
-                best_angres_config[0],
-                best_angres_config[1],
-                best_angres_config[2],
-                best_angres_config[3],
-                best_angres_config[4]);
-        Minimizer_unload_files();
-        return 0;
+        /*Minimizer_run("data/3.json");*/
+        Minimizer_run("data/json/dmt_117_52.json");
     }
 }
 

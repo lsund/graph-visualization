@@ -61,6 +61,9 @@ void VertexSet_calculate_score(
         double *dgg
     );
 
+// Prints a string representation of the of the vertex set to stdout
+void VertexSet_print(VertexSet vs);
+
 // Frees the memory allocated for vertex set vs
 void VertexSet_free(VertexSet vs);
 
