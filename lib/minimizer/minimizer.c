@@ -14,8 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdio.h>
 
-#include "emscripten.h"
 #include "util.h"
 #include "constants.h"
 #include "graph.h"
@@ -25,10 +25,6 @@
 #include "local_minimizer.h"
 #include "global_minimizer.h"
 #include "js_interact.h"
-
-#ifndef EMSCRIPT
-#define EMSCRIPT 0
-#endif
 
 int nfiles;
 int g_findex = -1;
@@ -66,15 +62,9 @@ float *Minimizer_run(const char *fname)
         }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
-        if (EMSCRIPT) {
-            printf("emscript;;\n");
-            /*VertexSet_print(graph->vs);*/
-            js_interact(graph);
-        } else {
-            printf("normal;;\n");
-            /*VertexSet_print(graph->vs);*/
-            rtn = VertexSet_to_array(graph->vs); 
-        }
+        printf("normal;;\n");
+        VertexSet_print(graph->vs);
+        rtn = VertexSet_to_array(graph->vs); 
         Graph_free(graph);
         graph = 0;
     } else {

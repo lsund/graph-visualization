@@ -7,9 +7,6 @@
 // is the maximum index in F. If i is an even non-negative integer, then P[i]
 // is the x-coordinate of vertex of index i (vi) and P[i+1] is the y-coordinate
 // of vi.
-// If the constant EMSCRIPT is set to 1, this procedure will attempt to call
-// the javascript function window.processCdata() using emscripten and return
-// NULL
 float *Minimizer_run(const char *fname);
 
 //float Minimizer_run_next();

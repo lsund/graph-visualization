@@ -1,0 +1,27 @@
+
+{
+	"vertices":
+	[
+		{
+			"id": 0,
+			"fixed": null,
+			"label": null,
+			"type": "r"  
+		},
+		{
+			"id": 1,
+			"fixed": null,
+			"label": null,
+			"type": "r"  
+		}
+	],
+	"bonds":
+	[
+		{
+			"fst":  0,
+			"snd":  1,
+			"len":  1
+		}
+	]
+}
+

@@ -16,7 +16,6 @@
 #include "constants.h"
 #include "linmin.h"
 #include "js_interact.h"
-#include "emscripten.h"
 
 /* Private ******************************************************************/
 
@@ -51,11 +50,6 @@ void LocalMinimizer_run(
     int i; 
     for (i = 0; i < L_ITMAX; i++) {
 
-        if (STEP) {
-            js_interact(graph);
-            emscripten_sleep(INTERVAL);
-        }
-        
         double fret = 0.0;
         linmin(graph, e_fun, &fret);
 

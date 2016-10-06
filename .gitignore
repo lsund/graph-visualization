@@ -4,4 +4,5 @@ package.json
 bin/minimize
 log
 c_assets*
+node_modules
 data
