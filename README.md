@@ -3,7 +3,7 @@
 Minimizer component for force directed graph visualization. Will turn JSON into
 a set of vertex coordinates representing a good graph layout.
 
-## Public interface
+## Usage
 
 Including `minimizer.h` gives access to `float *Minimizer_run(const char *fname)` where 
 `fname` is the path to a JSON-file of the following format:
@@ -55,24 +55,10 @@ descriptions are provided.
 
 Running `make` will compile a executable as `./bin/minimize`.
 
-## Javascript 
+## TODO
 
-The minimizer can be converted to javascript by compiling with 
-`make emscript`. This will produce `lib/c_assets.js`, which can be
-inbedded into an html-page and run locally. 
-
-## Samples
-
-A sample visualization application has been developed and is accesible through
-`lib/index.html`
-For Chrome and IE you need to serve the files with a web server:
-
-* `python -m http.server` or `python -m SimpleHTTPServer` (python 2)
-
-* `http://localhost:8000/index.html`
-
-With Firefox, the application should run even as a local file.
-
-## Work to be done.
+1. Create a usable view
+2. Create a json data generator, basic usage: gen-json nvertices nbonds
+3. couple view wiwh minimizer using nodejs ffi 
 
 Optimization of global minimizer, support for labels and more to come...

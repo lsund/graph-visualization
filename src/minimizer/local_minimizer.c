@@ -15,7 +15,6 @@
 
 #include "constants.h"
 #include "linmin.h"
-#include "js_interact.h"
 
 /* Private ******************************************************************/
 

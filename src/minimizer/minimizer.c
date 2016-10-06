@@ -24,7 +24,6 @@
 #include "gradient.h"
 #include "local_minimizer.h"
 #include "global_minimizer.h"
-#include "js_interact.h"
 
 int nfiles;
 int g_findex = -1;
@@ -62,8 +61,6 @@ float *Minimizer_run(const char *fname)
         }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
         GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
-        printf("normal;;\n");
-        VertexSet_print(graph->vs);
         rtn = VertexSet_to_array(graph->vs); 
         Graph_free(graph);
         graph = 0;

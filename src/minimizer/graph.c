@@ -119,7 +119,9 @@ void Graph_reset_dynamic_data(const GraphPointer graph)
 
     Grid_reset_dynamic_data(graph->grid);
 
-    if (graph->crs) BondOverlap_free(graph->crs);
+    if (graph->crs) {
+        BondOverlap_free(graph->crs);
+    }
     graph->crs = NULL;
 
     int i;

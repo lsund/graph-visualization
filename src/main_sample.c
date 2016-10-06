@@ -18,7 +18,7 @@
 int main(int argc, char *argv[]) 
 {
     int nvertices = 22;
-    const char *fname = "data/data-old/eugene.json";
+    const char *fname = "data/eugene.json";
     float *ret = Util_allocate(nvertices * 2, sizeof(float));
     ret = Minimizer_run(fname);
     int i;

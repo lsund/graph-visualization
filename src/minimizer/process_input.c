@@ -32,11 +32,10 @@ static void parse_vertex_data(
         }
         *o_id = id;
 
-        Vector pos, zv;
-        zv = Vector_zero();
         json_value *position;
         position = vertex->u.object.values[1].value;
         int fixed = 0;
+        Vector pos;
         if (position->type == json_array) {
             fixed = 1; 
             int length;
@@ -61,10 +60,10 @@ static void parse_vertex_data(
             pos = Vector_initialize(fixed_x, fixed_y);
         } 
         else {
-            pos = zv;
             if (position->type != json_null) {
                 Util_runtime_error("Bad JSON data: position");
             }
+            pos = Vector_zero();
         }
         *o_pos = pos;
         *o_fixed = fixed;
@@ -150,12 +149,9 @@ static void populate_vertexset(VertexSet vs, json_value *contents, int *nvp)
         char t;
         label = Util_allocate(MAX_LABEL_LENGTH, sizeof(label));
         parse_vertex_data(vertex, &id, &pos, label, &t, &fixed);
-
-        VertexSet_update_vertex(
-                vs, 
-                i, 
-                Vertex_create(id, pos, label, t, fixed)
-            );
+        
+        VertexPointer v = Vertex_create(id, pos, label, t, fixed);
+        VertexSet_update_vertex(vs, i, v);
     }
 }
 
