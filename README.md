@@ -59,6 +59,8 @@ Running `make` will compile a executable as `./bin/minimize`.
 
 1. Create a usable view
 2. Create a json data generator, basic usage: gen-json nvertices nbonds
+3. Verify that json input has a) increasing order b) only has unique indicies c)
+   the bonds connect only valid indicies 
 3. couple view wiwh minimizer using nodejs ffi 
 
 Optimization of global minimizer, support for labels and more to come...

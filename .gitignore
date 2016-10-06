@@ -2,7 +2,10 @@ a.out
 json-parser
 package.json
 bin/minimize
+bin/jsongen
 log
 c_assets*
 node_modules
 data
+*.hi
+*.o
