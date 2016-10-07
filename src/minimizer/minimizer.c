@@ -73,3 +73,8 @@ float *Minimizer_run(const char *fname)
     return rtn;
 }
 
+int Minimizer_test(int number) {
+    printf("The number is %d\n", number);
+    return 0;
+}
+
