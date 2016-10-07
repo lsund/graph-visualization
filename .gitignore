@@ -1,6 +1,5 @@
 a.out
 json-parser
-package.json
 bin/minimize
 bin/jsongen
 log

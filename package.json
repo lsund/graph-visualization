@@ -1,0 +1,22 @@
+{
+  "name": "graph-visualization",
+  "version": "0.0.1",
+  "description": "A graph visualization tool",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsund/graph-visualization.git"
+  },
+  "author": "Ludvig Sundström",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lsund/graph-visualization/issues"
+  },
+  "homepage": "https://github.com/lsund/graph-visualization#readme",
+  "dependencies": {
+    "ffi": "^2.1.0"
+  }
+}
