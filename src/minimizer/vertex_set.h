@@ -65,6 +65,9 @@ void VertexSet_calculate_score(
         double *dgg
     );
 
+// Returns true if every vertex index is unique, false otherwise
+int VertexSet_unique_ids(VertexSet vs);
+
 // Prints a string representation of the of the vertex set to stdout
 void VertexSet_print(VertexSet vs);
 

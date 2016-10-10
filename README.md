@@ -34,8 +34,8 @@ The main API is `float *Minimizer_run(const char *fname)` defined in `minimizer.
 The data is formatted into two arrays describing the vetices and bonds of the
 graph to be visualized. For verticies: 
 
-`id` is a non-negative integer identifying the vertex. These numbers must be
-specified in increasing order.
+`id` is an integer identifying the vertex. This number must lie in range 
+(0, nv- 1) if nv is the total number of verticies
 
 `fixed` Specifies the type of placement of the vertex. Either null for dynamic
 placement or an 2d-array of numbers in range [0, 1) for fixed placement. ex:
@@ -64,11 +64,8 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 
 ## TODO
 
-1. Create a usable view
-2. Create a json data generator, basic usage: gen-json nvertices nbonds
-3. Verify that json input has a) increasing order b) only has unique indicies c)
-   the bonds connect only valid indicies 
-4. remove type field from json
-5. make padding automatic
+1. make padding automatic
+2. make force weights automatic
+3. check that each json object has the right number of fields
 
 Optimization of global minimizer, support for labels and more to come...

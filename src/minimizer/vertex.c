@@ -24,7 +24,6 @@ Vertex Vertex_initialize(
        const int id, 
        const Vector pos,
        char *label,
-       const char type,
        const int fixed
     )
 {
@@ -39,7 +38,6 @@ Vertex Vertex_initialize(
     rtn.h = Vector_zero();
     Vertex_set_position(&rtn, pos);
     rtn.label = label;
-    rtn.type = type;
     Vertex_reset_dynamics(&rtn);
     return rtn;
 }
@@ -48,13 +46,12 @@ VertexPointer Vertex_create(
        const int id, 
        const Vector pos,
        char *label,
-       const char type,
        const int fixed
     )
 {
     VertexPointer rtn;
     rtn = Util_allocate_initialize(1, sizeof(Vertex));
-    *rtn = Vertex_initialize(id, pos, label, type, fixed);
+    *rtn = Vertex_initialize(id, pos, label, fixed);
 
     return rtn;
 }
@@ -71,7 +68,6 @@ Vertex Vertex_copy(const Vertex v)
     rtn.pos = v.pos;
     rtn.tl = v.tl;
     rtn.br = v.br;
-    rtn.type = v.type;
     rtn.pos0 = v.pos0;
     rtn.grad0 = v.grad0;
     rtn.mass = v.mass;

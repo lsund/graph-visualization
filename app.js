@@ -6,7 +6,7 @@ var ffi        = require('ffi');
 var path       = require('path');
 
 var librarypath = 'lib/libminimizer.so';
-var fname = 'data/eugene.json';
+var fname = 'data/test.json';
 var port = 3000;
 var hostname = '127.0.0.1'; 
 

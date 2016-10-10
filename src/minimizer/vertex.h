@@ -11,7 +11,7 @@
 // which is a measure of how many relations it has to other vertices and a
 // (fixed) flag, which indicates weather or not this vertex will move from its
 // initial placement position. 
-// A vertex also has a specified type, and a label - a brief textual
+// A vertex also has a label - a brief textual
 // representation of the data the vertex is representing. A vertex also keeps
 // track of its (energy), its current (gradient). 
 // (g), (h), (pos0) and (grad0) are values used in minimization.
@@ -23,29 +23,25 @@ struct vertex
     Vector gradient, g, h;
     Vector pos0, grad0;
     int id, mass, fixed;
-    char type;
     char *label;
     VertexPointer next;
     double energy;
 };
 
-// A vertex with the specified values for  id, position, label, type and a
-// fixed flag
+// A vertex with the specified values for  id, position, label and a fixed flag
 Vertex Vertex_initialize(
         const int id, 
         const Vector pos, 
         char *label,
-        const char type,
         const int fixed
 );
 
-// A pointer to a vertex with the specified values for  id, position, label,
-// type and a fixed flag
+// A pointer to a vertex with the specified values for  id, position, label and
+// a fixed flag
 VertexPointer Vertex_create(
         const int id, 
         const Vector pos, 
         char *label,
-        const char type,
         const int fixed
 );
 

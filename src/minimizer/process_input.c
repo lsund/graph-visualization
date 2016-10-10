@@ -17,7 +17,6 @@ static void parse_vertex_data(
         int *o_id,
         VectorPointer o_pos,
         char *o_label,
-        char *o_type,
         int *o_fixed
     )
 {
@@ -79,17 +78,6 @@ static void parse_vertex_data(
             Util_runtime_error("Bad JSON data: label");
         }
         strcpy(o_label, vertex_label);
-
-        char t;
-        t = 0;
-        json_value *vertex_type;
-        vertex_type = vertex->u.object.values[3].value;
-        if (vertex_type->type == json_string) {
-            t = vertex_type->u.string.ptr[0];
-        } else {
-            Util_runtime_error("Bad JSON data: type");
-        }
-        *o_type = t;
 }
 
 static void parse_bond_data(
@@ -139,19 +127,27 @@ static void populate_vertexset(VertexSet vs, json_value *contents, int *nvp)
 
     int i;
     for (i = 0; i < nv; i++) {
-        
         json_value *vertex;  
         vertex = vsarr->u.array.values[i];
-        
         int id, fixed;
         Vector pos;
         char *label;
         char t;
+
         label = Util_allocate(MAX_LABEL_LENGTH, sizeof(label));
-        parse_vertex_data(vertex, &id, &pos, label, &t, &fixed);
+        parse_vertex_data(vertex, &id, &pos, label, &fixed);
+
+        if (id > nv - 1) {
+            Util_runtime_error("Cant assign a vertex ID larger than the number of verticiies - 1");
+        } else if (id < 0) {
+            Util_runtime_error("Cant assign a negative vertex ID");
+        }
         
-        VertexPointer v = Vertex_create(id, pos, label, t, fixed);
-        VertexSet_update_vertex(vs, i, v);
+        VertexPointer v = Vertex_create(id, pos, label, fixed);
+        VertexSet_update_vertex(vs, id, v);
+    }
+    if (!VertexSet_unique_ids(vs)) {
+        Util_runtime_error("Verticies must have unique id's");
     }
 }
 

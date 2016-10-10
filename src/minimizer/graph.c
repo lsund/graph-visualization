@@ -37,7 +37,7 @@ GraphPointer create(VertexSet vs, BondSet bs)
     rtn->vs = vs; 
     rtn->bs = bs;
 
-    rtn->center = Vertex_initialize(-1, Vector_zero(), "center", 'c', 1);
+    rtn->center = Vertex_initialize(-1, Vector_zero(), "center", 1);
 
     Graph_detect_connected(rtn);
 

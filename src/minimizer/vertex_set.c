@@ -154,6 +154,23 @@ void VertexSet_to_array(const VertexSet vs, float *out)
     }
 }
 
+int VertexSet_unique_ids(VertexSet vs)
+{
+    int i, j;
+    for (i = 0; i < vs.n; i++) {
+        VertexPointer vi = VertexSet_get_vertex(vs, i);
+        for (j = 0; j < vs.n; j++) {
+            if (j != i) {
+                VertexPointer vj = VertexSet_get_vertex(vs, j);
+                if (vi->id == vj->id) {
+                    return 0;
+                }
+            }
+        }
+    }
+    return 1;
+}
+
 void VertexSet_print(VertexSet vs)
 {
     int i;
