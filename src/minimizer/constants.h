@@ -19,16 +19,11 @@ extern double tot_angres;
 // use Data defined bond lengths
 #define CUSTOM_LENGTHS 0
 
-// Toggle animation
-#define STEP 0
-// Animation interval 
-#define INTERVAL 500
-
 // Do minimization
 #define MINIMIZE 1
 
 // Max iterations of local minimizer
-#define L_ITMAX 200
+#define L_ITMAX 100
 // Max iterations of global minimizer
 #define G_ITMAX 0
 
@@ -42,17 +37,15 @@ extern double tot_angres;
 #define PANEL_X 1.0
 #define PANEL_Y 1.0
 
-// Padding between nodes. 
-#define PADDING 0.1
+// The optimal ammount of space between vertices 
+#define PADDING 0.2
 // Optimal bond-length 
-#define SPRING_LENGTH 0.02
+#define SPRING_LENGTH 0.1
 
 // Data defined data labels 
 #define MAX_LABEL_LENGTH 8 + 1 
 // File name macx length
 #define MAX_FILENAME_LENGTH 128
-
-#define MAX_FILES 25
 
 // Dimension of individual grid rectangles
 #define GRID_DIM_X (int) (PANEL_X / PADDING)
@@ -82,34 +75,5 @@ extern double tot_angres;
 
 // Vertex mass
 #define DEFAULT_MASS 1
-
-//#else 
-
-////TEST CONSTANTS////////////////////////////////////////////////
-
-//#define L_ITMAX 200
-//#define G_ITMAX 0
-//#define T_ITMAX 5
-
-//#define TEMPERATURE 0
-
-//#define PADDING 0.1
-//#define SPRING_LENGTH 0.1
-
-//#define VERTEX_BASE_WIDTH 0
-//#define VERTEX_BASE_HEIGHT 0
-
-//#define THETA0 M_PI
-
-//#define DEFAULT_STIFFNESS 1.0
-//#define DEFAULT_MASS 0
-
-//#define WATR 1.0
-//#define WREP 1.0
-//#define WPOT 1.0
-//#define WANG 1.0
-//#define WCRS 1.0
-
-//#endif
 
 #endif

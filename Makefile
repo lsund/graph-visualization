@@ -21,8 +21,11 @@ production: $(SRCS)
 $(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@ -lm
 
-lib: dirs $(OBJS)
+lib: dirs clean $(OBJS) $(SRCS)
 	$(CC) -shared -o lib/libminimizer.so $(OBJS)
+
+serverstart: lib
+	node app
 
 test: $(SRCS) 
 	$(CC) $(CFLAGS) -D TEST=1 \

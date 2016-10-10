@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     int nvertices = 22;
     const char *fname = "data/eugene.json";
     float *ret = Util_allocate(nvertices * 2, sizeof(float));
-    ret = Minimizer_run(fname);
+    Minimizer_run(fname, ret);
     int i;
     for (i = 0; i < nvertices * 2; i += 2) {
         printf("Vertex %d, (%f, %f)\n", i / 2, ret[i], ret[i + 1]);

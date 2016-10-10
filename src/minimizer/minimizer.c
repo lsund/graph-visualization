@@ -33,19 +33,16 @@ int tot_overlaps;
 double tot_energy;
 double tot_angres;
 
-double g_wpot = 0.004;
-double g_wrep = 0.8;
-double g_watr = 0.5;
-double g_wang = 0.00000;
-double g_wcrs = 0.040;
+double g_wpot = 0.005;
+double g_wrep = 1.0;
+double g_watr = 0.4;
+double g_wang = 0;
+double g_wcrs = 0;
 
-float *Minimizer_run(const char *fname) 
+void Minimizer_run(const char *fname, float *out) 
 {
     assert(fname);
-    float *rtn;
-    rtn = 0;
     if (access(fname, R_OK) != -1) {
-
         GraphPointer graph;
         graph = Graph_create(fname);
         if (PRINT_STATISTICS) {
@@ -57,24 +54,17 @@ float *Minimizer_run(const char *fname)
         if (graph->bs.n > 100) {
             fprintf(stderr, "Number of bonds too damn high!\n");
             Graph_free(graph);
-            return 0;
+            return;
         }
         LocalMinimizer_run(graph, Energy_calculate, Gradient_calculate, FTOL);
-        GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);
-        rtn = VertexSet_to_array(graph->vs); 
+        /*GlobalMinimizer_run(graph, Energy_calculate, Gradient_calculate);*/
+        VertexSet_to_array(graph->vs, out); 
         Graph_free(graph);
         graph = 0;
     } else {
         assert((sizeof(fname) / sizeof(char)) <= MAX_FILENAME_LENGTH);
-        
         printf("Error! in file: %s\n", fname);
         Util_runtime_error("Can't read file");
     }
-    return rtn;
-}
-
-int Minimizer_test(int number) {
-    printf("The number is %d\n", number);
-    return 0;
 }
 

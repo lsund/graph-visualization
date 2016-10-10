@@ -145,16 +145,13 @@ void VertexSet_calculate_score(
     }
 }
 
-float *VertexSet_to_array(const VertexSet vs)
+void VertexSet_to_array(const VertexSet vs, float *out)
 {
-    float *rtn = (float *) Util_allocate(vs.n * 2, sizeof(double));
     int i;
     for (i = 0; i < vs.n; i++) {
-        *(rtn + i * 2) = (float) (VertexSet_get_vertex(vs, i))->pos.x;
-        *(rtn + i * 2 + 1) = (float) (VertexSet_get_vertex(vs, i))->pos.y;
+        *(out + i * 2) = (float) (VertexSet_get_vertex(vs, i))->pos.x;
+        *(out + i * 2 + 1) = (float) (VertexSet_get_vertex(vs, i))->pos.y;
     }
-    return rtn;
-
 }
 
 void VertexSet_print(VertexSet vs)

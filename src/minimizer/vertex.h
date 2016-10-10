@@ -4,7 +4,7 @@
 
 #include "vector.h"
 
-// A vertex is the structure representing a specific data point. A vertex is
+// A vertex is a structure representing a specific data point. A vertex is
 // represented a rectangle in the 2d-plane with a position coordinate (pos), a
 // topleft coordinate (tl) and a bottomright coordinate (br). A vertex is
 // identified by its (id), a unique non-negative integer. A vertex has a mass

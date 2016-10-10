@@ -82,7 +82,7 @@ Vector Bond_attraction_gradient(const BondPointer bp)
 
     double d;
     d = Vector_norm(vecb); 
-    if (fabs(d) <  MIN_DIST) {
+    if (fabs(d) < MIN_DIST) {
         d = MIN_DIST;
     } 
     

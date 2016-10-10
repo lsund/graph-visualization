@@ -39,10 +39,14 @@ void VertexSet_move(const VertexSet vs, double x);
 // Scale up the gradient of all vertices in vertex set vs proportional to x
 void VertexSet_boost(const VertexSet vs, const double x);
 
-// The array A of floats of length 2vs where A[i] is the x coordinate and 
-// A[i + 1] is the y coordinate of vertex at index i / 2 provided that i is an
-// even non-negative integer
-float *VertexSet_to_array(const VertexSet vs);
+// Will convert the given vertexset a sequence of x, y coordinates, and place
+// this sequence at the memorylocation pointed to by out. The memory pointed to
+// by out is allocated by the caller and is of size at least 2 * vs.n *
+// sezeof(float).
+// Let the sequence be S, then length(S) = 2 * vs.n and  S[i] is the x coordinate and 
+// S[i + 1] is the y coordinate of vertex at index i / 2 provided that i is an
+// even non-negative integer and 0 <= i < 2 * vs.n
+void VertexSet_to_array(const VertexSet vs, float *out);
 
 // Iteratively create the algebraic sequences used by the minimizer using the
 // properties of vertexset vs, the score gam and whatever strategy { initialize

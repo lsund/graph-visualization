@@ -69,5 +69,6 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 3. Verify that json input has a) increasing order b) only has unique indicies c)
    the bonds connect only valid indicies 
 4. remove type field from json
+5. make padding automatic
 
 Optimization of global minimizer, support for labels and more to come...

@@ -7,8 +7,8 @@
 // is the maximum index in F. If i is an even non-negative integer, then P[i]
 // is the x-coordinate of vertex of index i (vi) and P[i+1] is the y-coordinate
 // of vi.
-float *Minimizer_run(const char *fname);
+void Minimizer_run(const char *fname, float *out);
 
-int Minimizer_test(int number);
+void Minimizer_run2(const char *fname, float *out);
 
 #endif

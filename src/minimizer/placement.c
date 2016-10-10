@@ -79,14 +79,17 @@ void Placement_set_spiral(VertexSet vs, VertexPointer center)
     for (i = 0; i < vs.n; i++) {
         VertexPointer v = *(vs.set + i);
         if (v->fixed) {
-            Vector doff = Vector_initialize(v->pos.x, v->pos.y);
-            offset = Vector_add(offset, doff);
+            /*Vector doff = Vector_initialize(v->pos.x, v->pos.y);*/
+            /*offset = Vector_add(offset, doff);*/
             nfixed++;
         }
     }
     if (nfixed > 0) {
-        offset = Vector_scalar_mult(offset, 1.0 / nfixed);
-    } 
+        /*offset = Vector_scalar_mult(offset, 1.0 / nfixed);*/
+        offset = Vector_initialize(0.5, 0.5);
+    }  else {
+        offset = Vector_initialize(0.5, 0.5);
+    }
     Vertex_set_position(center, offset);
 
     for (i = vs.n - 1; i >= 0; i--) {
