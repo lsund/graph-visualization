@@ -5,7 +5,7 @@
 
 // Processes the JSON-formatted file specified under fname. Returned is a pair
 // of two pointers to the vertex and bondset.
-Pair process_json(const char *fname);
+Pair json_to_vb_pair(const char *fname);
 
 #endif
 

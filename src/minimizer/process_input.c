@@ -12,6 +12,9 @@
 #include "bond_set.h"
 #include "pair.h"
 
+enum ParseStatus { PS_NO_PARSE, PS_FIELD_NUM_ERR, PS_VERTEX_NAME_ERR, PS_BOND_NAME_ERR, PS_SUCCESS };
+enum FileStatus { FS_FILE_NOT_FOUND, FS_NO_MEMORY, FS_NO_OPEN, FS_SUCCESS };
+
 static void parse_vertex_data(
         json_value *vertex, 
         int *o_id,
@@ -20,6 +23,10 @@ static void parse_vertex_data(
         int *o_fixed
     )
 {
+        unsigned int fields = vertex->u.object.length; 
+        if (fields != 3)  {
+            Util_runtime_error("Each vertex specified in the input file needs to have exactly 3 fields");
+        }
         json_value *ident;
         int id;
         id = -99;
@@ -88,6 +95,10 @@ static void parse_bond_data(
         double *o_len
     )
 {
+        unsigned int fields = bond->u.object.length; 
+        if (fields != 3)  {
+            Util_runtime_error("Each bond specified in the input file needs to have exactly 3 fields");
+        }
         json_value *first = bond->u.object.values[0].value;
         json_value *second = bond->u.object.values[1].value;
         json_value *length = bond->u.object.values[2].value;
@@ -132,7 +143,6 @@ static void populate_vertexset(VertexSet vs, json_value *contents, int *nvp)
         int id, fixed;
         Vector pos;
         char *label;
-        char t;
 
         label = Util_allocate(MAX_LABEL_LENGTH, sizeof(label));
         parse_vertex_data(vertex, &id, &pos, label, &fixed);
@@ -206,67 +216,97 @@ BondSetPointer bondset_from_json(VertexSet vs, json_value *contents, int *nbp)
     return rtn;
 }
 
-Pair process_json(const char *filename)
+enum ParseStatus check_json(json_value *value)
 {
-    FILE *fp;
+    if (value == NULL) {
+        return PS_NO_PARSE;
+    } else if (value->u.object.length != 2) {
+        return PS_FIELD_NUM_ERR;
+    } else if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
+        return PS_VERTEX_NAME_ERR;
+    } else if (strcmp(value->u.object.values[1].name, "bonds") != 0) {
+        return PS_BOND_NAME_ERR;
+    } else {
+        return PS_SUCCESS;
+    }
+}
+
+
+enum FileStatus load_json(const char *fname, json_value **o_value)
+{
     struct stat filestatus;
-    int file_size;
-    char* file_contents;
-    json_char* json;
-
-    if ( stat(filename, &filestatus) != 0) {
-        char  buf[256];
-        strcpy(buf, "process_json(): File not found: ");
-        strcat(buf, filename);
-        Util_runtime_error(buf);
+    if (stat(fname, &filestatus) != 0) {
+        return FS_FILE_NOT_FOUND;
     }
-    file_size = filestatus.st_size;
+
+    char *file_contents;
     file_contents = (char *) malloc(filestatus.st_size);
-    if ( file_contents == NULL) {
-        Util_runtime_error("process_json(): Unable to allocate memory");
+    if (file_contents == NULL) {
+        return FS_NO_MEMORY;
     }
 
-    fp = fopen(filename, "rt");
-
-    if (fp == NULL) {
+    int file_size;
+    file_size = filestatus.st_size;
+    FILE *fp;
+    fp = fopen(fname, "rt");
+    int read_success;
+    read_success = fread(file_contents, file_size, 1, fp);
+    if (read_success != 1 || fp == NULL) {
         fclose(fp);
         free(file_contents);
-        Util_runtime_error("process_json(): Unable to open file");
-    }
-    if ( fread(file_contents, file_size, 1, fp) != 1 ) {
+        return FS_NO_OPEN;
+    } else {
         fclose(fp);
-        free(file_contents);
-        Util_runtime_error("process_json(): Unable to read file");
     }
 
-    fclose(fp);
+    json_char* json_contents;
+    json_contents = (json_char*) file_contents;
+    *o_value = json_parse(json_contents, file_size);
 
-    json = (json_char*)file_contents;
+    free(file_contents);
+    return FS_SUCCESS;
+}
 
+Pair json_to_vb_pair(const char *fname)
+{
     json_value* value;
     value = NULL;
-    value = json_parse(json,file_size);
+    char buf[256];
+    switch (load_json(fname, &value)) {
+        case FS_FILE_NOT_FOUND:
+            strcpy(buf, "process_json(): File not found: ");
+            strcat(buf, fname);
+            Util_runtime_error(buf);
+            break;
+        case FS_NO_MEMORY:
+            Util_runtime_error("process_json(): Unable to allocate memory for file");
+            break;
+        case FS_NO_OPEN:
+            Util_runtime_error("process_json(): Unable to open file");
+            break;
+        case FS_SUCCESS:
+            break;
+    }
 
-    if (value == NULL) {
-        free(file_contents);
-        json_value_free(value);
-        printf("Error in file: %s\n", filename);
-        Util_runtime_error("process_json(): Unable to parse data");
-    }
-    if (value->u.object.length != 2) {
-        free(file_contents);
-        json_value_free(value);
-        Util_runtime_error("process_json(): Wrong number of keys");
-    }
-    if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
-        free(file_contents);
-        json_value_free(value);
-        Util_runtime_error("process_json(): First key is not vertices");
-    }
-    if (strcmp(value->u.object.values[1].name, "bonds") != 0) {
-        free(file_contents);
-        json_value_free(value);
-        Util_runtime_error("process_json(): Second key is not 'bonds'");
+    switch (check_json(value)) {
+        case PS_NO_PARSE:
+            json_value_free(value);
+            Util_runtime_error("process_json(): Unable to parse data");
+            break;
+        case PS_FIELD_NUM_ERR:
+            json_value_free(value);
+            Util_runtime_error("process_json(): Json object needs to have exactly two fields");
+            break;
+        case PS_VERTEX_NAME_ERR:
+            json_value_free(value);
+            Util_runtime_error("process_json(): First field must be named 'vertices'");
+            break;
+        case PS_BOND_NAME_ERR:
+            json_value_free(value);
+            Util_runtime_error("process_json(): second field must be named 'bonds'");
+            break;
+        case PS_SUCCESS:
+            break;
     }
 
     int nv, nb;
@@ -275,7 +315,6 @@ Pair process_json(const char *filename)
     bs = bondset_from_json(*vs, value, &nb);
 
     json_value_free(value);
-    free(file_contents);
 
     return Pair_initialize(vs, bs);
 }

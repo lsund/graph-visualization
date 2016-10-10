@@ -11,19 +11,23 @@
 *****************************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
 
+#include "minimizer/graph.h"
 #include "minimizer/minimizer.h"
 #include "minimizer/util.h"
 
 int main(int argc, char *argv[]) 
 {
-    int nvertices = 10;
     const char *fname = "data/test.json";
+    GraphPointer graph = Graph_create(fname);
+    int nvertices = graph->vs.n;
     float *ret = Util_allocate(nvertices * 2, sizeof(float));
     Minimizer_run(fname, ret);
     int i;
     for (i = 0; i < nvertices * 2; i += 2) {
         printf("Vertex %d, (%f, %f)\n", i / 2, ret[i], ret[i + 1]);
     }
+    free(ret);
     return 0;
 }

@@ -87,7 +87,7 @@ static void link_bondcross(
 GraphPointer Graph_create(const char *fname) 
 {
     Pair pr;
-    pr = process_json(fname);
+    pr = json_to_vb_pair(fname);
 
     VertexSetPointer vs;
     vs = (VertexSetPointer) pr.fst; 

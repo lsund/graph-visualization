@@ -14,8 +14,7 @@ The main API is `float *Minimizer_run(const char *fname)` defined in `minimizer.
       {
         "id":       Number,
         "fixed":    null or [Number, Number],
-        "label":    null or String,
-        "type":     Number
+        "label":    null or String
       },
       ...
     ],
@@ -34,16 +33,15 @@ The main API is `float *Minimizer_run(const char *fname)` defined in `minimizer.
 The data is formatted into two arrays describing the vetices and bonds of the
 graph to be visualized. For verticies: 
 
-`id` is an integer identifying the vertex. This number must lie in range 
-(0, nv- 1) if nv is the total number of verticies
+`id` is an integer identifying the vertex. This number must be unique in respect
+to other id's and has to take a value in range `(0, nv- 1)` if nv is the total number of
+verticies.
 
 `fixed` Specifies the type of placement of the vertex. Either null for dynamic
 placement or an 2d-array of numbers in range [0, 1) for fixed placement. ex:
 [0.5, 0.7]
 
 `label` A textual representation of the vertex
-
-`type` Type of vertex. Affects nothing at the moment.`TODO`
 
 For bonds:
 
@@ -66,6 +64,5 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 
 1. make padding automatic
 2. make force weights automatic
-3. check that each json object has the right number of fields
 
 Optimization of global minimizer, support for labels and more to come...

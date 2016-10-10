@@ -19,7 +19,7 @@ test: $(SRCS)
 	  $(TEST_SRCS) $(SRCS) -o bin/test -lm
 
 develop: $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) src/main_sample.c -o bin/minimize -lm
+	$(CC) $(CFLAGS) $(SRCS) src/main.c -o bin/minimize -lm
 
 production: $(SRCS)
 	$(CC) $(CFLAGS) -DNDEBUG $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
