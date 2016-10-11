@@ -124,7 +124,6 @@ static void parse_bond_data(
             Util_runtime_error("Bad JSON data\n");
         }
         *o_len = len;
-
 }
 
 static void populate_vertexset(VertexSet vs, json_value *contents, int *nvp)
@@ -135,6 +134,11 @@ static void populate_vertexset(VertexSet vs, json_value *contents, int *nvp)
     if (nv < 1) {
         Util_runtime_error("No vertices");
     }
+
+    double next_base2_power;
+    next_base2_power = ceil(log2(vsarr->u.array.length));
+    double padding;
+    padding = 1 / next_base2_power;
 
     int i;
     for (i = 0; i < nv; i++) {
@@ -153,7 +157,7 @@ static void populate_vertexset(VertexSet vs, json_value *contents, int *nvp)
             Util_runtime_error("Cant assign a negative vertex ID");
         }
         
-        VertexPointer v = Vertex_create(id, pos, label, fixed);
+        VertexPointer v = Vertex_create(id, pos, padding, label, fixed);
         VertexSet_update_vertex(vs, id, v);
     }
     if (!VertexSet_unique_ids(vs)) {

@@ -11,6 +11,7 @@
 *****************************************************************************/
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "util.h"
 #include "pair.h"
@@ -19,53 +20,60 @@
 
 /* Private ******************************************************************/
 
-int zone_idx(const VertexPointer v)
+int Grid_zone_idx(const GridPointer grid, const VertexPointer v)
 {
+    assert(grid->padding > 0);
     int rtn;
-    if (v->pos.x >= PANEL_X) {
-        rtn = (PANEL_X / PADDING) - 1;
+    if (v->pos.x >= 1.0) {
+        rtn = (1.0 / grid->padding) - 1;
     } else if (v->pos.x <= 0) {
         rtn = 0;
     } else {
-        rtn = ((int) v->pos.x) / PADDING;
+        rtn = ((int) v->pos.x) / grid->padding;
     }
     return rtn; 
 }
 
-int zone_idy(const VertexPointer v)
+int Grid_zone_idy(const GridPointer grid, const VertexPointer v)
 {
     int rtn;
-    if (v->pos.y >= PANEL_Y) {
-        rtn = (PANEL_Y / PADDING) - 1;
+    if (v->pos.y >= 1.0) {
+        rtn = (1.0 / grid->padding) - 1;
     } else if (v->pos.y <= 0) {
         rtn = 0;
     } else {
-        rtn = ((int) v->pos.y) / PADDING;
+        rtn = ((int) v->pos.y) / grid->padding;
     }
     return rtn;
 }
 
 /* Public *******************************************************************/
 
-GridPointer Grid_create()
+GridPointer Grid_create(const double padding)
 {
+    assert(padding > 0);
+
     GridPointer rtn;
     rtn = (GridPointer) Util_allocate(1, sizeof(Grid));
-
+    
     rtn->nz = 0;
 
+    rtn->padding = padding;
+    rtn->dim_x = 1.0 / padding;
+    rtn->dim_y = 1.0 / padding;
+
     int nzones; 
-    nzones = GRID_DIM_X * GRID_DIM_Y;
+    nzones = rtn->dim_x * rtn->dim_y;
 
     rtn->zps = (ZonePointer *) Util_allocate_initialize(nzones, sizeof(Zone));
     int i, j, id;
-    for (j = 0; j < GRID_DIM_Y; j++) {
-        for (i = 0; i < GRID_DIM_X; i++) {
-            id = (j * GRID_DIM_Y) + i;
+    for (j = 0; j < rtn->dim_y; j++) {
+        for (i = 0; i < rtn->dim_x; i++) {
+            id = (j * rtn->dim_y) + i;
             ZonePointer z;
             z= Zone_create(id, i, j, 
-                    (double) i * PADDING, (double) j * PADDING, 
-                    (double) PADDING, (double) PADDING);
+                    (double) i * padding, (double) j * padding, 
+                    (double) padding, (double) padding);
             *(rtn->zps + id) = z;
             rtn->nz++;
         }
@@ -80,17 +88,14 @@ GridPointer Grid_create()
 
 ZonePointer Grid_get_zone(const GridPointer grid, const int x, const int y)
 {
-    assert(x < GRID_DIM_X && x >= 0);
-    assert(y < GRID_DIM_Y && y >= 0);
-
-    return *(grid->zps + (y * GRID_DIM_X) + x);
+    return *(grid->zps + (y * grid->dim_x) + x);
 }
 
 void Grid_append_vertex(const GridPointer grid, const VertexPointer v)
 {
     int i, j; 
-    i = zone_idx(v);
-    j = zone_idy(v);
+    i = Grid_zone_idx(grid, v);
+    j = Grid_zone_idy(grid, v);
     ZonePointer z = Grid_get_zone(grid, i, j);
     v->next = z->members;
     z->members = v;
@@ -115,12 +120,12 @@ void Grid_detect_adjacent_zones(const GridPointer grid)
             adj = 
                 diff == 1 || 
                 diff == -1 || 
-                diff == GRID_DIM_X || 
-                diff == -GRID_DIM_X ||
-                diff == GRID_DIM_X - 1 ||
-                diff == GRID_DIM_X + 1 ||
-                diff == -GRID_DIM_X - 1 ||
-                diff == -GRID_DIM_X + 1;
+                diff == grid->dim_x || 
+                diff == -grid->dim_x ||
+                diff == grid->dim_x - 1 ||
+                diff == grid->dim_x + 1 ||
+                diff == -grid->dim_x - 1 ||
+                diff == -grid->dim_x + 1;
             if (adj) {
                 Pair pr = Pair_initialize(zi, zj);
                 ZonePairPointer newz2p = ZonePair_create(pr, grid->azps);

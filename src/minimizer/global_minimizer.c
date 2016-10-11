@@ -89,7 +89,7 @@ static VertexSet pick_subset(const VertexSet vs, const int n)
     return pick_subset_random(vs, n);
 }
 
-Vector generate_move()
+Vector generate_move(const double padding)
 {
     double x, y;
     x = (((double) rand()) / RAND_MAX) * 2 - 1;
@@ -97,7 +97,7 @@ Vector generate_move()
     
     assert(x < 1 && x >= -1 && y < 1 && y >= -1); 
 
-    double a = 1.5 * PADDING;
+    double a = 1.5 * padding;
     
     Vector rtn;
     rtn = Vector_scalar_mult(Vector_initialize(x, y), a);
@@ -118,7 +118,7 @@ static void mutate(const GraphPointer graph)
 
     int i; 
     for (i = 0; i < n; i++) {
-        Vector move = generate_move();
+        Vector move = generate_move(graph->grid->padding);
         Vector new_pos;
         VertexPointer v;
         v = VertexSet_get_vertex(vs, i);

@@ -1,5 +1,5 @@
-#ifndef PROCESS_INPUT_H
-#define PROCESS_INPUT_H
+#ifndef PARSE_JSON_H
+#define PARSE_JSON_H
 
 #include "pair.h"
 

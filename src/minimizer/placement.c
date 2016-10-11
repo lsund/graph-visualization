@@ -57,8 +57,8 @@ void Placement_set_spiral(VertexSet vs, VertexPointer center)
     dimy = dimx;
     
     double gapx, gapy;
-    gapx = PANEL_X / dimx;
-    gapy = PANEL_Y / dimy;
+    gapx = 1.0 / dimx;
+    gapy = 1.0 / dimy;
     
     int x, y;
     x = 0; 
@@ -137,8 +137,8 @@ void Placement_set_grid(VertexSet vs)
         n++;
     }
     vdim = sqrt(n);
-    gapx = PANEL_X / vdim;
-    gapy = PANEL_Y / vdim;
+    gapx = 1.0 / vdim;
+    gapy = 1.0 / vdim;
     offsetx = gapx / 2;
     offsety = gapy / 2;
     rows = 0;

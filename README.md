@@ -62,7 +62,7 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 
 ## TODO
 
-1. make padding automatic
 2. make force weights automatic
+3. Add unit tests for all functions
 
 Optimization of global minimizer, support for labels and more to come...

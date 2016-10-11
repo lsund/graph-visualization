@@ -19,7 +19,7 @@
 #include "util.h"
 #include "constants.h"
 #include "graph.h"
-#include "process_input.h"
+#include "parse_json.h"
 #include "energy.h"
 #include "gradient.h"
 #include "local_minimizer.h"

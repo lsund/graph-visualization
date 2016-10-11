@@ -19,11 +19,11 @@
 #include "graph.h"
 #include "placement.h"
 
-#include "process_input.h"
+#include "parse_json.h"
 
 /* Private ******************************************************************/
 
-GraphPointer create(VertexSet vs, BondSet bs) 
+static GraphPointer create(VertexSet vs, BondSet bs) 
 {
     assert(vs.set && bs.set);
     assert(vs.n > 0);
@@ -31,13 +31,16 @@ GraphPointer create(VertexSet vs, BondSet bs)
     GraphPointer rtn; 
     rtn = (GraphPointer) calloc(1, sizeof(Graph));
 
-    rtn->grid = Grid_create(); 
+    double padding;
+    padding = VertexSet_get_vertex(vs, 0)->padding;
+
+    rtn->grid = Grid_create(padding); 
     rtn->con = NULL; rtn->crs = NULL;
     rtn->energy = 0;
     rtn->vs = vs; 
     rtn->bs = bs;
 
-    rtn->center = Vertex_initialize(-1, Vector_zero(), "center", 1);
+    rtn->center = Vertex_initialize(-1, Vector_zero(), 0.0, "center", 1);
 
     Graph_detect_connected(rtn);
 
@@ -45,14 +48,10 @@ GraphPointer create(VertexSet vs, BondSet bs)
     return rtn;
 }
 
-/** 
- * Given a vertex in a graph, assign it a zone.
- */
-
 static void assign_vertex_to_zone(
         const GridPointer grid, 
         const VertexPointer v
-        )
+    )
 {
     assert(grid && v);
     assert(grid->nz > 0 && grid->is_populated);

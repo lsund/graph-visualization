@@ -22,7 +22,7 @@ promptMessage s = "JsonGen>> " ++ s
 genVertexJSONString :: Int -> String
 genVertexJSONString n = "\"vertices\": [" ++ concat (genVertexJSONString' 0 n)
     where
-        jsonstring n = "{\"id\":" ++ show n ++ ",\"fixed\":null,\"label\":null,\"type\":\"r\"}"
+        jsonstring n = "{\"id\":" ++ show n ++ ",\"fixed\":null,\"label\":null}"
         genVertexJSONString' n max  
             | n == max  = [jsonstring max ++ "]"]
             | otherwise = (jsonstring n ++ ",") : genVertexJSONString' (succ n) max

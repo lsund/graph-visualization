@@ -33,12 +33,6 @@ extern double tot_angres;
 // Maximum number of allowed vertices
 #define MAX_NV 105
 
-// The outputed coordinates will lie in range [0..PANEL_X[, [0..PANEL_Y[
-#define PANEL_X 1.0
-#define PANEL_Y 1.0
-
-// The optimal ammount of space between vertices 
-#define PADDING 0.2
 // Optimal bond-length 
 #define SPRING_LENGTH 0.1
 
@@ -46,10 +40,6 @@ extern double tot_angres;
 #define MAX_LABEL_LENGTH 8 + 1 
 // File name macx length
 #define MAX_FILENAME_LENGTH 128
-
-// Dimension of individual grid rectangles
-#define GRID_DIM_X (int) (PANEL_X / PADDING)
-#define GRID_DIM_Y (int) (PANEL_Y / PADDING)
 
 // Vertex default type
 #define DEFAULT_TYPE 'd' 

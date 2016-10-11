@@ -21,10 +21,18 @@ struct grid {
     int nz; 
     int npz; 
     int *is_populated;
+    int dim_x, dim_y;
+    double padding;
 };
 
-// A grid
-GridPointer Grid_create();
+// A grid. padding is the optimal padding between verticies
+GridPointer Grid_create(const double padding);
+
+// Get the x-cordinate of the id of the zone of vertex v in grid grid
+int Grid_zone_idx(const GridPointer grid, const VertexPointer v);
+
+// Get the y-cordinate of the id of the zone of vertex v in grid grid
+int Grid_zone_idy(const GridPointer grid, const VertexPointer v);
 
 // Adds a vertex to the grid, assigning it to the proper part.
 void Grid_append_vertex(const GridPointer grid, const VertexPointer v);

@@ -13,10 +13,10 @@
 // A graph consists of a set of vertices, a set of bonds and other data to
 // support these structures: (grid) is a partition of the graph. (con) is the
 // set of all bonds which share a common vertex. (crs) is the set of all
-// overlapping bonds. (energy) is a placeholder for the graphs energy value
-// which should be set by external routines. (center) is the vector to the
-// center of the graph. (ncrosses) and (ang_res) is statistical data for the
-// number of bond overlaps and the angular resolution of the graph.
+// overlapping bonds. (energy) is a placeholder for the graphs energy value which
+// should be set by external routines. (center) is the vector to the center of
+// the graph. (ncrosses) and (ang_res) is statistical data for the number of
+// bond overlaps and the angular resolution of the graph.
 typedef struct graph Graph, *GraphPointer;
 
 struct graph

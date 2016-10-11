@@ -18,10 +18,10 @@ test: $(SRCS)
 	$(CC) $(CFLAGS) -D TEST=1 \
 	  $(TEST_SRCS) $(SRCS) -o bin/test -lm
 
-develop: $(SRCS)
+install: $(SRCS)
 	$(CC) $(CFLAGS) $(SRCS) src/main.c -o bin/minimize -lm
 
-production: $(SRCS)
+install_prod: $(SRCS)
 	$(CC) $(CFLAGS) -DNDEBUG $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
 
 lib: dirs clean $(OBJS) $(SRCS)
@@ -39,7 +39,7 @@ dirs:
 runtest: test
 	./bin/test
 
-run: develop
+run: install
 	./bin/minimize
 
 .PHONY: clean 
