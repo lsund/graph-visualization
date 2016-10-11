@@ -38,7 +38,7 @@ char *test_vertexset()
         mu_assert("br: v7 not equal to v8", Vector_equal(v7->br, v8->br));
         mu_assert("g: v7 not equal to v8", Vector_equal(v7->g, v8->g));
         mu_assert("h: v7 not equal to v8", Vector_equal(v7->h, v8->h));
-        mu_assert("id || type: v7 not equal to v8", v7->id == v8->id && v7->type == v8->type);
+        mu_assert("id || type: v7 not equal to v8", v7->id == v8->id);
         mu_assert("mass || next: v7 not equal to v8", 
                 v7->mass == v8->mass && v7->next == v8->next);
         mu_assert("energy: v7 not equal to v8", Util_equal(v7->energy, v8->energy));

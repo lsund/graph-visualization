@@ -20,10 +20,10 @@ char *test_vertex()
     Vector pos2 = Vector_initialize(0.550, 0.500);
     Vector pos3 = Vector_initialize(0.550, 0.550);
     Vector pos4 = Vector_initialize(0.800, 0.800);
-    VertexPointer v = Vertex_create(0, pos1, 0, 'r', 0);
-    VertexPointer v1 = Vertex_create(1, pos2, 0, 'r', 0);
-    VertexPointer v2 = Vertex_create(2, pos3, 0, 'r', 0);
-    VertexPointer v3 = Vertex_create(3, pos4, 0, 'r', 0);
+    VertexPointer v = Vertex_create(0, pos1, 0.1, "", 0);
+    VertexPointer v1 = Vertex_create(1, pos2, 0.1, "", 0);
+    VertexPointer v2 = Vertex_create(2, pos3, 0.1, "", 0);
+    VertexPointer v3 = Vertex_create(3, pos4, 0.1, "", 0);
     msg("Checking vertex box...");
     mu_assert("tl should be 0.450, 0.450", 
             Util_about(v->tl.x, 0.450) && Util_about(v->tl.y, 0.450));
@@ -70,8 +70,8 @@ char *test_vertex()
     Vector pos0 = Vector_initialize(1234, 234);
     Vector grad0 = Vector_initialize(0, 43);
     Vector gradient = Vector_initialize(1, 41);
-    Vertex v4 = Vertex_initialize(77, pos, 0, 'r', 0);
-    Vertex v5 = Vertex_initialize(66, pos, 0, 'r', 0);
+    Vertex v4 = Vertex_initialize(77, pos, 0, "r", 0);
+    Vertex v5 = Vertex_initialize(66, pos, 0, "r", 0);
     v4.next = &v5;
     v4.g = g;
     v4.h = h;
@@ -92,11 +92,11 @@ char *test_vertex()
     mu_assert("br: v4 not equal to v6", Vector_equal(v4.br, v6.br));
     mu_assert("g: v4 not equal to v6", Vector_equal(v4.g, v6.g));
     mu_assert("h: v4 not equal to v6", Vector_equal(v4.h, v6.h));
-    mu_assert("id || type: v4 not equal to v6", v4.id == v6.id && v4.type == v6.type);
+    mu_assert("id || type: v4 not equal to v6", v4.id == v6.id);
     mu_assert("mass || next: v4 not equal to v6", v4.mass == v6.mass && v4.next == v6.next);
     mu_assert("energy: v4 not equal to v6", Util_equal(v4.energy, v6.energy));
 
-    VertexPointer v7 = Vertex_create(77, pos, 0, 'r', 0);
+    VertexPointer v7 = Vertex_create(77, pos, 0, "r", 0);
     v7->next = &v5;
     v7->g = g;
     v7->h = h;
@@ -116,7 +116,7 @@ char *test_vertex()
     mu_assert("br: v7 not equal to v8", Vector_equal(v7->br, v8->br));
     mu_assert("g: v7 not equal to v8", Vector_equal(v7->g, v8->g));
     mu_assert("h: v7 not equal to v8", Vector_equal(v7->h, v8->h));
-    mu_assert("id || type: v7 not equal to v8", v7->id == v8->id && v7->type == v8->type);
+    mu_assert("id || type: v7 not equal to v8", v7->id == v8->id);
     mu_assert("mass || next: v7 not equal to v8", v7->mass == v8->mass && v7->next == v8->next);
     mu_assert("energy: v7 not equal to v8", Util_equal(v7->energy, v8->energy));
     

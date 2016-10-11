@@ -10,7 +10,7 @@
 
 *****************************************************************************/
 
-#include "../lib/minimizer/constants.h"
+#include "../src/minimizer/constants.h"
 #include "test.h"
 #include <math.h>
 #include <stdlib.h>

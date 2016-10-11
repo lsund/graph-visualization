@@ -166,7 +166,7 @@ void Energy_calculate(const GraphPointer graph)
     assert(!(graph->energy != graph->energy));
 }
 
-/* Testing facade ***********************************************************/
+/* Testing exports ***********************************************************/
 
 void  (*test_first_order_energy)(const GraphPointer graph) = 
         first_order_energy;

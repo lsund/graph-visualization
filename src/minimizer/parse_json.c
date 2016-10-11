@@ -205,30 +205,35 @@ VertexSetPointer vertexset_from_json(json_value *contents, int *nvp)
 
 BondSetPointer bondset_from_json(VertexSet vs, json_value *contents, int *nbp)
 {
-    json_value *bsarr = contents->u.object.values[1].value;
-    *nbp = bsarr->u.array.length;
-
-    int nb;
-    nb = *nbp;
-    
     BondSetPointer rtn;
     rtn = (BondSetPointer) Util_allocate(1, sizeof(BondSet));
-    
-    *rtn = BondSet_initialize(nb);
-    populate_bondset(*rtn, vs, contents, nb);
-    
+        
+    if (contents->u.object.length > 1) {
+        json_value *bsarr = contents->u.object.values[1].value;
+        *nbp = bsarr->u.array.length;
+
+        int nb;
+        nb = *nbp;
+        
+        *rtn = BondSet_initialize(nb);
+        populate_bondset(*rtn, vs, contents, nb);
+        
+    } else {
+        *rtn = BondSet_initialize(0);
+    }
     return rtn;
 }
 
 enum ParseStatus check_json(json_value *value)
 {
+    int len = value->u.object.length;
     if (value == NULL) {
         return PS_NO_PARSE;
-    } else if (value->u.object.length != 2) {
+    } else if (len != 2 && len != 1) {
         return PS_FIELD_NUM_ERR;
     } else if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
         return PS_VERTEX_NAME_ERR;
-    } else if (strcmp(value->u.object.values[1].name, "bonds") != 0) {
+    } else if (len == 2 && strcmp(value->u.object.values[1].name, "bonds") != 0) {
         return PS_BOND_NAME_ERR;
     } else {
         return PS_SUCCESS;
@@ -275,18 +280,15 @@ Pair json_to_vb_pair(const char *fname)
 {
     json_value* value;
     value = NULL;
-    char buf[256];
     switch (load_json(fname, &value)) {
         case FS_FILE_NOT_FOUND:
-            strcpy(buf, "process_json(): File not found: ");
-            strcat(buf, fname);
-            Util_runtime_error(buf);
+            Util_runtime_error("parse_json: File not found");
             break;
         case FS_NO_MEMORY:
-            Util_runtime_error("process_json(): Unable to allocate memory for file");
+            Util_runtime_error("parse_json: Unable to allocate memory for file");
             break;
         case FS_NO_OPEN:
-            Util_runtime_error("process_json(): Unable to open file");
+            Util_runtime_error("parse_json: Unable to open file");
             break;
         case FS_SUCCESS:
             break;
@@ -295,19 +297,19 @@ Pair json_to_vb_pair(const char *fname)
     switch (check_json(value)) {
         case PS_NO_PARSE:
             json_value_free(value);
-            Util_runtime_error("process_json(): Unable to parse data");
+            Util_runtime_error("parse_json: Unable to parse data");
             break;
         case PS_FIELD_NUM_ERR:
             json_value_free(value);
-            Util_runtime_error("process_json(): Json object needs to have exactly two fields");
+            Util_runtime_error("parse_json: Json object needs to have exactly two fields");
             break;
         case PS_VERTEX_NAME_ERR:
             json_value_free(value);
-            Util_runtime_error("process_json(): First field must be named 'vertices'");
+            Util_runtime_error("parse_json: First field must be named 'vertices'");
             break;
         case PS_BOND_NAME_ERR:
             json_value_free(value);
-            Util_runtime_error("process_json(): second field must be named 'bonds'");
+            Util_runtime_error("parse_json: second field must be named 'bonds'");
             break;
         case PS_SUCCESS:
             break;

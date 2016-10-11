@@ -1,7 +1,6 @@
 a.out
 json-parser
-bin/minimize
-bin/jsongen
+bin
 log
 c_assets*
 node_modules

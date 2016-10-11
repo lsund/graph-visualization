@@ -19,7 +19,9 @@
 
 int main(int argc, char *argv[]) 
 {
-    const char *fname = "data/test.json";
+    argc = 0;
+    argv = 0;
+    const char *fname = "data/test/valid10.json";
     GraphPointer graph = Graph_create(fname);
     int nvertices = graph->vs.n;
     float *ret = Util_allocate(nvertices * 2, sizeof(float));

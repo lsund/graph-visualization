@@ -15,7 +15,7 @@ TEST_SRCS := $(shell find $(TEST_SRC_DIR)/* -maxdepth 0 -name '*.c')
 DATAS := $(shell find $(DATA_DIR)/* -maxdepth 0 -name '*.json')
 
 test: $(SRCS) 
-	$(CC) $(CFLAGS) -D TEST=1 \
+	$(CC) $(CFLAGS) \
 	  $(TEST_SRCS) $(SRCS) -o bin/test -lm
 
 install: $(SRCS)
