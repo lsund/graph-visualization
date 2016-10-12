@@ -14,33 +14,43 @@ OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 TEST_SRCS := $(shell find $(TEST_SRC_DIR)/* -maxdepth 0 -name '*.c')
 DATAS := $(shell find $(DATA_DIR)/* -maxdepth 0 -name '*.json')
 
-test: $(SRCS) 
-	$(CC) $(CFLAGS) \
-	  $(TEST_SRCS) $(SRCS) -o bin/test -lm
+### Minimizer
 
-install: $(SRCS)
-	$(CC) $(CFLAGS) $(SRCS) src/main.c -o bin/minimize -lm
-
-install_prod: $(SRCS)
-	$(CC) $(CFLAGS) -DNDEBUG $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
-
-lib: dirs clean $(OBJS) $(SRCS)
-	$(CC) -shared -o lib/libminimizer.so $(OBJS)
+all: minimizer
 
 $(OBJS): $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -fPIC -c $< -o $@ -lm
 
-jsongen: $(JSON_GEN_SRCS)
-	ghc $(JSON_GEN_SRCS) -o bin/jsongen 
+lib: dirs clean $(OBJS) $(SRCS)
+	$(CC) -shared -o lib/libminimizer.so $(OBJS)
 
-dirs:
-	mkdir -p lib obj
+minimizer: $(OBJS)
 
-runtest: test
-	./bin/test
+install: $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS) src/main.c -o bin/minimize -lm
+
+install_test: $(SRCS) $(TEST_SRCS)
+	$(CC) $(CFLAGS) \
+	  $(TEST_SRCS) $(SRCS) -o bin/test -lm
+
+install_prod: $(SRCS)
+	$(CC) $(CFLAGS) -DNDEBUG $(TEST_SRCS) $(SRCS) -o bin/minimize -lm
 
 run: install
 	./bin/minimize
+
+runtest: install_test
+	./bin/test
+
+### JsonGen
+
+jsongen: $(JSON_GEN_SRCS)
+	ghc $(JSON_GEN_SRCS) -o bin/jsongen 
+
+### Misc
+
+dirs:
+	mkdir -p lib obj
 
 .PHONY: clean 
 

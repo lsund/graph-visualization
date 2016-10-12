@@ -1,6 +1,7 @@
 # MinGrad
 
-Graph visualization tool. Used to generate good looking graphs in 2d-space.
+Graph visualization tool. Used to generate good looking simple graphs (graphs
+without parallel edges and edge loops) in 2d-space.
 
 ## Usage
 
@@ -62,7 +63,8 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 
 ## TODO
 
+1. test self-looping, parallel bonds
 2. make force weights automatic
 3. Add unit tests for all functions
+4. label data
 
-Optimization of global minimizer, support for labels and more to come...

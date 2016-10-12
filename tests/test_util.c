@@ -30,7 +30,7 @@ char *test_util()
 
     Util_normalize(v3, 3, 1, min, max);
 
-    msg("Testing normalization...");
+    msg(STATISTICS, "Testing normalization...");
 
     mu_assert("normalized value incorrect", Util_equal(v[0], 0));
     mu_assert("normalized value incorrect", Util_equal(v[1], 1));
@@ -43,7 +43,7 @@ char *test_util()
     mu_assert("normalized value incorrect", Util_equal(v3[0], 0.33));
     mu_assert("normalized value incorrect", Util_equal(v3[1], 0.66));
     mu_assert("normalized value incorrect", Util_equal(v3[2], 0.99));
-    msgpass();
+    msg(PASSING, "");
 
     return 0;
 }

@@ -16,7 +16,7 @@
 #include "test.h"
 #include "minunit.h"
 
-char *test_vertexset() 
+char *test_vertex_set() 
 {
     GraphPointer g = Graph_create("data/test/52.json");    
     VertexSet vs = g->vs;

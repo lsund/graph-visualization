@@ -1,8 +1,7 @@
 
 #include "test.h"
 
-char *test_bond() 
+char *test_angular_gradient() 
 {
     return 0;
 }
-

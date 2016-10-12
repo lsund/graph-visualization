@@ -1,8 +1,7 @@
 
 #include "test.h"
 
-char *test_bond() 
+char *test_vector() 
 {
     return 0;
 }
-

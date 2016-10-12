@@ -24,14 +24,14 @@ char *test_vertex()
     VertexPointer v1 = Vertex_create(1, pos2, 0.1, "", 0);
     VertexPointer v2 = Vertex_create(2, pos3, 0.1, "", 0);
     VertexPointer v3 = Vertex_create(3, pos4, 0.1, "", 0);
-    msg("Checking vertex box...");
+    msg(STATISTICS, "Checking vertex box...");
     mu_assert("tl should be 0.450, 0.450", 
             Util_about(v->tl.x, 0.450) && Util_about(v->tl.y, 0.450));
     mu_assert("br should be 0.550, 0.550", 
             Util_about(v->br.x, 0.550) && Util_about(v->br.y, 0.550));
-    msgpass();
+    msg(PASSING, "");
 
-    msg("Checking repulsion area...");
+    msg(STATISTICS, "Checking repulsion area...");
     mu_assert("{v, v} should completely overlap", 
             Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v)), 
                 2 *pow(0.1 * 0.1, 2))); 
@@ -42,12 +42,12 @@ char *test_vertex()
     mu_assert("{v, v2} should overlap 25 %", 
             Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v2)), 
                 2 * pow(0.1 * 0.1 / 4, 2))); 
-    msgpass();
+    msg(PASSING, "");
 
     mu_assert("{v, v3} should not overlap", 
            Util_about(VertexPair_repulsion_energy(Pair_initialize(v, v3)), 0));
     
-    msg("Checking Vertex_repulsion gradient...");
+    msg(STATISTICS, "Checking Vertex_repulsion gradient...");
     
     mu_assert("should have negative x-component", 
            VertexPair_repulsion_gradient(Pair_initialize(v, v1)).x < 0);
@@ -62,7 +62,7 @@ char *test_vertex()
     mu_assert("should have zero y-component", 
            Util_about(VertexPair_repulsion_gradient(Pair_initialize(v, v3)).y, 0));
 
-    msgpass();
+    msg(PASSING, "");
     
     Vector pos = Vector_initialize(30, 30); 
     Vector g = Vector_initialize(123, 123);

@@ -27,10 +27,17 @@ static void parse_vertex_data(
         if (fields != 3)  {
             Util_runtime_error("Each vertex specified in the input file needs to have exactly 3 fields");
         }
+
         json_value *ident;
         int id;
         id = -99;
         ident = vertex->u.object.values[0].value;
+
+        char *fst_fieldname = vertex->u.object.values[0].name;
+        if (strcmp(fst_fieldname, "id")) {
+            Util_runtime_error("Bad JSON data, first field of vertex needs to be named 'id'");
+        }
+
         if (ident->type == json_integer) {
             id = ident->u.integer;
         } else {
@@ -40,6 +47,10 @@ static void parse_vertex_data(
 
         json_value *position;
         position = vertex->u.object.values[1].value;
+        char *snd_fieldname = vertex->u.object.values[1].name;
+        if (strcmp(snd_fieldname, "fixed")) {
+            Util_runtime_error("Bad JSON data, second field of vertex needs to be named 'fixed'");
+        }
         int fixed = 0;
         Vector pos;
         if (position->type == json_array) {
@@ -77,6 +88,10 @@ static void parse_vertex_data(
         char vertex_label[MAX_LABEL_LENGTH];
         json_value *label;
         label = vertex->u.object.values[2].value;
+        char *thrd_fieldname = vertex->u.object.values[2].name;
+        if (strcmp(thrd_fieldname, "label")) {
+            Util_runtime_error("Bad JSON data, third field of vertex needs to be named 'label'");
+        }
         if (label->type == json_string) {
             strcpy(vertex_label, label->u.string.ptr);
         } else if (label->type == json_null) {
@@ -103,6 +118,20 @@ static void parse_bond_data(
         json_value *second = bond->u.object.values[1].value;
         json_value *length = bond->u.object.values[2].value;
         
+        char *fst_fieldname = bond->u.object.values[0].name;
+        if (strcmp(fst_fieldname, "fst")) {
+            Util_runtime_error("Bad JSON data, first field of bond needs to be named 'fst'");
+        }
+        char *snd_fieldname = bond->u.object.values[1].name;
+        if (strcmp(snd_fieldname, "snd")) {
+            Util_runtime_error("Bad JSON data, second field of vertex needs to be named 'snd'");
+        }
+        char *thrd_fieldname = bond->u.object.values[2].name;
+        if (strcmp(thrd_fieldname, "len")) {
+            Util_runtime_error("Bad JSON data, third field of bond needs to be named 'len'");
+        }
+
+
         int fstid, sndid;
         fstid = sndid = 0;
         if (first->type == json_integer && second->type == json_integer) {

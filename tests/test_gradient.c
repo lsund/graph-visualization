@@ -45,27 +45,27 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv, 
 {
     if (dim == TESTX) {
         if (order == FIRST) {
-            msg("Testing first order gradient: x...");
+            msg(STATISTICS, "Testing first order gradient: x...");
         } else if (order == SECONDA) {
-            msg("Testing second order attraction gradient: x...");
+            msg(STATISTICS, "Testing second order attraction gradient: x...");
         } else if (order == SECONDR) {
-            msg("Testing second order repulsion gradient: x...");
+            msg(STATISTICS, "Testing second order repulsion gradient: x...");
         } else if (order == THIRD) {
-            msg("Testing third order gradient: x...");
+            msg(STATISTICS, "Testing third order gradient: x...");
         } else {
-            msg("Testing fourth order gradient: x...");
+            msg(STATISTICS, "Testing fourth order gradient: x...");
         }
     } else {
         if (order == FIRST) {
-            msg("Testing first order gradient: y...");
+            msg(STATISTICS, "Testing first order gradient: y...");
         } else if (order == SECONDA)  {
-            msg("Testing second order attraction gradient: y...");
+            msg(STATISTICS, "Testing second order attraction gradient: y...");
         } else if (order == SECONDR) {
-            msg("Testing second order repulsion gradient: y...");
+            msg(STATISTICS, "Testing second order repulsion gradient: y...");
         } else if (order == THIRD) {
-            msg("Testing third order gradient: y...");
+            msg(STATISTICS, "Testing third order gradient: y...");
         } else {
-            msg("Testing fourth order gradient: y...");
+            msg(STATISTICS, "Testing fourth order gradient: y...");
         }
     }
     
@@ -203,7 +203,7 @@ static char *compare_with_approx(const char *fname, int dim, int order, int nv, 
         }
         Graph_free(graph);
     }
-    msgpass();
+    msg(PASSING, "");
     return NULL;
 } 
 
@@ -266,40 +266,40 @@ char *test_gradient()
     
     for (i = 0; i < T_ITMAX; i++) {
 
-        msg("Testing gradients of 3 vertices...\n"); 
+        msg(STATISTICS, "Testing gradients of 3 vertices...\n"); 
         char *msg0 = run_gradient_tesets(n3, 3, log);
         if (msg0 != NULL) return msg0;
-        msgpass();
+        msg(PASSING, "");
             
-        msg("Testing gradients of 4 vertices...\n"); 
+        msg(STATISTICS, "Testing gradients of 4 vertices...\n"); 
         char *msg1 = run_gradient_tesets(n4, 4, log);
         if (msg1 != NULL) return msg1;
-        msgpass();
+        msg(PASSING, "");
 
-        msg("Testing gradients of 6 vertices...\n"); 
+        msg(STATISTICS, "Testing gradients of 6 vertices...\n"); 
         char *msg2 = run_gradient_tesets(n6, 6, log);
         if (msg2 != NULL) return msg2;
-        msgpass();
+        msg(PASSING, "");
         
-        msg("Testing gradients of 23 vertices...\n"); 
+        msg(STATISTICS, "Testing gradients of 23 vertices...\n"); 
         char *msg3 = run_gradient_tesets(n23, 23, log);
         if (msg3 != NULL) return msg3;
-        msgpass();
+        msg(PASSING, "");
 
-        msg("Testing gradients of 52 vertices...\n"); 
+        msg(STATISTICS, "Testing gradients of 52 vertices...\n"); 
         char *msg4 = run_gradient_tesets(n52, 52, log);
         if (msg4 != NULL) return msg4;
-        msgpass();
+        msg(PASSING, "");
 
-        msg("Testing gradients of 43 vertices...\n"); 
+        msg(STATISTICS, "Testing gradients of 43 vertices...\n"); 
         char *msg5 = run_gradient_tesets(n43, 43, log);
         if (msg5 != NULL) return msg5;
-        msgpass();
+        msg(PASSING, "");
 
-        msg("Testing gradients of 4 vertices, take 2...\n"); 
+        msg(STATISTICS, "Testing gradients of 4 vertices, take 2...\n"); 
         char *msg7 = run_gradient_tesets(n4_3, 4, log);
         if (msg7 != NULL) return msg7;
-        msgpass();
+        msg(PASSING, "");
 
     }
     
