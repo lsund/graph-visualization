@@ -86,7 +86,13 @@ static void link_bondcross(
 GraphPointer Graph_create(const char *fname) 
 {
     Pair pr;
-    pr = json_to_vb_pair(fname);
+    Result result; 
+    result = json_to_vb_pair(fname, &pr);
+    if (result.file_result.status != FS_SUCCESS) {
+        Util_runtime_error(result.file_result.emsg);
+    } else if (result.parse_result.status != PS_SUCCESS) {
+        Util_runtime_error(result.parse_result.emsg);
+    }
 
     VertexSetPointer vs;
     vs = (VertexSetPointer) pr.fst; 

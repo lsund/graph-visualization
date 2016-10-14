@@ -1,6 +1,6 @@
 
 #ASYNCFLAGS= -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 
-CFLAGS=-std=c99 -Wall -g
+CFLAGS=-std=c99 -Wall -g -D_POSIX_SOURCE
 SRC_DIR=src/minimizer
 JSON_GEN_SRC_DIR=src/jsongen
 TEST_SRC_DIR=tests

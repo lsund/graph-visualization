@@ -19,17 +19,22 @@
 
 int main(int argc, char *argv[]) 
 {
-    argc = 0;
-    argv = 0;
-    const char *fname = "data/test/valid10.json";
-    GraphPointer graph = Graph_create(fname);
-    int nvertices = graph->vs.n;
-    float *ret = Util_allocate(nvertices * 2, sizeof(float));
-    Minimizer_run(fname, ret);
-    int i;
-    for (i = 0; i < nvertices * 2; i += 2) {
-        printf("Vertex %d, (%f, %f)\n", i / 2, ret[i], ret[i + 1]);
+
+    if (argc != 2) {
+        printf("wrong number of arguments\n");
+        return 1;
+    } else {
+        const char *fname;
+        fname = argv[1];
+        GraphPointer graph = Graph_create(fname);
+        int nvertices = graph->vs.n;
+        float *ret = Util_allocate(nvertices * 2, sizeof(float));
+        Minimizer_run(fname, ret);
+        int i;
+        for (i = 0; i < nvertices * 2; i += 2) {
+            printf("Vertex %d, (%f, %f)\n", i / 2, ret[i], ret[i + 1]);
+        }
+        free(ret);
+        return 0;
     }
-    free(ret);
-    return 0;
 }

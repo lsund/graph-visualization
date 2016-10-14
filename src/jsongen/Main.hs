@@ -32,7 +32,7 @@ genBondJSONString :: [(Int, Int)] -> String
 genBondJSONString [] = ""
 genBondJSONString bs = "\"bonds\": [" ++ concat (genBondJSONString' bs)
     where
-        jsonstring (fst, snd)       = "{\"fst\":" ++ show fst ++ ",\"snd\":" ++ show snd ++ ",\"len\":1}"
+        jsonstring (fst, snd)       = "{\"fst\":" ++ show fst ++ ",\"snd\":" ++ show snd ++ ",\"len\":1.0}"
         genBondJSONString' [b]      = [jsonstring b ++ "]"]
         genBondJSONString' (b : bs) = (jsonstring b ++ ",") : genBondJSONString' bs
 
