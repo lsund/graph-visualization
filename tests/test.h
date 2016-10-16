@@ -27,12 +27,16 @@ enum MessageOption {
     STATISTICS,
     DATA,
     PASSING,
-    LINEBREAK,
+    PREPEND,
     ERROR,
     TESTSPASSED 
 };
 
+void msgdata(const char *s, int counter);
 void msg(enum MessageOption, const char *s);
 void msgpass();
+
+extern int tests_run;
+extern int utests_run;
 
 #endif

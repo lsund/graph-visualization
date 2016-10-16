@@ -25,9 +25,12 @@ void VertexSet_update_vertex(const VertexSet vs, const int i, const VertexPointe
 VertexSet VertexSet_initialize(int nv)
 {
     VertexSet rtn;
-    rtn.set = (VertexPointer *) Util_allocate(nv, sizeof(VertexPointer));
+    rtn.set = (VertexPointer *) Util_allocate_initialize(nv, sizeof(VertexPointer));
     rtn.n = nv;
-
+    int i;
+    for (i = 0; i < nv; i++) {
+        *(rtn.set + i) = NULL;
+    }
     return rtn;
 }
 
@@ -159,16 +162,14 @@ int VertexSet_unique_ids(VertexSet vs)
     int i, j;
     for (i = 0; i < vs.n; i++) {
         VertexPointer vi = VertexSet_get_vertex(vs, i);
-        for (j = 0; j < vs.n; j++) {
-            if (j != i) {
-                VertexPointer vj = VertexSet_get_vertex(vs, j);
-                if (vi->id == vj->id) {
-                    return 0;
-                }
+        for (j = i + 1; j < vs.n; j++) {
+            VertexPointer vj = VertexSet_get_vertex(vs, j);
+            if (vi == NULL || vj == NULL || vi->id == vj->id) {
+                return FALSE;
             }
         }
     }
-    return 1;
+    return TRUE;
 }
 
 void VertexSet_print(VertexSet vs)

@@ -67,7 +67,7 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 2. make force weights automatic
 3. label data
 4. Add unit tests for all functions
-	```
+```
 	test_angular_gradient.c [ ]
 	test_bond.c             [ ]
 	test_bond_connection.c  [ ]
@@ -85,7 +85,7 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 	test_local_minimizer.c  [ ]
 	test_minimizer.c        [ ]
 	test_pair.c             [ ]
-	test_parse_json.c       [ ]
+	test_parse_json.c       [x]
 	test_placement.c        [ ]
 	test_util.c             [ ]
 	test_vector.c           [ ]
@@ -94,6 +94,6 @@ Running `make lib` will compile standalone shared library as  `./lib/libminimize
 	test_vertex_set.c       [ ]
 	test_zone.c             [ ]
 	test_zone_pair.c        [ ]
-	```
+```
 
 

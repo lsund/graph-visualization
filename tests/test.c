@@ -24,12 +24,14 @@
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
-#define ANSI_COLOR_TEST    "\x1b[37m"
+#define ANSI_COLOR_GREY    "\x1b[37m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 #ifndef TEST
 #define TEST 0
 #endif
+
+int tests_run, utests_run;
 
 char *test_angular_gradient();
 char *test_bond();
@@ -64,6 +66,14 @@ int tot_overlaps;
 double tot_energy;
 double tot_angres;
 
+void msgdata(const char *s, int counter)
+{
+    char buf[64];
+    sprintf(buf, "(%d) ", counter);
+    msg(PREPEND, buf);
+    msg(DATA, s);
+}
+
 
 void msg(enum MessageOption option, const char *s) 
 {
@@ -75,19 +85,19 @@ void msg(enum MessageOption option, const char *s)
             fprintf(stdout, ANSI_COLOR_YELLOW "Asserting %s" ANSI_COLOR_RESET, s); 
             break;
         case DATA:
-            fprintf(stdout, ANSI_COLOR_TEST   "Data           >> %s" ANSI_COLOR_RESET, s); 
+            fprintf(stdout, ANSI_COLOR_GREY   "Data         >> %s" ANSI_COLOR_RESET, s); 
             break;
         case STATISTICS:
-            fprintf(stdout, ANSI_COLOR_YELLOW ">>         >> %s" ANSI_COLOR_RESET, s); 
+            fprintf(stdout, ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, s); 
             break;
-        case LINEBREAK:
-            printf("\n");
+        case PREPEND:
+            fprintf(stdout, ANSI_COLOR_GREY "%s" ANSI_COLOR_RESET, s); 
             break;
         case PASSING:
             fprintf(stdout, ANSI_COLOR_GREEN "\t\t  Passed" ANSI_COLOR_RESET "\n"); 
             break;
         case ERROR:
-            fprintf(stdout, ANSI_COLOR_RED   "Error          >> %s" ANSI_COLOR_RESET "\n", s); 
+            fprintf(stdout, ANSI_COLOR_RED   "Error >> %s" ANSI_COLOR_RESET "\n", s); 
             break;
         case TESTSPASSED:
             fprintf(stdout, ANSI_COLOR_GREEN "ALL TESTS PASSED" ANSI_COLOR_RESET "\n"); 
@@ -95,7 +105,6 @@ void msg(enum MessageOption option, const char *s)
     }
 }
 
-int tests_run = 0;
 
 static char *test_energies() 
 {
@@ -173,9 +182,8 @@ static char *test_parser()
 }
 
 static char *all_tests() {
-    
-    mu_run_test(test_parser);
-    /*mu_assert("Test parser failed", test_parser());*/
+    char *result; 
+    if ((result = test_parser())) { return result; }
     /*test_computation();*/
     /*test_graph_constructs();*/
     /*test_enrgies();*/
@@ -186,16 +194,21 @@ static char *all_tests() {
 int main(int argc, char **argv) {
     argc = 0;
     argv = 0;
+    tests_run = 0;
+    utests_run = 0;
             
     char *result = all_tests();
-    char buf[128];
+    char buf1[128], buf2[128];
     if (result != 0) {
         msg(ERROR, result);
     }
     else {
+        sprintf(buf1, "Modules tested: %d\n", tests_run);
+        sprintf(buf2, "Unit tests run: %d\n", utests_run);
+        msg(STATISTICS, buf1);
+        msg(STATISTICS, buf2);
         msg(TESTSPASSED, "");
     }
-    sprintf(buf, "Tests run: %d\n", tests_run);
     return result != 0;
 }
 

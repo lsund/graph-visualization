@@ -24,7 +24,7 @@ genVertexJSONString n = "\"vertices\": [" ++ concat (genVertexJSONString' 0 n)
     where
         jsonstring n = "{\"id\":" ++ show n ++ ",\"fixed\":null,\"label\":null}"
         genVertexJSONString' n max  
-            | n == max  = [jsonstring max ++ "]"]
+            | n == max - 1  = [jsonstring (max - 1) ++ "]"]
             | otherwise = (jsonstring n ++ ",") : genVertexJSONString' (succ n) max
 
 
@@ -44,7 +44,7 @@ genJSONString nv bs = "{" ++ genVertexJSONString nv ++ "," ++ genBondJSONString 
 
 writeJSON :: FilePath -> Int -> Int -> IO ()
 writeJSON fname nv nb = do
-        let bonds = pairsUpTo nv
+        let bonds = pairsUpTo (nv - 1)
         shuffled <- shuffleM bonds 
         let somebonds = take nb shuffled
         writeFile fname (genJSONString nv somebonds) 

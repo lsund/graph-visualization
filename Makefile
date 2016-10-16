@@ -39,7 +39,7 @@ install_prod: $(SRCS)
 run: install
 	./bin/minimize
 
-runtest: install_test
+runtests: install_test
 	./bin/test
 
 ### JsonGen

@@ -10,6 +10,9 @@ extern int tot_overlaps;
 extern double tot_energy;
 extern double tot_angres;
 
+#define TRUE 1
+#define FALSE 0
+
 // Debug flag
 #define DEBUG 0
 

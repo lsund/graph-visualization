@@ -346,22 +346,24 @@ ParseResult bondset_from_json(VertexSet vs, json_value *contents, BondSetPointer
 ParseResult check_json(json_value *value)
 {
     ParseResult result;
-    int len = value->u.object.length;
     if (value == NULL) {
         result.status = PS_NO_PARSE;
         result.emsg = "Could not parse JSON";
-    } else if (len != 2 && len != 1) {
+    } else {
+        int len = value->u.object.length;
+        if (len != 2 && len != 1) {
         result.status = PS_VALUE_LENGTH_ERR;
         result.emsg = "Outermost json object needs to have one or two fields";
-    } else if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
-        result.status = PS_NAME_SPELL_ERR;
-        result.emsg = "First field must be named 'vertices'"; 
-    } else if (len == 2 && strcmp(value->u.object.values[1].name, "bonds") != 0) {
-        result.status = PS_NAME_SPELL_ERR;
-        result.emsg = "Second field must be named 'bonds'";
-    } else {
-        result.status = PS_SUCCESS;
-        result.emsg = NULL;
+        } else if (strcmp(value->u.object.values[0].name, "vertices") != 0) {
+            result.status = PS_NAME_SPELL_ERR;
+            result.emsg = "First field must be named 'vertices'"; 
+        } else if (len == 2 && strcmp(value->u.object.values[1].name, "bonds") != 0) {
+            result.status = PS_NAME_SPELL_ERR;
+            result.emsg = "Second field must be named 'bonds'";
+        } else {
+            result.status = PS_SUCCESS;
+            result.emsg = NULL;
+        }
     }
     return result;
 }
@@ -391,6 +393,13 @@ FileReadResult load_json(const char *fname, json_value **o_value)
     FILE *fp;
     fp = fopen(fname, "rt");
     int read_success;
+    if (file_size == 0) {
+        fclose(fp);
+        free(file_contents);
+        result.status = FS_EMPTY;
+        result.emsg = "File is empty";
+        return result;
+    }
     read_success = fread(file_contents, file_size, 1, fp);
     if (read_success != 1 || fp == NULL) {
         fclose(fp);
@@ -418,6 +427,8 @@ Result json_to_vb_pair(const char *fname, Pair *o_pair)
 
     json_value* value;
     value = NULL;
+    result.parse_result.status = PS_NO_PARSE;
+    result.parse_result.emsg = "Not yet initialized";
     result.file_result = load_json(fname, &value);
 
     if (result.file_result.status != FS_SUCCESS) {

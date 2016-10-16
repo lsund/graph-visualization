@@ -17,6 +17,7 @@ enum FileReadStatus {
     FS_FILE_NOT_FOUND, 
     FS_NO_MEMORY, 
     FS_NO_OPEN, 
+    FS_EMPTY,
     FS_SUCCESS 
 };
 
